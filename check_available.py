@@ -59,8 +59,13 @@ VTL_VALUES = [13000, 14000, 15000, 16000, 17000, 18000, 19000]
 F0_RATIOS = [0.75, 0.85, 1.0, 1.15, 1.30]
 
 OUT_DIR = "pilot_stimuli"
+
+# ── 速度控制 ──
+SPEED_FACTOR = 1.5  # 1.0 = 原速, >1.0 = 較慢, <1.0 = 較快
+
 # ── PHO 產生 ──
-CONS_DURATIONS = {
+# 基礎子音長度 (ms)，會乘上 SPEED_FACTOR
+_BASE_CONS_DUR = {
     'p': 80, 'b': 60, 't': 80, 'd': 60, 'k': 80, 'g': 60,
     'f': 130, 'v': 100, 'T': 130, 'D': 100,
     's': 140, 'z': 110, 'S': 140, 'Z': 110,
@@ -68,17 +73,26 @@ CONS_DURATIONS = {
     'm': 90, 'n': 90,
     'l': 90, 'r': 90, 'j': 80, 'w': 80,
 }
+CONS_DURATIONS = {k: int(v * SPEED_FACTOR) for k, v in _BASE_CONS_DUR.items()}
 
-def make_pho(cons_sampa, base_pitch, vowel_dur=250):
+# 基礎母音長度 (ms)
+BASE_VOWEL_DUR = 250
+VOWEL_DUR = int(BASE_VOWEL_DUR * SPEED_FACTOR)  # 375ms at 1.5x
+
+# 前後靜音 (ms)
+SILENCE_DUR = int(50 * SPEED_FACTOR)  # 75ms at 1.5x
+
+def make_pho(cons_sampa, base_pitch, vowel_dur=None):
     """產生 /aCa/ 的 .pho 內容
 
     Args:
         cons_sampa: MBROLA SAMPA 格式的子音 (e.g., 'p', 'T', 'S')
         base_pitch: 基頻 (Hz)
-        vowel_dur: 母音長度 (ms)
-        cons_dur: 子音長度 (ms)
+        vowel_dur: 母音長度 (ms)，預設使用 VOWEL_DUR
     """
-    cons_dur = CONS_DURATIONS.get(cons_sampa, 100)  # 預設 100ms
+    if vowel_dur is None:
+        vowel_dur = VOWEL_DUR
+    cons_dur = CONS_DURATIONS.get(cons_sampa, int(100 * SPEED_FACTOR))
     # 平坦微降 F0：模擬自然 declination
     # 第一個母音：平坦
     p1 = base_pitch
@@ -93,11 +107,11 @@ def make_pho(cons_sampa, base_pitch, vowel_dur=250):
         cons_line = f"{cons_sampa} {cons_dur}"
 
     return (
-        f"_ 50\n"
+        f"_ {SILENCE_DUR}\n"
         f"A {vowel_dur} (50, {p1})\n"
         f"{cons_line}\n"
         f"A {vowel_dur2} (50, {p2})\n"
-        f"_ 50\n"
+        f"_ {SILENCE_DUR}\n"
     )
 
 

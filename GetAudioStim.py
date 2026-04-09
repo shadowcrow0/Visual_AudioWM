@@ -63,8 +63,11 @@ CONS_SAMPA = {
     'y': 'j', 'w': 'w'
 }
 
-# 子音 duration (ms)
-CONS_DURATIONS = {
+# ── 速度控制 ──
+SPEED_FACTOR = .55  # 1.0 = 原速, >1.0 = 較慢, <1.0 = 較快
+
+# 基礎子音長度 (ms)，會乘上 SPEED_FACTOR
+_BASE_CONS_DUR = {
     'p': 80, 'b': 60, 't': 80, 'd': 60, 'k': 80, 'g': 60,
     'f': 130, 'v': 100, 'T': 130, 'D': 100,
     's': 140, 'z': 110, 'S': 140, 'Z': 110,
@@ -72,8 +75,14 @@ CONS_DURATIONS = {
     'm': 90, 'n': 90,
     'l': 90, 'r': 90, 'j': 80, 'w': 80,
 }
+CONS_DURATIONS = {k: int(v * SPEED_FACTOR) for k, v in _BASE_CONS_DUR.items()}
 
-VOWEL_DUR = 250  # ms
+# 基礎母音長度 (ms)
+BASE_VOWEL_DUR = 250
+VOWEL_DUR = int(BASE_VOWEL_DUR * SPEED_FACTOR)  # 375ms at 1.5x
+
+# 前後靜音 (ms)
+SILENCE_DUR = int(50 * SPEED_FACTOR)  # 75ms at 1.5x
 
 
 # ══════════════════════════════════════════════
@@ -101,12 +110,23 @@ def build_talkers():
 #  PHO 產生 + 合成
 # ══════════════════════════════════════════════
 
-def make_pho(cons_sampa, base_pitch):
-    """產生 /aCa/ 的 .pho，平坦 F0 + gentle declination"""
-    cons_dur = CONS_DURATIONS.get(cons_sampa, 100)
+def make_pho(cons_sampa, base_pitch, vowel_dur=None):
+    """產生 /aCa/ 的 .pho，平坦 F0 + gentle declination
+
+    Args:
+        cons_sampa: MBROLA SAMPA 格式的子音 (e.g., 'p', 'T', 'S')
+        base_pitch: 基頻 (Hz)
+        vowel_dur: 母音長度 (ms)，預設使用 VOWEL_DUR
+    """
+    if vowel_dur is None:
+        vowel_dur = VOWEL_DUR
+    cons_dur = CONS_DURATIONS.get(cons_sampa, int(100 * SPEED_FACTOR))
+
+    # 平坦微降 F0：模擬自然 declination
     p1 = base_pitch
     p2 = int(base_pitch * 0.93)
-    vowel_dur2 = int(VOWEL_DUR * 0.9)
+    # 第二個母音略短（final shortening ~10%）
+    vowel_dur2 = int(vowel_dur * 0.9)
 
     if cons_sampa in ('tS', 'dZ'):
         cons_line = f"{cons_sampa[0]} {cons_dur // 2}\n{cons_sampa[1]} {cons_dur // 2}"
@@ -114,11 +134,11 @@ def make_pho(cons_sampa, base_pitch):
         cons_line = f"{cons_sampa} {cons_dur}"
 
     return (
-        f"_ 50\n"
-        f"A {VOWEL_DUR} (50, {p1})\n"
+        f"_ {SILENCE_DUR}\n"
+        f"A {vowel_dur} (50, {p1})\n"
         f"{cons_line}\n"
         f"A {vowel_dur2} (50, {p2})\n"
-        f"_ 50\n"
+        f"_ {SILENCE_DUR}\n"
     )
 
 
@@ -161,9 +181,9 @@ def main():
             return
 
     # 2. 讀 CSV
-    csv_path = "confusion_analysis.csv"
+    csv_path = "confuse.csv"
     if not os.path.exists(csv_path):
-        csv_path = "/mnt/user-data/uploads/confusion_analysis.csv"
+        csv_path = os.path.join(os.path.dirname(__file__), "confuse.csv")
 
     with open(csv_path, "r") as f:
         rows = list(csv.DictReader(f))
