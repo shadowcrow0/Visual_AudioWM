@@ -203,8 +203,9 @@ def main():
     for t in talkers:
         print(f"  {t['id']}: {t['voice']} vf={t['voice_freq']} fr={t['pitch_ratio']:.2f}")
 
-    # 4. 產生所有 wav
-    wav_dir = "stimuli/aCa"
+    # 4. 產生所有 wav（扁平結構：T01_apa.wav）
+    wav_dir = "stimuli"
+    os.makedirs(wav_dir, exist_ok=True)
     total_files = len(all_cons) * len(talkers)
     print(f"\nGenerating {len(all_cons)} consonants × {len(talkers)} talkers = {total_files} wav files...")
 
@@ -212,23 +213,21 @@ def main():
     fail = 0
 
     for talker in talkers:
-        talker_dir = os.path.join(wav_dir, talker['id'])
-        os.makedirs(talker_dir, exist_ok=True)
-
+        tid = talker['id']
         for cons_name in all_cons:
             if cons_name not in CONS_SAMPA:
                 print(f"  SKIP: {cons_name}")
                 continue
 
             sampa = CONS_SAMPA[cons_name]
-            wav_path = os.path.join(talker_dir, f"a{cons_name}a.wav")
+            wav_path = os.path.join(wav_dir, f"{tid}_a{cons_name}a.wav")
 
             ok, err = synthesize(sampa, talker, wav_path)
             if ok:
                 success += 1
             else:
                 fail += 1
-                print(f"  ✗ {talker['id']}/a{cons_name}a: {err}")
+                print(f"  ✗ {tid}_a{cons_name}a: {err}")
 
     print(f"\nGenerated: {success} OK, {fail} failed")
 
@@ -255,8 +254,8 @@ def main():
 
             for talker in talkers:
                 tid = talker['id']
-                sound_file = f"aCa/{tid}/a{sound}a.wav"
-                target_file = f"aCa/{tid}/a{target}a.wav"
+                sound_file = f"{tid}_a{sound}a.wav"
+                target_file = f"{tid}_a{target}a.wav"
 
                 writer.writerow({
                     'sound': sound,
@@ -310,13 +309,14 @@ PsychoPy 設定：
 
 4. 分析時用 condition 欄位區分 confusable vs distinct
 
-目錄結構：
+目錄結構（扁平格式）：
   stimuli/
     conditions.csv      ← PsychoPy loop 讀這個
     talker_info.csv     ← talker 參數對照表
-    aCa/
-      T01/ ... T18/     ← 每個 talker 一個資料夾
-        apa.wav, aba.wav, ...
+    T01_apa.wav         ← 扁平檔名：{talker}_{sound}.wav
+    T01_aba.wav
+    T02_apa.wav
+    ...
 """)
 
 

@@ -1,4 +1,5 @@
 import numpy as np
+import csv
 from skimage import color as skcolor
 
 # ------------------------------------------------------------
@@ -35,13 +36,12 @@ def find_color(target, de_min, de_max, max_tries=2000):
     return None
 
 # ------------------------------------------------------------
-# Generate color pool
+# Generate 75 color trials: 2 targets each with H (ΔE > 10), L (ΔE < 5)
 # ------------------------------------------------------------
 
 color_pool = []
-all_targets = []
 
-while len(color_pool) < 24:
+while len(color_pool) < 75:
 
     # target1: random valid color
     t1 = None
@@ -53,45 +53,60 @@ while len(color_pool) < 24:
     if t1 is None:
         continue
 
-    # target2: ΔE > 20 from target1
-    t2 = find_color(t1, 20, 120)
-    if t2 is None:
-        continue
-
-    # check both targets are far from all previous targets
-    if any(delta_e(t1, prev) < 20 or delta_e(t2, prev) < 20 for prev in all_targets):
-        continue
-
-    # high1: ΔE > 20 from target1
-    h1 = find_color(t1, 20, 80)
+    # H1 and L1 for target1
+    h1 = find_color(t1, 10, 40)
     if h1 is None:
         continue
-
-    # low1: 2 < ΔE < 10 from target1
-    l1 = find_color(t1, 2, 10)
+    l1 = find_color(t1, 2, 5)
     if l1 is None:
         continue
 
-    # high2: ΔE > 20 from target2
-    h2 = find_color(t2, 20, 80)
-    if h2 is None:
+    # target2: random valid color (different from t1)
+    t2 = None
+    for _ in range(500):
+        c = random_lab()
+        if is_in_gamut(*c) and delta_e(t1, c) > 20:
+            t2 = c
+            break
+    if t2 is None:
         continue
 
-    # low2: 2 < ΔE < 10 from target2
-    l2 = find_color(t2, 2, 10)
+    # H2 and L2 for target2
+    h2 = find_color(t2, 10, 40)
+    if h2 is None:
+        continue
+    l2 = find_color(t2, 2, 5)
     if l2 is None:
         continue
 
+    # compute actual delta E values
+    de_h1, de_l1 = delta_e(t1, h1), delta_e(t1, l1)
+    de_h2, de_l2 = delta_e(t2, h2), delta_e(t2, l2)
+
     # all conditions met, add to pool
     color_pool.append({
-        'target1': lab_to_hex(t1),
-        'high1':   lab_to_hex(h1),
-        'low1':    lab_to_hex(l1),
-        'target2': lab_to_hex(t2),
-        'high2':   lab_to_hex(h2),
-        'low2':    lab_to_hex(l2),
+        'trial': len(color_pool) + 1,
+        'color1_target': lab_to_hex(t1),
+        'color1_H': lab_to_hex(h1),
+        'color1_L': lab_to_hex(l1),
+        'color1_H_deltaE': round(de_h1, 2),
+        'color1_L_deltaE': round(de_l1, 2),
+        'color2_target': lab_to_hex(t2),
+        'color2_H': lab_to_hex(h2),
+        'color2_L': lab_to_hex(l2),
+        'color2_H_deltaE': round(de_h2, 2),
+        'color2_L_deltaE': round(de_l2, 2),
     })
-    all_targets.extend([t1, t2])
-    print(f"Entry {len(color_pool):2d}/24  t1={lab_to_hex(t1)}  t2={lab_to_hex(t2)}")
+    print(f"Trial {len(color_pool):2d}/75  t1={lab_to_hex(t1)}  t2={lab_to_hex(t2)}")
 
-print("Done.")
+# ------------------------------------------------------------
+# Save to CSV
+# ------------------------------------------------------------
+
+csv_path = "stimuli/color_75trials.csv"
+with open(csv_path, 'w', newline='') as f:
+    writer = csv.DictWriter(f, fieldnames=color_pool[0].keys())
+    writer.writeheader()
+    writer.writerows(color_pool)
+
+print(f"\nDone. Saved to {csv_path}")
