@@ -208,7 +208,7 @@
       </CodeComponent>
       <TextComponent name="fix" plugin="None">
         <Param val="white" valType="color" updates="constant" name="color"/>
-        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="named" valType="str" updates="constant" name="colorSpace"/>
         <Param val="1" valType="num" updates="constant" name="contrast"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="False" valType="code" updates="constant" name="draggable"/>
@@ -292,7 +292,7 @@
         <Param val="" valType="list" updates="constant" name="vertices"/>
       </PolygonComponent>
       <SoundComponent name="audi1" plugin="None">
-        <Param val="" valType="device" updates="None" name="deviceLabel"/>
+        <Param val="speaker" valType="device" updates="None" name="deviceLabel"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="False" valType="bool" updates="constant" name="forceEndRoutine"/>
@@ -308,10 +308,10 @@
         <Param val="True" valType="bool" updates="constant" name="stopWithRoutine"/>
         <Param val="True" valType="bool" updates="constant" name="syncScreenRefresh"/>
         <Param val="" valType="code" updates="None" name="validator"/>
-        <Param val="vol1" valType="num" updates="set every repeat" name="volume"/>
+        <Param val="" valType="num" updates="set every repeat" name="volume"/>
       </SoundComponent>
       <SoundComponent name="audi2" plugin="None">
-        <Param val="" valType="device" updates="None" name="deviceLabel"/>
+        <Param val="speaker" valType="device" updates="None" name="deviceLabel"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="False" valType="bool" updates="constant" name="forceEndRoutine"/>
@@ -327,7 +327,7 @@
         <Param val="True" valType="bool" updates="constant" name="stopWithRoutine"/>
         <Param val="True" valType="bool" updates="constant" name="syncScreenRefresh"/>
         <Param val="" valType="code" updates="None" name="validator"/>
-        <Param val="vol2" valType="num" updates="set every repeat" name="volume"/>
+        <Param val="" valType="num" updates="set every repeat" name="volume"/>
       </SoundComponent>
     </Routine>
     <Routine name="probe">
@@ -421,7 +421,7 @@
         <Param val="" valType="list" updates="constant" name="vertices"/>
       </PolygonComponent>
       <SoundComponent name="targetA" plugin="None">
-        <Param val="" valType="device" updates="None" name="deviceLabel"/>
+        <Param val="speaker" valType="device" updates="None" name="deviceLabel"/>
         <Param val="False" valType="bool" updates="None" name="disabled"/>
         <Param val="" valType="code" updates="None" name="durationEstim"/>
         <Param val="False" valType="bool" updates="constant" name="forceEndRoutine"/>
