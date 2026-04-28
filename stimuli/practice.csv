@@ -1,0 +1,6 @@
+trial,color1_target,color1_H,color1_L,color1_H_deltaE,color1_L_deltaE,color2_target,color2_H,color2_L,color2_H_deltaE,color2_L_deltaE,audio_target,audio_H,audio_L,audio_H_count,audio_L_count,audio_talker,audio_target_file,audio_H_file,audio_L_file
+1,#B25F16,#CDA07A,#BF5F00,36.8,12.55,#D76467,#A91B1A,#C95243,28.99,14.06,zh,b,z,1,451,T03,T03_azha.wav,T03_aba.wav,T03_aza.wav
+2,#0069BD,#004294,#4868C3,16.24,13.18,#0099CE,#009ED6,#009CE8,24.11,14.72,zh,sh,d,1,31,T02,T02_azha.wav,T02_asha.wav,T02_ada.wav
+3,#5E59B6,#08408D,#6446AF,18.43,11.79,#8A8E37,#726C00,#7A9B50,31.25,14.71,g,s,v,2,197,T12,T12_aga.wav,T12_asa.wav,T12_ava.wav
+4,#E75C9B,#F30071,#D13670,27.24,14.99,#007D7D,#003C46,#00878B,27.3,6.26,s,n,sh,1,57,T12,T12_asa.wav,T12_ana.wav,T12_asha.wav
+5,#9883D4,#B190C0,#6D70C1,19.44,11.51,#BE6942,#D5A384,#D47335,27.46,14.23,g,s,v,2,197,T08,T08_aga.wav,T08_asa.wav,T08_ava.wav

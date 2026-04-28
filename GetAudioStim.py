@@ -328,5 +328,155 @@ PsychoPy 設定：
 """)
 
 
+def generate_80_trials(rows, talkers, output_path="stimuli/audio_80trials.csv"):
+    """產生 80 組 target/H/L 配對 CSV
+
+    每組包含：
+    - target: 目標子音
+    - H: 高辨識度配對 (confused=1, 不常混淆)
+    - L: 低辨識度配對 (confused=0, 常混淆)
+    """
+    import random
+
+    # 建立每個 sound 的 H/L 配對字典
+    sound_pairs = {}
+    for row in rows:
+        sound = row['sound']
+        target = row['target']
+        confused = int(row['confused'])
+        count = int(row['count'])
+
+        if sound not in sound_pairs:
+            sound_pairs[sound] = {'H': [], 'L': []}
+
+        if confused == 1:  # H: 高辨識度 (不常混淆)
+            sound_pairs[sound]['H'].append({'target': target, 'count': count})
+        else:  # L: 低辨識度 (常混淆)
+            sound_pairs[sound]['L'].append({'target': target, 'count': count})
+
+    # 找出有 H 和 L 配對的 sounds
+    valid_sounds = [s for s, pairs in sound_pairs.items()
+                    if pairs['H'] and pairs['L']]
+    print(f"\nValid sounds with both H and L pairs: {valid_sounds}")
+
+    # 產生 80 組配對
+    trials = []
+    trial_num = 0
+
+    while len(trials) < 80:
+        # 隨機選一個 sound 作為 target
+        sound = random.choice(valid_sounds)
+
+        # 選 L (低辨識度，常混淆) - 優先選 count 高的
+        l_options = sound_pairs[sound]['L']
+        l_choice = random.choice(l_options)
+
+        # 選 H (高辨識度，不常混淆)
+        h_options = sound_pairs[sound]['H']
+        h_choice = random.choice(h_options)
+
+        # 隨機選一個 talker
+        talker = random.choice(talkers)
+        tid = talker['id']
+
+        trial_num += 1
+        trials.append({
+            'trial': trial_num,
+            'target': sound,
+            'H': h_choice['target'],
+            'L': l_choice['target'],
+            'H_count': h_choice['count'],
+            'L_count': l_choice['count'],
+            'talker': tid,
+            'target_file': f"{tid}_a{sound}a.wav",
+            'H_file': f"{tid}_a{h_choice['target']}a.wav",
+            'L_file': f"{tid}_a{l_choice['target']}a.wav",
+        })
+
+    # 寫入 CSV
+    with open(output_path, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=trials[0].keys())
+        writer.writeheader()
+        writer.writerows(trials)
+
+    print(f"\n80 trials saved to: {output_path}")
+    print(f"Columns: trial, target, H, L, H_count, L_count, talker, target_file, H_file, L_file")
+
+    return trials
+
+
+def merge_color_audio(color_csv, audio_csv, output_path="stimuli/combined_80trials.csv"):
+    """合併 color 和 audio 的 80 組配對 CSV"""
+
+    # 讀取兩個 CSV
+    with open(color_csv, 'r') as f:
+        color_rows = list(csv.DictReader(f))
+
+    with open(audio_csv, 'r') as f:
+        audio_rows = list(csv.DictReader(f))
+
+    # 確保都有 80 筆
+    if len(color_rows) != 80 or len(audio_rows) != 80:
+        print(f"Warning: color has {len(color_rows)} rows, audio has {len(audio_rows)} rows")
+
+    # 合併
+    combined = []
+    for i in range(min(len(color_rows), len(audio_rows))):
+        row = {'trial': i + 1}
+
+        # 加入 color 欄位 (加上 prefix)
+        for k, v in color_rows[i].items():
+            if k != 'trial':
+                row[k] = v
+
+        # 加入 audio 欄位 (加上 prefix)
+        for k, v in audio_rows[i].items():
+            if k != 'trial':
+                row[f'audio_{k}'] = v
+
+        combined.append(row)
+
+    # 寫入合併的 CSV
+    with open(output_path, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=combined[0].keys())
+        writer.writeheader()
+        writer.writerows(combined)
+
+    print(f"\nCombined CSV saved to: {output_path}")
+    print(f"Total trials: {len(combined)}")
+    return combined
+
+
 if __name__ == "__main__":
     main()
+
+    # 額外產生 80 組 target/H/L 配對
+    print("\n" + "=" * 50)
+    print("Generating 80 target/H/L trials...")
+
+    csv_path = "confuse.csv"
+    if not os.path.exists(csv_path):
+        csv_path = os.path.join(os.path.dirname(__file__), "confuse.csv")
+
+    with open(csv_path, "r") as f:
+        rows = list(csv.DictReader(f))
+
+    talkers = build_talkers()
+    generate_80_trials(rows, talkers)
+
+    # 合併 color 和 audio CSV
+    print("\n" + "=" * 50)
+    print("Merging color and audio trials...")
+
+    color_csv = "stimuli/color_80trials.csv"
+    audio_csv = "stimuli/audio_80trials.csv"
+
+    if not os.path.exists(color_csv):
+        color_csv = os.path.join(os.path.dirname(__file__), "stimuli/color_80trials.csv")
+    if not os.path.exists(audio_csv):
+        audio_csv = os.path.join(os.path.dirname(__file__), "stimuli/audio_80trials.csv")
+
+    if os.path.exists(color_csv) and os.path.exists(audio_csv):
+        merge_color_audio(color_csv, audio_csv)
+    else:
+        print(f"Missing files: color={os.path.exists(color_csv)}, audio={os.path.exists(audio_csv)}")
