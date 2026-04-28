@@ -1,6 +1,6 @@
 trial,color1_target,color1_H,color1_L,color1_H_deltaE,color1_L_deltaE,color2_target,color2_H,color2_L,color2_H_deltaE,color2_L_deltaE,audio_target,audio_H,audio_L,audio_H_count,audio_L_count,audio_target_talker,audio_H_talker,audio_L_talker,audio_target_file,audio_H_file,audio_L_file
-1,#B25F16,#CDA07A,#BF5F00,36.8,12.55,#D76467,#A91B1A,#C95243,28.99,14.06,b,p,z,1,19,T04,T02,T10,stimuli/T04_aba.wav,stimuli/T02_apa.wav,stimuli/T10_aza.wav
-2,#0069BD,#004294,#4868C3,16.24,13.18,#0099CE,#009ED6,#009CE8,24.11,14.72,n,b,z,3,7,T09,T03,T01,stimuli/T09_ana.wav,stimuli/T03_aba.wav,stimuli/T01_aza.wav
-3,#5E59B6,#08408D,#6446AF,18.43,11.79,#8A8E37,#726C00,#7A9B50,31.25,14.71,v,m,z,7,88,T02,T11,T06,stimuli/T02_ava.wav,stimuli/T11_ama.wav,stimuli/T06_aza.wav
-4,#E75C9B,#F30071,#D13670,27.24,14.99,#007D7D,#003C46,#00878B,27.3,6.26,sh,p,s,1,56,T12,T10,T11,stimuli/T12_asha.wav,stimuli/T10_apa.wav,stimuli/T11_asa.wav
-5,#9883D4,#B190C0,#6D70C1,19.44,11.51,#BE6942,#D5A384,#D47335,27.46,14.23,zh,s,g,1,25,T05,T12,T11,stimuli/T05_azha.wav,stimuli/T12_asa.wav,stimuli/T11_aga.wav
+1,#009D8A,#004E32,#00A49B,32.0,6.36,#956A1A,#C78158,#B27C21,22.99,10.54,n,b,m,3,57,T02,T09,T07,stimuli/T02_ana.wav,stimuli/T09_aba.wav,stimuli/T07_ama.wav
+2,#964F2D,#B26A61,#A64C29,18.81,9.71,#9A4B99,#473181,#BC6AAB,26.37,13.94,v,m,z,7,88,T06,T12,T10,stimuli/T06_ava.wav,stimuli/T12_ama.wav,stimuli/T10_aza.wav
+3,#518BF1,#0063CA,#71AAFF,31.37,14.04,#00826F,#00686D,#008465,39.36,7.35,theta,m,f,1,260,T08,T12,T04,stimuli/T08_athetaa.wav,stimuli/T12_ama.wav,stimuli/T04_afa.wav
+4,#45884A,#284106,#5F8D46,30.86,8.94,#B478BA,#6260B4,#C380B4,26.33,9.01,z,p,eth,1,162,T11,T06,T10,stimuli/T11_aza.wav,stimuli/T06_apa.wav,stimuli/T10_aetha.wav
+5,#007588,#002620,#006677,37.41,11.03,#1E72CB,#2E4A90,#1A5EA9,19.38,10.69,m,z,s,1,4,T01,T06,T08,stimuli/T01_ama.wav,stimuli/T06_aza.wav,stimuli/T08_asa.wav

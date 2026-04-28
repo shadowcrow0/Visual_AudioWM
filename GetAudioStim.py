@@ -328,8 +328,8 @@ PsychoPy 設定：
 """)
 
 
-def generate_80_trials(rows, talkers, output_path="stimuli/audio_80trials.csv"):
-    """產生 80 組 target/H/L 配對 CSV
+def generate_155_trials(rows, talkers, output_path="stimuli/audio_155trials.csv"):
+    """產生 155 組 target/H/L 配對 CSV
 
     每組包含：
     - target: 目標子音
@@ -363,7 +363,7 @@ def generate_80_trials(rows, talkers, output_path="stimuli/audio_80trials.csv"):
     trials = []
     trial_num = 0
 
-    while len(trials) < 80:
+    while len(trials) < 155:
         # 隨機選一個 sound 作為 target
         sound = random.choice(valid_sounds)
 
@@ -403,7 +403,7 @@ def generate_80_trials(rows, talkers, output_path="stimuli/audio_80trials.csv"):
         writer.writeheader()
         writer.writerows(trials)
 
-    print(f"\n80 trials saved to: {output_path}")
+    print(f"\n155 trials saved to: {output_path}")
     print(f"Columns: trial, target, H, L, H_count, L_count, target_talker, H_talker, L_talker, target_file, H_file, L_file")
 
     return trials
@@ -454,9 +454,9 @@ def merge_color_audio(color_csv, audio_csv, output_path="stimuli/combined_80tria
 if __name__ == "__main__":
     main()
 
-    # 額外產生 80 組 target/H/L 配對
+    # 額外產生 155 組 target/H/L 配對
     print("\n" + "=" * 50)
-    print("Generating 80 target/H/L trials...")
+    print("Generating 155 target/H/L trials...")
 
     csv_path = "confuse.csv"
     if not os.path.exists(csv_path):
@@ -466,21 +466,21 @@ if __name__ == "__main__":
         rows = list(csv.DictReader(f))
 
     talkers = build_talkers()
-    generate_80_trials(rows, talkers)
+    generate_155_trials(rows, talkers)
 
     # 合併 color 和 audio CSV
     print("\n" + "=" * 50)
     print("Merging color and audio trials...")
 
-    color_csv = "stimuli/color_80trials.csv"
-    audio_csv = "stimuli/audio_80trials.csv"
+    color_csv = "stimuli/color_155trials.csv"
+    audio_csv = "stimuli/audio_155trials.csv"
 
     if not os.path.exists(color_csv):
-        color_csv = os.path.join(os.path.dirname(__file__), "stimuli/color_80trials.csv")
+        color_csv = os.path.join(os.path.dirname(__file__), "stimuli/color_155trials.csv")
     if not os.path.exists(audio_csv):
-        audio_csv = os.path.join(os.path.dirname(__file__), "stimuli/audio_80trials.csv")
+        audio_csv = os.path.join(os.path.dirname(__file__), "stimuli/audio_155trials.csv")
 
     if os.path.exists(color_csv) and os.path.exists(audio_csv):
-        merge_color_audio(color_csv, audio_csv)
+        merge_color_audio(color_csv, audio_csv, "stimuli/combined_155trials.csv")
     else:
         print(f"Missing files: color={os.path.exists(color_csv)}, audio={os.path.exists(audio_csv)}")

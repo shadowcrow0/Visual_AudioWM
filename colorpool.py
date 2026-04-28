@@ -36,13 +36,13 @@ def find_color(target, de_min, de_max, max_tries=2000):
     return None
 
 # ------------------------------------------------------------
-# Generate 80 color trials: 2 targets each with H (ΔE > 15), L (ΔE > 6)
+# Generate 155 color trials: 2 targets each with H (ΔE > 15), L (ΔE > 6)
 # Target delta E between groups > 20
 # ------------------------------------------------------------
 
 color_pool = []
 
-while len(color_pool) < 80:
+while len(color_pool) < 155:
 
     # target1: random valid color
     t1 = None
@@ -98,13 +98,13 @@ while len(color_pool) < 80:
         'color2_H_deltaE': round(de_h2, 2),
         'color2_L_deltaE': round(de_l2, 2),
     })
-    print(f"Trial {len(color_pool):2d}/80  t1={lab_to_hex(t1)}  t2={lab_to_hex(t2)}")
+    print(f"Trial {len(color_pool):3d}/155  t1={lab_to_hex(t1)}  t2={lab_to_hex(t2)}")
 
 # ------------------------------------------------------------
 # Save to CSV
 # ------------------------------------------------------------
 
-csv_path = "stimuli/color_80trials.csv"
+csv_path = "stimuli/color_155trials.csv"
 with open(csv_path, 'w', newline='') as f:
     writer = csv.DictWriter(f, fieldnames=color_pool[0].keys())
     writer.writeheader()
