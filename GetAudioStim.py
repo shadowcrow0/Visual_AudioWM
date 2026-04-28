@@ -375,9 +375,11 @@ def generate_80_trials(rows, talkers, output_path="stimuli/audio_80trials.csv"):
         h_options = sound_pairs[sound]['H']
         h_choice = random.choice(h_options)
 
-        # 隨機選一個 talker
-        talker = random.choice(talkers)
-        tid = talker['id']
+        # 隨機選 3 個不同的 talker 給 target, H, L
+        selected_talkers = random.sample(talkers, 3)
+        t_talker = selected_talkers[0]['id']
+        h_talker = selected_talkers[1]['id']
+        l_talker = selected_talkers[2]['id']
 
         trial_num += 1
         trials.append({
@@ -387,10 +389,12 @@ def generate_80_trials(rows, talkers, output_path="stimuli/audio_80trials.csv"):
             'L': l_choice['target'],
             'H_count': h_choice['count'],
             'L_count': l_choice['count'],
-            'talker': tid,
-            'target_file': f"{tid}_a{sound}a.wav",
-            'H_file': f"{tid}_a{h_choice['target']}a.wav",
-            'L_file': f"{tid}_a{l_choice['target']}a.wav",
+            'target_talker': t_talker,
+            'H_talker': h_talker,
+            'L_talker': l_talker,
+            'target_file': f"stimuli/{t_talker}_a{sound}a.wav",
+            'H_file': f"stimuli/{h_talker}_a{h_choice['target']}a.wav",
+            'L_file': f"stimuli/{l_talker}_a{l_choice['target']}a.wav",
         })
 
     # 寫入 CSV
@@ -400,7 +404,7 @@ def generate_80_trials(rows, talkers, output_path="stimuli/audio_80trials.csv"):
         writer.writerows(trials)
 
     print(f"\n80 trials saved to: {output_path}")
-    print(f"Columns: trial, target, H, L, H_count, L_count, talker, target_file, H_file, L_file")
+    print(f"Columns: trial, target, H, L, H_count, L_count, target_talker, H_talker, L_talker, target_file, H_file, L_file")
 
     return trials
 
