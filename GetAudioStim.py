@@ -64,7 +64,7 @@ CONS_SAMPA = {
 }
 
 # ── 速度控制 ──
-SPEED_FACTOR = .55  # 1.0 = 原速, >1.0 = 較慢, <1.0 = 較快
+SPEED_FACTOR = .85  # 1.0 = 原速, >1.0 = 較慢, <1.0 = 較快
 
 # 基礎子音長度 (ms)，會乘上 SPEED_FACTOR
 _BASE_CONS_DUR = {
