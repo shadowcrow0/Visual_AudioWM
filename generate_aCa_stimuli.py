@@ -15,24 +15,25 @@ from pathlib import Path
 # ── espeak-ng phoneme mapping for /aCa/ context ───────────────────────────
 # espeak phoneme notation: [[...]] for phoneme input
 # A: = /ɑ/ (open back unrounded vowel)
+# A:: = extra long vowel, C: = lengthened consonant
 # See: https://github.com/espeak-ng/espeak-ng/blob/master/docs/phonemes.md
 CONSONANT_MAP = {
-    "p":     ("ɑpɑ",  "[[A:pA:]]"),
-    "t":     ("ɑtɑ",  "[[A:tA:]]"),
-    "k":     ("ɑkɑ",  "[[A:kA:]]"),
-    "f":     ("ɑfɑ",  "[[A:fA:]]"),
-    "theta": ("ɑθɑ",  "[[A:TA:]]"),      # T = θ (voiceless dental fricative)
-    "s":     ("ɑsɑ",  "[[A:sA:]]"),
-    "sh":    ("ɑʃɑ",  "[[A:SA:]]"),      # S = ʃ (voiceless postalveolar fricative)
-    "b":     ("ɑbɑ",  "[[A:bA:]]"),
-    "d":     ("ɑdɑ",  "[[A:dA:]]"),
-    "g":     ("ɑgɑ",  "[[A:gA:]]"),
-    "v":     ("ɑvɑ",  "[[A:vA:]]"),
-    "eth":   ("ɑðɑ",  "[[A:DA:]]"),      # D = ð (voiced dental fricative)
-    "z":     ("ɑzɑ",  "[[A:zA:]]"),
-    "zh":    ("ɑʒɑ",  "[[A:ZA:]]"),      # Z = ʒ (voiced postalveolar fricative)
-    "m":     ("ɑmɑ",  "[[A:mA:]]"),
-    "n":     ("ɑnɑ",  "[[A:nA:]]"),
+    "p":     ("ɑːpːɑ",  "[[A::p:A:]]"),
+    "t":     ("ɑːtːɑ",  "[[A::t:A:]]"),
+    "k":     ("ɑːkːɑ",  "[[A::k:A:]]"),
+    "f":     ("ɑːfːɑ",  "[[A::f:A:]]"),
+    "theta": ("ɑːθːɑ",  "[[A::T:A:]]"),      # T = θ (voiceless dental fricative)
+    "s":     ("ɑːsːɑ",  "[[A::s:A:]]"),
+    "sh":    ("ɑːʃːɑ",  "[[A::S:A:]]"),      # S = ʃ (voiceless postalveolar fricative)
+    "b":     ("ɑːbːɑ",  "[[A::b:A:]]"),
+    "d":     ("ɑːdːɑ",  "[[A::d:A:]]"),
+    "g":     ("ɑːgːɑ",  "[[A::g:A:]]"),
+    "v":     ("ɑːvːɑ",  "[[A::v:A:]]"),
+    "eth":   ("ɑːðːɑ",  "[[A::D:A:]]"),      # D = ð (voiced dental fricative)
+    "z":     ("ɑːzːɑ",  "[[A::z:A:]]"),
+    "zh":    ("ɑːʒːɑ",  "[[A::Z:A:]]"),      # Z = ʒ (voiced postalveolar fricative)
+    "m":     ("ɑːmːɑ",  "[[A::m:A:]]"),
+    "n":     ("ɑːnːɑ",  "[[A::n:A:]]"),
 }
 
 # espeak-ng voices
