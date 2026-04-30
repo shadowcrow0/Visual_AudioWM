@@ -329,12 +329,13 @@ PsychoPy 設定：
 
 
 def generate_155_trials(rows, talkers, output_path="stimuli/audio_155trials.csv"):
-    """產生 155 組 target/H/L 配對 CSV
+    """產生 155 組雙音訊 (audio1 + audio2) 配對 CSV
 
-    每組包含：
-    - target: 目標子音
-    - H: 高辨識度配對 (confused=1, 不常混淆)
-    - L: 低辨識度配對 (confused=0, 常混淆)
+    每組包含兩組獨立的音訊：
+    - audio1_target, audio1_H, audio1_L (同一個 talker)
+    - audio2_target, audio2_H, audio2_L (同一個 talker，但可與 audio1 不同)
+
+    重要：同一組內的 target/H/L 用同一個人講，不同 trial 用不同人
     """
     import random
 
@@ -358,44 +359,49 @@ def generate_155_trials(rows, talkers, output_path="stimuli/audio_155trials.csv"
     valid_sounds = [s for s, pairs in sound_pairs.items()
                     if pairs['H'] and pairs['L']]
     print(f"\nValid sounds with both H and L pairs: {valid_sounds}")
+    print(f"Talkers available: {len(talkers)}")
+    print(f"Same talker for target/H/L within each audio set, different talkers across trials")
 
-    # 產生 80 組配對
-    trials = []
-    trial_num = 0
-
-    while len(trials) < 155:
-        # 隨機選一個 sound 作為 target
+    def pick_one_set(sound_pairs, valid_sounds, talker_id):
+        """產生一組 target/H/L，全部用同一個 talker"""
         sound = random.choice(valid_sounds)
-
-        # 選 L (低辨識度，常混淆) - 優先選 count 高的
-        l_options = sound_pairs[sound]['L']
-        l_choice = random.choice(l_options)
-
-        # 選 H (高辨識度，不常混淆)
-        h_options = sound_pairs[sound]['H']
-        h_choice = random.choice(h_options)
-
-        # 隨機選 3 個不同的 talker 給 target, H, L
-        selected_talkers = random.sample(talkers, 3)
-        t_talker = selected_talkers[0]['id']
-        h_talker = selected_talkers[1]['id']
-        l_talker = selected_talkers[2]['id']
-
-        trial_num += 1
-        trials.append({
-            'trial': trial_num,
+        l_choice = random.choice(sound_pairs[sound]['L'])
+        h_choice = random.choice(sound_pairs[sound]['H'])
+        return {
             'target': sound,
             'H': h_choice['target'],
             'L': l_choice['target'],
             'H_count': h_choice['count'],
             'L_count': l_choice['count'],
-            'target_talker': t_talker,
-            'H_talker': h_talker,
-            'L_talker': l_talker,
-            'target_file': f"stimuli/{t_talker}_a{sound}a.wav",
-            'H_file': f"stimuli/{h_talker}_a{h_choice['target']}a.wav",
-            'L_file': f"stimuli/{l_talker}_a{l_choice['target']}a.wav",
-        })
+            'target_talker': talker_id,
+            'H_talker': talker_id,
+            'L_talker': talker_id,
+            'target_file': f"stimuli/{talker_id}_a{sound}a.wav",
+            'H_file': f"stimuli/{talker_id}_a{h_choice['target']}a.wav",
+            'L_file': f"stimuli/{talker_id}_a{l_choice['target']}a.wav",
+        }
+
+    # 產生 155 組雙音訊配對
+    trials = []
+    for trial_num in range(1, 156):
+        # 為這個 trial 隨機選 2 個 talker（audio1 和 audio2 各一個）
+        selected = random.sample(talkers, 2)
+        talker1 = selected[0]['id']
+        talker2 = selected[1]['id']
+
+        # 產生兩組獨立的音訊，各用不同的 talker
+        set1 = pick_one_set(sound_pairs, valid_sounds, talker1)
+        set2 = pick_one_set(sound_pairs, valid_sounds, talker2)
+
+        row = {'trial': trial_num}
+        # audio1 欄位
+        for k, v in set1.items():
+            row[f'audio1_{k}'] = v
+        # audio2 欄位
+        for k, v in set2.items():
+            row[f'audio2_{k}'] = v
+
+        trials.append(row)
 
     # 寫入 CSV
     with open(output_path, 'w', newline='') as f:
@@ -404,7 +410,7 @@ def generate_155_trials(rows, talkers, output_path="stimuli/audio_155trials.csv"
         writer.writerows(trials)
 
     print(f"\n155 trials saved to: {output_path}")
-    print(f"Columns: trial, target, H, L, H_count, L_count, target_talker, H_talker, L_talker, target_file, H_file, L_file")
+    print(f"Columns: trial, audio1_target, audio1_H, audio1_L, ..., audio2_target, audio2_H, audio2_L, ...")
 
     return trials
 
@@ -451,6 +457,70 @@ def merge_color_audio(color_csv, audio_csv, output_path="stimuli/combined_80tria
     return combined
 
 
+def split_into_blocks(combined_csv, output_dir="stimuli"):
+    """將 combined CSV 分割成 practice.csv 和 block1-6.csv
+
+    分配方式：
+    - practice.csv: 前 5 trials
+    - block1.csv: trials 6-30 (25 trials)
+    - block2.csv: trials 31-55 (25 trials)
+    - block3.csv: trials 56-80 (25 trials)
+    - block4.csv: trials 81-105 (25 trials)
+    - block5.csv: trials 106-130 (25 trials)
+    - block6.csv: trials 131-155 (25 trials)
+    """
+    import random
+
+    # 讀取 combined CSV
+    with open(combined_csv, 'r') as f:
+        rows = list(csv.DictReader(f))
+
+    # 打亂順序
+    random.shuffle(rows)
+
+    # 重新編號
+    for i, row in enumerate(rows):
+        row['trial'] = i + 1
+
+    fieldnames = rows[0].keys()
+
+    # 分割
+    practice = rows[0:5]
+    blocks = [
+        rows[5:30],    # block1: 25 trials
+        rows[30:55],   # block2: 25 trials
+        rows[55:80],   # block3: 25 trials
+        rows[80:105],  # block4: 25 trials
+        rows[105:130], # block5: 25 trials
+        rows[130:155], # block6: 25 trials
+    ]
+
+    # 寫入 practice.csv
+    practice_path = os.path.join(output_dir, "practice.csv")
+    with open(practice_path, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        # 重新編號 practice trials
+        for i, row in enumerate(practice):
+            row['trial'] = i + 1
+        writer.writerows(practice)
+    print(f"  practice.csv: {len(practice)} trials")
+
+    # 寫入 block1-6.csv
+    for i, block in enumerate(blocks):
+        block_path = os.path.join(output_dir, f"block{i+1}.csv")
+        with open(block_path, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            # 重新編號 block trials
+            for j, row in enumerate(block):
+                row['trial'] = j + 1
+            writer.writerows(block)
+        print(f"  block{i+1}.csv: {len(block)} trials")
+
+    print(f"\nTotal: {len(practice) + sum(len(b) for b in blocks)} trials")
+
+
 if __name__ == "__main__":
     main()
 
@@ -482,5 +552,10 @@ if __name__ == "__main__":
 
     if os.path.exists(color_csv) and os.path.exists(audio_csv):
         merge_color_audio(color_csv, audio_csv, "stimuli/combined_155trials.csv")
+
+        # 分割成 practice + block1-6
+        print("\n" + "=" * 50)
+        print("Splitting into practice.csv and block1-6.csv...")
+        split_into_blocks("stimuli/combined_155trials.csv")
     else:
         print(f"Missing files: color={os.path.exists(color_csv)}, audio={os.path.exists(audio_csv)}")

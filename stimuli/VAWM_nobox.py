@@ -90,6 +90,34 @@ def get_probe_types(targetCol, targetAud, trial_data):
 
     return col_type, aud_type
 
+def generate_stratified_conditions():
+    """Generate 9 stratified probe conditions with guaranteed proportions.
+
+    Distribution:
+    - AA (conditions 0,1): 2 trials (22%)
+    - HA (conditions 2,3): 1 trial (11%)
+    - LA (conditions 4,5): 1 trial (11%)
+    - AH (conditions 6,7): 1 trial (11%)
+    - AL (conditions 12,13): 1 trial (11%)
+    - HH/LH/HL/LL (conditions 8-11, 14-17): 3 trials (33%)
+    """
+    conditions = []
+    # AA: 2 trials (25% target)
+    conditions.extend([np.random.choice([0, 1]) for _ in range(2)])
+    # HA: 1 trial
+    conditions.append(np.random.choice([2, 3]))
+    # LA: 1 trial
+    conditions.append(np.random.choice([4, 5]))
+    # AH: 1 trial
+    conditions.append(np.random.choice([6, 7]))
+    # AL: 1 trial
+    conditions.append(np.random.choice([12, 13]))
+    # HH/LH/HL/LL: 3 trials (split among 8 conditions)
+    conditions.extend([np.random.choice([8, 9, 10, 11, 14, 15, 16, 17]) for _ in range(3)])
+    # Shuffle to randomize order
+    np.random.shuffle(conditions)
+    return conditions
+
 # Load rules at startup
 _rule_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'rule.csv')
 FEEDBACK_RULES = load_rules(_rule_path)
@@ -1671,17 +1699,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-        
+
+        # Generate stratified conditions for 9 probe trials
+        probe_conditions = generate_stratified_conditions()
+        probe_idx = 0
+
         # set up handler to look after randomisation of conditions etc
         inner = data.TrialHandler2(
             name='inner',
-            nReps=9, 
-            method='random', 
-            extraInfo=expInfo, 
-            originPath=-1, 
-            trialList=[None], 
-            seed=None, 
-            isTrials=True, 
+            nReps=9,
+            method='random',
+            extraInfo=expInfo,
+            originPath=-1,
+            trialList=[None],
+            seed=None,
+            isTrials=True,
         )
         thisExp.addLoop(inner)  # add the loop to the experiment
         thisInner = inner.trialList[0]  # so we can initialise stimuli with some values
@@ -1692,7 +1724,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if thisSession is not None:
             # if running in a Session with a Liaison client, send data up to now
             thisSession.sendExperimentData()
-        
+
         for thisInner in inner:
             inner.status = STARTED
             if hasattr(thisInner, 'status'):
@@ -1706,7 +1738,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisInner != None:
                 for paramName in thisInner:
                     globals()[paramName] = thisInner[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -1717,13 +1749,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
-            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
+            # Use pre-generated stratified condition
+            condition = probe_conditions[probe_idx]
+            probe_idx += 1
             #AX AX= color, XA= audio
-            #AA=0 HA =1 LA = 2
-            #AH=3 HH=4 LH=5
-            #AL=6 HL=7 LL=8
-            if condition == 0 :#AA .25
+            #AA=0,1  HA=2,3  LA=4,5  AH=6,7
+            #HH=8,9  LH=10,11  AL=12,13  HL=14,15  LL=16,17
+            if condition == 0:  # AA
                targetCol = color1_target
                targetAud = audio1_target_file
             elif condition == 1:#AA.25
@@ -2675,7 +2707,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-        
+
+        # Generate stratified conditions for 9 probe trials
+        probe_conditions = generate_stratified_conditions()
+        probe_idx = 0
+
         # set up handler to look after randomisation of conditions etc
         SFT1 = data.TrialHandler2(
             name='SFT1',
@@ -2710,7 +2746,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT1 != None:
                 for paramName in thisSFT1:
                     globals()[paramName] = thisSFT1[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -2721,13 +2757,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
-            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
+            # Use pre-generated stratified condition
+            condition = probe_conditions[probe_idx]
+            probe_idx += 1
             #AX AX= color, XA= audio
-            #AA=0 HA =1 LA = 2
-            #AH=3 HH=4 LH=5
-            #AL=6 HL=7 LL=8
-            if condition == 0 :#AA .25
+            #AA=0,1  HA=2,3  LA=4,5  AH=6,7
+            #HH=8,9  LH=10,11  AL=12,13  HL=14,15  LL=16,17
+            if condition == 0:  # AA
                targetCol = color1_target
                targetAud = audio1_target_file
             elif condition == 1:#AA.25
@@ -3522,7 +3558,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-        
+
+        # Generate stratified conditions for 9 probe trials
+        probe_conditions = generate_stratified_conditions()
+        probe_idx = 0
+
         # set up handler to look after randomisation of conditions etc
         SFT_2 = data.TrialHandler2(
             name='SFT_2',
@@ -3530,8 +3570,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             method='random',
             extraInfo=expInfo,
             originPath=-1,
-            trialList=data.importConditions('stimuli/block2.csv'),
-            seed=45,
+            trialList=[None],
+            seed=None,
             isTrials=True,
         )
         thisExp.addLoop(SFT_2)  # add the loop to the experiment
@@ -3557,7 +3597,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT_2 != None:
                 for paramName in thisSFT_2:
                     globals()[paramName] = thisSFT_2[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -3568,8 +3608,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
-            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
+            # Use pre-generated stratified condition
+            condition = probe_conditions[probe_idx]
+            probe_idx += 1
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -4369,7 +4410,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-        
+
+        # Generate stratified conditions for 9 probe trials
+        probe_conditions = generate_stratified_conditions()
+        probe_idx = 0
+
         # set up handler to look after randomisation of conditions etc
         SFT_3 = data.TrialHandler2(
             name='SFT_3',
@@ -4377,8 +4422,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             method='random',
             extraInfo=expInfo,
             originPath=-1,
-            trialList=data.importConditions('stimuli/block3.csv'),
-            seed=45,
+            trialList=[None],
+            seed=None,
             isTrials=True,
         )
         thisExp.addLoop(SFT_3)  # add the loop to the experiment
@@ -4390,7 +4435,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if thisSession is not None:
             # if running in a Session with a Liaison client, send data up to now
             thisSession.sendExperimentData()
-        
+
         for thisSFT_3 in SFT_3:
             SFT_3.status = STARTED
             if hasattr(thisSFT_3, 'status'):
@@ -4404,7 +4449,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT_3 != None:
                 for paramName in thisSFT_3:
                     globals()[paramName] = thisSFT_3[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -4415,8 +4460,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
-            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
+            # Use pre-generated stratified condition
+            condition = probe_conditions[probe_idx]
+            probe_idx += 1
+            # Old random code removed - now using stratified conditions
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -5079,10 +5126,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             method='random',
             extraInfo=expInfo,
             originPath=-1,
-            trialList=data.importConditions('stimuli/block4.csv'),
-            seed=45,
+            trialList=[None],
+            seed=None,
             isTrials=True,
         )
+        # Generate stratified conditions for this block
+        probe_conditions = generate_stratified_conditions()
+        probe_idx = 0
         thisExp.addLoop(SFT_4)  # add the loop to the experiment
         thisSFT_4 = SFT_4.trialList[0]  # so we can initialise stimuli with some values
         # abbreviate parameter names if possible (e.g. rgb = thisSFT_4.rgb)
@@ -5106,7 +5156,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT_4 != None:
                 for paramName in thisSFT_4:
                     globals()[paramName] = thisSFT_4[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -5117,8 +5167,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
-            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
+            # Use pre-generated stratified condition
+            condition = probe_conditions[probe_idx]
+            probe_idx += 1
+            # Old random code removed - now using stratified conditions
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -5926,10 +5978,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             method='random',
             extraInfo=expInfo,
             originPath=-1,
-            trialList=data.importConditions('stimuli/block5.csv'),
-            seed=45,
+            trialList=[None],
+            seed=None,
             isTrials=True,
         )
+        # Generate stratified conditions for this block
+        probe_conditions = generate_stratified_conditions()
+        probe_idx = 0
         thisExp.addLoop(SFT_5)  # add the loop to the experiment
         thisSFT_5 = SFT_5.trialList[0]  # so we can initialise stimuli with some values
         # abbreviate parameter names if possible (e.g. rgb = thisSFT_5.rgb)
@@ -5953,7 +6008,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT_5 != None:
                 for paramName in thisSFT_5:
                     globals()[paramName] = thisSFT_5[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -5964,8 +6019,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
-            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
+            # Use pre-generated stratified condition
+            condition = probe_conditions[probe_idx]
+            probe_idx += 1
+            # Old random code removed - now using stratified conditions
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -6773,10 +6830,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             method='random',
             extraInfo=expInfo,
             originPath=-1,
-            trialList=data.importConditions('stimuli/block6.csv'),
-            seed=45,
+            trialList=[None],
+            seed=None,
             isTrials=True,
         )
+        # Generate stratified conditions for this block
+        probe_conditions = generate_stratified_conditions()
+        probe_idx = 0
         thisExp.addLoop(SFT_6)  # add the loop to the experiment
         thisSFT_6 = SFT_6.trialList[0]  # so we can initialise stimuli with some values
         # abbreviate parameter names if possible (e.g. rgb = thisSFT_6.rgb)
@@ -6800,7 +6860,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT_6 != None:
                 for paramName in thisSFT_6:
                     globals()[paramName] = thisSFT_6[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -6811,8 +6871,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
-            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
+            # Use pre-generated stratified condition
+            condition = probe_conditions[probe_idx]
+            probe_idx += 1
+            # Old random code removed - now using stratified conditions
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
