@@ -36,6 +36,63 @@ from psychopy.hardware import keyboard
 
 from psychtoolbox import audio
 from soundfile import SoundFile
+import csv
+
+# --- Load rule.csv for feedback logic ---
+def load_rules(rule_path):
+    """Load rule.csv and return a lookup dictionary"""
+    rules = {}
+    with open(rule_path, 'r', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            col_type = row['targetCol'].strip()
+            aud_type = row['targetAud'].strip()
+            response = row['ResponseBox'].strip()
+            acc = int(row['Acc'].strip())
+            resp_text = row['resp'].strip().strip('"')
+            key = (col_type, aud_type, response)
+            rules[key] = {'Acc': acc, 'resp': resp_text}
+    return rules
+
+def get_probe_types(targetCol, targetAud, trial_data):
+    """Determine the type of color and audio shown in probe"""
+    # Determine color type
+    if targetCol == trial_data.get('color1_target'):
+        col_type = 'color1_target'
+    elif targetCol == trial_data.get('color2_target'):
+        col_type = 'color2_target'
+    elif targetCol == trial_data.get('color1_H'):
+        col_type = 'color1_H'
+    elif targetCol == trial_data.get('color1_L'):
+        col_type = 'color1_L'
+    elif targetCol == trial_data.get('color2_H'):
+        col_type = 'color2_H'
+    elif targetCol == trial_data.get('color2_L'):
+        col_type = 'color2_L'
+    else:
+        col_type = 'unknown'
+
+    # Determine audio type
+    if targetAud == trial_data.get('audio1_target_file'):
+        aud_type = 'audio1_target_file'
+    elif targetAud == trial_data.get('audio2_target_file'):
+        aud_type = 'audio2_target_file'
+    elif targetAud == trial_data.get('audio1_H_file'):
+        aud_type = 'audio1_H_file'
+    elif targetAud == trial_data.get('audio1_L_file'):
+        aud_type = 'audio1_L_file'
+    elif targetAud == trial_data.get('audio2_H_file'):
+        aud_type = 'audio2_H_file'
+    elif targetAud == trial_data.get('audio2_L_file'):
+        aud_type = 'audio2_L_file'
+    else:
+        aud_type = 'unknown'
+
+    return col_type, aud_type
+
+# Load rules at startup
+_rule_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'rule.csv')
+FEEDBACK_RULES = load_rules(_rule_path)
 
 # --- Setup global variables (available in all functions) ---
 # create a device manager to handle hardware (keyboards, mice, mirophones, speakers, etc.)
@@ -1982,11 +2039,27 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from code
-            # Both probe items are targets only when condition is 0 or 1 (AA) -> expect key 4 (Yes)
-            # Otherwise at least one item is a distractor -> expect key 3 (No)
-            expected_key = 'y' if condition in (0, 1) else 'n'
-            is_correct = (ResponseBox.keys == expected_key)
-            resp = "Correct" if is_correct else "Incorrect"
+            # Use rule.csv to determine correct answer based on probe types
+            trial_data = {
+                'color1_target': color1_target, 'color2_target': color2_target,
+                'color1_H': color1_H, 'color1_L': color1_L,
+                'color2_H': color2_H, 'color2_L': color2_L,
+                'audio1_target_file': audio1_target_file, 'audio2_target_file': audio2_target_file,
+                'audio1_H_file': audio1_H_file, 'audio1_L_file': audio1_L_file,
+                'audio2_H_file': audio2_H_file, 'audio2_L_file': audio2_L_file,
+            }
+            col_type, aud_type = get_probe_types(targetCol, targetAud, trial_data)
+
+            # Look up rule based on (col_type, aud_type, response)
+            user_response = ResponseBox.keys if ResponseBox.keys else 'None'
+            rule_key = (col_type, aud_type, user_response)
+            if rule_key in FEEDBACK_RULES:
+                acc = FEEDBACK_RULES[rule_key]['Acc']
+                resp = FEEDBACK_RULES[rule_key]['resp']
+            else:
+                # Fallback: no response or unknown combination
+                acc = 0
+                resp = "Incorrect"
             answer.setText(resp)
             # store start times for feedback
             feedback.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
@@ -2099,10 +2172,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             feedback.tStopRefresh = tThisFlipGlobal
             thisExp.addData('feedback.stopped', feedback.tStop)
             # Run 'End Routine' code from code
-            # Re-check accuracy with the same rule and store as 1/0
-            expected_key = 'y' if condition in (0, 1) else 'n'
-            acc = 1 if ResponseBox.keys == expected_key else 0
+            # Store accuracy (already calculated using rule.csv in Begin Routine)
             thisExp.addData("Acc", acc)
+            thisExp.addData("col_type", col_type)
+            thisExp.addData("aud_type", aud_type)
             # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
             if feedback.maxDurationReached:
                 routineTimer.addTime(-feedback.maxDuration)
@@ -2217,20 +2290,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # update params
             pass
         
-        # if text is stopping this frame...
-        if text.status == STARTED:
-            # is it time to stop? (based on global clock, using actual start)
-            if tThisFlipGlobal > text.tStartRefresh + 1.0-frameTolerance:
-                # keep track of stop time/frame for later
-                text.tStop = t  # not accounting for scr refresh
-                text.tStopRefresh = tThisFlipGlobal  # on global time
-                text.frameNStop = frameN  # exact frame index
-                # add timestamp to datafile
-                thisExp.timestampOnFlip(win, 'text.stopped')
-                # update status
-                text.status = FINISHED
-                text.setAutoDraw(False)
-        
+        # text stays visible until space is pressed (no auto-stop)
+
         # *key_resp_3* updates
         waitOnFlip = False
         
