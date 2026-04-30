@@ -433,10 +433,10 @@ def merge_color_audio(color_csv, audio_csv, output_path="stimuli/combined_80tria
             if k != 'trial':
                 row[k] = v
 
-        # 加入 audio 欄位 (加上 prefix)
+        # 加入 audio 欄位 (columns already have audio1_/audio2_ prefix)
         for k, v in audio_rows[i].items():
             if k != 'trial':
-                row[f'audio_{k}'] = v
+                row[k] = v
 
         combined.append(row)
 
