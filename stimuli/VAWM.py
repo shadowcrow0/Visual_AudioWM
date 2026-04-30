@@ -3578,17 +3578,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # set up handler to look after randomisation of conditions etc
         SFT_2 = data.TrialHandler2(
             name='SFT_2',
-            nReps=9, 
-            method='random', 
-            extraInfo=expInfo, 
-            originPath=-1, 
-            trialList=data.importConditions(
-            '2ndblock.csv', 
-            selection='33'
-        )
-        , 
-            seed=45, 
-            isTrials=True, 
+            nReps=9,
+            method='random',
+            extraInfo=expInfo,
+            originPath=-1,
+            trialList=data.importConditions('stimuli/block2.csv'),
+            seed=45,
+            isTrials=True,
         )
         thisExp.addLoop(SFT_2)  # add the loop to the experiment
         thisSFT_2 = SFT_2.trialList[0]  # so we can initialise stimuli with some values
@@ -4441,13 +4437,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # set up handler to look after randomisation of conditions etc
         SFT_3 = data.TrialHandler2(
             name='SFT_3',
-            nReps=9, 
-            method='random', 
-            extraInfo=expInfo, 
-            originPath=-1, 
-            trialList=[None], 
-            seed=None, 
-            isTrials=True, 
+            nReps=9,
+            method='random',
+            extraInfo=expInfo,
+            originPath=-1,
+            trialList=data.importConditions('stimuli/block3.csv'),
+            seed=45,
+            isTrials=True,
         )
         thisExp.addLoop(SFT_3)  # add the loop to the experiment
         thisSFT_3 = SFT_3.trialList[0]  # so we can initialise stimuli with some values
@@ -5155,13 +5151,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # set up handler to look after randomisation of conditions etc
         SFT_4 = data.TrialHandler2(
             name='SFT_4',
-            nReps=9, 
-            method='random', 
-            extraInfo=expInfo, 
-            originPath=-1, 
-            trialList=[None], 
-            seed=None, 
-            isTrials=True, 
+            nReps=9,
+            method='random',
+            extraInfo=expInfo,
+            originPath=-1,
+            trialList=data.importConditions('stimuli/block4.csv'),
+            seed=45,
+            isTrials=True,
         )
         thisExp.addLoop(SFT_4)  # add the loop to the experiment
         thisSFT_4 = SFT_4.trialList[0]  # so we can initialise stimuli with some values
@@ -6014,13 +6010,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # set up handler to look after randomisation of conditions etc
         SFT_5 = data.TrialHandler2(
             name='SFT_5',
-            nReps=9, 
-            method='random', 
-            extraInfo=expInfo, 
-            originPath=-1, 
-            trialList=[None], 
-            seed=None, 
-            isTrials=True, 
+            nReps=9,
+            method='random',
+            extraInfo=expInfo,
+            originPath=-1,
+            trialList=data.importConditions('stimuli/block5.csv'),
+            seed=45,
+            isTrials=True,
         )
         thisExp.addLoop(SFT_5)  # add the loop to the experiment
         thisSFT_5 = SFT_5.trialList[0]  # so we can initialise stimuli with some values
@@ -6873,13 +6869,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # set up handler to look after randomisation of conditions etc
         SFT_6 = data.TrialHandler2(
             name='SFT_6',
-            nReps=9, 
-            method='random', 
-            extraInfo=expInfo, 
-            originPath=-1, 
-            trialList=[None], 
-            seed=None, 
-            isTrials=True, 
+            nReps=9,
+            method='random',
+            extraInfo=expInfo,
+            originPath=-1,
+            trialList=data.importConditions('stimuli/block6.csv'),
+            seed=45,
+            isTrials=True,
         )
         thisExp.addLoop(SFT_6)  # add the loop to the experiment
         thisSFT_6 = SFT_6.trialList[0]  # so we can initialise stimuli with some values
