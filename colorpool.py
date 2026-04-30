@@ -36,47 +36,58 @@ def find_color(target, de_min, de_max, max_tries=2000):
     return None
 
 # ------------------------------------------------------------
-# Generate 155 color trials: 2 targets each with H (ΔE > 15), L (ΔE > 6)
-# Target delta E between groups > 20
+# Generate 155 color trials: 2 targets each with H (ΔE ≥ 25), L (ΔE ≥ 10)
+# Within trial: target1 vs target2 ΔE ≥ 20
+# Between trials: consecutive targets ΔE ≥ 30
 # ------------------------------------------------------------
 
 color_pool = []
+prev_targets = []  # 記錄上一組的 targets
 
 while len(color_pool) < 155:
 
-    # target1: random valid color
+    # target1: random valid color, 且與前一組距離 > 30
     t1 = None
     for _ in range(500):
         c = random_lab()
-        if is_in_gamut(*c):
-            t1 = c
-            break
+        if not is_in_gamut(*c):
+            continue
+        # 檢查與前一組所有 targets 的距離
+        if prev_targets and any(delta_e(c, pt) < 30 for pt in prev_targets):
+            continue
+        t1 = c
+        break
     if t1 is None:
         continue
 
     # H1 and L1 for target1
-    h1 = find_color(t1, 15, 40)
+    h1 = find_color(t1, 25, 50)
     if h1 is None:
         continue
-    l1 = find_color(t1, 6, 15)
+    l1 = find_color(t1, 10, 20)
     if l1 is None:
         continue
 
-    # target2: random valid color (different from t1)
+    # target2: different from t1 (ΔE > 20), 且與前一組距離 > 30
     t2 = None
     for _ in range(500):
         c = random_lab()
-        if is_in_gamut(*c) and delta_e(t1, c) > 20:
-            t2 = c
-            break
+        if not is_in_gamut(*c):
+            continue
+        if delta_e(t1, c) < 20:
+            continue
+        if prev_targets and any(delta_e(c, pt) < 30 for pt in prev_targets):
+            continue
+        t2 = c
+        break
     if t2 is None:
         continue
 
     # H2 and L2 for target2
-    h2 = find_color(t2, 15, 40)
+    h2 = find_color(t2, 25, 50)
     if h2 is None:
         continue
-    l2 = find_color(t2, 6, 15)
+    l2 = find_color(t2, 10, 20)
     if l2 is None:
         continue
 
@@ -98,7 +109,11 @@ while len(color_pool) < 155:
         'color2_H_deltaE': round(de_h2, 2),
         'color2_L_deltaE': round(de_l2, 2),
     })
-    print(f"Trial {len(color_pool):3d}/155  t1={lab_to_hex(t1)}  t2={lab_to_hex(t2)}")
+
+    # 更新 prev_targets 給下一組檢查
+    prev_targets = [t1, t2]
+
+    print(f"Trial {len(color_pool):3d}/155  t1={lab_to_hex(t1)}  t2={lab_to_hex(t2)}  H1={de_h1:.1f} L1={de_l1:.1f} H2={de_h2:.1f} L2={de_l2:.1f}")
 
 # ------------------------------------------------------------
 # Save to CSV
