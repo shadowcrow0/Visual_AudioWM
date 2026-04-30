@@ -335,7 +335,10 @@ def generate_155_trials(rows, talkers, output_path="stimuli/audio_155trials.csv"
     - audio1_target, audio1_H, audio1_L (同一個 talker)
     - audio2_target, audio2_H, audio2_L (同一個 talker，但可與 audio1 不同)
 
-    重要：同一組內的 target/H/L 用同一個人講，不同 trial 用不同人
+    重要限制：
+    1. 同一組內的 target/H/L 用同一個人講，不同 trial 用不同人
+    2. 同一 trial 內：audio1_target ≠ audio2_target
+    3. 前後 trial 之間：當前 trial 的 targets 要和前一個 trial 的 targets 不同
     """
     import random
 
@@ -361,10 +364,24 @@ def generate_155_trials(rows, talkers, output_path="stimuli/audio_155trials.csv"
     print(f"\nValid sounds with both H and L pairs: {valid_sounds}")
     print(f"Talkers available: {len(talkers)}")
     print(f"Same talker for target/H/L within each audio set, different talkers across trials")
+    print(f"Constraints: audio1_target ≠ audio2_target, and distinct from previous trial")
 
-    def pick_one_set(sound_pairs, valid_sounds, talker_id):
-        """產生一組 target/H/L，全部用同一個 talker"""
-        sound = random.choice(valid_sounds)
+    def pick_one_set(sound_pairs, valid_sounds, talker_id, exclude_sounds=None):
+        """產生一組 target/H/L，全部用同一個 talker
+
+        Args:
+            exclude_sounds: 要排除的 sound 列表（用於確保 distinct）
+        """
+        if exclude_sounds is None:
+            exclude_sounds = []
+
+        # 過濾掉要排除的 sounds
+        available_sounds = [s for s in valid_sounds if s not in exclude_sounds]
+        if not available_sounds:
+            # 如果全部被排除，fallback 到原本的 valid_sounds
+            available_sounds = valid_sounds
+
+        sound = random.choice(available_sounds)
         l_choice = random.choice(sound_pairs[sound]['L'])
         h_choice = random.choice(sound_pairs[sound]['H'])
         return {
@@ -383,15 +400,23 @@ def generate_155_trials(rows, talkers, output_path="stimuli/audio_155trials.csv"
 
     # 產生 155 組雙音訊配對
     trials = []
+    prev_targets = []  # 上一個 trial 的 targets，用於確保前後 trial distinct
+
     for trial_num in range(1, 156):
         # 為這個 trial 隨機選 2 個 talker（audio1 和 audio2 各一個）
         selected = random.sample(talkers, 2)
         talker1 = selected[0]['id']
         talker2 = selected[1]['id']
 
-        # 產生兩組獨立的音訊，各用不同的 talker
-        set1 = pick_one_set(sound_pairs, valid_sounds, talker1)
-        set2 = pick_one_set(sound_pairs, valid_sounds, talker2)
+        # 產生 audio1：排除上一個 trial 的 targets
+        set1 = pick_one_set(sound_pairs, valid_sounds, talker1, exclude_sounds=prev_targets)
+
+        # 產生 audio2：排除上一個 trial 的 targets + audio1 的 target
+        exclude_for_set2 = prev_targets + [set1['target']]
+        set2 = pick_one_set(sound_pairs, valid_sounds, talker2, exclude_sounds=exclude_for_set2)
+
+        # 更新 prev_targets 給下一個 trial 用
+        prev_targets = [set1['target'], set2['target']]
 
         row = {'trial': trial_num}
         # audio1 欄位
@@ -457,6 +482,49 @@ def merge_color_audio(color_csv, audio_csv, output_path="stimuli/combined_80tria
     return combined
 
 
+def distinct_aware_shuffle(rows):
+    """打亂順序但確保前後 trial 的 targets 不重複
+
+    使用 greedy 演算法：
+    1. 隨機選一個 trial 作為起點
+    2. 每次從剩餘的 trials 中選一個不與前一個 trial 重疊的 trial
+    3. 如果沒有符合條件的 trial，fallback 到任意剩餘 trial
+    """
+    import random
+
+    if not rows:
+        return []
+
+    def get_targets(row):
+        """取得一個 trial 的所有 targets"""
+        return {row.get('audio1_target', ''), row.get('audio2_target', '')} - {''}
+
+    remaining = list(rows)
+    random.shuffle(remaining)  # 先打亂以增加隨機性
+    result = [remaining.pop(0)]  # 隨機選第一個
+
+    while remaining:
+        prev_targets = get_targets(result[-1])
+
+        # 找出所有不與前一個 trial 重疊的 trials
+        valid_candidates = []
+        for i, row in enumerate(remaining):
+            curr_targets = get_targets(row)
+            if not (prev_targets & curr_targets):  # 沒有交集
+                valid_candidates.append(i)
+
+        if valid_candidates:
+            # 從符合條件的 trials 中隨機選一個
+            idx = random.choice(valid_candidates)
+        else:
+            # Fallback: 沒有符合條件的，隨機選一個
+            idx = random.randint(0, len(remaining) - 1)
+
+        result.append(remaining.pop(idx))
+
+    return result
+
+
 def split_into_blocks(combined_csv, output_dir="stimuli"):
     """將 combined CSV 分割成 practice.csv 和 block1-6.csv
 
@@ -468,15 +536,15 @@ def split_into_blocks(combined_csv, output_dir="stimuli"):
     - block4.csv: trials 81-105 (25 trials)
     - block5.csv: trials 106-130 (25 trials)
     - block6.csv: trials 131-155 (25 trials)
-    """
-    import random
 
+    注意：使用 distinct-aware shuffle 確保前後 trial 的 targets 不重複
+    """
     # 讀取 combined CSV
     with open(combined_csv, 'r') as f:
         rows = list(csv.DictReader(f))
 
-    # 打亂順序
-    random.shuffle(rows)
+    # 使用 distinct-aware shuffle 打亂順序
+    rows = distinct_aware_shuffle(rows)
 
     # 重新編號
     for i, row in enumerate(rows):
