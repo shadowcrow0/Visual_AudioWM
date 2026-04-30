@@ -40,10 +40,12 @@ def find_color(target, de_min, de_max, max_tries=2000):
 # Within trial: target1 vs target2 ΔE ≥ 20
 # Between trials: consecutive targets ΔE ≥ 30
 # H vs L within same target: ΔE ≥ 15
+# No duplicate colors across all trials
 # ------------------------------------------------------------
 
 color_pool = []
 prev_targets = []  # 記錄上一組的 targets
+used_hex = set()   # 記錄已使用的 hex 顏色
 
 while len(color_pool) < 155:
 
@@ -103,7 +105,17 @@ while len(color_pool) < 155:
     de_h2, de_l2 = delta_e(t2, h2), delta_e(t2, l2)
     de_hl1, de_hl2 = delta_e(h1, l1), delta_e(h2, l2)
 
+    # check for duplicate hex colors
+    hex_colors = [lab_to_hex(t1), lab_to_hex(h1), lab_to_hex(l1),
+                  lab_to_hex(t2), lab_to_hex(h2), lab_to_hex(l2)]
+    if any(h in used_hex for h in hex_colors):
+        continue
+    # also check within this trial for duplicates
+    if len(set(hex_colors)) != 6:
+        continue
+
     # all conditions met, add to pool
+    used_hex.update(hex_colors)
     color_pool.append({
         'trial': len(color_pool) + 1,
         'color1_target': lab_to_hex(t1),
