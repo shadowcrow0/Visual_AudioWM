@@ -36,7 +36,7 @@ def find_color(target, de_min, de_max, max_tries=2000):
     return None
 
 # ------------------------------------------------------------
-# Generate 155 color trials: 2 targets each with H (ΔE ≥ 25), L (ΔE ≥ 15)
+# Generate 155 color trials: 2 targets each with H (ΔE ≥ 25), L (ΔE ≥ 20)
 # Within trial: target1 vs target2 ΔE ≥ 20
 # Between trials: consecutive targets ΔE ≥ 30
 # H vs L within same target: ΔE ≥ 15
@@ -67,7 +67,7 @@ while len(color_pool) < 155:
     h1 = find_color(t1, 25, 50)
     if h1 is None:
         continue
-    l1 = find_color(t1, 15, 25)
+    l1 = find_color(t1, 20, 30)
     if l1 is None:
         continue
     # H1 vs L1 must be > 15
@@ -93,7 +93,7 @@ while len(color_pool) < 155:
     h2 = find_color(t2, 25, 50)
     if h2 is None:
         continue
-    l2 = find_color(t2, 15, 25)
+    l2 = find_color(t2, 20, 30)
     if l2 is None:
         continue
     # H2 vs L2 must be > 15
