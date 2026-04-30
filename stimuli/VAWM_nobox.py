@@ -1918,7 +1918,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *ResponseBox* updates
                 
                 # if ResponseBox is starting this frame...
-                if ResponseBox.status == NOT_STARTED and tThisFlip >= 1.3-frameTolerance:
+                if ResponseBox.status == NOT_STARTED and tThisFlip >= 0.5-frameTolerance:
                     # keep track of start time/frame for later
                     ResponseBox.frameNStart = frameN  # exact frame index
                     ResponseBox.tStart = t  # local t and not account for scr refresh
@@ -2922,7 +2922,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *ResponseBox* updates
                 
                 # if ResponseBox is starting this frame...
-                if ResponseBox.status == NOT_STARTED and tThisFlip >= 1.3-frameTolerance:
+                if ResponseBox.status == NOT_STARTED and tThisFlip >= 0.5-frameTolerance:
                     # keep track of start time/frame for later
                     ResponseBox.frameNStart = frameN  # exact frame index
                     ResponseBox.tStart = t  # local t and not account for scr refresh
@@ -3773,7 +3773,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *ResponseBox* updates
                 
                 # if ResponseBox is starting this frame...
-                if ResponseBox.status == NOT_STARTED and tThisFlip >= 1.3-frameTolerance:
+                if ResponseBox.status == NOT_STARTED and tThisFlip >= 0.5-frameTolerance:
                     # keep track of start time/frame for later
                     ResponseBox.frameNStart = frameN  # exact frame index
                     ResponseBox.tStart = t  # local t and not account for scr refresh
@@ -4620,7 +4620,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *ResponseBox* updates
                 
                 # if ResponseBox is starting this frame...
-                if ResponseBox.status == NOT_STARTED and tThisFlip >= 1.3-frameTolerance:
+                if ResponseBox.status == NOT_STARTED and tThisFlip >= 0.5-frameTolerance:
                     # keep track of start time/frame for later
                     ResponseBox.frameNStart = frameN  # exact frame index
                     ResponseBox.tStart = t  # local t and not account for scr refresh
@@ -5322,7 +5322,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *ResponseBox* updates
                 
                 # if ResponseBox is starting this frame...
-                if ResponseBox.status == NOT_STARTED and tThisFlip >= 1.3-frameTolerance:
+                if ResponseBox.status == NOT_STARTED and tThisFlip >= 0.5-frameTolerance:
                     # keep track of start time/frame for later
                     ResponseBox.frameNStart = frameN  # exact frame index
                     ResponseBox.tStart = t  # local t and not account for scr refresh
@@ -6169,7 +6169,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *ResponseBox* updates
                 
                 # if ResponseBox is starting this frame...
-                if ResponseBox.status == NOT_STARTED and tThisFlip >= 1.3-frameTolerance:
+                if ResponseBox.status == NOT_STARTED and tThisFlip >= 0.5-frameTolerance:
                     # keep track of start time/frame for later
                     ResponseBox.frameNStart = frameN  # exact frame index
                     ResponseBox.tStart = t  # local t and not account for scr refresh
@@ -7016,7 +7016,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *ResponseBox* updates
                 
                 # if ResponseBox is starting this frame...
-                if ResponseBox.status == NOT_STARTED and tThisFlip >= 1.3-frameTolerance:
+                if ResponseBox.status == NOT_STARTED and tThisFlip >= 0.5-frameTolerance:
                     # keep track of start time/frame for later
                     ResponseBox.frameNStart = frameN  # exact frame index
                     ResponseBox.tStart = t  # local t and not account for scr refresh
