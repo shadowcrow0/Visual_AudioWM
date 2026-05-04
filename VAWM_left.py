@@ -1827,7 +1827,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-            
+
+            # Ensure visual components are hidden before routine starts
+            Fixation.setAutoDraw(False)
+            targetV.setAutoDraw(False)
+
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
             probe.forceEnded = routineForceEnded = not continueRoutine
@@ -2851,7 +2855,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-            
+
+            # Ensure visual components are hidden before routine starts
+            Fixation.setAutoDraw(False)
+            targetV.setAutoDraw(False)
+
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
             probe.forceEnded = routineForceEnded = not continueRoutine
@@ -3711,7 +3719,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-            
+
+            # Ensure visual components are hidden before routine starts
+            Fixation.setAutoDraw(False)
+            targetV.setAutoDraw(False)
+
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
             probe.forceEnded = routineForceEnded = not continueRoutine
@@ -4571,7 +4583,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-            
+
+            # Ensure visual components are hidden before routine starts
+            Fixation.setAutoDraw(False)
+            targetV.setAutoDraw(False)
+
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
             probe.forceEnded = routineForceEnded = not continueRoutine
@@ -5286,7 +5302,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-            
+
+            # Ensure visual components are hidden before routine starts
+            Fixation.setAutoDraw(False)
+            targetV.setAutoDraw(False)
+
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
             probe.forceEnded = routineForceEnded = not continueRoutine
@@ -6146,7 +6166,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-            
+
+            # Ensure visual components are hidden before routine starts
+            Fixation.setAutoDraw(False)
+            targetV.setAutoDraw(False)
+
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
             probe.forceEnded = routineForceEnded = not continueRoutine
@@ -7006,7 +7030,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-            
+
+            # Ensure visual components are hidden before routine starts
+            Fixation.setAutoDraw(False)
+            targetV.setAutoDraw(False)
+
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
             probe.forceEnded = routineForceEnded = not continueRoutine
