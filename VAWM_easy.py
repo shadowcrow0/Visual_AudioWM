@@ -1429,7 +1429,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('stimuli/practice.csv'), 
+        trialList=data.importConditions('stimuli/practice_easy.csv'), 
         seed=None, 
         isTrials=True, 
     )
@@ -2454,7 +2454,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('stimuli/block1.csv'), 
+        trialList=data.importConditions('stimuli/block1_easy.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -3321,7 +3321,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('stimuli/block2.csv'), 
+        trialList=data.importConditions('stimuli/block2_easy.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -4189,7 +4189,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('stimuli/block3.csv'), 
+        trialList=data.importConditions('stimuli/block3_easy.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -4913,7 +4913,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('stimuli/block4.csv'), 
+        trialList=data.importConditions('stimuli/block4_easy.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -5781,7 +5781,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('stimuli/block5.csv'), 
+        trialList=data.importConditions('stimuli/block5_easy.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -6649,7 +6649,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('stimuli/block6.csv'), 
+        trialList=data.importConditions('stimuli/block6_easy.csv'), 
         seed=45, 
         isTrials=True, 
     )
