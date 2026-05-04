@@ -14,7 +14,7 @@ If you publish work using this script the most relevant publication is:
 # --- Import packages ---
 from psychopy import locale_setup
 from psychopy import prefs
-prefs.hardware['audioDevice'] =['Headphones (Realtek(R) Audio)']
+prefs.hardware['audioDevice'] =['Speakers (Realtek(R) Audio)']
 from psychopy import plugins
 plugins.activatePlugins()
 from psychopy import sound, gui, visual, core, data, event, logging, clock, colors, layout, hardware
@@ -393,7 +393,7 @@ def pauseExperiment(thisExp, win=None, timers=[], currentRoutine=None):
     # run a while loop while we wait to unpause
     while thisExp.status == PAUSED:
         # check for quit (typically the Esc key)
-        if defaultKeyboard.getKeys(keyList=['escape']):
+        if defaultKeyboard.getKeys(keyList=['l']):
             endExperiment(thisExp, win=win)
         # dispatch messages on response components
         if currentRoutine is not None:
@@ -454,7 +454,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     # make sure we're running in the directory for this experiment
     os.chdir(_thisDir)
     deviceManager.addDevice(
-            deviceClass='psychopy.hardware.speaker.SpeakerDevice', deviceName='Headphones (Realtek(R) Audio)', index=8
+            deviceClass='psychopy.hardware.speaker.SpeakerDevice', deviceName='Speakers (Realtek(R) Audio)', index=6
         )
     # get filename from ExperimentHandler for convenience
     filename = thisExp.dataFileName
@@ -539,30 +539,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             name='audi2'
     )
     audi2.setVolume(1.0)
-    try:  # to use the Cedrus response box
-        import pyxid2 as pyxid
-    except ImportError:
-        import pyxid
-    except OSError as err:
-        if 'd2xx' in str(err):
-            # importing will raise an OSError if you're missing the D2XX drivers
-            raise err from OSError('Cedrus Component needs the D2XX drivers to run. Please install from: https://ftdichip.com/drivers/d2xx-drivers/.')
-        else:
-            raise err
-    cedrusBox_0 = None
-    for n in range(10):  # doesn't always work first time!
-        try:
-            devices = pyxid.get_xid_devices()
-            core.wait(0.1)
-            cedrusBox_0 = devices[0]
-            cedrusBox_0.clock = core.Clock()
-            break  # found the device so can break the loop
-        except Exception:
-            pass
-    if not cedrusBox_0:
-        logging.error('could not find a Cedrus device.')
-        core.quit()
-    
+    # Using keyboard instead of Cedrus ResponseBox
+    # Response keys: 'y' = Yes/Same, 'n' = No/Different
+
     # --- Initialize components for Routine "probe" ---
     # Run 'Begin Experiment' code from ProbeCode
     
@@ -589,7 +568,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             name='targetA'
     )
     targetA.setVolume(1.0)
-    ResponseBox = cedrusBox_0
+    ResponseBox = keyboard.Keyboard(deviceName='ResponseBox')
     
     # --- Initialize components for Routine "feedback" ---
     answer = visual.TextStim(win=win, name='answer',
@@ -681,7 +660,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             name='targetA'
     )
     targetA.setVolume(1.0)
-    ResponseBox = cedrusBox_0
+    ResponseBox = keyboard.Keyboard(deviceName='ResponseBox')
     
     # --- Initialize components for Routine "rest" ---
     timeout = visual.TextStim(win=win, name='timeout',
@@ -764,7 +743,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             name='targetA'
     )
     targetA.setVolume(1.0)
-    ResponseBox = cedrusBox_0
+    ResponseBox = keyboard.Keyboard(deviceName='ResponseBox')
     
     # --- Initialize components for Routine "rest" ---
     timeout = visual.TextStim(win=win, name='timeout',
@@ -847,7 +826,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             name='targetA'
     )
     targetA.setVolume(1.0)
-    ResponseBox = cedrusBox_0
+    ResponseBox = keyboard.Keyboard(deviceName='ResponseBox')
     
     # --- Initialize components for Routine "study_stage" ---
     # Run 'Begin Experiment' code from StudyCode
@@ -920,7 +899,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             name='targetA'
     )
     targetA.setVolume(1.0)
-    ResponseBox = cedrusBox_0
+    ResponseBox = keyboard.Keyboard(deviceName='ResponseBox')
     
     # --- Initialize components for Routine "rest" ---
     timeout = visual.TextStim(win=win, name='timeout',
@@ -1002,7 +981,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             name='targetA'
     )
     targetA.setVolume(1.0)
-    ResponseBox = cedrusBox_0
+    ResponseBox = keyboard.Keyboard(deviceName='ResponseBox')
     
     # --- Initialize components for Routine "rest" ---
     timeout = visual.TextStim(win=win, name='timeout',
@@ -1084,7 +1063,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             name='targetA'
     )
     targetA.setVolume(1.0)
-    ResponseBox = cedrusBox_0
+    ResponseBox = keyboard.Keyboard(deviceName='ResponseBox')
     
     # --- Initialize components for Routine "End" ---
     EndExp = visual.TextStim(win=win, name='EndExp',
@@ -1425,7 +1404,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('practice.csv'), 
+        trialList=data.importConditions('stimuli/practice.csv'), 
         seed=None, 
         isTrials=True, 
     )
@@ -1745,7 +1724,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if thisSession is not None:
             # if running in a Session with a Liaison client, send data up to now
             thisSession.sendExperimentData()
-        
+
         for thisInner in inner:
             inner.status = STARTED
             if hasattr(thisInner, 'status'):
@@ -1759,7 +1738,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisInner != None:
                 for paramName in thisInner:
                     globals()[paramName] = thisInner[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -1774,10 +1753,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             condition = probe_conditions[probe_idx]
             probe_idx += 1
             #AX AX= color, XA= audio
-            #AA=0 HA =1 LA = 2
-            #AH=3 HH=4 LH=5
-            #AL=6 HL=7 LL=8
-            if condition == 0 :#AA .25
+            #AA=0,1  HA=2,3  LA=4,5  AH=6,7
+            #HH=8,9  LH=10,11  AL=12,13  HL=14,15  LL=16,17
+            if condition == 0:  # AA
                targetCol = color1_target
                targetAud = audio1_target_file
             elif condition == 1:#AA.25
@@ -1839,7 +1817,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             targetA.seek(0)
             ResponseBox.keys = []  # to store response values
             ResponseBox.rt = []
-            ResponseBox.status = None
+            ResponseBox.status = NOT_STARTED
             # store start times for probe
             probe.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
             probe.tStart = globalClock.getTime(format='float')
@@ -1981,11 +1959,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     # update status
                     ResponseBox.status = STARTED
                     ResponseBox.clock.reset()  # now t=0
-                    # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        ResponseBox.clear_response_queue()
-                        ResponseBox.poll_for_response() #often there are more resps waiting!
+                    # clear keyboard responses
+                    ResponseBox.keys = []
+                    ResponseBox.rt = []
+                    ResponseBox.clearEvents(eventType='keyboard')
                 
                 # if ResponseBox is stopping this frame...
                 if ResponseBox.status == STARTED:
@@ -1998,23 +1975,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         # update status
                         ResponseBox.status = FINISHED
                 if ResponseBox.status == STARTED:
-                    theseKeys=[]
-                    theseRTs=[]
-                    # check for key presses
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        evt = ResponseBox.get_next_response()
-                        if evt['key'] not in [3, 4]:
-                            continue  # we don't care about this key
-                        if evt['pressed']:
-                          theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
-                        ResponseBox.poll_for_response()
-                    ResponseBox.clear_response_queue()  # don't process again
+                    # check for key presses using keyboard
+                    theseKeys = ResponseBox.getKeys(keyList=['y', 'n'], ignoreKeys=["escape"], waitRelease=False)
                     if len(theseKeys) > 0:  # at least one key was pressed
                         if ResponseBox.keys == []:  # then this is first keypress
-                            ResponseBox.keys = theseKeys[0]  # the first key pressed
-                            ResponseBox.rt = theseRTs[0]
+                            ResponseBox.keys = theseKeys[0].name  # 'y' or 'n'
+                            ResponseBox.rt = theseKeys[0].rt
                             # a response ends the routine
                             continueRoutine = False
                 
@@ -2116,15 +2082,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             }
             col_type, aud_type = get_probe_types(targetCol, targetAud, trial_data)
 
-            # Map Cedrus ResponseBox keys: 4 -> 'y', 3 -> 'n'
-            if ResponseBox.keys == 4:
-                user_response = 'y'
-            elif ResponseBox.keys == 3:
-                user_response = 'n'
-            else:
-                user_response = 'None'
-
             # Look up rule based on (col_type, aud_type, response)
+            user_response = ResponseBox.keys if ResponseBox.keys else 'None'
             rule_key = (col_type, aud_type, user_response)
             if rule_key in FEEDBACK_RULES:
                 acc = FEEDBACK_RULES[rule_key]['Acc']
@@ -2453,7 +2412,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('block1.csv'), 
+        trialList=data.importConditions('stimuli/block1.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -2787,7 +2746,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT1 != None:
                 for paramName in thisSFT1:
                     globals()[paramName] = thisSFT1[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -2802,10 +2761,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             condition = probe_conditions[probe_idx]
             probe_idx += 1
             #AX AX= color, XA= audio
-            #AA=0 HA =1 LA = 2
-            #AH=3 HH=4 LH=5
-            #AL=6 HL=7 LL=8
-            if condition == 0 :#AA .25
+            #AA=0,1  HA=2,3  LA=4,5  AH=6,7
+            #HH=8,9  LH=10,11  AL=12,13  HL=14,15  LL=16,17
+            if condition == 0:  # AA
                targetCol = color1_target
                targetAud = audio1_target_file
             elif condition == 1:#AA.25
@@ -2867,7 +2825,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             targetA.seek(0)
             ResponseBox.keys = []  # to store response values
             ResponseBox.rt = []
-            ResponseBox.status = None
+            ResponseBox.status = NOT_STARTED
             # store start times for probe
             probe.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
             probe.tStart = globalClock.getTime(format='float')
@@ -3009,11 +2967,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     # update status
                     ResponseBox.status = STARTED
                     ResponseBox.clock.reset()  # now t=0
-                    # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        ResponseBox.clear_response_queue()
-                        ResponseBox.poll_for_response() #often there are more resps waiting!
+                    # clear keyboard responses
+                    ResponseBox.keys = []
+                    ResponseBox.rt = []
+                    ResponseBox.clearEvents(eventType='keyboard')
                 
                 # if ResponseBox is stopping this frame...
                 if ResponseBox.status == STARTED:
@@ -3026,23 +2983,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         # update status
                         ResponseBox.status = FINISHED
                 if ResponseBox.status == STARTED:
-                    theseKeys=[]
-                    theseRTs=[]
-                    # check for key presses
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        evt = ResponseBox.get_next_response()
-                        if evt['key'] not in [3, 4]:
-                            continue  # we don't care about this key
-                        if evt['pressed']:
-                          theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
-                        ResponseBox.poll_for_response()
-                    ResponseBox.clear_response_queue()  # don't process again
+                    # check for key presses using keyboard
+                    theseKeys = ResponseBox.getKeys(keyList=['y', 'n'], ignoreKeys=["escape"], waitRelease=False)
                     if len(theseKeys) > 0:  # at least one key was pressed
                         if ResponseBox.keys == []:  # then this is first keypress
-                            ResponseBox.keys = theseKeys[0]  # the first key pressed
-                            ResponseBox.rt = theseRTs[0]
+                            ResponseBox.keys = theseKeys[0].name  # 'y' or 'n'
+                            ResponseBox.rt = theseKeys[0].rt
                             # a response ends the routine
                             continueRoutine = False
                 
@@ -3317,7 +3263,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('block2.csv'), 
+        trialList=data.importConditions('stimuli/block2.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -3651,7 +3597,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT_2 != None:
                 for paramName in thisSFT_2:
                     globals()[paramName] = thisSFT_2[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -3731,7 +3677,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             targetA.seek(0)
             ResponseBox.keys = []  # to store response values
             ResponseBox.rt = []
-            ResponseBox.status = None
+            ResponseBox.status = NOT_STARTED
             # store start times for probe
             probe.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
             probe.tStart = globalClock.getTime(format='float')
@@ -3873,11 +3819,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     # update status
                     ResponseBox.status = STARTED
                     ResponseBox.clock.reset()  # now t=0
-                    # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        ResponseBox.clear_response_queue()
-                        ResponseBox.poll_for_response() #often there are more resps waiting!
+                    # clear keyboard responses
+                    ResponseBox.keys = []
+                    ResponseBox.rt = []
+                    ResponseBox.clearEvents(eventType='keyboard')
                 
                 # if ResponseBox is stopping this frame...
                 if ResponseBox.status == STARTED:
@@ -3890,23 +3835,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         # update status
                         ResponseBox.status = FINISHED
                 if ResponseBox.status == STARTED:
-                    theseKeys=[]
-                    theseRTs=[]
-                    # check for key presses
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        evt = ResponseBox.get_next_response()
-                        if evt['key'] not in [3, 4]:
-                            continue  # we don't care about this key
-                        if evt['pressed']:
-                          theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
-                        ResponseBox.poll_for_response()
-                    ResponseBox.clear_response_queue()  # don't process again
+                    # check for key presses using keyboard
+                    theseKeys = ResponseBox.getKeys(keyList=['y', 'n'], ignoreKeys=["escape"], waitRelease=False)
                     if len(theseKeys) > 0:  # at least one key was pressed
                         if ResponseBox.keys == []:  # then this is first keypress
-                            ResponseBox.keys = theseKeys[0]  # the first key pressed
-                            ResponseBox.rt = theseRTs[0]
+                            ResponseBox.keys = theseKeys[0].name  # 'y' or 'n'
+                            ResponseBox.rt = theseKeys[0].rt
                             # a response ends the routine
                             continueRoutine = False
                 
@@ -4181,7 +4115,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('block3.csv'), 
+        trialList=data.importConditions('stimuli/block3.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -4501,7 +4435,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if thisSession is not None:
             # if running in a Session with a Liaison client, send data up to now
             thisSession.sendExperimentData()
-        
+
         for thisSFT_3 in SFT_3:
             SFT_3.status = STARTED
             if hasattr(thisSFT_3, 'status'):
@@ -4515,7 +4449,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT_3 != None:
                 for paramName in thisSFT_3:
                     globals()[paramName] = thisSFT_3[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -4529,6 +4463,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Use pre-generated stratified condition
             condition = probe_conditions[probe_idx]
             probe_idx += 1
+            # Old random code removed - now using stratified conditions
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -4595,7 +4530,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             targetA.seek(0)
             ResponseBox.keys = []  # to store response values
             ResponseBox.rt = []
-            ResponseBox.status = None
+            ResponseBox.status = NOT_STARTED
             # store start times for probe
             probe.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
             probe.tStart = globalClock.getTime(format='float')
@@ -4737,11 +4672,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     # update status
                     ResponseBox.status = STARTED
                     ResponseBox.clock.reset()  # now t=0
-                    # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        ResponseBox.clear_response_queue()
-                        ResponseBox.poll_for_response() #often there are more resps waiting!
+                    # clear keyboard responses
+                    ResponseBox.keys = []
+                    ResponseBox.rt = []
+                    ResponseBox.clearEvents(eventType='keyboard')
                 
                 # if ResponseBox is stopping this frame...
                 if ResponseBox.status == STARTED:
@@ -4754,23 +4688,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         # update status
                         ResponseBox.status = FINISHED
                 if ResponseBox.status == STARTED:
-                    theseKeys=[]
-                    theseRTs=[]
-                    # check for key presses
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        evt = ResponseBox.get_next_response()
-                        if evt['key'] not in [3, 4]:
-                            continue  # we don't care about this key
-                        if evt['pressed']:
-                          theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
-                        ResponseBox.poll_for_response()
-                    ResponseBox.clear_response_queue()  # don't process again
+                    # check for key presses using keyboard
+                    theseKeys = ResponseBox.getKeys(keyList=['y', 'n'], ignoreKeys=["escape"], waitRelease=False)
                     if len(theseKeys) > 0:  # at least one key was pressed
                         if ResponseBox.keys == []:  # then this is first keypress
-                            ResponseBox.keys = theseKeys[0]  # the first key pressed
-                            ResponseBox.rt = theseRTs[0]
+                            ResponseBox.keys = theseKeys[0].name  # 'y' or 'n'
+                            ResponseBox.rt = theseKeys[0].rt
                             # a response ends the routine
                             continueRoutine = False
                 
@@ -4900,7 +4823,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=[None], 
+        trialList=data.importConditions('stimuli/block4.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -5195,11 +5118,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-
-        # Generate stratified conditions for 9 probe trials
-        probe_conditions = generate_stratified_conditions()
-        probe_idx = 0
-
+        
         # set up handler to look after randomisation of conditions etc
         SFT_4 = data.TrialHandler2(
             name='SFT_4',
@@ -5211,6 +5130,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             seed=None,
             isTrials=True,
         )
+        # Generate stratified conditions for this block
+        probe_conditions = generate_stratified_conditions()
+        probe_idx = 0
         thisExp.addLoop(SFT_4)  # add the loop to the experiment
         thisSFT_4 = SFT_4.trialList[0]  # so we can initialise stimuli with some values
         # abbreviate parameter names if possible (e.g. rgb = thisSFT_4.rgb)
@@ -5234,7 +5156,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT_4 != None:
                 for paramName in thisSFT_4:
                     globals()[paramName] = thisSFT_4[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -5248,6 +5170,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Use pre-generated stratified condition
             condition = probe_conditions[probe_idx]
             probe_idx += 1
+            # Old random code removed - now using stratified conditions
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -5314,7 +5237,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             targetA.seek(0)
             ResponseBox.keys = []  # to store response values
             ResponseBox.rt = []
-            ResponseBox.status = None
+            ResponseBox.status = NOT_STARTED
             # store start times for probe
             probe.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
             probe.tStart = globalClock.getTime(format='float')
@@ -5456,11 +5379,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     # update status
                     ResponseBox.status = STARTED
                     ResponseBox.clock.reset()  # now t=0
-                    # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        ResponseBox.clear_response_queue()
-                        ResponseBox.poll_for_response() #often there are more resps waiting!
+                    # clear keyboard responses
+                    ResponseBox.keys = []
+                    ResponseBox.rt = []
+                    ResponseBox.clearEvents(eventType='keyboard')
                 
                 # if ResponseBox is stopping this frame...
                 if ResponseBox.status == STARTED:
@@ -5473,23 +5395,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         # update status
                         ResponseBox.status = FINISHED
                 if ResponseBox.status == STARTED:
-                    theseKeys=[]
-                    theseRTs=[]
-                    # check for key presses
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        evt = ResponseBox.get_next_response()
-                        if evt['key'] not in [3, 4]:
-                            continue  # we don't care about this key
-                        if evt['pressed']:
-                          theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
-                        ResponseBox.poll_for_response()
-                    ResponseBox.clear_response_queue()  # don't process again
+                    # check for key presses using keyboard
+                    theseKeys = ResponseBox.getKeys(keyList=['y', 'n'], ignoreKeys=["escape"], waitRelease=False)
                     if len(theseKeys) > 0:  # at least one key was pressed
                         if ResponseBox.keys == []:  # then this is first keypress
-                            ResponseBox.keys = theseKeys[0]  # the first key pressed
-                            ResponseBox.rt = theseRTs[0]
+                            ResponseBox.keys = theseKeys[0].name  # 'y' or 'n'
+                            ResponseBox.rt = theseKeys[0].rt
                             # a response ends the routine
                             continueRoutine = False
                 
@@ -5764,7 +5675,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=[None], 
+        trialList=data.importConditions('stimuli/block5.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -6059,11 +5970,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-
-        # Generate stratified conditions for 9 probe trials
-        probe_conditions = generate_stratified_conditions()
-        probe_idx = 0
-
+        
         # set up handler to look after randomisation of conditions etc
         SFT_5 = data.TrialHandler2(
             name='SFT_5',
@@ -6075,6 +5982,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             seed=None,
             isTrials=True,
         )
+        # Generate stratified conditions for this block
+        probe_conditions = generate_stratified_conditions()
+        probe_idx = 0
         thisExp.addLoop(SFT_5)  # add the loop to the experiment
         thisSFT_5 = SFT_5.trialList[0]  # so we can initialise stimuli with some values
         # abbreviate parameter names if possible (e.g. rgb = thisSFT_5.rgb)
@@ -6098,7 +6008,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT_5 != None:
                 for paramName in thisSFT_5:
                     globals()[paramName] = thisSFT_5[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -6112,6 +6022,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Use pre-generated stratified condition
             condition = probe_conditions[probe_idx]
             probe_idx += 1
+            # Old random code removed - now using stratified conditions
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -6178,7 +6089,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             targetA.seek(0)
             ResponseBox.keys = []  # to store response values
             ResponseBox.rt = []
-            ResponseBox.status = None
+            ResponseBox.status = NOT_STARTED
             # store start times for probe
             probe.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
             probe.tStart = globalClock.getTime(format='float')
@@ -6320,11 +6231,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     # update status
                     ResponseBox.status = STARTED
                     ResponseBox.clock.reset()  # now t=0
-                    # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        ResponseBox.clear_response_queue()
-                        ResponseBox.poll_for_response() #often there are more resps waiting!
+                    # clear keyboard responses
+                    ResponseBox.keys = []
+                    ResponseBox.rt = []
+                    ResponseBox.clearEvents(eventType='keyboard')
                 
                 # if ResponseBox is stopping this frame...
                 if ResponseBox.status == STARTED:
@@ -6337,23 +6247,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         # update status
                         ResponseBox.status = FINISHED
                 if ResponseBox.status == STARTED:
-                    theseKeys=[]
-                    theseRTs=[]
-                    # check for key presses
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        evt = ResponseBox.get_next_response()
-                        if evt['key'] not in [3, 4]:
-                            continue  # we don't care about this key
-                        if evt['pressed']:
-                          theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
-                        ResponseBox.poll_for_response()
-                    ResponseBox.clear_response_queue()  # don't process again
+                    # check for key presses using keyboard
+                    theseKeys = ResponseBox.getKeys(keyList=['y', 'n'], ignoreKeys=["escape"], waitRelease=False)
                     if len(theseKeys) > 0:  # at least one key was pressed
                         if ResponseBox.keys == []:  # then this is first keypress
-                            ResponseBox.keys = theseKeys[0]  # the first key pressed
-                            ResponseBox.rt = theseRTs[0]
+                            ResponseBox.keys = theseKeys[0].name  # 'y' or 'n'
+                            ResponseBox.rt = theseKeys[0].rt
                             # a response ends the routine
                             continueRoutine = False
                 
@@ -6628,7 +6527,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=[None], 
+        trialList=data.importConditions('stimuli/block6.csv'), 
         seed=45, 
         isTrials=True, 
     )
@@ -6923,11 +6822,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-
-        # Generate stratified conditions for 9 probe trials
-        probe_conditions = generate_stratified_conditions()
-        probe_idx = 0
-
+        
         # set up handler to look after randomisation of conditions etc
         SFT_6 = data.TrialHandler2(
             name='SFT_6',
@@ -6939,6 +6834,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             seed=None,
             isTrials=True,
         )
+        # Generate stratified conditions for this block
+        probe_conditions = generate_stratified_conditions()
+        probe_idx = 0
         thisExp.addLoop(SFT_6)  # add the loop to the experiment
         thisSFT_6 = SFT_6.trialList[0]  # so we can initialise stimuli with some values
         # abbreviate parameter names if possible (e.g. rgb = thisSFT_6.rgb)
@@ -6962,7 +6860,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             if thisSFT_6 != None:
                 for paramName in thisSFT_6:
                     globals()[paramName] = thisSFT_6[paramName]
-            
+
             # --- Prepare to start Routine "probe" ---
             # create an object to store info about Routine probe
             probe = data.Routine(
@@ -6976,6 +6874,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Use pre-generated stratified condition
             condition = probe_conditions[probe_idx]
             probe_idx += 1
+            # Old random code removed - now using stratified conditions
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -7042,7 +6941,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             targetA.seek(0)
             ResponseBox.keys = []  # to store response values
             ResponseBox.rt = []
-            ResponseBox.status = None
+            ResponseBox.status = NOT_STARTED
             # store start times for probe
             probe.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
             probe.tStart = globalClock.getTime(format='float')
@@ -7184,11 +7083,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     # update status
                     ResponseBox.status = STARTED
                     ResponseBox.clock.reset()  # now t=0
-                    # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        ResponseBox.clear_response_queue()
-                        ResponseBox.poll_for_response() #often there are more resps waiting!
+                    # clear keyboard responses
+                    ResponseBox.keys = []
+                    ResponseBox.rt = []
+                    ResponseBox.clearEvents(eventType='keyboard')
                 
                 # if ResponseBox is stopping this frame...
                 if ResponseBox.status == STARTED:
@@ -7201,23 +7099,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         # update status
                         ResponseBox.status = FINISHED
                 if ResponseBox.status == STARTED:
-                    theseKeys=[]
-                    theseRTs=[]
-                    # check for key presses
-                    ResponseBox.poll_for_response()
-                    while len(ResponseBox.response_queue):
-                        evt = ResponseBox.get_next_response()
-                        if evt['key'] not in [3, 4]:
-                            continue  # we don't care about this key
-                        if evt['pressed']:
-                          theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
-                        ResponseBox.poll_for_response()
-                    ResponseBox.clear_response_queue()  # don't process again
+                    # check for key presses using keyboard
+                    theseKeys = ResponseBox.getKeys(keyList=['y', 'n'], ignoreKeys=["escape"], waitRelease=False)
                     if len(theseKeys) > 0:  # at least one key was pressed
                         if ResponseBox.keys == []:  # then this is first keypress
-                            ResponseBox.keys = theseKeys[0]  # the first key pressed
-                            ResponseBox.rt = theseRTs[0]
+                            ResponseBox.keys = theseKeys[0].name  # 'y' or 'n'
+                            ResponseBox.rt = theseKeys[0].rt
                             # a response ends the routine
                             continueRoutine = False
                 
