@@ -1468,7 +1468,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+        routineTimer.reset()  # Reset timer after audio loading to prevent overlap
+
         # --- Run Routine "study_stage" ---
         thisExp.currentRoutine = study_stage
         study_stage.forceEnded = routineForceEnded = not continueRoutine
@@ -1679,6 +1680,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         for thisComponent in study_stage.components:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        win.flip()  # Clear screen buffer before next routine
         # store stop times for study_stage
         study_stage.tStop = globalClock.getTime(format='float')
         study_stage.tStopRefresh = tThisFlipGlobal
@@ -1799,7 +1801,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
-            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -1827,11 +1828,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-
-            # Ensure visual components are hidden before routine starts
-            Fixation.setAutoDraw(False)
-            targetV.setAutoDraw(False)
-            win.flip()  # Clear screen buffer before routine starts
+            routineTimer.reset()  # Reset timer after audio loading to prevent overlap
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -2029,6 +2026,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             for thisComponent in probe.components:
                 if hasattr(thisComponent, "setAutoDraw"):
                     thisComponent.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before next trial
             # store stop times for probe
             probe.tStop = globalClock.getTime(format='float')
             probe.tStopRefresh = tThisFlipGlobal
@@ -2497,7 +2495,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+        routineTimer.reset()  # Reset timer after audio loading to prevent overlap
+
         # --- Run Routine "study_stage" ---
         thisExp.currentRoutine = study_stage
         study_stage.forceEnded = routineForceEnded = not continueRoutine
@@ -2708,6 +2707,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         for thisComponent in study_stage.components:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        win.flip()  # Clear screen buffer before next routine
         # store stop times for study_stage
         study_stage.tStop = globalClock.getTime(format='float')
         study_stage.tStopRefresh = tThisFlipGlobal
@@ -2828,7 +2828,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
-            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -2856,11 +2855,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-
-            # Ensure visual components are hidden before routine starts
-            Fixation.setAutoDraw(False)
-            targetV.setAutoDraw(False)
-            win.flip()  # Clear screen buffer before routine starts
+            routineTimer.reset()  # Reset timer after audio loading to prevent overlap
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -3058,6 +3053,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             for thisComponent in probe.components:
                 if hasattr(thisComponent, "setAutoDraw"):
                     thisComponent.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before next trial
             # store stop times for probe
             probe.tStop = globalClock.getTime(format='float')
             probe.tStopRefresh = tThisFlipGlobal
@@ -3362,7 +3358,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+        routineTimer.reset()  # Reset timer after audio loading to prevent overlap
+
         # --- Run Routine "study_stage" ---
         thisExp.currentRoutine = study_stage
         study_stage.forceEnded = routineForceEnded = not continueRoutine
@@ -3573,6 +3570,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         for thisComponent in study_stage.components:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        win.flip()  # Clear screen buffer before next routine
         # store stop times for study_stage
         study_stage.tStop = globalClock.getTime(format='float')
         study_stage.tStopRefresh = tThisFlipGlobal
@@ -3693,7 +3691,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
-            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -3721,11 +3718,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-
-            # Ensure visual components are hidden before routine starts
-            Fixation.setAutoDraw(False)
-            targetV.setAutoDraw(False)
-            win.flip()  # Clear screen buffer before routine starts
+            routineTimer.reset()  # Reset timer after audio loading to prevent overlap
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -3923,6 +3916,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             for thisComponent in probe.components:
                 if hasattr(thisComponent, "setAutoDraw"):
                     thisComponent.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before next trial
             # store stop times for probe
             probe.tStop = globalClock.getTime(format='float')
             probe.tStopRefresh = tThisFlipGlobal
@@ -4227,7 +4221,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+        routineTimer.reset()  # Reset timer after audio loading to prevent overlap
+
         # --- Run Routine "study_stage" ---
         thisExp.currentRoutine = study_stage
         study_stage.forceEnded = routineForceEnded = not continueRoutine
@@ -4438,6 +4433,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         for thisComponent in study_stage.components:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        win.flip()  # Clear screen buffer before next routine
         # store stop times for study_stage
         study_stage.tStop = globalClock.getTime(format='float')
         study_stage.tStopRefresh = tThisFlipGlobal
@@ -4558,7 +4554,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
-            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -4586,11 +4581,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-
-            # Ensure visual components are hidden before routine starts
-            Fixation.setAutoDraw(False)
-            targetV.setAutoDraw(False)
-            win.flip()  # Clear screen buffer before routine starts
+            routineTimer.reset()  # Reset timer after audio loading to prevent overlap
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -4788,6 +4779,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             for thisComponent in probe.components:
                 if hasattr(thisComponent, "setAutoDraw"):
                     thisComponent.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before next trial
             # store stop times for probe
             probe.tStop = globalClock.getTime(format='float')
             probe.tStopRefresh = tThisFlipGlobal
@@ -4947,7 +4939,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+        routineTimer.reset()  # Reset timer after audio loading to prevent overlap
+
         # --- Run Routine "study_stage" ---
         thisExp.currentRoutine = study_stage
         study_stage.forceEnded = routineForceEnded = not continueRoutine
@@ -5158,6 +5151,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         for thisComponent in study_stage.components:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        win.flip()  # Clear screen buffer before next routine
         # store stop times for study_stage
         study_stage.tStop = globalClock.getTime(format='float')
         study_stage.tStopRefresh = tThisFlipGlobal
@@ -5278,7 +5272,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
-            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -5306,11 +5299,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-
-            # Ensure visual components are hidden before routine starts
-            Fixation.setAutoDraw(False)
-            targetV.setAutoDraw(False)
-            win.flip()  # Clear screen buffer before routine starts
+            routineTimer.reset()  # Reset timer after audio loading to prevent overlap
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -5508,6 +5497,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             for thisComponent in probe.components:
                 if hasattr(thisComponent, "setAutoDraw"):
                     thisComponent.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before next trial
             # store stop times for probe
             probe.tStop = globalClock.getTime(format='float')
             probe.tStopRefresh = tThisFlipGlobal
@@ -5812,7 +5802,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+        routineTimer.reset()  # Reset timer after audio loading to prevent overlap
+
         # --- Run Routine "study_stage" ---
         thisExp.currentRoutine = study_stage
         study_stage.forceEnded = routineForceEnded = not continueRoutine
@@ -6023,6 +6014,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         for thisComponent in study_stage.components:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        win.flip()  # Clear screen buffer before next routine
         # store stop times for study_stage
         study_stage.tStop = globalClock.getTime(format='float')
         study_stage.tStopRefresh = tThisFlipGlobal
@@ -6143,7 +6135,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
-            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -6171,11 +6162,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-
-            # Ensure visual components are hidden before routine starts
-            Fixation.setAutoDraw(False)
-            targetV.setAutoDraw(False)
-            win.flip()  # Clear screen buffer before routine starts
+            routineTimer.reset()  # Reset timer after audio loading to prevent overlap
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -6373,6 +6360,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             for thisComponent in probe.components:
                 if hasattr(thisComponent, "setAutoDraw"):
                     thisComponent.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before next trial
             # store stop times for probe
             probe.tStop = globalClock.getTime(format='float')
             probe.tStopRefresh = tThisFlipGlobal
@@ -6677,7 +6665,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         t = 0
         _timeToFirstFrame = win.getFutureFlipTime(clock="now")
         frameN = -1
-        
+        routineTimer.reset()  # Reset timer after audio loading to prevent overlap
+
         # --- Run Routine "study_stage" ---
         thisExp.currentRoutine = study_stage
         study_stage.forceEnded = routineForceEnded = not continueRoutine
@@ -6888,6 +6877,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         for thisComponent in study_stage.components:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
+        win.flip()  # Clear screen buffer before next routine
         # store stop times for study_stage
         study_stage.tStop = globalClock.getTime(format='float')
         study_stage.tStopRefresh = tThisFlipGlobal
@@ -7008,7 +6998,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
-            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -7036,11 +7025,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             t = 0
             _timeToFirstFrame = win.getFutureFlipTime(clock="now")
             frameN = -1
-
-            # Ensure visual components are hidden before routine starts
-            Fixation.setAutoDraw(False)
-            targetV.setAutoDraw(False)
-            win.flip()  # Clear screen buffer before routine starts
+            routineTimer.reset()  # Reset timer after audio loading to prevent overlap
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -7238,6 +7223,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             for thisComponent in probe.components:
                 if hasattr(thisComponent, "setAutoDraw"):
                     thisComponent.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before next trial
             # store stop times for probe
             probe.tStop = globalClock.getTime(format='float')
             probe.tStopRefresh = tThisFlipGlobal
