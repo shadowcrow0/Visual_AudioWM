@@ -90,34 +90,6 @@ def get_probe_types(targetCol, targetAud, trial_data):
 
     return col_type, aud_type
 
-def generate_stratified_conditions():
-    """Generate 9 stratified probe conditions with guaranteed proportions.
-
-    Distribution:
-    - AA (conditions 0,1): 2 trials (22%)
-    - HA (conditions 2,3): 1 trial (11%)
-    - LA (conditions 4,5): 1 trial (11%)
-    - AH (conditions 6,7): 1 trial (11%)
-    - AL (conditions 12,13): 1 trial (11%)
-    - HH/LH/HL/LL (conditions 8-11, 14-17): 3 trials (33%)
-    """
-    conditions = []
-    # AA: 2 trials (25% target)
-    conditions.extend([np.random.choice([0, 1]) for _ in range(2)])
-    # HA: 1 trial
-    conditions.append(np.random.choice([2, 3]))
-    # LA: 1 trial
-    conditions.append(np.random.choice([4, 5]))
-    # AH: 1 trial
-    conditions.append(np.random.choice([6, 7]))
-    # AL: 1 trial
-    conditions.append(np.random.choice([12, 13]))
-    # HH/LH/HL/LL: 3 trials (split among 8 conditions)
-    conditions.extend([np.random.choice([8, 9, 10, 11, 14, 15, 16, 17]) for _ in range(3)])
-    # Shuffle to randomize order
-    np.random.shuffle(conditions)
-    return conditions
-
 # Load rules at startup
 _rule_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'rule.csv')
 FEEDBACK_RULES = load_rules(_rule_path)
@@ -1218,9 +1190,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -1365,9 +1337,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -1669,9 +1641,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -1720,21 +1692,17 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-
-        # Generate stratified conditions for 9 probe trials
-        probe_conditions = generate_stratified_conditions()
-        probe_idx = 0
-
+        
         # set up handler to look after randomisation of conditions etc
         inner = data.TrialHandler2(
             name='inner',
-            nReps=9,
-            method='random',
-            extraInfo=expInfo,
-            originPath=-1,
-            trialList=[None],
-            seed=None,
-            isTrials=True,
+            nReps=9, 
+            method='random', 
+            extraInfo=expInfo, 
+            originPath=-1, 
+            trialList=[None], 
+            seed=None, 
+            isTrials=True, 
         )
         thisExp.addLoop(inner)  # add the loop to the experiment
         thisInner = inner.trialList[0]  # so we can initialise stimuli with some values
@@ -1770,9 +1738,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            # Use pre-generated stratified condition
-            condition = probe_conditions[probe_idx]
-            probe_idx += 1
+            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -2018,9 +1985,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                # check for quit (typically the Esc key)
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -2202,9 +2169,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         answer.status = FINISHED
                         answer.setAutoDraw(False)
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                # check for quit (typically the Esc key)
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -2393,9 +2360,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -2697,9 +2664,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -2748,11 +2715,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-
-        # Generate stratified conditions for 9 probe trials
-        probe_conditions = generate_stratified_conditions()
-        probe_idx = 0
-
+        
         # set up handler to look after randomisation of conditions etc
         SFT1 = data.TrialHandler2(
             name='SFT1',
@@ -2798,9 +2761,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            # Use pre-generated stratified condition
-            condition = probe_conditions[probe_idx]
-            probe_idx += 1
+            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -3046,9 +3008,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                # check for quit (typically the Esc key)
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -3257,9 +3219,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -3561,9 +3523,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -3612,11 +3574,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-
-        # Generate stratified conditions for 9 probe trials
-        probe_conditions = generate_stratified_conditions()
-        probe_idx = 0
-
+        
         # set up handler to look after randomisation of conditions etc
         SFT_2 = data.TrialHandler2(
             name='SFT_2',
@@ -3624,8 +3582,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             method='random',
             extraInfo=expInfo,
             originPath=-1,
-            trialList=[None],
-            seed=None,
+            trialList=data.importConditions('block2.csv'),
+            seed=45,
             isTrials=True,
         )
         thisExp.addLoop(SFT_2)  # add the loop to the experiment
@@ -3662,9 +3620,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            # Use pre-generated stratified condition
-            condition = probe_conditions[probe_idx]
-            probe_idx += 1
+            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -3910,9 +3867,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                # check for quit (typically the Esc key)
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -4121,9 +4078,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -4425,9 +4382,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -4476,11 +4433,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-
-        # Generate stratified conditions for 9 probe trials
-        probe_conditions = generate_stratified_conditions()
-        probe_idx = 0
-
+        
         # set up handler to look after randomisation of conditions etc
         SFT_3 = data.TrialHandler2(
             name='SFT_3',
@@ -4488,8 +4441,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             method='random',
             extraInfo=expInfo,
             originPath=-1,
-            trialList=[None],
-            seed=None,
+            trialList=data.importConditions('block3.csv'),
+            seed=45,
             isTrials=True,
         )
         thisExp.addLoop(SFT_3)  # add the loop to the experiment
@@ -4526,9 +4479,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            # Use pre-generated stratified condition
-            condition = probe_conditions[probe_idx]
-            probe_idx += 1
+            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -4774,9 +4726,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                # check for quit (typically the Esc key)
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -5144,9 +5096,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -5195,11 +5147,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-
-        # Generate stratified conditions for 9 probe trials
-        probe_conditions = generate_stratified_conditions()
-        probe_idx = 0
-
+        
         # set up handler to look after randomisation of conditions etc
         SFT_4 = data.TrialHandler2(
             name='SFT_4',
@@ -5207,8 +5155,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             method='random',
             extraInfo=expInfo,
             originPath=-1,
-            trialList=[None],
-            seed=None,
+            trialList=data.importConditions('block4.csv'),
+            seed=45,
             isTrials=True,
         )
         thisExp.addLoop(SFT_4)  # add the loop to the experiment
@@ -5245,9 +5193,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            # Use pre-generated stratified condition
-            condition = probe_conditions[probe_idx]
-            probe_idx += 1
+            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -5493,9 +5440,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                # check for quit (typically the Esc key)
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -5704,9 +5651,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -6008,9 +5955,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -6059,11 +6006,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-
-        # Generate stratified conditions for 9 probe trials
-        probe_conditions = generate_stratified_conditions()
-        probe_idx = 0
-
+        
         # set up handler to look after randomisation of conditions etc
         SFT_5 = data.TrialHandler2(
             name='SFT_5',
@@ -6071,8 +6014,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             method='random',
             extraInfo=expInfo,
             originPath=-1,
-            trialList=[None],
-            seed=None,
+            trialList=data.importConditions('block5.csv'),
+            seed=45,
             isTrials=True,
         )
         thisExp.addLoop(SFT_5)  # add the loop to the experiment
@@ -6109,9 +6052,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            # Use pre-generated stratified condition
-            condition = probe_conditions[probe_idx]
-            probe_idx += 1
+            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -6357,9 +6299,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                # check for quit (typically the Esc key)
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -6568,9 +6510,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -6872,9 +6814,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -6923,11 +6865,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             routineTimer.reset()
         else:
             routineTimer.addTime(-4.300000)
-
-        # Generate stratified conditions for 9 probe trials
-        probe_conditions = generate_stratified_conditions()
-        probe_idx = 0
-
+        
         # set up handler to look after randomisation of conditions etc
         SFT_6 = data.TrialHandler2(
             name='SFT_6',
@@ -6935,8 +6873,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             method='random',
             extraInfo=expInfo,
             originPath=-1,
-            trialList=[None],
-            seed=None,
+            trialList=data.importConditions('block6.csv'),
+            seed=45,
             isTrials=True,
         )
         thisExp.addLoop(SFT_6)  # add the loop to the experiment
@@ -6973,9 +6911,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             continueRoutine = True
             # update component parameters for each repeat
             # Run 'Begin Routine' code from ProbeCode
-            # Use pre-generated stratified condition
-            condition = probe_conditions[probe_idx]
-            probe_idx += 1
+            condition = np.random.choice([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+            p = [.125,.125,.0625,.0625,.0625,.0625,.0625,.0625,.03125,.03125,.03125,.03125,.0625,.0625,.03125,.03125,.03125,.03125])
             #AX AX= color, XA= audio
             #AA=0 HA =1 LA = 2
             #AH=3 HH=4 LH=5
@@ -7221,9 +7158,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                # check for quit (typically the Esc key)
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -7432,9 +7369,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        # check for quit (typically the Esc key)
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
