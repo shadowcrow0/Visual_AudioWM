@@ -1842,6 +1842,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -2855,6 +2856,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -3712,6 +3714,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -4570,6 +4573,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -4843,7 +4847,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=[None], 
+        trialList=['stimuli/block4.csv'], 
         seed=45, 
         isTrials=True, 
     )
@@ -5282,6 +5286,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -5700,7 +5705,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=[None], 
+        trialList=['stimuli/block5.csv'], 
         seed=45, 
         isTrials=True, 
     )
@@ -6139,6 +6144,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -6557,7 +6563,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=[None], 
+        trialList=['stimuli/block6.csv'], 
         seed=45, 
         isTrials=True, 
     )
@@ -6996,6 +7002,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe

@@ -1831,6 +1831,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -2859,6 +2860,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -3723,6 +3725,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -4587,6 +4590,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -5306,6 +5310,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -6170,6 +6175,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
@@ -7034,6 +7040,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # Ensure visual components are hidden before routine starts
             Fixation.setAutoDraw(False)
             targetV.setAutoDraw(False)
+            win.flip()  # Clear screen buffer before routine starts
 
             # --- Run Routine "probe" ---
             thisExp.currentRoutine = probe
