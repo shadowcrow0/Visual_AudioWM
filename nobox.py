@@ -1198,8 +1198,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 continueRoutine = False
         
         # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+        thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -1345,8 +1345,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 continueRoutine = False
         
         # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+        thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -1649,8 +1649,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.stop()
             
             # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -1985,8 +1985,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continueRoutine = False
                 
                 # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -2162,8 +2162,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         answer.setAutoDraw(False)
                 
                 # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -2353,8 +2353,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 continueRoutine = False
         
         # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+        thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -2657,8 +2657,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.stop()
             
             # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -2993,8 +2993,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continueRoutine = False
                 
                 # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -3204,8 +3204,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 continueRoutine = False
         
         # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+        thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -3508,8 +3508,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.stop()
             
             # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -3845,8 +3845,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continueRoutine = False
                 
                 # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -4056,8 +4056,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 continueRoutine = False
         
         # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+        thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -4360,8 +4360,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.stop()
             
             # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -4698,8 +4698,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continueRoutine = False
                 
                 # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -5068,8 +5068,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.stop()
             
             # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -5405,8 +5405,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continueRoutine = False
                 
                 # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -5616,8 +5616,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 continueRoutine = False
         
         # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+        thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -5920,8 +5920,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.stop()
             
             # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -6257,8 +6257,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continueRoutine = False
                 
                 # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -6468,8 +6468,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 continueRoutine = False
         
         # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+        thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -6772,8 +6772,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.stop()
             
             # ESC key check disabled - experiment cannot be aborted by ESC
-            # if defaultKeyboard.getKeys(keyList=["escape"]):
-            #     thisExp.status = FINISHED
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+            thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -7109,8 +7109,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continueRoutine = False
                 
                 # ESC key check disabled - experiment cannot be aborted by ESC
-                # if defaultKeyboard.getKeys(keyList=["escape"]):
-                #     thisExp.status = FINISHED
+                if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -7320,8 +7320,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 continueRoutine = False
         
         # ESC key check disabled - experiment cannot be aborted by ESC
-        # if defaultKeyboard.getKeys(keyList=["escape"]):
-        #     thisExp.status = FINISHED
+        if defaultKeyboard.getKeys(keyList=["escape"]):
+        thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
