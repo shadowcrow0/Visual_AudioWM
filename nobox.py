@@ -393,7 +393,7 @@ def pauseExperiment(thisExp, win=None, timers=[], currentRoutine=None):
     # run a while loop while we wait to unpause
     while thisExp.status == PAUSED:
         # check for quit (typically the Esc key)
-        if defaultKeyboard.getKeys(keyList=['l']):
+        if defaultKeyboard.getKeys(keyList=['escape']):
             endExperiment(thisExp, win=win)
         # dispatch messages on response components
         if currentRoutine is not None:
@@ -1197,9 +1197,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
+        # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
-        thisExp.status = FINISHED
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -1344,9 +1344,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
+        # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
-        thisExp.status = FINISHED
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -1648,9 +1648,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
+            # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
-            thisExp.status = FINISHED
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -1810,6 +1810,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -1984,9 +1985,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
+                # check for quit (typically the Esc key)
                 if defaultKeyboard.getKeys(keyList=["escape"]):
-                thisExp.status = FINISHED
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -2161,9 +2162,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         answer.status = FINISHED
                         answer.setAutoDraw(False)
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
+                # check for quit (typically the Esc key)
                 if defaultKeyboard.getKeys(keyList=["escape"]):
-                thisExp.status = FINISHED
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -2352,9 +2353,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
+        # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
-        thisExp.status = FINISHED
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -2656,9 +2657,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
+            # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
-            thisExp.status = FINISHED
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -2818,6 +2819,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -2992,9 +2994,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
+                # check for quit (typically the Esc key)
                 if defaultKeyboard.getKeys(keyList=["escape"]):
-                thisExp.status = FINISHED
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -3203,9 +3205,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
+        # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
-        thisExp.status = FINISHED
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -3507,9 +3509,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
+            # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
-            thisExp.status = FINISHED
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -3670,6 +3672,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -3844,9 +3847,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
+                # check for quit (typically the Esc key)
                 if defaultKeyboard.getKeys(keyList=["escape"]):
-                thisExp.status = FINISHED
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -4055,9 +4058,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
+        # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
-        thisExp.status = FINISHED
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -4359,9 +4362,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
+            # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
-            thisExp.status = FINISHED
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -4523,6 +4526,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -4697,9 +4701,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
+                # check for quit (typically the Esc key)
                 if defaultKeyboard.getKeys(keyList=["escape"]):
-                thisExp.status = FINISHED
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -4823,7 +4827,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('stimuli/block4.csv'), 
+        trialList=[None], 
         seed=45, 
         isTrials=True, 
     )
@@ -5067,9 +5071,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
+            # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
-            thisExp.status = FINISHED
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -5230,6 +5234,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -5404,9 +5409,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
+                # check for quit (typically the Esc key)
                 if defaultKeyboard.getKeys(keyList=["escape"]):
-                thisExp.status = FINISHED
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -5615,9 +5620,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
+        # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
-        thisExp.status = FINISHED
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -5675,7 +5680,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('stimuli/block5.csv'), 
+        trialList=[None], 
         seed=45, 
         isTrials=True, 
     )
@@ -5919,9 +5924,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
+            # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
-            thisExp.status = FINISHED
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -6082,6 +6087,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -6256,9 +6262,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
+                # check for quit (typically the Esc key)
                 if defaultKeyboard.getKeys(keyList=["escape"]):
-                thisExp.status = FINISHED
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -6467,9 +6473,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
+        # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
-        thisExp.status = FINISHED
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return
@@ -6527,7 +6533,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         method='random', 
         extraInfo=expInfo, 
         originPath=-1, 
-        trialList=data.importConditions('stimuli/block6.csv'), 
+        trialList=[None], 
         seed=45, 
         isTrials=True, 
     )
@@ -6771,9 +6777,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     audi2.status = FINISHED
                     audi2.stop()
             
-            # ESC key check disabled - experiment cannot be aborted by ESC
+            # check for quit (typically the Esc key)
             if defaultKeyboard.getKeys(keyList=["escape"]):
-            thisExp.status = FINISHED
+                thisExp.status = FINISHED
             if thisExp.status == FINISHED or endExpNow:
                 endExperiment(thisExp, win=win)
                 return
@@ -6934,6 +6940,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -7108,9 +7115,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # a response ends the routine
                             continueRoutine = False
                 
-                # ESC key check disabled - experiment cannot be aborted by ESC
+                # check for quit (typically the Esc key)
                 if defaultKeyboard.getKeys(keyList=["escape"]):
-                thisExp.status = FINISHED
+                    thisExp.status = FINISHED
                 if thisExp.status == FINISHED or endExpNow:
                     endExperiment(thisExp, win=win)
                     return
@@ -7319,9 +7326,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # a response ends the routine
                 continueRoutine = False
         
-        # ESC key check disabled - experiment cannot be aborted by ESC
+        # check for quit (typically the Esc key)
         if defaultKeyboard.getKeys(keyList=["escape"]):
-        thisExp.status = FINISHED
+            thisExp.status = FINISHED
         if thisExp.status == FINISHED or endExpNow:
             endExperiment(thisExp, win=win)
             return

@@ -1799,6 +1799,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -2822,6 +2823,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -3681,6 +3683,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -4540,6 +4543,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -5254,6 +5258,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -6113,6 +6118,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
@@ -6972,6 +6978,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 targetCol = color2_L
                 targetAud = audio2_L_file
             
+            targetV.setAutoDraw(False)  # ensure target is hidden during fixation
             targetV.setFillColor(targetCol)
             targetV.setPos((0,0))
             targetA.setSound(targetAud, secs=1, hamming=True)
