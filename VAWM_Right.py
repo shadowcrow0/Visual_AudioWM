@@ -1553,7 +1553,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # *stim1* updates
             
             # if stim1 is starting this frame...
-            if stim1.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+            if stim1.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                 # keep track of start time/frame for later
                 stim1.frameNStart = frameN  # exact frame index
                 stim1.tStart = t  # local t and not account for scr refresh
@@ -1917,7 +1917,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetV* updates
                 
                 # if targetV is starting this frame...
-                if targetV.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetV.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetV.frameNStart = frameN  # exact frame index
                     targetV.tStart = t  # local t and not account for scr refresh
@@ -1951,7 +1951,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetA* updates
                 
                 # if targetA is starting this frame...
-                if targetA.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetA.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetA.frameNStart = frameN  # exact frame index
                     targetA.tStart = t  # local t and not account for scr refresh
@@ -2578,7 +2578,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # *stim1* updates
             
             # if stim1 is starting this frame...
-            if stim1.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+            if stim1.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                 # keep track of start time/frame for later
                 stim1.frameNStart = frameN  # exact frame index
                 stim1.tStart = t  # local t and not account for scr refresh
@@ -2942,7 +2942,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetV* updates
                 
                 # if targetV is starting this frame...
-                if targetV.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetV.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetV.frameNStart = frameN  # exact frame index
                     targetV.tStart = t  # local t and not account for scr refresh
@@ -2976,7 +2976,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetA* updates
                 
                 # if targetA is starting this frame...
-                if targetA.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetA.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetA.frameNStart = frameN  # exact frame index
                     targetA.tStart = t  # local t and not account for scr refresh
@@ -3452,7 +3452,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # *stim1* updates
             
             # if stim1 is starting this frame...
-            if stim1.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+            if stim1.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                 # keep track of start time/frame for later
                 stim1.frameNStart = frameN  # exact frame index
                 stim1.tStart = t  # local t and not account for scr refresh
@@ -3817,7 +3817,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetV* updates
                 
                 # if targetV is starting this frame...
-                if targetV.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetV.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetV.frameNStart = frameN  # exact frame index
                     targetV.tStart = t  # local t and not account for scr refresh
@@ -3851,7 +3851,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetA* updates
                 
                 # if targetA is starting this frame...
-                if targetA.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetA.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetA.frameNStart = frameN  # exact frame index
                     targetA.tStart = t  # local t and not account for scr refresh
@@ -4327,7 +4327,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # *stim1* updates
             
             # if stim1 is starting this frame...
-            if stim1.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+            if stim1.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                 # keep track of start time/frame for later
                 stim1.frameNStart = frameN  # exact frame index
                 stim1.tStart = t  # local t and not account for scr refresh
@@ -4693,7 +4693,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetV* updates
                 
                 # if targetV is starting this frame...
-                if targetV.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetV.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetV.frameNStart = frameN  # exact frame index
                     targetV.tStart = t  # local t and not account for scr refresh
@@ -4727,7 +4727,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetA* updates
                 
                 # if targetA is starting this frame...
-                if targetA.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetA.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetA.frameNStart = frameN  # exact frame index
                     targetA.tStart = t  # local t and not account for scr refresh
@@ -5058,7 +5058,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # *stim1* updates
             
             # if stim1 is starting this frame...
-            if stim1.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+            if stim1.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                 # keep track of start time/frame for later
                 stim1.frameNStart = frameN  # exact frame index
                 stim1.tStart = t  # local t and not account for scr refresh
@@ -5423,7 +5423,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetV* updates
                 
                 # if targetV is starting this frame...
-                if targetV.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetV.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetV.frameNStart = frameN  # exact frame index
                     targetV.tStart = t  # local t and not account for scr refresh
@@ -5457,7 +5457,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetA* updates
                 
                 # if targetA is starting this frame...
-                if targetA.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetA.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetA.frameNStart = frameN  # exact frame index
                     targetA.tStart = t  # local t and not account for scr refresh
@@ -5933,7 +5933,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             # *stim1* updates
             
             # if stim1 is starting this frame...
-            if stim1.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+            if stim1.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                 # keep track of start time/frame for later
                 stim1.frameNStart = frameN  # exact frame index
                 stim1.tStart = t  # local t and not account for scr refresh
@@ -6298,7 +6298,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetV* updates
                 
                 # if targetV is starting this frame...
-                if targetV.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetV.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetV.frameNStart = frameN  # exact frame index
                     targetV.tStart = t  # local t and not account for scr refresh
@@ -6332,7 +6332,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # *targetA* updates
                 
                 # if targetA is starting this frame...
-                if targetA.status == NOT_STARTED and tThisFlip >= .3-frameTolerance:
+                if targetA.status == NOT_STARTED and tThisFlip >= .317-frameTolerance:
                     # keep track of start time/frame for later
                     targetA.frameNStart = frameN  # exact frame index
                     targetA.tStart = t  # local t and not account for scr refresh
