@@ -1986,7 +1986,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
+                    ResponseBox.reset_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -3011,7 +3011,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
+                    ResponseBox.reset_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -3886,7 +3886,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
+                    ResponseBox.reset_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -4762,7 +4762,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
+                    ResponseBox.reset_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -5492,7 +5492,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
+                    ResponseBox.reset_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -6367,7 +6367,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
+                    ResponseBox.reset_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
