@@ -1986,7 +1986,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.clock.reset()  # now t=0
+                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -2014,7 +2014,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continue  # we don't care about this key
                         if evt['pressed']:
                           theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
+                          theseRTs.append(evt['time'] / 1000.0)  # Use Cedrus hardware timestamp (ms -> sec)
                         ResponseBox.poll_for_response()
                     ResponseBox.clear_response_queue()  # don't process again
                     if len(theseKeys) > 0:  # at least one key was pressed
@@ -3011,7 +3011,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.clock.reset()  # now t=0
+                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -3039,7 +3039,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continue  # we don't care about this key
                         if evt['pressed']:
                           theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
+                          theseRTs.append(evt['time'] / 1000.0)  # Use Cedrus hardware timestamp (ms -> sec)
                         ResponseBox.poll_for_response()
                     ResponseBox.clear_response_queue()  # don't process again
                     if len(theseKeys) > 0:  # at least one key was pressed
@@ -3886,7 +3886,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.clock.reset()  # now t=0
+                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -3914,7 +3914,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continue  # we don't care about this key
                         if evt['pressed']:
                           theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
+                          theseRTs.append(evt['time'] / 1000.0)  # Use Cedrus hardware timestamp (ms -> sec)
                         ResponseBox.poll_for_response()
                     ResponseBox.clear_response_queue()  # don't process again
                     if len(theseKeys) > 0:  # at least one key was pressed
@@ -4762,7 +4762,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.clock.reset()  # now t=0
+                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -4790,7 +4790,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continue  # we don't care about this key
                         if evt['pressed']:
                           theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
+                          theseRTs.append(evt['time'] / 1000.0)  # Use Cedrus hardware timestamp (ms -> sec)
                         ResponseBox.poll_for_response()
                     ResponseBox.clear_response_queue()  # don't process again
                     if len(theseKeys) > 0:  # at least one key was pressed
@@ -5492,7 +5492,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.clock.reset()  # now t=0
+                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -5520,7 +5520,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continue  # we don't care about this key
                         if evt['pressed']:
                           theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
+                          theseRTs.append(evt['time'] / 1000.0)  # Use Cedrus hardware timestamp (ms -> sec)
                         ResponseBox.poll_for_response()
                     ResponseBox.clear_response_queue()  # don't process again
                     if len(theseKeys) > 0:  # at least one key was pressed
@@ -6367,7 +6367,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.timeOnFlip(ResponseBox, 'tStartRefresh')  # time at next scr refresh
                     # update status
                     ResponseBox.status = STARTED
-                    ResponseBox.clock.reset()  # now t=0
+                    ResponseBox.reset_rt_timer()  # Reset Cedrus hardware timer
                     # clear ResponseBox responses (in a loop - the Cedrus own function doesn't work well)
                     ResponseBox.poll_for_response()
                     while len(ResponseBox.response_queue):
@@ -6395,7 +6395,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             continue  # we don't care about this key
                         if evt['pressed']:
                           theseKeys.append(evt['key'])
-                          theseRTs.append(ResponseBox.clock.getTime())
+                          theseRTs.append(evt['time'] / 1000.0)  # Use Cedrus hardware timestamp (ms -> sec)
                         ResponseBox.poll_for_response()
                     ResponseBox.clear_response_queue()  # don't process again
                     if len(theseKeys) > 0:  # at least one key was pressed
