@@ -2,11 +2,15 @@
 完整刺激產生 pipeline
 - 18 talkers (3 base voices × 6 VTL/F0 combos)
 - 所有 confusion_analysis.csv 裡的子音
+- 音節結構為 /Cɜ/（子音 + rhotic 央元音 [ɜ]，MBROLA symbol 'r='）
+- 每個 phone 都明確標註起訖音高 anchor，強制全程 F0 保持平坦，
+  避免不同子音（尤其濁/清子音）因為沒有明確音高標記而在銜接處出現
+  忽平忽揚的不一致（先前 p3.wav/b3.wav 測試就發現這個問題）
 - 輸出 PsychoPy conditions.csv
 
 使用方式：
   sudo apt-get install mbrola mbrola-us1 mbrola-us2 mbrola-us3
-  python generate_all_stimuli.py
+  python GetAudioStim.py
 """
 
 import subprocess
@@ -67,7 +71,7 @@ CONS_SAMPA = {
 SPEED_FACTOR = 1  # 1.0 = 原速, >1.0 = 較慢, <1.0 = 較快
 
 # ── 延長控制 ──
-FIRST_VOWEL_FACTOR = 1.5   # 第一個母音延長倍數 (1.5 = 延長 50%)
+VOWEL_STRESS_FACTOR = 1.5  # /Cɜ/ 只有一個母音，延長讓子音的辨識線索更清楚
 CONSONANT_FACTOR = 1.5     # 子音延長倍數 (1.5 = 延長 50%)
 
 # 基礎子音長度 (ms)，會乘上 SPEED_FACTOR 和 CONSONANT_FACTOR
@@ -81,13 +85,15 @@ _BASE_CONS_DUR = {
 }
 CONS_DURATIONS = {k: int(v * SPEED_FACTOR * CONSONANT_FACTOR) for k, v in _BASE_CONS_DUR.items()}
 
-# 基礎母音長度 (ms)
+# 母音 [ɜ] 長度 (ms)
 BASE_VOWEL_DUR = 250
-VOWEL_DUR = int(BASE_VOWEL_DUR * SPEED_FACTOR)  # 第二個母音長度
-FIRST_VOWEL_DUR = int(BASE_VOWEL_DUR * SPEED_FACTOR * FIRST_VOWEL_FACTOR)  # 第一個母音延長
+VOWEL_DUR = int(BASE_VOWEL_DUR * SPEED_FACTOR * VOWEL_STRESS_FACTOR)
 
 # 前後靜音 (ms)
 SILENCE_DUR = int(50 * SPEED_FACTOR)  # 75ms at 1.5x
+
+# MBROLA 音素符號：rhotic 央元音 [ɜ]（美式 us1/us2/us3 資料庫裡的 syllabic r）
+VOWEL_SAMPA = "r="
 
 
 # ══════════════════════════════════════════════
@@ -115,37 +121,35 @@ def build_talkers():
 #  PHO 產生 + 合成
 # ══════════════════════════════════════════════
 
-def make_pho(cons_sampa, base_pitch, first_vowel_dur=None, second_vowel_dur=None):
-    """產生 /aCa/ 的 .pho，平坦 F0 + gentle declination
+def make_pho(cons_sampa, base_pitch, vowel_dur=None):
+    """產生 /Cɜ/ 的 .pho，全程 F0 完全平坦（不升不降）
+
+    每個 phone（子音、母音都算）都在起訖各給同一個音高 anchor，
+    才能保證清子音／濁子音銜接到母音時 MBROLA 不會用各自 diphone
+    的天然音高去內插出忽平忽揚的輪廓。
 
     Args:
         cons_sampa: MBROLA SAMPA 格式的子音 (e.g., 'p', 'T', 'S')
-        base_pitch: 基頻 (Hz)
-        first_vowel_dur: 第一個母音長度 (ms)，預設使用 FIRST_VOWEL_DUR
-        second_vowel_dur: 第二個母音長度 (ms)，預設使用 VOWEL_DUR
+        base_pitch: 基頻 (Hz)，全程固定
+        vowel_dur: 母音長度 (ms)，預設使用 VOWEL_DUR
     """
-    if first_vowel_dur is None:
-        first_vowel_dur = FIRST_VOWEL_DUR
-    if second_vowel_dur is None:
-        second_vowel_dur = VOWEL_DUR
+    if vowel_dur is None:
+        vowel_dur = VOWEL_DUR
     cons_dur = CONS_DURATIONS.get(cons_sampa, int(100 * SPEED_FACTOR * CONSONANT_FACTOR))
 
-    # 平坦微降 F0：模擬自然 declination
-    p1 = base_pitch
-    p2 = int(base_pitch * 0.93)
-    # 第二個母音略短（final shortening ~10%）
-    vowel_dur2 = int(second_vowel_dur * 0.9)
+    def flat(dur):
+        return f"(0,{base_pitch}) (100,{base_pitch})"
 
     if cons_sampa in ('tS', 'dZ'):
-        cons_line = f"{cons_sampa[0]} {cons_dur // 2}\n{cons_sampa[1]} {cons_dur // 2}"
+        d1, d2 = cons_dur // 2, cons_dur // 2
+        cons_line = f"{cons_sampa[0]} {d1} {flat(d1)}\n{cons_sampa[1]} {d2} {flat(d2)}"
     else:
-        cons_line = f"{cons_sampa} {cons_dur}"
+        cons_line = f"{cons_sampa} {cons_dur} {flat(cons_dur)}"
 
     return (
         f"_ {SILENCE_DUR}\n"
-        f"A {first_vowel_dur} (50, {p1})\n"
         f"{cons_line}\n"
-        f"A {vowel_dur2} (50, {p2})\n"
+        f"{VOWEL_SAMPA} {vowel_dur} {flat(vowel_dur)}\n"
         f"_ {SILENCE_DUR}\n"
     )
 
@@ -211,7 +215,7 @@ def main():
     for t in talkers:
         print(f"  {t['id']}: {t['voice']} vf={t['voice_freq']} fr={t['pitch_ratio']:.2f}")
 
-    # 4. 產生所有 wav（扁平結構：T01_apa.wav）
+    # 4. 產生所有 wav（扁平結構：T01_p3.wav，代表 /pɜ/）
     wav_dir = "stimuli"
     os.makedirs(wav_dir, exist_ok=True)
     total_files = len(all_cons) * len(talkers)
@@ -228,7 +232,7 @@ def main():
                 continue
 
             sampa = CONS_SAMPA[cons_name]
-            wav_path = os.path.join(wav_dir, f"{tid}_a{cons_name}a.wav")
+            wav_path = os.path.join(wav_dir, f"{tid}_{cons_name}3.wav")
 
             ok, err = synthesize(sampa, talker, wav_path)
             if ok:
@@ -262,8 +266,8 @@ def main():
 
             for talker in talkers:
                 tid = talker['id']
-                sound_file = f"{tid}_a{sound}a.wav"
-                target_file = f"{tid}_a{target}a.wav"
+                sound_file = f"{tid}_{sound}3.wav"
+                target_file = f"{tid}_{target}3.wav"
 
                 writer.writerow({
                     'sound': sound,
@@ -321,9 +325,9 @@ PsychoPy 設定：
   stimuli/
     conditions.csv      ← PsychoPy loop 讀這個
     talker_info.csv     ← talker 參數對照表
-    T01_apa.wav         ← 扁平檔名：{talker}_{sound}.wav
-    T01_aba.wav
-    T02_apa.wav
+    T01_p3.wav          ← 扁平檔名：{{talker}}_{{cons}}3.wav，音節為 /Cɜ/
+    T01_b3.wav
+    T02_p3.wav
     ...
 """)
 
@@ -393,9 +397,9 @@ def generate_155_trials(rows, talkers, output_path="stimuli/audio_155trials.csv"
             'target_talker': talker_id,
             'H_talker': talker_id,
             'L_talker': talker_id,
-            'target_file': f"stimuli/{talker_id}_a{sound}a.wav",
-            'H_file': f"stimuli/{talker_id}_a{h_choice['target']}a.wav",
-            'L_file': f"stimuli/{talker_id}_a{l_choice['target']}a.wav",
+            'target_file': f"stimuli/{talker_id}_{sound}3.wav",
+            'H_file': f"stimuli/{talker_id}_{h_choice['target']}3.wav",
+            'L_file': f"stimuli/{talker_id}_{l_choice['target']}3.wav",
         }
 
     # 產生 155 組雙音訊配對
