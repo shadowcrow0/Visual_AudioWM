@@ -121,7 +121,7 @@ def build_talkers():
 #  PHO 產生 + 合成
 # ══════════════════════════════════════════════
 
-def make_pho(cons_sampa, base_pitch, vowel_dur=None):
+def make_pho(cons_sampa, base_pitch, vowel_dur=None, consonant_factor=1.0):
     """產生 /Cɜ/ 的 .pho，全程 F0 完全平坦（不升不降）
 
     每個 phone（子音、母音都算）都在起訖各給同一個音高 anchor，
@@ -132,10 +132,11 @@ def make_pho(cons_sampa, base_pitch, vowel_dur=None):
         cons_sampa: MBROLA SAMPA 格式的子音 (e.g., 'p', 'T', 'S')
         base_pitch: 基頻 (Hz)，全程固定
         vowel_dur: 母音長度 (ms)，預設使用 VOWEL_DUR
+        consonant_factor: 子音時長倍數 (1.0=基準, <1.0=縮短, >1.0=延長)，用於 adaptive 實驗
     """
     if vowel_dur is None:
         vowel_dur = VOWEL_DUR
-    cons_dur = CONS_DURATIONS.get(cons_sampa, int(100 * SPEED_FACTOR * CONSONANT_FACTOR))
+    cons_dur = int(CONS_DURATIONS.get(cons_sampa, int(100 * SPEED_FACTOR * CONSONANT_FACTOR)) * consonant_factor)
 
     def flat(dur):
         return f"(0,{base_pitch}) (100,{base_pitch})"
@@ -154,10 +155,17 @@ def make_pho(cons_sampa, base_pitch, vowel_dur=None):
     )
 
 
-def synthesize(cons_sampa, talker, output_wav):
-    """用 MBROLA 合成一個 /aCa/"""
+def synthesize(cons_sampa, talker, output_wav, consonant_factor=1.0):
+    """用 MBROLA 合成一個 /Cɜ/
+
+    Args:
+        cons_sampa: 子音 (e.g., 'p', 'b')
+        talker: talker 字典
+        output_wav: 輸出 WAV 路徑
+        consonant_factor: 子音時長倍數，用於 adaptive 實驗
+    """
     cfg = VOICES[talker['voice']]
-    pho_content = make_pho(cons_sampa, cfg['base_pitch'])
+    pho_content = make_pho(cons_sampa, cfg['base_pitch'], consonant_factor=consonant_factor)
     pho_file = "/tmp/_gen_stim.pho"
 
     with open(pho_file, "w") as f:
