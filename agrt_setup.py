@@ -219,13 +219,30 @@ def arc_range_in_gamut():
     return (_ARC_GAMUT_MIN, _ARC_GAMUT_MAX)
 
 
+# AGRT 推導 beta(知覺標準差)搜尋上限時用的除數。出處是 AGRT.py 的
+#   dim1betaRange = [0, (np.average(dim1range) - dim1range[0]) / (sqrt(2)*erfinv(...))]
+# 分子 np.average(dim1range) - dim1range[0] 是「半範圍」,不是全範圍。
+# 分母在 lapse=0.08 時等於 2.3107。
+BETA_MAX_DIVISOR = 2.3107
+
+
 def usable_half_length():
     """回傳以錨點為中心、左右對稱且不出色域的最大半長(dE00)。
 
-    AGRT 需要整個範圍大約是「最大合理知覺標準差」的 2.3 倍,
-    所以對稱可用範圍 = 2 * 這個值,能支撐的最大 SD = 2 * 這個值 / 2.3。
+    AGRT 會用「半範圍 / 2.3107」當作 beta(知覺標準差)的搜尋上限,
+    所以能支撐的最大知覺 SD = 這個半長 / 2.3107。
+    注意分子是半範圍 —— 用全範圍去除會把可支撐的 SD 高估一倍。
     """
     return min(-_ARC_GAMUT_MIN, _ARC_GAMUT_MAX)
+
+
+def max_supportable_sd():
+    """回傳這個色彩軸能讓 AGRT 估到的最大知覺標準差(dE00)。
+
+    受試者真實的 SD 若超過這個值,beta 的網格夾不住真值,Psi 會收斂到
+    邊界並給出偏誤的估計 —— 就像量程只到 40 度的溫度計量不出 42 度。
+    """
+    return usable_half_length() / BETA_MAX_DIVISOR
 
 
 def _check_arc(arc):
@@ -453,11 +470,13 @@ def validate():
     half = usable_half_length()
     print(f"以錨點為中心、對稱可用的半長:{half:.4f} dE00"
           f"(對稱總範圍 {2 * half:.4f} dE00)")
-    print(f"AGRT 經驗法則(範圍約需為最大知覺 SD 的 2.3 倍):")
-    print(f"  對稱範圍 {2 * half:.2f} dE00 -> 可支撐的最大知覺 SD 約 "
-          f"{2 * half / 2.3:.2f} dE00")
-    print(f"  非對稱全可用範圍 {_ARC_GAMUT_MAX - _ARC_GAMUT_MIN:.2f} dE00 -> 約 "
-          f"{(_ARC_GAMUT_MAX - _ARC_GAMUT_MIN) / 2.3:.2f} dE00")
+    print(f"AGRT 的 beta 搜尋上限 = 半範圍 / {BETA_MAX_DIVISOR}"
+          f"(源自 AGRT.py 的 np.average(dim1range) - dim1range[0]):")
+    print(f"  半範圍 {half:.2f} dE00 -> 可支撐的最大知覺 SD 約 "
+          f"{max_supportable_sd():.2f} dE00")
+    print(f"  分子是「半範圍」而非全範圍;用全範圍去除會把可支撐的 SD 高估一倍。")
+    print(f"  參考:視覺工作記憶延宕比較的顏色 SD 文獻範圍約 3~8 dE00,"
+          f"因此餘裕{'充足' if max_supportable_sd() >= 8 else '不足'}。")
     n_hex, med_step, max_step = hex_resolution()
     span_g = _ARC_GAMUT_MAX - _ARC_GAMUT_MIN
     print(f"8-bit hex 實際解析度:可用弧段上共 {n_hex} 種相異顏色,"
