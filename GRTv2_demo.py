@@ -268,10 +268,9 @@ def setupDevices(expInfo, thisExp, win):
     # initialize 'Laptop' — 依名稱解析實際存在的輸出裝置,不寫死 index。
     # index 會隨插拔/驅動/列舉順序改變(實測 office=7、home=4;耳機沒插著
     # 該 index 根本不在清單裡),寫死遲早 DeviceNotConnectedError。
-    # 聽覺維度是 SNR:用喇叭播的資料是廢的,所以找不到耳機就開場報錯,
-    # 不靜默退回 —— 錯誤訊息會列出可用裝置與處理方式(見 audio_device.py)。
+    # demo 沒有 SNR 操弄,找不到耳機就退回喇叭(正式版必須 require_headphones=True)。
     from audio_device import setup_speaker
-    setup_speaker(label='Laptop', require_headphones=True)
+    setup_speaker(label='Laptop', require_headphones=False)
     # return True if completed successfully
     return True
 
@@ -392,29 +391,22 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     print(f"width_cm: {m.getWidth()}, dist_cm: {m.getDistance()}")
     print(f"res: {m.getSizePix()}, win: {win.size}")
     text = visual.TextStim(win=win, name='text',
-        text='Welcome, and thank you for taking part.\n\nThis session has two parts: a short calibration, then the main experiment. Please make sure you are wearing the headphones before continuing.\n\nPress the space bar to continue.',
+        text='Welcome, and thank you for taking part.\n\nThis session has two parts: a short calibration,\nthen the main experiment.\n\nPlease make sure you are wearing the headphones.\n\nPress the space bar to continue.',
         font='Arial',
-        pos=(0, 0), draggable=False, height=1.0, wrapWidth=24, ori=0.0,
-        color='white', colorSpace='rgb', opacity=None,
-        languageStyle='LTR', alignText='left', anchorHoriz='center',
+        pos=(0, 0), draggable=False, height=1.0, wrapWidth=None, ori=0.0, 
+        color='white', colorSpace='rgb', opacity=None, 
+        languageStyle='LTR',
         depth=-1.0);
     key_resp = keyboard.Keyboard(deviceName='defaultKeyboard')
     
     # --- Initialize components for Routine "instruction_normal" ---
     instruction_normal_text = visual.TextStim(win=win, name='instruction_normal_text',
-        text='Main experiment.\n\nFour coloured squares will appear one at a time, one in each corner of the screen, and each of them comes with its own speech sound. Try to remember which colour and which sound belong together and where they appeared.\n\nA frame will then appear at one of the corners, and an item will appear in it. When you see the frame, recall what has just appeared. On the final screen four options are shown, one in each corner - choose the one you have in mind by pressing the key for its position:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nThe picture below shows how the four keys point to the four corners.\n\nYou will start with a short practice, then four blocks with a rest after each one. Answer as accurately as you can - speed is not important.\n\nPress the space bar to begin.',
+        text='Main experiment.\n\nYou will see four coloured squares. They appear one at a time,\nin the four corners of the screen. Each square is paired with a\nspeech sound. Try to remember which colour and which sound went\ntogether, and where each one appeared.\n\nA marker will then point to one of the corners.\nYour task is to report which item was there.\n\nFour options will be shown, one in each corner.\nPress the key matching the position of your choice:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nYou will start with a short practice, then the experiment proper\nin four blocks with a rest after each one.\n\nAnswer as accurately as you can. Speed is not important.\n\nPress the space bar to begin.',
         font='Arial',
-        pos=(0, 3.0), draggable=False, height=0.65, wrapWidth=26, ori=0.0,
-        color='white', colorSpace='rgb', opacity=None,
-        languageStyle='LTR', alignText='left', anchorHoriz='center',
+        pos=(0, 0), draggable=False, height=0.8, wrapWidth=None, ori=0.0, 
+        color='white', colorSpace='rgb', opacity=None, 
+        languageStyle='LTR',
         depth=0.0);
-    instruction_key_img = visual.ImageStim(
-        win=win, name='instruction_key_img',
-        image='stimuli/box_keys.png', mask=None, anchor='center',
-        ori=0.0, pos=(0, -7.0), size=(5.5, 5.0),
-        color=[1,1,1], colorSpace='rgb', opacity=None,
-        flipHoriz=False, flipVert=False,
-        texRes=128.0, interpolate=True, depth=-2.0)
     instruction_normal_key = keyboard.Keyboard(deviceName='defaultKeyboard')
     
     # --- Initialize components for Routine "study" ---
@@ -495,7 +487,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         return _LUT_HEX[int(np.abs(_LUT_ARC - arc).argmin())]
     
     # 兩個顏色在弧長軸上的位置,對稱於錨點(座標 0)。
-    # ⚠ 只是開機預設 —— AGRT 適應階段(instruction_normal 之前)會覆寫。
+    # ⚠ 適應階段接上之後,由 calc_adapted 覆寫這兩個數字。
     COLOUR_ARC = [-3.0, +3.0]
     COLOUR_HEX = [colour_for(a) for a in COLOUR_ARC]
     print(f"[colour] 錨點 h={_LUT['anchor_h']} L*={_LUT['lstar']} C*={_LUT['cstar']};"
@@ -846,145 +838,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     thisExp.nextEntry()
     # the Routine "Intro" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
-
-    # ══════════════════════════════════════════════════════════════════
-    # --- AGRT 適應階段 (官方流程: AGRT.AGRTHandler; Glavan 2022) ---
-    # 每個 trial 是一個「顏色 + 聲音」的視聽複合刺激, 兩個維度都要作答;
-    # 兩條 Psi 在 handler 內部各自獨立更新 (Kontsevich & Tyler 1999)。
-    # 結束時 estimateGRTintensities(OVERALL_ACC) 給出四個刺激值,
-    # 覆寫 COLOUR_ARC / COLOUR_HEX / AUDIO_B / AUDIO_P, 主實驗每一試重讀。
-    # ══════════════════════════════════════════════════════════════════
-    from AGRT import AGRTHandler
-
-    N_ADAPT     = 60      # 適應試次數 (每一試同時更新兩條 Psi)
-    OVERALL_ACC = 0.64    # 聯合正確率 0.80、每維 89.4%(estimateGRTintensities
-                          # 傳入 sqrt(0.64)=0.8, estimateThreshold 內部再開一次根號)
-    LAPSE       = 0.08    # 整體 lapse; handler 內部轉成邊際 lapse 1-sqrt(1-.08)
-    SND_FILES   = ['stimuli/kutlu_mcmurray_2024/cv/beachpeach%d_cv.wav' % _i
-                   for _i in range(1, 10)]
-    AUDIO_B, AUDIO_P = SND_FILES[0], SND_FILES[8]      # 預設 = 端點(下面會覆寫)
-    _ARC_LIM = float(min(-_LUT_ARC[0], _LUT_ARC[-1]))  # 對稱可用半長 ~24.13 dE00
-
-    adapt_patch = visual.Rect(
-        win=win, name='adapt_patch', width=4, height=4,
-        ori=0.0, pos=(0, 0), anchor='center', lineWidth=1.0,
-        colorSpace='hex', lineColor=None, fillColor='white', interpolate=True)
-    adapt_sound = sound.Sound('A', secs=-1, stereo=True, hamming=True,
-                              speaker='Laptop', name='adapt_sound')
-    adapt_sound.setVolume(1.0)
-    adapt_text = visual.TextStim(win=win, name='adapt_text', text='',
-                                 height=0.8, color='white', pos=(0, 0), wrapWidth=26)
-    adapt_para = visual.TextStim(win=win, name='adapt_para', text='',
-                                 height=0.7, color='white', pos=(0, 0), wrapWidth=26,
-                                 alignText='left', anchorHoriz='center')
-
-    def _adapt_screen(msg, keys, stim=None):
-        """畫一頁文字, 等按鍵。escape 一律可離開。"""
-        stim = adapt_text if stim is None else stim
-        stim.text = msg
-        stim.draw()
-        win.flip()
-        _k = event.waitKeys(keyList=list(keys) + ['escape'])
-        if 'escape' in _k:
-            endExperiment(thisExp, win=win)
-            core.quit()
-        return _k[0]
-
-    _adapt_screen(
-        "Calibration (about 4 minutes).\n\n"
-        "On each trial you will see a coloured square and hear a syllable "
-        "at the same time. After each one, answer two questions:\n\n"
-        "   COLOUR:   f = more blue        j = more pink\n"
-        "   SOUND:    f = like 'b'         j = like 'p'\n\n"
-        "You get feedback after each trial. The colours and sounds are "
-        "chosen to stay difficult, so feeling unsure is normal - just "
-        "give your best guess every time.\n\n"
-        "Press the space bar to start.", ('space',), stim=adapt_para)
-
-    agrt = AGRTHandler(nTrials=N_ADAPT, lapse=LAPSE,
-                       dim1range=[-_ARC_LIM, _ARC_LIM], dim2range=[1, 9],
-                       dim1steps=100, dim2steps=9)
-    _adapt_n = 0
-    for _stim in agrt:
-        _adapt_n += 1
-        _arc  = float(_stim[0])
-        _step = int(round(float(_stim[1])))   # dim2 的格點本來就是整數 1..9
-
-        # 視聽複合刺激 1.0 s
-        adapt_patch.fillColor = colour_for(_arc)
-        adapt_sound.setSound(SND_FILES[_step - 1], hamming=True)
-        adapt_patch.draw()
-        win.flip()
-        adapt_sound.play()
-        core.wait(1.0)
-        adapt_sound.stop()
-        win.flip()
-        core.wait(0.15)
-
-        # 兩個判斷 (0 = 低端類別, 1 = 高端類別)
-        _kc = _adapt_screen("COLOUR\n\nf = more blue        j = more pink",
-                            ('f', 'j'))
-        _r1 = 1 if _kc == 'j' else 0
-        _ks = _adapt_screen("SOUND\n\nf = like 'b'         j = like 'p'",
-                            ('f', 'j'))
-        _r2 = 1 if _ks == 'j' else 0
-
-        # 回饋: 顏色邊界 = 錨點(arc 0; 100 點偶數格點不含 0);
-        #       聲音邊界 = 名目中點 step 5, 該點無正解 -> 不評對錯
-        _corr_c = int(_r1 == int(_arc > 0))
-        _fb_c = 'Colour: correct' if _corr_c else 'Colour: wrong'
-        if _step == 5:
-            _corr_s = -1
-            _fb_s = 'Sound: (no feedback)'
-        else:
-            _corr_s = int(_r2 == int(_step > 5))
-            _fb_s = 'Sound: correct' if _corr_s else 'Sound: wrong'
-        adapt_text.text = _fb_c + '\n' + _fb_s
-        adapt_text.draw()
-        win.flip()
-        core.wait(0.7)
-        win.flip()
-        core.wait(0.2)
-
-        agrt.addResponse((_r1, _r2))
-        thisExp.addData('adapt_trial', _adapt_n)
-        thisExp.addData('adapt_arc', _arc)
-        thisExp.addData('adapt_step', _step)
-        thisExp.addData('adapt_resp_col', _r1)
-        thisExp.addData('adapt_resp_snd', _r2)
-        thisExp.addData('adapt_corr_col', _corr_c)
-        thisExp.addData('adapt_corr_snd', _corr_s)
-        thisExp.nextEntry()
-
-    # ---- 官方估計 -> 覆寫主實驗刺激值 ----
-    _lams = agrt.estimateLambda()
-    (_c_lo, _c_hi), (_s_lo, _s_hi) = agrt.estimateGRTintensities(OVERALL_ACC, _lams)
-    _c_lo = float(np.clip(_c_lo, _LUT_ARC[0], _LUT_ARC[-1]))
-    _c_hi = float(np.clip(_c_hi, _LUT_ARC[0], _LUT_ARC[-1]))
-    _s1 = int(round(float(np.clip(_s_lo, 1, 9))))
-    _s2 = int(round(float(np.clip(_s_hi, 1, 9))))
-    if _s1 == _s2:                       # 斜率極陡, 兩點落同一步 -> 拉開成相鄰步
-        if _s2 < 9:
-            _s2 += 1
-        else:
-            _s1 -= 1
-    COLOUR_ARC = [_c_lo, _c_hi]
-    COLOUR_HEX = [colour_for(_c_lo), colour_for(_c_hi)]
-    AUDIO_B, AUDIO_P = SND_FILES[_s1 - 1], SND_FILES[_s2 - 1]
-    agrt.savePosterior(filename + '_posterior')
-    thisExp.addData('psi_col_alpha', float(_lams[0][0]))
-    thisExp.addData('psi_col_beta', float(_lams[0][1]))
-    thisExp.addData('psi_snd_alpha', float(_lams[1][0]))
-    thisExp.addData('psi_snd_beta', float(_lams[1][1]))
-    thisExp.addData('colour_arc_lo', _c_lo)
-    thisExp.addData('colour_arc_hi', _c_hi)
-    thisExp.addData('snd_step_b', _s1)
-    thisExp.addData('snd_step_p', _s2)
-    thisExp.nextEntry()
-    print(f"[AGRT] colour lambda={_lams[0]}  sound lambda={_lams[1]}")
-    print(f"[AGRT] COLOUR_ARC={COLOUR_ARC} -> {COLOUR_HEX}; sound steps {_s1}/{_s2}")
-    # ══════════════════════════ AGRT 適應階段結束 ══════════════════════════
-
+    
     # --- Prepare to start Routine "instruction_normal" ---
     # create an object to store info about Routine instruction_normal
     instruction_normal = data.Routine(
@@ -1018,7 +872,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
     frameN = -1
     
-    instruction_key_img.setAutoDraw(True)   # 按鍵-象限對應圖,隨指導語顯示
     # --- Run Routine "instruction_normal" ---
     thisExp.currentRoutine = instruction_normal
     instruction_normal.forceEnded = routineForceEnded = not continueRoutine
@@ -1112,7 +965,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
     
-    instruction_key_img.setAutoDraw(False)
     # --- Ending Routine "instruction_normal" ---
     for thisComponent in instruction_normal.components:
         if hasattr(thisComponent, "setAutoDraw"):
@@ -1169,7 +1021,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         cue_valid, target_item, relation, target_serial = trial_plan[trial_i]
         is_practice = (trial_i < N_PRACTICE)
         
-        itemAudi   = [AUDIO_B, AUDIO_B, AUDIO_P, AUDIO_P]   # 由 AGRT 適應階段校出
+        itemAudi   = ['stimuli/b3.wav', 'stimuli/b3.wav', 'stimuli/p3.wav', 'stimuli/p3.wav']
         itemColhex = [COLOUR_HEX[0], COLOUR_HEX[1], COLOUR_HEX[0], COLOUR_HEX[1]]
         Fix_Dur = .3
         
@@ -2400,7 +2252,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             )
             # once done pausing, restore running status
             trials.status = STARTED
-        # ⛔ 關鍵修正:每個試次寫成資料檔的一列。
+        # ⛔ 關鍵修正(自 ee0f432 移植):每個試次寫成資料檔的一列。
         # trials loop 建立時 isTrials=False, PsychoPy 因此不產生這一行;
         # 少了它, 600 個試次的 addData 會互相覆蓋, 存檔只剩一列。
         thisExp.nextEntry()
