@@ -57,8 +57,50 @@ GRT 的概念與數學結構是什麼?非參數與參數(高斯)兩類工具各�
 
 注意這裡**也是把刺激埋在寬頻噪音裡**來製造誤差。
 
+---
+
+## ⭐ 追加(2026-08-12,第二輪查證):GRT **明文表態不模型化知覺變異的來源**
+
+**這是回答「刺激變異在 GRT 裡算什麼」時,全部 GRT 文獻中最直接的一句話。**
+
+§1.1.1 "Noisy perception", p. 95(原文;⚠️ PDF 轉文字會吃掉字間空格,subagent 已補回,
+其餘用字與順序逐字):
+> "GRT begins with the assumption that a substantial component of perception is stochastic.
+> Although there are **multiple possible sources for random perceptual variability** (e.g.,
+> environmental and/or neural noise; Ashby & Lee, 1993), **the specific sources of perceptual
+> variability are not (typically) modeled in GRT.**"
+
+**三個後果**:
+
+1. **這不是某一篇論文的疏漏,是框架的表態。** 「GRT 有沒有處理刺激變異」的答案是:
+   **它明說它不處理變異的來源。**
+2. 它列的來源是 "environmental and/or neural noise" —— **environmental noise 可以涵蓋
+   外加遮蔽噪音,但「刺激本身彼此不同」並沒有被點名。**
+   (對照 [[ashby2000]]:Ashby 自己是明文寫 "stimulus and perceptual noise" 的。
+   **兩份 GRT 來源對這份清單的寫法並不一致。**)
+3. 它把來源問題外包給 **Ashby & Lee (1993)** ——
+   那是 GRT 談知覺變異來源的正典來源,**本次查證未取得**(見 [[ashby2000]] 卡末)。
+
+### subagent 對五份 GRT 來源做的關鍵詞檢索(可回查)
+
+檢索對象:GRT-wIND(Soto et al. 2015)、grtools 教學(arXiv 1610.03207)、
+GRT-wIND 可辨識性論文(arXiv 1606.05598)、**本篇**、Ashby & Wenger 手冊章節。
+
+| 關鍵詞 | 命中 |
+|---|---|
+| `stimulus variability` | **五份全部 0** |
+| `token` | **五份全部 0** |
+| `exemplar` | 教學論文正文 0(只在參考文獻的 exemplar 類別學習引用裡) |
+
+**→ 「用多 token 會膨脹估到的 perceptual variance」這個警告,GRT 文獻裡完全不存在。
+不是我沒找到 —— 是全部五份主要來源連 `stimulus variability` 這個詞都沒出現過。**
+
 ## 可連結脈絡
 - 提出規範性推論的實證論文 —— [[silbert2012]]、[[silbert2014]]
+- Ashby 自己的來源清單(寫法不同)—— [[ashby2000]]
+- 兩種雜訊不可分離、只有和可估 —— [[ashby-wenger-handbook]]
+- item 聚合偏誤的形式結果(SDT,非 GRT)—— [[rouder2007]]
+- 本卡所屬的敘事回顧 —— [[token-variability-vs-perceptual-variance]]
 - 獨立提出同一顧慮的第二個聲音 —— [[roark2019]]
 - 另一份 GRT 教學(講難度操弄)—— [[soto2017]]
 - 綜合建議 —— [[natural-vs-synthetic-speech]]
