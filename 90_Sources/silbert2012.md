@@ -78,7 +78,7 @@ AVWM 幾乎同構(2×2 GRT、語音維度、需要中等難度),他的兩個選�
 - 直接支持 SNR 路線 —— [[snr_audio]]、[[snr_vs_grt_dimension]]
 - 綜合建議見 —— [[natural-vs-synthetic-speech]]
 - 用噪音操弄語音 voicing 難度的另一前例 —— [[winn2013]]
-- 「合成音的單線索結果能否外推」 —— [[stimulus-naturalness-vs-quality]]、[[mcmurray2008]]
+- 「合成音的單線索結果能否外推」 —— [[burton-blumstein-naturalness]]、[[shinn1985]]、[[mcmurray2008]]
 - 同作者的 GRT + 噪音混淆矩陣後續 —— Silbert & Motlagh Zadeh (2018) *JASA* 143, 2780, doi 10.1121/1.5037091(**僅讀摘要**)
 
 ---
