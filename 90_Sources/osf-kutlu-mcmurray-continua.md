@@ -18,6 +18,16 @@ citekey: osf-kutlu-mcmurray-continua
   → 展開後 `name: "CC0 1.0 Universal"`。**這是官方明文的 metadata,不是推論。**
 - **我實際下載了 `beachpeach4.wav` 並讀 header**,規格見下。
   其餘 71 個 wav **未下載**,規格是**假定與此檔一致**(未驗證)。
+- **2026-08-13 更新:beachpeach 全部 9 檔已下載並逐檔驗證**,
+  存於 repo 的 `stimuli/kutlu_mcmurray_2024/`。全部 mono / 44,100 Hz / 16-bit,
+  時長 0.684–0.686 s(**幾乎等長 —— 原「9 步時長會不一致」的疑慮不成立**,
+  拼接時已保持等長)。9 個 md5 相異。
+  onset 後 20–80 ms 的週期性 step 1→9 為 0.757→0.660(step 3 起嚴格單調),
+  峰值同步從 0.219 降到 0.197 —— 與送氣漸進取代嗓音一致。
+  ⚠️ 每步與 step 1 的波形差異延伸到整段 ~540 ms,代表拼接後有整檔再處理
+  (可能是位準正規化),不是只動開頭。
+  **AVWM 已決定採用本刺激集**(選項 F,見 [[聽覺維度_嘗試與放棄紀錄]]);
+  受試者為英語母語者,L2 詞彙編碼的疑慮不適用。
 - ⚠️ OSF 專案標題(`Social Network Diversity Leads to More Flexible Speech Perception in
   School-aged Children`)與論文出版標題(`Linguistic diversity shapes flexible speech
   perception in school age children`)**不同** —— 應是投稿過程改名,但我未找到明文說明。
