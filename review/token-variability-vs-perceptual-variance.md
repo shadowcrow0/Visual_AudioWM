@@ -48,9 +48,16 @@ Silbert 相反。
    **這使得「多 token vs 單 token」的排序問題,暫時不是最緊急的問題。**
 
 6. **三個選項的排序見 §7。簡短版**:在「要最乾淨的 β」這個判準下
-   **合成 > 單一自然 token > 多個自然 token**;
-   但這個排序**與 [[natural-vs-synthetic-speech]] §6.1 的建議衝突**,
-   衝突的根源是**前提不同**,§8 明確處理。
+   **合成 > 單一自然 token > 多個自然 token**。
+   決定性的不是變異大小,而是 [[clark1973]] 的判準:
+   **單一刺激設計只有在「假設本身對單一個案成立」時才合法** ——
+   合成能把假設寫成點假設,單一自然錄音不能(§7.1)。
+   ⚠️ 但這個排序**與 [[natural-vs-synthetic-speech]] §6.1 的建議衝突**(§8),
+   而且**與 Clark 一系文獻本身的主流結論也相反**(§7.1)。**兩處都明講。**
+
+7. ⭐⭐ **框架本身可能是錯的:還有第四個選項** —— **多對配對的合成刺激**(§10.1)。
+   它同時滿足配對條件、刺激數要求、防漏洞理由,**而且不需要退守成點假設**。
+   「多 token vs 單 token vs 合成」把「合成」與「多刺激」當成互斥,那是框架的錯。
 
 ---
 
@@ -711,10 +718,70 @@ double-pass(重播同一序列,用反應一致性分離內部/外部雜訊)**要
 F0 輪廓、嗓音品質、共振峰軌跡、頻譜傾斜……清單沒有盡頭。
 **「我對齊了 A 和 B」不蘊含「C 和 D 沒有差異」。**
 
-**這個論證在文獻上有沒有對應?** 對應的是「刺激當固定效果 vs 隨機效果」這一整支
-方法學文獻(Clark 1973 的 language-as-fixed-effect fallacy 一系)。
-⚠️ **該支文獻的查證尚未回報;回報後本節須補上原文引句與書目。
-在補上之前,§7.1 的論證只有第一原理支持,沒有文獻支持。**
+**這個論證在文獻上有對應,而且比預期早得多。**
+
+**[[brunswik1955]] p. 194** —— 他 1955 年就這樣稱呼單一刺激設計:
+> "This constitutes **artificially induced perfect confounding**, and may be labeled
+> '**tied-variables' design** or, in short, **tied design**."
+
+而且他明說多加受試者沒用(p. 204):
+> "**individual sample situations, no matter how lifelike, cannot answer the funtional [sic]
+> problem** … **Only representative design can answer this problem.**"
+
+**[[judd2012]] 討論段** —— 現代版:
+> "when experimenters attempt to replicate effects **using the same experimental stimuli** …
+> **it can never be clear whether a successful replication indicates a truly reliable
+> treatment effect or merely a consistent bias in the set of experimental stimuli used.**"
+
+**[[judd2012]] 的量級**:只對受試者做分析時 Type I error **平均 .317**、最壞 .616,
+**而且加受試者會讓偏誤更大**。
+
+### ⭐ [[clark1973]] 的判準比「固定 vs 隨機」細緻,而且它才是決定性的
+
+Clark 的「單一個案法」一節(pp. 352–354)**沒有**說單一刺激一律不合法:
+> "**The hypotheses of interest must be applicable to single cases.**"
+> "**There is no single case imaginable that suffices to disconfirm the homograph hypothesis.
+> So the method of single cases is simply not applicable to such 'central-tendency'
+> hypotheses.**"
+
+**→ 這個判準把 (b) 與 (c) 分開(以下是我的推論)**:
+- **合成**的點假設 =「在 VOT = X、F1/F0 = Y 這個刺激上」→ **寫得下來,判準滿足**
+- **單一自然錄音**的點 =「這段錄音剛好長什麼樣」→ **寫不下來**,只能退回集中趨勢假設
+
+推導細節見 [[自然音vs合成音_理論推論]] §5.3。
+
+### ⚠️⚠️ 但這支文獻的主流結論**與本文的排序相反**
+
+| 反面 | 來源 |
+|---|---|
+| **合成路線正是 Brunswik 點名批判的做法** —— "the holding constant of a third variable" 造出 "pseudo-univariate design" | [[brunswik1955]] pp. 195–196 |
+| **刺激少 → 檢力有天花板**:4 個/條件 + **大**效果 d = 0.8 → 上限僅 **.41**;要 .80 需 **≥16 個** | [[westfall2014]] p. 2032 |
+| **主流建議是「多刺激 + 混合效果模型」**,即支持選項 (a) | [[baayen2008]]、[[barr2013]] |
+| **配對設計的例外到不了 n = 1** —— [[raaijmakers1999]] 的推導需要「配對區塊的**母體**」 | [[raaijmakers1999]] p. 421 |
+
+**→ 本文借用的只是這支文獻的**前半**(單一刺激 = 固定混淆),不是它的**結論**。
+這是選擇性引用,必須明白標示。** 調和方式見 [[自然音vs合成音_理論推論]] §8。
+
+### ⭐ 而且這支文獻從未進入 GRT —— 用引文網路量化過
+
+| 事實 | 數字 |
+|---|---|
+| [[clark1973]] 被引總數 | **2,278** |
+| 其中 *JASA* | **9(0.4%)** |
+| **同時**引用 Clark 與 Ashby & Townsend (1986) 的著作 | **恰好 1 篇,且非 GRT 方法論文** |
+| Silbert 引用 Ashby & Townsend / 引用 Clark | **16 / 0** |
+| 全部引用者的引用脈絡掃描 `psychophysic\|signal detection\|d-prime\|threshold` | **0 命中** |
+
+**唯一的橋是階層貝氏 SDT**([[rouder2007]]、[[decarlo2011]])——
+⚠️ **[[decarlo2011]] 就發表在 GRT 的主場期刊 JMP**,但停在再認記憶。
+**論證就在隔壁,沒有跨過那一步。**
+
+⚠️ **方法但書**:以上依賴 OpenAlex/Crossref 索引;SDT 教科書的參考文獻不被索引。
+**這是很強的證據,不是邏輯證明。**
+
+⚠️ **[[silbert2018]]** 確實建了有語者/聽者隨機變異的多層 GRT,
+但其 54 筆參考文獻中**沒有 Clark、Coleman 或 Judd/Westfall** ——
+**做法從語音學獨立長出來了,論證沒有。**(該篇未讀,不可主張它處理了 token。)
 
 ### 7.2 選項 (c) 的誠實代價:它測到的是**單線索**的 voicing 知覺
 
@@ -814,7 +881,16 @@ VOT 這條軸,**在結構上沒有辦法**告訴你受試者其實靠別的東�
    [[sommers1994]] 說這些是零代價的。**可以擋掉「受試者記住單一 token」的批評,
    而不付 β 的代價。**⚠️ 這是我從 [[sommers1994]] 推得的設計,沒有人做過。
 5. **雙 pass 設計**:同一個 token + 同一個噪音樣本重複呈現,用反應一致性分離
-   內部/外部雜訊。⏳ 相關文獻查證未回報。
+   內部/外部雜訊([[green1964]] 的原始方法)。
+   **要求:必須逐試次記錄噪音波形或 RNG 種子**([[osses-varnet2024]] 存了 4000 段)。
+   `snr_audio.py` 目前無種子、用過即丟 —— **改成記錄種子,成本為零。**
+6. ⭐⭐ **多對配對的合成刺激**(本次查證浮現的第四條路,三選項的框架看不到它)。
+   若干組(8–16)配對合成刺激,**組內只有 VOT 不同**,**組間只在語音上不相關的維度**
+   變動(整體 F0、時長、音量)。
+   它同時滿足:[[raaijmakers1999]] 的配對條件(而且 q > 1,有區塊母體)、
+   [[westfall2014]] 的刺激數要求、[[silbert2012]] §IV.A 的防漏洞理由、
+   [[sommers1994]] 的不相關維度原則,**而且不需要退守成點假設**。
+   ⚠️ 沒有人做過;GRT 模型層次沒有現成解。詳見 [[自然音vs合成音_理論推論]] §9.2。
 
 **⚠️ 選項 4 值得特別注意** —— 它同時滿足 Silbert 的防漏洞理由([[silbert2012]] §IV.A
 明說那才是他用 4 個 token 的目的)與 β 的純度要求。**這可能是最好的折衷。**
@@ -824,13 +900,19 @@ VOT 這條軸,**在結構上沒有辦法**告訴你受試者其實靠別的東�
 - **GRT 從未討論刺激變異對參數估計的影響。** 五份主要來源關鍵詞命中全 0。
 - **[[rouder2007]] 的 item 聚合偏誤結果從未被引進 GRT。**
 - **within-talker token 變異的完整論文只有兩筆**([[luthra2023]] 點名三筆,一筆是會議摘要)。
-- **沒有人比較過「單一 token 的固定混淆」與「多 token 的隨機變異」何者更糟。**
-  ⏳ 相關方法學文獻(Clark 1973 一系)查證未回報。
+- **沒有人在 GRT 或心理物理裡比較過「單一 token 的固定混淆」與「多 token 的隨機變異」。**
+  該論證在**方法學統計**裡存在且成熟([[brunswik1955]]、[[clark1973]]、[[judd2012]]、
+  [[westfall2014]]),在 **SDT** 裡有橋([[rouder2007]]、[[decarlo2011]]),
+  **但從未跨進 GRT**(引文網路已量化,見 §7.1)。
 
 ### 10.3 待補查證(依重要性)
 
 1. ~~within-talker VOT / 共振峰 / 時長的 SD 數字~~ —— **已完成**(§3.0)。**剩下的真空白**:同一音節重複產出的 VOT SD 從未被報告([[theodore2009]]);**振幅/強度的語者內 SD 查無任何來源**
-2. ⏳ **刺激當固定 vs 隨機效果的方法學文獻**(§7.1 的文獻支撐)—— 查證未回報
+2. ~~刺激當固定 vs 隨機效果的方法學文獻~~ —— **已完成**(§7.1)。
+   **剩下未取得**:Brunswik (1956) 專書(Archive.org 借閱受限);
+   Wells & Windschitl (1999) *PSPB* 25(9), 1115–1125, doi 10.1177/01461672992512005
+   (書目已核實,全文未取得,是這個 crux 最後一條未讀線索);
+   [[decarlo2011]] 全文(取不到可引用的句子)
 3. ~~frozen vs running noise、內外雜訊分解~~ —— **已完成**,結果推翻了初稿的 §6(見 §6.2)
 4. **[[silbert2018]]** —— 標題就是 "talker-based sources of variability",
    本題最可能被正面處理的一篇,**未讀**
@@ -839,13 +921,21 @@ VOT 這條軸,**在結構上沒有辦法**告訴你受試者其實靠別的東�
    ScienceDirect 有 captcha,**未取得**。若有 Elsevier 權限,這是最該補的一筆
 6. **[[uchanski1998]] 全文** —— 摘要最後一句(「限制主要來自內在雜訊」)是本文最強的反證,
    但我讀不到支持它的資料
-7. **Ashby & Townsend (1986)** —— 全文未取得(⚠️ 書目更正:是 **93(2), 154–179**,
-   不是 93(3))
+7. **Ashby & Townsend (1986)** "Varieties of perceptual independence",
+   *Psychological Review* **93(2), 154–179**, doi 10.1037/0033-295X.93.2.154 ——
+   **全文未取得**(Semantic Scholar 標 CLOSED;ResearchGate 403;ScienceDirect captcha;
+   ⚠️ PubMed 該筆**沒有摘要**)。**書目更正:是 93(2),不是 93(3)。**
 
 ---
 
 **相關卡片**:[[silbert2012]] · [[silbert2014]] · [[silbert2018]] · [[silbert-hawkins2016]] ·
 [[soto2015]] · [[soto2017]] · [[ashby2000]] · [[ashby-wenger-handbook]] · [[rouder2007]] ·
+[[decarlo2011]] · [[brunswik1955]] · [[clark1973]] · [[judd2012]] · [[westfall2014]] ·
+[[raaijmakers1999]] · [[baayen2008]] · [[barr2013]] · [[buss2006]] · [[ludosher1999]] ·
+[[siegel-colburn1989]] · [[neri2010]] · [[green1964]] · [[pfafflin1968]] ·
+[[osses-varnet2024]] · [[allard2014]] · [[clayards2008]] · [[kleinschmidt2019]] ·
+[[chodroff2015]] · [[chodroff-bradshaw-livesay2023]] · [[theodore2009]] ·
+[[heald-nusbaum2015]] · [[hillenbrand1995]] ·
 [[uchanski1998]] · [[kapadia2023]] · [[luthra2023]] · [[mullennix1989]] · [[sommers1994]] ·
 [[magnuson2007]] · [[chodroff2017]] · [[mcmurray2008]] · [[roark2019]] · [[winn2013]] ·
 [[winn2020]] · [[logan1989]] · [[goldenberg2022]]

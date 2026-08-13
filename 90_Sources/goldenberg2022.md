@@ -116,11 +116,15 @@ https://www.dropbox.com/scl/fi/w2gocofutqe1oftrbcjw7/Puffs_Continua.zip
 **有沒有人在同一個實驗裡比較過不同發音部位的辨識函數斜率?** → 本篇,而且是我找到的唯一一筆。
 **哪個部位的類別邊界不置中?** → 軟顎音(bias 3.6 vs 中點 4.5)。這對假設對稱的適應程序是問題。
 
-**Goldenberg 有沒有把刺激公開?** → **有,但不在 Data availability 裡。**
-正式的 Data availability 寫的是「向作者索取」;真正的連結在 **Methods 的註腳 1**:
+**Goldenberg 有沒有把刺激公開?** → **曾經有,現在沒了。**
+正式的 Data availability 寫的是「向作者索取」;真正的連結藏在 **Methods 的註腳 1**:
 https://tinyurl.com/2p8tjfnh → Dropbox 的 `Puffs_Continua.zip`(24 個音檔)。
-**2026-08-12 實測連結還活著(HTTP 200),但 `dl=1` 抓回來是 Dropbox 的 HTML 介面頁,
-必須用瀏覽器手動下載。** 取樣率查無。
+**⚠️ 2026-08-13 實測:檔案已刪除。** Dropbox 對已刪除檔案照樣回 HTTP 200,
+抓回來的是 190 KB 的 HTML,`<title>` = "Dropbox - File Deleted"。
+**用狀態碼判斷連結死活會被騙,要看內容。** PMC 與 Frontiers 都沒有備份。
+→ **只能寫信給作者。** 取樣率查無。
 
-**哪裡有「真正的孤立自然 /ba/–/pa/ CV 音節」?** → **就是這篇的那 24 個檔**,
-單一美式英語男性、母音 /ɑ/、8 步。這是本次全部查證中唯一符合「孤立 + 自然 + /b/–/p/」三條件的。
+**哪裡有「真正的孤立自然 /ba/–/pa/ CV 音節」?** → **理論上就是這篇的那 24 個檔**
+(單一美式英語男性、母音 /ɑ/、8 步),這是本次全部查證中唯一同時符合
+「孤立 + 自然 + /b/–/p/」三條件的來源 —— **但檔案已經拿不到了。**
+實際可取得的次佳選項見 [[natural-speech-sources]]。
