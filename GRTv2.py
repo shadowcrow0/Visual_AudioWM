@@ -658,7 +658,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     # --- Initialize components for Routine "rest" ---
     rest_text = visual.TextStim(win=win, name='rest_text',
-        text=rest_msg,
+        text='',
         font='Arial',
         pos=(0, 0), draggable=False, height=0.8, wrapWidth=None, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
@@ -1023,7 +1023,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         cue_valid, target_item, relation, target_serial = trial_plan[trial_i]
         is_practice = (trial_i < N_PRACTICE)
         
-        itemAudi   = ['b3.wav', 'b3.wav', 'p3.wav', 'p3.wav']
+        itemAudi   = ['stimuli/b3.wav', 'stimuli/b3.wav', 'stimuli/p3.wav', 'stimuli/p3.wav']
         itemColhex = [COLOUR_HEX[0], COLOUR_HEX[1], COLOUR_HEX[0], COLOUR_HEX[1]]
         Fix_Dur = .3
         
@@ -2109,7 +2109,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         else:
             continueRoutine = False
             rest_msg = ""
-        
+
+        rest_text.setText(rest_msg)
         # create starting attributes for rest_key
         rest_key.keys = []
         rest_key.rt = []
