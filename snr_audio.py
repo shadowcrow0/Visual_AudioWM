@@ -40,8 +40,16 @@ SPEECH_FILES = {
 # 差約 300 Hz,會變成與 VOT 共變的混淆線索。/i/ 的 F1 本來就低且穩定。
 # 見 90_Sources/winn2020.md
 
-TARGET_RMS = 0.05       # 兩個 token 正規化到相同 RMS,否則同一個 SNR 設定
-                        # 在 be 與 pe 上的實際值會差 0.7 dB
+TARGET_RMS = 0.05       # 兩個 token 對齊到相同的**有聲段** RMS。
+                        # ⚠️ 不能用全檔 RMS:pe 的靜音/送氣段比 be 長,全檔 RMS
+                        #   會低估它的有聲位準。實測用全檔 RMS 對齊之後,有聲段的
+                        #   位準差反而從 1.07 dB 放大到 1.62 dB。
+ONSET_LEAD_MS = 10.0    # 所有 token 的聲學起始都對齊到這個位置。
+                        # ⚠️ 必要:實測 be 起始 9.0 ms、pe 起始 44.9 ms,差 35.9 ms
+                        #   —— 比 /b/–/p/ 的整個 VOT 邊界區(約 20–25 ms)還大。
+                        #   噪音蓋住頻譜細節之後,「什麼時候開始」會變成比 VOT 更強的
+                        #   線索,受試者可以完全不聽語音就分辨出來。
+ONSET_THRESH_DB = -40.0 # 聲學起始的判定門檻(相對於該檔峰值)
 OUTPUT_RMS = 0.05       # 混音後整段再正規化到這個 RMS。
                         # ⚠ 這一步是必要的:若固定語音位準、只放大噪音,
                         #   SNR 越低整體就越大聲(實測 -30 dB 時峰值到 6.8,
@@ -98,11 +106,50 @@ def write_wav(path, sr, y):
 _SPEECH_CACHE = None
 
 
-def _load_speech():
-    """載入全部 token,正規化到相同 RMS,並補靜音到相同長度。
+def _acoustic_onset(x, sr):
+    """回傳聲學起始(樣本索引):短時能量首次超過峰值 ONSET_THRESH_DB 的位置。"""
+    win = max(int(0.005 * sr), 1)
+    hop = max(int(0.001 * sr), 1)
+    e = np.array([10 * np.log10(np.mean(x[i:i + win] ** 2) + 1e-12)
+                  for i in range(0, len(x) - win, hop)])
+    if e.size == 0:
+        return 0
+    return int(np.argmax(e > e.max() + ONSET_THRESH_DB) * hop)
 
-    時長對齊的理由:be 與 pe 的原始長度不同(實測差 19 ms),那是殘留的
-    時長線索。補到等長之後,受試者無法靠長短分辨。
+
+def _voiced_rms(x, sr, thr=0.5):
+    """只取有週期性(有聲)的窗算 RMS。
+
+    用它而非全檔 RMS,是因為各 token 的靜音/送氣比例不同,全檔 RMS 會
+    系統性地低估送氣較長那一個的有聲位準。
+    """
+    win = int(0.025 * sr)
+    hop = int(0.005 * sr)
+    segs = []
+    for i in range(0, len(x) - win, hop):
+        f = x[i:i + win] - x[i:i + win].mean()
+        if np.sqrt(np.mean(f ** 2)) < 1e-4:
+            continue
+        ac = np.correlate(f, f, 'full')[len(f) - 1:]
+        ac = ac / (ac[0] + 1e-12)
+        lo, hi = int(sr / 300), int(sr / 70)
+        if hi < len(ac) and ac[lo:hi].max() > thr:
+            segs.append(x[i:i + win])
+    if not segs:
+        raise ValueError("找不到有聲段 —— 檢查語音檔是否正常")
+    return float(np.sqrt(np.mean(np.concatenate(segs) ** 2)))
+
+
+def _load_speech():
+    """載入全部 token,**對齊聲學起始**、對齊**有聲段** RMS、補到等長。
+
+    三項對齊各自擋掉一個殘留線索:
+
+    1. **聲學起始** —— 實測 be 起始 9.0 ms、pe 起始 44.9 ms,差 35.9 ms。
+       這比 /b/–/p/ 的整個 VOT 邊界區還大,而且埋進噪音之後「什麼時候開始」
+       比頻譜細節更容易聽出來。不對齊的話受試者可以不聽語音就作答。
+    2. **有聲段 RMS** —— 不能用全檔 RMS(見 TARGET_RMS 的註解)。
+    3. **總長** —— 補靜音到等長,避免長短本身成為線索。
     """
     global _SPEECH_CACHE
     if _SPEECH_CACHE is not None:
@@ -121,13 +168,23 @@ def _load_speech():
             raise ValueError(f"取樣率不一致:{fn} 是 {sr} Hz,其他是 {sr0} Hz")
         raw[name] = x
 
-    n = max(len(x) for x in raw.values())
-    out = {}
+    # 1. 對齊聲學起始:把各 token 的起始都移到 ONSET_LEAD_MS
+    lead = int(round(ONSET_LEAD_MS * sr0 / 1000.0))
+    shifted = {}
     for name, x in raw.items():
-        # 順序很重要:先補靜音再正規化。反過來的話,補進去的靜音會把已經
-        # 對齊的 RMS 又稀釋掉,而且稀釋量取決於各 token 原本的長度差。
+        on = _acoustic_onset(x, sr0)
+        if on >= lead:
+            x = x[on - lead:]                       # 切掉多餘的前置靜音
+        else:
+            x = np.pad(x, (lead - on, 0))           # 前置靜音不足就補
+        shifted[name] = x
+
+    # 2. 補到等長  3. 依有聲段 RMS 正規化
+    n = max(len(x) for x in shifted.values())
+    out = {}
+    for name, x in shifted.items():
         x = np.pad(x, (0, n - len(x)))
-        out[name] = x * (TARGET_RMS / _rms(x))
+        out[name] = x * (TARGET_RMS / _voiced_rms(x, sr0))
     _SPEECH_CACHE = (sr0, out)
     return _SPEECH_CACHE
 
