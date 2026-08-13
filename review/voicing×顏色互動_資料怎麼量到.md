@@ -15,8 +15,15 @@
 一致性對比用 **target_item 四格各 96 筆(valid)**、兩維可比性用 **同一批 valid 的 err_rel 邊際**
 再掛上適應階段存下的 **`psi_col_beta` / `psi_snd_beta`** 當共變項。
 
-**但核實過程翻出三件與我拿到的轉述不符的事,而且都會改寫解讀**:
+> ⛔ **但先看 §1.5:現行程式碼存不下這些資料。**
+> `trials` loop 建立時 `isTrials=False`(`GRTv2.py:1124`、`GRTv2.psyexp:1029`),
+> PsychoPy 因此**不會**在迴圈裡產生 `thisExp.nextEntry()`,而 `TrialHandler2.__next__`
+> 自己也不呼叫它 —— **600 個試次全部寫進同一個 entry dict,互相覆蓋,存檔時只剩一列。**
+> **四個量在設計上全部成立,但這一行不修,一個都拿不到。** 修法見 §1.5 與末節 ⛔ 0。
 
+**核實過程翻出四件與我拿到的轉述不符的事,而且都會改寫解讀**:
+
+0. **⛔ 資料存檔會把 600 個試次壓成一列**(上面那段;證據鏈在 §1.5)。
 1. **`cue` routine 在提示標記之後、四選一之前,會把 target 的顏色與聲音實際呈現出來**
    (`GRTv2.py:1611–1614`,probe 畫在 **cue 的位置**(`:1617–1618`))。所以「correct」的定義是
    **報告剛剛看到/聽到的 probe**,不是「回憶那個角落原本是什麼」。
@@ -174,18 +181,50 @@ err_rel = None if (chosen_item is None or outcome == 'correct') else (chosen_ite
 - **`outcome=='intrusion'` ⟺ `err_rel == relation`**(在 invalid 上)。
   兩個欄位是同一件事的兩種寫法;§2.2 用 `err_rel` 版本,因為它同時給得出基線。
 
-### 1.5 CSV 的列結構(分析前的第一個坑)
+### 1.5 ⛔ CSV 的列結構 —— 現行程式碼存不下試次資料
 
-`thisExp.nextEntry()` 只出現在 `:840, 946, 972, 1111` —— **主試次迴圈裡沒有**,
-靠 `TrialHandler2` 迭代時自動推進(`:1133 for thisTrial in trials`)。
+我原本只想標一句「分析時記得 `psi_*` 自成一列」。核實 PsychoPy 原始碼之後,發現的是別的東西。
 
-- 適應階段 60 筆各一列(`:946`)
+**證據鏈(五步,全部逐行核實;PsychoPy `2026.1.1`,與 `GRTv2.py:42` 的 `psychopyVersion` 一致;
+安裝路徑 `/mnt/c/Program Files/PsychoPy/Lib/site-packages/psychopy/`)**
+
+| # | 事實 | 出處 |
+|---|---|---|
+| 1 | CSV 的「一列」= `ExperimentHandler.entries` 的一個元素,而 `entries` **只在 `nextEntry()` 裡成長** | `data/experiment.py:702` `self.entries.append(this)` |
+| 2 | `thisExp.addData(...)` 只寫進 `self.thisEntry` 這個 dict,**同名就覆蓋**,永遠不推進列 | `data/experiment.py:300, 310` |
+| 3 | `TrialHandler2.__next__` **不呼叫** `nextEntry()`,只呼叫 `exp.updateEntryFromLoop(self)` | `data/trial.py:1101–1103`(全檔唯一呼叫 `nextEntry()` 的地方是 `skipTrials`,`:1293`) |
+| 4 | Builder 只在 **`isTrials == True`** 時才在迴圈裡產生 `thisExp.nextEntry()` | `experiment/loops.py:483–487` `# just within the loop advance data line if loop is whole trials` |
+| 5 | **本專案的 `trials` loop 是 `isTrials=False`** | `GRTv2.py:1124`;來源 `GRTv2.psyexp:1029` `<Param name="isTrials" ... val="False" .../>` |
+
+**結論**:`GRTv2.py` 裡 `thisExp.nextEntry()` 只出現在 `:840, 946, 972, 1111`(全部在
+`trials` 迴圈**之外**:Intro、適應階段每試、適應階段結束、instruction_normal)。
+迴圈內部沒有,`TrialHandler2` 也不補。
+→ **600 個主試次的 `is_practice` / `relation` / `target_item` / `outcome` / `err_rel` …
+全部寫進同一個 dict,一路互相覆蓋。存檔時 `getAllEntries()` 把這個孤兒 entry 補上,
+所以整個主實驗在 CSV 裡是「一列」,內容是最後一個試次的值。**
+
+⚠️ 這是**逐行讀原始碼**推出來的,**沒有實跑驗證**(PsychoPy 裝在 Windows 側,本機跑不動)。
+**但它是可以 30 秒證偽的**:跑 10 個試次,看 CSV 有幾列。
+
+📌 **兩條修法(擇一)**
+
+1. **從 Builder 修(建議,因為 `GRTv2.py` 是 `GRTv2.psyexp` 編譯後手改的)**:
+   把 `trials` loop 的 `isTrials` 勾成 True(`GRTv2.psyexp:1029` 的 `val="False"` → `"True"`),重新編譯。
+   ⚠️ 重新編譯會沖掉手改的部分,要重做 patch。
+2. **直接在 `GRTv2.py` 補一行**:在 `for thisTrial in trials:`(`:1133`)迴圈的最後 ——
+   `:2389` `trials.status = STARTED` 之後、`:2390` `# completed N_TRIALS repeats` 之前 ——
+   以迴圈本體的縮排(8 空格)加一行 `thisExp.nextEntry()`。
+   **同時要把 `GRTv2.psyexp:1029` 的 `isTrials` 也改掉**,否則下一次重編譯這行又會不見。
+
+**修好之後,CSV 的列結構應該是:**
+
+- 指導語/Intro 若干列(`:840, 1111`)
+- 適應階段 60 列(`:946`)
 - `psi_*` 八個欄位**自成一列**(`:972`),整份檔案只有這一列有值
-  → 分析時要先 `ffill`/`groupby(participant).max()` 廣播到全部試次列
-- 主試次 600 列,每列含 §1.4 前五組欄位
+  → 分析時要先 `ffill` / `groupby(participant).max()` 廣播到全部試次列
+- 主試次 **600 列**,每列含 §1.4 前五組欄位
 
-⚠️ 這一段的「TrialHandler2 自動推進」我是從 PsychoPy 的行為推的,**未在本機核實 PsychoPy 原始碼**
-(查詢逾時)。**pilot 拿到第一份 CSV 時,第一件事就是數列數是否 = 60 + 1 + 600 + 若干指導語列。**
+📌 **pilot 拿到第一份 CSV 的第一件事:數列數。** 期望 ≈ 60 + 1 + 600 + 少數指導語列。
 
 ---
 
@@ -280,8 +319,9 @@ P(cell) = g/4 + (1−g)·[獨立模型的 cell]
 **怎麼辦(三選一,誠實度遞減):**
 
 1. **敏感度分析(建議)**:反解「要多少 g 才能單靠猜測解釋掉觀察到的 logOR」。
-   若 break-even 的 ĝ 大到不合理(例如 > 0.4,而受試者正確率明顯高於 0.25+0.75·…),
-   綁定結論站得住;否則不宣稱。
+   把 ĝ 與該受試者的實際正確率一起看 —— 上表顯示 g 每增加 0.05,聯合正確率就掉約 0.03,
+   所以正確率高的人不可能有大的 g。若 break-even 的 ĝ 與觀察到的正確率互相矛盾,
+   綁定結論站得住;若 ĝ 落在正確率容許的範圍內,**不宣稱**。
    ```python
    from scipy.optimize import brentq
    f = lambda g: model_logOR(g, a_hat(g)) - logOR_obs   # a_hat: 讓邊際錯誤率吻合的解
@@ -675,6 +715,11 @@ valid 試次上,刺激 = probe 呈現的四個 item 之一、反應 = 四選一,
 
 ## 回查線索
 
+**⛔ 現在跑下去拿得到資料嗎?**
+→ **拿不到。** `trials` loop 是 `isTrials=False`(`GRTv2.py:1124` / `GRTv2.psyexp:1029`),
+PsychoPy 因此不在迴圈裡產生 `thisExp.nextEntry()`,`TrialHandler2.__next__` 也不呼叫它
+→ **600 個試次覆蓋成一列**。修法見 §1.5。逐行讀原始碼推出,未實跑。
+
 **四個量分別從哪裡算出來?**
 → ①特徵獨立性:valid 384 筆,`err_rel` 攤成 2×2 的 logOR;
 ②intrusion 不對稱:invalid 每 relation 64 筆,π̂ᵣ = P(err_rel=r|relation=r) − P(err_rel=r|relation≠r);
@@ -710,6 +755,16 @@ valid 試次上,刺激 = probe 呈現的四個 item 之一、反應 = 四選一,
 
 ## ⚠️ 量不到 / 不確定的
 
+**⛔ 0. 目前「一個都量不到」—— 因為存檔會把 600 個試次壓成一列**
+
+`trials` loop 是 `isTrials=False`(`GRTv2.py:1124` / `GRTv2.psyexp:1029`)→
+Builder 不產生迴圈內的 `thisExp.nextEntry()`(`experiment/loops.py:483–487`)→
+`TrialHandler2.__next__` 也不呼叫它(`data/trial.py:1101–1103`)→
+`addData` 只覆蓋 `thisEntry`(`data/experiment.py:300`)→
+`entries` 只在 `nextEntry()` 成長(`data/experiment.py:702`)。
+**證據鏈與兩條修法見 §1.5。這一條的優先序高於本檔其他所有內容。**
+⚠️ 逐行讀原始碼推出,未實跑;跑 10 個試次數 CSV 列數即可證偽。
+
 **確定量不到(設計層次,分析救不了)**
 
 1. **注意力捕獲 vs 遵照指導語**(§3.1):指導語 `:406` 說報「那個角落原本是什麼」,
@@ -729,7 +784,9 @@ valid 試次上,刺激 = probe 呈現的四個 item 之一、反應 = 四選一,
 7. **§2.4 的 A(維度不對稱)**:反應階段兩維不對稱(顏色有參照色塊、聲音只有文字標籤,
    `:1832–1833`)—— 適應階段量的卻是兩維都做絕對分類。**89.4% 的等化在反應階段被打破。**
 
-**程式碼層次的待辦(核實時發現)**
+**程式碼層次的待辦(核實時發現,依優先序)**
+
+7.5 ⛔ **`isTrials=False` → 資料存不下**(上面的 0;`GRTv2.py:1124` / `GRTv2.psyexp:1029`)。**先修這個。**
 
 8. 📌 `GRTv2.py:854` 註解「每維 sqrt(0.64) = 0.80」**應改為「每維 0.894、聯合 0.80」**。
 9. 📌 `GRTv2.py:1833` 的 `TXT = ["[bɛ]","[pɛ]"]` 與刺激母音不符
@@ -747,8 +804,9 @@ valid 試次上,刺激 = probe 呈現的四個 item 之一、反應 = 四選一,
 12. **無母數 GRT 檢定(marginal response invariance 一類)適不適用 —— 我不確定。**
     `90_Sources/` 沒有任何一張卡片討論它的定義或適用條件(已逐檔 grep 九張 GRT 相關卡)。
     要用就得先建卡,本檔按引用紀律不引入無卡文獻。
-13. **CSV 的列結構**(§1.5):主試次迴圈裡沒有 `nextEntry()`,靠 `TrialHandler2` 自動推進。
-    我未能在本機核實 PsychoPy 原始碼(查詢逾時)。**pilot 第一份 CSV 要先數列數。**
+13. **§1.5 的結論未實跑驗證**:PsychoPy 裝在 Windows 側(`/mnt/c/Program Files/PsychoPy/`,
+    版本 `2026.1.1`,與 `GRTv2.py:42` 一致),原始碼逐行讀過,但沒有實際跑一次看 CSV。
+    **跑 10 個試次數列數即可確認或推翻。**
 14. **`colour_arc_lo` 是不是一定在藍側**(§1.1):從 `AGRT.py:170–171` 推得
     `colour_arc_lo < α < colour_arc_hi`,但 α 偏離錨點很多的受試者可能兩值同號。
     **分析時直接讀數值,不要假設符號。**

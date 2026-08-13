@@ -1026,7 +1026,7 @@
       <Param name="conditions" updates="None" val="None" valType="str" />
       <Param name="conditionsFile" updates="None" val="" valType="file" />
       <Param name="endPoints" updates="None" val="[0, 1]" valType="code" />
-      <Param name="isTrials" updates="None" val="False" valType="bool" />
+      <Param name="isTrials" updates="None" val="True" valType="bool" />
       <Param name="loopType" updates="None" val="random" valType="str" />
       <Param name="nReps" updates="None" val="N_TRIALS" valType="code" />
       <Param name="name" updates="None" val="trials" valType="code" />

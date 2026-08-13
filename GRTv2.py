@@ -851,7 +851,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     from AGRT import AGRTHandler
 
     N_ADAPT     = 60      # 適應試次數 (每一試同時更新兩條 Psi)
-    OVERALL_ACC = 0.64    # 目標整體正確率 -> 每維 sqrt(0.64) = 0.80
+    OVERALL_ACC = 0.64    # 聯合正確率 0.80、每維 89.4%(estimateGRTintensities
+                          # 傳入 sqrt(0.64)=0.8, estimateThreshold 內部再開一次根號)
     LAPSE       = 0.08    # 整體 lapse; handler 內部轉成邊際 lapse 1-sqrt(1-.08)
     SND_FILES   = ['stimuli/kutlu_mcmurray_2024/cv/beachpeach%d_cv.wav' % _i
                    for _i in range(1, 10)]
@@ -2387,6 +2388,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             )
             # once done pausing, restore running status
             trials.status = STARTED
+        # ⛔ 關鍵修正:每個試次寫成資料檔的一列。
+        # trials loop 建立時 isTrials=False, PsychoPy 因此不產生這一行;
+        # 少了它, 600 個試次的 addData 會互相覆蓋, 存檔只剩一列。
+        thisExp.nextEntry()
     # completed N_TRIALS repeats of 'trials'
     trials.status = FINISHED
     
