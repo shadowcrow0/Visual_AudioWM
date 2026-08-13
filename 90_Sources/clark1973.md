@@ -1,14 +1,17 @@
 ---
-tags: [literature-note, 方法學, 統計, 刺激設計, 推論範圍]
+tags: [literature-note, 統計方法, 刺激當隨機效果, 單一刺激, 類化, 方法學]
 citekey: clark1973
 ---
 
-# Clark (1973) — 語言材料當固定效果是個謬誤
+# Clark (1973) — ⭐⭐ 「單一刺激」什麼時候合法:他給了一個精確的判準
 
-**DOI / URL** https://doi.org/10.1016/s0022-5371(73)80014-3
-**閱讀狀態** ⚠️ **未讀全文,亦未讀摘要**。書目(標題、作者、期刊、卷期、頁碼、年份、DOI)
-經 **Crossref API 核實**(2026-08-12)。以下對論證內容的描述來自本領域的一般認識,
-**不是我從原文讀到的** —— 引用其具體主張前必須取得原文。
+**這是回答「單一自然 token 是不是可以」的正典來源,而且他的答案比「可以/不可以」細緻得多。**
+
+**DOI / URL** https://doi.org/10.1016/S0022-5371(73)80014-3 |
+作者自存 PDF https://web.stanford.edu/~clark/1970s/
+**閱讀狀態** **全文已由 subagent 取得並閱讀**(作者自存的**掃描 PDF**;
+引句由 OCR 轉出,subagent 已修正明顯的掃描雜訊,頁碼對照印刷版的頁眉核實)。
+⚠️ 我本人未通讀。
 
 ```bibtex
 @article{clark1973language,
@@ -17,56 +20,99 @@ citekey: clark1973
              in psychological research},
   journal = {Journal of Verbal Learning and Verbal Behavior},
   volume  = {12}, number = {4}, pages = {335--359}, year = {1973},
-  doi     = {10.1016/s0022-5371(73)80014-3}
+  doi     = {10.1016/S0022-5371(73)80014-3}
 }
 ```
+⚠️ **書目更正**:副標題是 "...in **psychological** research",**不是** "psycholinguistic
+research"(經 PDF 首頁與 Crossref 雙重核實)。這個誤植在二手引用裡很常見。
 
 ## 研究問題
-心理語言學研究通常用少數幾個語言材料(詞、句子、音節)去測一群受試者,然後宣稱結論
-適用於「這類語言材料」。這樣的統計推論成立嗎?若不成立,錯在哪裡、後果多嚴重?
+心理學實驗把**刺激**(詞、句子)當成固定效果,只對受試者做統計推論。
+這樣做錯在哪裡?後果多嚴重?該怎麼辦?
 
 ## 方法與族群
-方法學/統計批評,非實證研究,無受試者。針對當時心理語言學的標準分析慣例提出批評並
-提出替代作法。
-
-⚠️ 我未讀原文,無法描述他實際用了哪些例子或模擬。
+方法學論文。以 Baker & Reader 的同音異義詞研究為引子,重新分析 13 組已發表資料。
 
 ## 結果與限制
-**核心主張(領域通識,非我讀到的原文)**:如果研究結論要推廣到「語言材料」這個母體,
-則**刺激本身也是一個隨機因子**,不能當成固定的。把刺激當固定效果分析,會**高估**
-統計顯著性 —— 因為刺激之間的變異沒有進到誤差項裡。
 
-**對 AVWM 的意義**:這是「單一 token vs 多 token」取捨的統計骨架。
-- 單一 token = 刺激當固定效果 → 結論的推論範圍**就是那個檔案**
-- 多 token = 刺激(部分)當隨機因子 → 才有資格談類別
+### 謬誤是什麼(p. 336 原文)
+> "they have treated Words as a fixed instead of a random effect, **implicitly accepting the
+> assumption that the 20 words they chose constitute the complete population of words they
+> wish to generalize to.** They have not presented any statistical evidence to show that
+> their findings generalize beyond the 20 words they chose, yet they have drawn conclusions
+> which presume that they have."
 
-**但要注意**:Clark 的論證不是「有多個就好」。4 個 token(如 [[silbert2012]] 的做法)
-給的類化力道有限。**⚠️ 這一句是我的推論,不是 Clark 的原文。**
+### ⭐ 固定混淆的危險:兩位研究者、同一個虛無、相反的結論
+Clark 的引子論證比變異數論證更強:在真實效果為零的情況下,
+兩位研究者各用不同的固定刺激樣本,得到**完全相反**的結論,而且**兩邊都 p < .001**。
+> "And this is why it was possible for Baker and Reader to come to **exactly contrary
+> conclusions, complete with 'statistical' evidence.**"
+
+### ⭐⭐ 「單一個案法」——這一節直接回答 AVWM 的問題(pp. 352–354)
+
+**Clark 沒有說單一刺激一律不合法。他給了一個精確的判準:**
+
+> "When used in testing or supporting hypotheses, **the method of single cases has one quite
+> severe requirement: The hypotheses of interest must be applicable to single cases**, and
+> these are often rather strong hypotheses." (p. 353)
+
+> "Since it is impossible to find single homograph/nonhomograph pairs identical in all other
+> possible factors—frequency, meaning, word length, spelling difficulty, **and other
+> undetermined factors**—it is only possible to test the hypothesis by looking at the central
+> tendencies … **There is no single case imaginable that suffices to disconfirm the homograph
+> hypothesis. So the method of single cases is simply not applicable to such
+> 'central-tendency' hypotheses.**" (p. 353)
+
+> "**It is the lumping together of data, obliterating the single cases, that requires the
+> strong assumption. For this to be done, the overall means must be shown to be
+> representative of each instance.**" (p. 354)
+
+**→ ⭐ 判準:單一個案法適用於「對單一個案成立的假設」,不適用於「集中趨勢假設」。**
+
+**對 AVWM 的直接後果(我的推論):**
+「voicing 的語音表徵與顏色有關聯」是一個**類別層次的集中趨勢假設** ——
+依 Clark 的判準,**用單一 /b/ token 與單一 /p/ token 測不了它**。
+
+**但**「在 VOT = X ms、F1/F0 固定為 Y 的這個刺激上,聽覺判斷與顏色判斷是否交互作用」
+**是一個對單一個案成立的假設** —— 依同一個判準,**它可以測**。
+
+**→ 這正好解釋了為什麼合成刺激能救單一刺激設計而自然錄音不能:
+合成刺激讓那個「點假設」可以被**寫下來**;
+單一自然錄音的點是「這段錄音剛好長什麼樣」,寫不下來,也就退回集中趨勢假設。**
+(這一步是我的推論,Clark 沒有討論合成刺激。)
+
+### 小樣本刺激特別危險(p. 355)
+> "Many of these experiments, relying on only **small samples of words**, have produced effects
+> that have been rather small … It is under just these circumstances … that the
+> language-as-fixed-effect fallacy can have its **most serious repercussions**."
+
+### 設計原則(p. 349)
+> "**An experimental design is only as sensitive as the less sensitive of the two subdesigns
+> it contains**—the Treatments by Subjects subdesign and the Treatments by Words subdesign."
+
+### ⚠️ 一個常見的誤傳,查證後不成立
+**Clark 從未主張這個偏誤「無法量化」。** 他做的正好相反 —— 用 max F′ / min F′ 給出上下界,
+並重算:13 個 F₁ 全部 p < .005,但 **只有 5 個 max F′ 顯著,其中 2 個只到 .025**。
+唯一提到 Type I error 的是腳註 3(p. 340),而且是針對一個很窄的情形。
 
 **限制**:
-- 我未讀全文,上述所有內容都應回查。
-- 這篇是 1973 年的,後續有實質的爭論與修正。至少要一併看
-  Raaijmakers, J. G. W., Schrijnemakers, J. M. C., & Gremmen, F. (1999).
-  *How to Deal with "The Language-as-Fixed-Effect Fallacy": Common Misconceptions and
-  Alternative Solutions.* **Journal of Memory and Language, 41(3), 416–426**,
-  doi 10.1006/jmla.1999.2650(書目同樣經 Crossref 核實,**未讀全文**)——
-  該篇明確主張常見的補救做法有誤解。
-- 另有 Westfall, J., Nichols, T. E., & Yarkoni, T. (2016).
-  *Fixing the stimulus-as-fixed-effect fallacy in task fMRI.* doi 10.1101/077131
-  (Crossref 有記錄但期刊欄位為空,**未查證發表狀態**)——把同一問題帶到神經影像。
-- **本卡不足以支撐任何關於「該用幾個 token」的具體建議。** 它只確立了問題的存在與名稱。
+- 1973 年;現代做法是混合效果模型([[barr2013]] 一系),不是 min F′。
+- 掃描 PDF + OCR。
+- **他討論的是詞與句子,不是語音刺激。**外推到語音學是我做的。
 
 ## 可連結脈絡
-- 這個概念在 AVWM 的具體含義 —— [[exemplar與類別的推論範圍]]
-- token 變異對 GRT 參數的影響 —— [[token-variability-vs-perceptual-variance]]
-- 用 4 個 token 的先例 —— [[silbert2012]]
+- 本卡所屬的推論文章 —— [[自然音vs合成音_理論推論]] §5
+- 證據回顧 —— [[token-variability-vs-perceptual-variance]] §7.1
+- 現代版與 Type I error 的量化 —— [[judd2012]]、[[westfall2014]]、[[barr2013]]
+- **反方**:配對/平衡之後不需要 item 分析 —— [[raaijmakers1999]]
+- 這個論證進到 SDT 的版本 —— [[rouder2007]]、[[decarlo2011]]
+- ⚠️ GRT 從未引用本篇(見 [[judd2012]] 卡的引文網路統計)
 
 ---
-標籤note:[[literature-note]] [[方法學]] [[AVWM]]
+標籤note:[[literature-note]] [[GRT]] [[AVWM]]
 
 ## 回查線索
-**我在哪些研究看過「刺激也是隨機因子」這個主張?** → 本篇是源頭;
-Raaijmakers et al. (1999) 是主要的修正;Westfall et al. (2016) 把它帶到 fMRI。
-
-**哪些我引用的文獻是「書目已核實但內容未讀」?** → 本篇。
-這類卡片在寫作引用前一定要先補讀原文。
+**單一刺激什麼時候合法?** → 當**假設本身對單一個案成立**時(本篇 pp. 352–354)。
+集中趨勢假設不行。
+**固定刺激樣本有多危險?** → 兩位研究者可以用同一個虛無得出相反結論,兩邊都 p < .001。
+**「Clark 說偏誤無法量化」對嗎?** → **不對**,他用 min F′/max F′ 量化了。

@@ -46,14 +46,22 @@ citekey: goldenberg2022
 > "The 24 sound files used as acoustic stimuli are available as Supplementary Material
 > from https://tinyurl.com/2p8tjfnh"
 
-**我實際追了這個短網址**,它**還活著**(HTTP 200),解析到:
+**⚠️ 2026-08-13 更正:檔案已被刪除,這條路不通。**
+
+短網址仍解析到:
 ```
 https://www.dropbox.com/scl/fi/w2gocofutqe1oftrbcjw7/Puffs_Continua.zip
     ?rlkey=48m3e1gijk2ece2767pb2jcgw&dl=0
 ```
-⚠️ **但我沒能程式化取得檔案。** 改用 `dl=1` 抓,回來的是
-`Content-Type: text/html`、內容開頭是 `<!DOCTYPE html>` 的 Dropbox 介面頁,不是 zip binary。
-→ **連結是活的,但要用瀏覽器手動下載。** zip 的實際大小、檔名、取樣率我**全部未確認**。
+但用 `dl=1` 抓回來的是 190 KB 的 HTML,其 `<title>` 為 **"Dropbox - File Deleted"**。
+**HTTP 200 是誤導** —— Dropbox 對已刪除的檔案一樣回 200,只是內容換成提示頁。
+先前記錄的「連結是活的」是根據狀態碼判斷,**不成立**。
+
+另外兩條路也查過,都沒有:
+- **PMC9334670** 沒有 supplementary 檔案區
+- **Frontiers 官網**的 supplementary 段落只是指回同一個 Dropbox 連結
+
+→ **要拿到這 24 個檔只能寫信給作者。**
 
 **刺激的原始規格**(論文 Methods,我讀到的):
 - 語者:**一位單語美式英語男性母語者**

@@ -43,6 +43,61 @@ citekey: chodroff2017
 
 **→ 軟顎音的可用區間最窄**(因為 /g/ 的 short-lag VOT 最長),而且**有聲端的說話者間變異隨部位後移而增大**(b 5 → d 7 → g 10)。
 
+---
+
+## ⭐ 追加(2026-08-12):本卡原本漏掉了**同一位語者之內**的變異數字
+
+**這一欄才是 [[token-variability-vs-perceptual-variance]] 需要的那一欄,原卡只抄了
+「talker 平均值的 SD」(語者**之間**),漏了「Range of Talker SDs」(語者**之內**)。**
+
+Table 1(孤立語,24 位語者)與 Table 6(連續語,Mixer 6,180 位語者)的
+**"Range of Talker SDs" 欄** —— 亦即**每位語者自己的 VOT 標準差的全距**(ms):
+
+| | pʰ | tʰ | kʰ | b | d | g |
+|---|---|---|---|---|---|---|
+| **孤立語:語者內 SD 全距** | **12–27** | 10–26 | 11–20 | **2–8** | 3–10 | 4–13 |
+| **連續語:語者內 SD 全距** | **11–35** | 9–34 | 11–30 | **2–8** | 4–13 | 6–15 |
+
+表題原文:
+> "Descriptive statistics of talker-specific VOT (ms)… Ranges are reported for
+> talker-specific means and standard deviations."
+
+**→ ⭐ 唇音的語者內 SD:/pʰ/ 12–27 ms、/b/ 2–8 ms。兩者相差 3–4 倍。**
+這個**不對稱**正是 [[token-variability-vs-perceptual-variance]] §4.3 模擬的那個情形。
+
+**⚠️ 一個必須標明的限定**:這個 SD **不是「同一個音節重複唸」的變異** ——
+它涵蓋 10 個母音脈絡 × 5 個 block(孤立語)。
+**所以它是純 token 重複雜訊的上界,不是它本身。**
+subagent 查證的結論:**沒有任何已發表研究報告「同一位語者重複唸同一個 CV 音節」的
+VOT SD。** Theodore et al. (2009) 用了純重複(/ti/、/pi/、/ki/),但只報告
+每位語者的迴歸斜率與截距,**沒有報 SD**(全文已確認)。
+
+**平均值(唯一一筆已發表的「平均語者內 SD」)** —— Chodroff, Bradshaw & Livesay (2023)
+用同一批孤立語原始資料重算:**[tʰ] mean talker SD = 16 ms、[kʰ] = 16 ms**。
+> "In contrast, adult stop-specific standard deviations are typically **between 10 and 30 ms**
+> for word-initial aspirated stops in isolated speech (Chodroff & Wilson, 2017)."
+
+**平均與標準差高度相關(原文)**:
+> "Significant correlations of the talker means and standard deviations were observed for
+> **all stops (r = 0.90)**, as well as for voiced stops ([b]: r=0.71, [d]: r=0.76,
+> [g]: r=0.75, ps < 0.008)"
+
+⚠️ **但「VOT 的變異係數 CV 是常數」這個常見說法,subagent 遍尋不獲任何來源。**
+用上表中點 ÷ 平均算出的 CV(**我的算術**)顯示 CV **不是**跨類別常數:
+孤立語 pʰ 0.22、b 0.38(有聲端約為無聲端的兩倍)。**CV 大致只在同一個 voicing 類別內穩定。**
+
+### ⚠️ 一個資料品質警訊(subagent 發現,原文未標示)
+
+**孤立語的 [b] 那一列在數學上不可能**:平均 13、SD 5、talker 平均值全距 11–20。
+n = 24 且全部落在 [11, 20] 之內時,樣本 SD 的**最大可能值是 4.60**(subagent 的計算)。
+
+而且 Chodroff, Bradshaw & Livesay (2023) 用**同一批原始資料**重算,得到
+**[tʰ] SD = 23、[kʰ] = 18**,而本篇印的是 **28 與 24**;[pʰ] 的 talker 平均全距
+他們列 **56–139**,本篇印 **46–139**。
+
+**→ 孤立語的「SD」欄(語者**之間**)引用時要謹慎。
+語者**之內**那一欄不受這個問題影響。**
+
 **修正教科書的部位序列(原文)**:
 > "Regarding the relative ranking of [tʰ], the findings are inconsistent ... The present
 > study observed a strong tendency for the ranking of **[pʰ]<[kʰ]**, consistent with
