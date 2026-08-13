@@ -505,3 +505,29 @@ def validate():
 
 if __name__ == "__main__":
     validate()
+
+
+# ──────────────────────────────────────────────────────────────
+# 匯出查表檔給 PsychoPy 用
+# ──────────────────────────────────────────────────────────────
+
+def export_lut(path='agrt_colour_lut.json', step=0.01):
+    """把弧長→hex 的對照表寫成 JSON,讓實驗執行時不必安裝 colour-science。
+
+    PsychoPy 內建的 Python 沒有 colour;在實驗裡 import 它會讓整個實驗開不起來。
+    離線算好、執行期只用 numpy 查表,就少一個失敗點。
+    """
+    import json
+    lo, hi = arc_range_in_gamut()
+    arcs = np.arange(lo, hi + step / 2, step)
+    data = {
+        'anchor_h': ANCHOR_H, 'lstar': LSTAR, 'cstar': CSTAR,
+        'arc_min': float(arcs[0]), 'arc_max': float(arcs[-1]), 'step': step,
+        'hex': [de00_to_hex(float(a)) for a in arcs],
+    }
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(data, f)
+    uniq = len(set(data['hex']))
+    print(f"寫入 {path}:{len(arcs)} 點,弧長 {arcs[0]:.3f}~{arcs[-1]:.3f} dE00,"
+          f"{uniq} 種相異顏色")
+    return path
