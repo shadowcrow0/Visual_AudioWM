@@ -291,6 +291,35 @@ def realised_snr(name, snr_db, rng=None):
     return 20.0 * np.log10(_rms(sp[seg]) / _rms(nz[seg]))
 
 
+def new_seed():
+    """抽一個可記錄的噪音種子。"""
+    return int(np.random.SeedSequence().entropy)
+
+
+def mix_at_snr_logged(name, snr_db, seed=None):
+    """與 mix_at_snr 相同,但額外回傳這一次用的噪音種子。
+
+    回傳 (sample_rate, waveform, seed)。
+
+    為什麼要記種子 —— running noise 每個 trial 都換新樣本,這是對的
+    (frozen noise 會被學起來),但「每次都新」不等於「不可追溯」。
+    噪音樣本本身不是中性的:在同型作業裡,單是噪音的隨機樣本就解釋了
+    8-13% 的音素反應變異。不記種子的話,那部分變異就永遠只能當殘差,
+    而且 double-pass 一致性(同一段噪音重播,看反應一不一致 -> 分離
+    知覺雜訊與決策雜訊)與反向相關(哪些頻譜時間區域驅動了 /b/ 反應)
+    這兩條分析路線會被永久關閉。
+
+    成本是資料檔裡多一個整數欄位。把 seed 寫進 thisExp,日後用
+    `speech_shaped_noise(n, np.random.default_rng(seed))` 就能重建
+    出位元完全相同的那一段噪音。
+    """
+    if seed is None:
+        seed = new_seed()
+    seed = int(seed)
+    sr, wav = mix_at_snr(name, snr_db, np.random.default_rng(seed))
+    return sr, wav, seed
+
+
 # ──────────────────────────────────────────────────────────────
 # 自我檢查
 # ──────────────────────────────────────────────────────────────
