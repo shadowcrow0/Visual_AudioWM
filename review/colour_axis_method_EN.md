@@ -1,8 +1,9 @@
 # Constructing the Colour Dimension — Method Summary
 
 **Project** AVWM · adaptive GRT · colour × (auditory) working memory
-**Status** Settled and implemented. All figures below are measured from
-`agrt_setup.py` and `agrt_colour_lut.json`, not estimated.
+**Status** The **axis** (coordinate system) is settled and implemented.
+The **stimulus levels on it are not** — see §8. All figures below are measured
+from `agrt_setup.py` and `agrt_colour_lut.json`, not estimated.
 **Date** 2026-08-13
 
 ---
@@ -153,7 +154,33 @@
 
 ---
 
-## 8. Summary for a reader in a hurry
+## 8. ⚠️ What is NOT settled
+
+The axis is a ruler. Nothing has yet decided **where on the ruler the stimuli sit.**
+
+- **The colour values in the experiment are placeholders.** `GRTv2.psyexp` currently
+  has `COLOUR_ARC = [-3.0, +3.0]` with an explicit PLACEHOLDER comment. ±3 ΔE00 was
+  not derived from anything.
+- **Why this matters:** reported colour-memory SDs run **3–8 ΔE00**. A 6-ΔE00
+  separation is comfortable for an observer at the low end and near-indiscriminable
+  at the high end. This spread is precisely why an adaptive procedure was planned.
+- **The adaptive block that was meant to set these values has not been built.**
+  No `dim1range` / `dim1steps` is configured anywhere in the project.
+- **The gamut clamp is documented but not enforced.** `arc_range_in_gamut()` exists
+  and is the required way to bound adaptive proposals (the blue side leaves sRGB at
+  h ≈ 250.3°), but nothing outside `agrt_setup.py`'s self-test calls it.
+- **Display quantisation interacts with the unbuilt config:** proposals finer than
+  ~0.15 ΔE00 render as the same 8-bit colour, so whether `dim1steps = 100` is
+  appropriate depends on the final `dim1range` — which does not exist yet.
+
+Two ways to close this, decided by (not before) the design discussion:
+1. **Build the adaptive block** (per-participant staircase on the colour axis) — the
+   original plan; still valid in a colour-only design.
+2. **Fix the separation from a short pilot** (e.g. constant stimuli at 4–6 levels)
+   and drop the adaptive machinery — cheaper, defensible if the DV is the
+   between-condition difference rather than the threshold itself.
+
+## 9. Summary for a reader in a hurry
 
 - Colour is manipulated in **CIELCh** with **L\* = 55** and **C\* = 38 fixed**;
   **only hue angle varies**.
@@ -166,6 +193,8 @@
   **β ≤ 10.45 ΔE00**.
 - Delivered as a **5001-point lookup table** so the experiment carries no colour
   dependency, with out-of-range values raising rather than clamping.
+- ⚠️ **Not settled:** the actual stimulus separation (currently a ±3 ΔE00
+  placeholder) and the adaptive block meant to determine it — see §8.
 
 ---
 
