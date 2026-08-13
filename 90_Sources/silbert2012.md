@@ -6,9 +6,15 @@ citekey: silbert2012
 # Silbert (2012) — 2×2 GRT 語音實驗:他選了自然音 + 噪音
 
 **DOI / URL** https://doi.org/10.1121/1.3699209 | PMC3356321 https://pmc.ncbi.nlm.nih.gov/articles/PMC3356321/ | PMID 22559380
-**閱讀狀態** 摘要與**方法段關鍵引句已從 PMC 全文逐字核對**(2026-08-12,四段引句、
-受試者數、試次數、token 數皆確認無誤)。**未通讀結果與討論段** —— 引用其理論主張前
-應回查 §III–§IV。
+**閱讀狀態** **全文已通讀**(2026-08-12 第二輪:由 subagent 取回 PMC3356321 完整 HTML,
+逐節閱讀 §I–§VI、三個腳註、兩個表、兩個圖說,並對原始 HTML 反查每一段引句以排除
+轉檔雜訊)。⚠️ **排版 PDF 取不到**,因此**所有引句只能標到節,無法標頁碼**;
+**補充材料**(腳註 2 所提的 token 頻譜圖與聲學量測散布圖)在 AIP DOI 之後,未取得 ——
+那是全文中**唯一**記載四個 token 聲學性質的地方。
+
+⚠️ **第一輪的節結構判讀有誤,已更正**:§III 不是 Results,而是一段
+"INTERIM SUMMARY"。實際結構為 I 導論 / II GRT / III 中間總結 / IV 實驗1 / V 實驗2 /
+VI 結論與總討論。
 
 ```bibtex
 @article{silbert2012syllable,
@@ -68,11 +74,123 @@ AVWM 幾乎同構(2×2 GRT、語音維度、需要中等難度),他的兩個選�
 ⚠️ **這正好是 AVWM 的 SNR 路線。** 合成路線(固定 F1、只動 VOT)恰恰是 Silbert 明說要避開的那種「強假設」做法。
 
 **限制**:
-- 我未通讀全文,上述引句需回查。
 - Silbert 的 2×2 是**兩個聽覺維度**;AVWM 是**跨模態**(顏色 × 聽覺),知覺可分離性的先驗預期不同,不能直接套用他的結論。
 - 他的 −3 dB SNR 是**固定值**,不是適應式估出來的;AVWM 用適應程序取 SNR 是他沒做的。
-- 他用**多個 token**(每類 4 個)引入自然變異;AVWM 目前的設計是否也用多 token,會影響 GRT 分布的解釋。
 - 本篇沒有正面比較自然 vs 合成的效果,只是**選擇了自然**並給了理由。這是**設計先例**,不是實證比較。
+- ⚠️ **Table I 與 Table II 的八個正確率幾乎相同**(0.87, 0.78, 0.88, 0.85, 0.80, 0.70,
+  0.80, 0.81 vs 0.87, 0.88, 0.78, 0.85, 0.80, 0.70, 0.80, 0.81 —— 只有受試者 2、3 對調),
+  兩節正文都寫 "ranging from 70% to 88% correct"。**很可能是製版錯誤,不要把這兩組數字
+  當成兩個獨立結果引用。**(論文未標示此問題;此判讀是我的推論。)
+- **模型在個體層次是飽和的**,作者自陳:
+  > "because the model has as many free parameters as the data has degrees of freedom at
+  > the individual subject level, the model is expected to (and does) fit the data very
+  > well."
+  **→ 他的模型適配度不帶證據力。**AVWM 若要用適配度做模型比較,不能援引本篇當先例。
+
+---
+
+## ⭐ 四個 token 的問題:他為什麼用 4 個,以及他**沒有**處理什麼
+
+**這一節是為 [[token-variability-vs-perceptual-variance]] 做的專門查核(全文通讀 + 關鍵詞計數)。**
+
+### 用 4 個 token 的理由是「防止受試者鑽漏洞」,不是取樣類別
+
+§IV.A 原文:
+> "**In order to ensure that the subjects did not simply attend to some irrelevant acoustic
+> feature of a particular token of a particular category, a small degree of within-category
+> variability was introduced** by using four tokens of each stimulus type—[pa], [ba], [fa],
+> and [va]—all produced by the author (a mid-30s midwestern, male phonetician)."
+
+**注意 "a small degree of within-category variability" —— 變異是被刻意壓小的。**
+而且 token 經過同質性篩選(§IV.A 原文,原刊即有一處括號未閉合,照錄):
+> "Multiple acoustic measurements (e.g., VOT, F0 at vowel onset, F1 and F2 at vowel onset
+> and midpoint, spectral moments of release burst were analyzed and extensive pilot
+> experimentation was carried out to ensure both that **no particular token was overly
+> acoustically distinct** and that the stimuli were within the normal range of values for
+> these consonants."
+
+**→ 他要的是「不要少到有漏洞可鑽」,不是「多到能代表類別」。這兩個目標的最適 token 數
+完全不同。**
+
+### 分析時把 token 併掉了
+
+§IV.B.2 原文:
+> "The hierarchical Gaussian GRT model described previously was fit to the eight subjects'
+> data. **Response counts were tallied by stimulus category, not by individual stimuli.**"
+
+**模型裡沒有 token 這個索引。**階層只有**受試者**這一層(§II.B 的三行分布式
+μ_ik、κ_ij、ρ_ik,i 是受試者、k 是刺激**類別**)。
+
+⚠️ **4 個 token 如何分配到 800 試次,論文完全沒寫** —— 沒說等機率、沒說分區塊、
+沒說每試次隨機抽。(800÷4 類別 = 每類 200 次,若 token 等頻則每 token 50 次;
+**這個算術是我做的,論文沒有寫。**)
+
+### ⭐ 關鍵:他的模型**沒有自由的變異數參數**
+
+§II.B 原文:
+> "A number of the model's parameters must be fixed a priori so that unique estimates of the
+> other parameters may be derived. Thus, the mean of one perceptual distribution is fixed at
+> (0, 0), and **all marginal variances are fixed at unity.**"
+
+**→ token 變異在他的模型裡「無處可去」:共變異矩陣的對角線被釘死,只有平均數
+(以那個單位變異數為尺度)與相關 ρ 是自由的。所以 token 變異只能被吸收進
+「平均數分離度」(等於 d′ 被壓縮),而不會顯示為某個變異數估計值變大。**
+
+⚠️ **不要與 τ、χ、π 混淆** —— 那些是**受試者之間**的離散度(precision)與超先驗設定,
+不是知覺雜訊。全文沒有任何一句把變異數參數詮釋為內在雜訊或試次間變異。
+
+### 他對「知覺變異來自哪裡」的唯一一句話,漏掉了刺激本身
+
+§II.A 原文:
+> "First, it is assumed that the presentation of a stimulus produces a random perceptual
+> effect due to **internal noise, external noise added to the stimulus, or both.** Over the
+> course of many trials, this results in distributions of perceptual effects."
+
+**這份清單只有兩項:內在雜訊、外加噪音。沒有「刺激彼此不同」這一項** —— 而他自己
+每類用了四個物理上不同的 token。**論文沒有註記這個缺口。**
+
+### 他的 limitation 是**類化**,不是**估計**
+
+§VI.B 全段原文:
+> "It is important to keep the scope of the present findings in proper perspective. Although
+> they provide a rigorous baseline to which future work can be compared, the present results
+> are of only limited generality. **Only a few stimuli were used in each experiment, and
+> these were all produced by a single talker.** Although measures were taken to ensure that
+> the stimuli were suitable, to the extent that they deviate from typical productions of the
+> same categories in the larger speech community, **the perceptual results reported here may
+> be idiosyncratic.** The speech-shaped noise used to mask the stimuli may also be
+> responsible for some portion of the observed results. Both of these concerns are,
+> ultimately, empirical matters. ... further experimentation using **a larger number of more
+> variable stimuli** is currently in development."
+
+**→ 整段是外部效度論證(「可能是我的 token 特有的」),完全不是估計理論論證。
+他從未說刺激變異會偏誤、膨脹或污染任何參數估計。**
+
+### 關鍵詞計數(subagent 對全文正文做的,可回查)
+
+| 關鍵詞 | 命中 |
+|---|---|
+| `token` | **5 次,全部在 §IV.A 與 §V.A 兩個 Stimuli 小節** —— 結果、討論、模型描述裡 0 次 |
+| `covarian` | **0** |
+| `pool` | **0** |
+| `varian` | 5(2 次是 §II.B 的模型設定、2 次是群體層次**先驗**、1 次在參考文獻標題裡) |
+| `trial-to-trial` | **0** |
+
+**→ 結論:Silbert (2012) 完全沒有處理「token 變異會不會進到估到的知覺變異」這個問題。
+這不是我沒找到,是文中真的沒有。**
+
+### 另一段先前漏掉的、比方法段更有力的理論引句(§I.C.2)
+
+> "Most such studies employ stimuli built on predetermined acoustic-phonetic dimensions
+> (e.g., VOT, formant frequency value at voice onset, etc.). Although this method has clear
+> and proven value, if the goal is to study interactions or independence between phonological
+> dimensions, as it is here, **strong assumptions about the relevant set of acoustic-phonetic
+> cues should be avoided as much as possible. Many such assumptions can be avoided by using
+> naturally produced, and so naturally variable, stimuli.**"
+
+⚠️ **注意 "and so naturally variable"** —— 在 Silbert 的論證裡,**變異本身就是達成目的的
+機制**,不是副作用。他把 token 變異當成**特徵而非瑕疵**。這是與
+[[token-variability-vs-perceptual-variance]] 的核心顧慮**正面對撞**的一句話,必須並陳。
 
 ## 可連結脈絡
 - 直接支持 SNR 路線 —— [[snr_audio]]、[[snr_vs_grt_dimension]]

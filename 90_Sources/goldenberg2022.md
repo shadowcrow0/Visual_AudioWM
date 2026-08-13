@@ -36,6 +36,37 @@ citekey: goldenberg2022
 
 受試者數我未確認。
 
+### ★ 刺激取得(2026-08-12 新增查證)—— **作者確實釋出了那 24 個音檔**
+
+先看**正式的** Data availability,它其實是**沒有公開資料**的那種寫法(逐字):
+> "The raw data supporting the conclusions of this article will be made available by the
+> authors, without undue reservation."
+
+**但真正有用的資訊藏在 Materials and Methods 的「Acoustic stimuli」小節末尾的註腳 1**(逐字):
+> "The 24 sound files used as acoustic stimuli are available as Supplementary Material
+> from https://tinyurl.com/2p8tjfnh"
+
+**我實際追了這個短網址**,它**還活著**(HTTP 200),解析到:
+```
+https://www.dropbox.com/scl/fi/w2gocofutqe1oftrbcjw7/Puffs_Continua.zip
+    ?rlkey=48m3e1gijk2ece2767pb2jcgw&dl=0
+```
+⚠️ **但我沒能程式化取得檔案。** 改用 `dl=1` 抓,回來的是
+`Content-Type: text/html`、內容開頭是 `<!DOCTYPE html>` 的 Dropbox 介面頁,不是 zip binary。
+→ **連結是活的,但要用瀏覽器手動下載。** zip 的實際大小、檔名、取樣率我**全部未確認**。
+
+**刺激的原始規格**(論文 Methods,我讀到的):
+- 語者:**一位單語美式英語男性母語者**
+- 錄了 /pa/、/ba/、/ka/、/ga/ **各 6 個 token**
+- 做成**兩條 8 步 VOT 連續體**(雙唇 + 軟顎)
+- 共 24 個音檔
+- ⚠️ **取樣率論文未載明,查無。**
+
+**這是本次刺激搜尋中,唯一一個「真正的孤立自然 /ba/–/pa/ CV 音節」來源。**
+母音是 /ɑ/(AVWM 的第二順位母音),8 步,單一語者。
+對照:[[osf-kutlu-mcmurray-continua]] 母音是 /i/ 但那是 CVC 單詞;
+[[osf-kapnoula-vot-f0-stimuli]] 是孤立 CV 且有二維格點但母音是 /ʌ/。
+
 ## 結果與限制
 **本卡要用的那一段(原文)**:
 > "The bilabial category boundary is approximately centered between its endpoints, that
@@ -68,6 +99,7 @@ citekey: goldenberg2022
 - 產出 VOT 的現代大語料庫版本 —— [[chodroff2017]]
 - cross-splicing 的方法學正解 —— [[winn2020]]
 - 辨識函數斜率不宜當「類別性」指標 —— [[mcmurray2022]]
+- **作為刺激來源的橫向比較** —— [[osf-kapnoula-vot-f0-stimuli]]、[[osf-kutlu-mcmurray-continua]]、[[natural-speech-sources]]
 
 ---
 標籤note:[[literature-note]] [[speech-perception]] [[AVWM]]
@@ -75,3 +107,12 @@ citekey: goldenberg2022
 ## 回查線索
 **有沒有人在同一個實驗裡比較過不同發音部位的辨識函數斜率?** → 本篇,而且是我找到的唯一一筆。
 **哪個部位的類別邊界不置中?** → 軟顎音(bias 3.6 vs 中點 4.5)。這對假設對稱的適應程序是問題。
+
+**Goldenberg 有沒有把刺激公開?** → **有,但不在 Data availability 裡。**
+正式的 Data availability 寫的是「向作者索取」;真正的連結在 **Methods 的註腳 1**:
+https://tinyurl.com/2p8tjfnh → Dropbox 的 `Puffs_Continua.zip`(24 個音檔)。
+**2026-08-12 實測連結還活著(HTTP 200),但 `dl=1` 抓回來是 Dropbox 的 HTML 介面頁,
+必須用瀏覽器手動下載。** 取樣率查無。
+
+**哪裡有「真正的孤立自然 /ba/–/pa/ CV 音節」?** → **就是這篇的那 24 個檔**,
+單一美式英語男性、母音 /ɑ/、8 步。這是本次全部查證中唯一符合「孤立 + 自然 + /b/–/p/」三條件的。
