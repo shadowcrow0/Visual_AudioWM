@@ -393,22 +393,29 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     print(f"width_cm: {m.getWidth()}, dist_cm: {m.getDistance()}")
     print(f"res: {m.getSizePix()}, win: {win.size}")
     text = visual.TextStim(win=win, name='text',
-        text='Welcome, and thank you for taking part.\n\nThis session has two parts: a short calibration,\nthen the main experiment.\n\nPlease make sure you are wearing the headphones.\n\nPress the space bar to continue.',
+        text='Welcome, and thank you for taking part.\n\nThis session has two parts: a short calibration, then the main experiment. Please make sure you are wearing the headphones before continuing.\n\nPress the space bar to continue.',
         font='Arial',
-        pos=(0, 0), draggable=False, height=1.0, wrapWidth=None, ori=0.0, 
-        color='white', colorSpace='rgb', opacity=None, 
-        languageStyle='LTR',
+        pos=(0, 0), draggable=False, height=1.0, wrapWidth=24, ori=0.0,
+        color='white', colorSpace='rgb', opacity=None,
+        languageStyle='LTR', alignText='left', anchorHoriz='center',
         depth=-1.0);
     key_resp = keyboard.Keyboard(deviceName='defaultKeyboard')
     
     # --- Initialize components for Routine "instruction_normal" ---
     instruction_normal_text = visual.TextStim(win=win, name='instruction_normal_text',
-        text='Main experiment.\n\nYou will see four coloured squares. They appear one at a time,\nin the four corners of the screen. Each square is paired with a\nspeech sound. Try to remember which colour and which sound went\ntogether, and where each one appeared.\n\nA marker will then point to one of the corners.\nYour task is to report which item was there.\n\nFour options will be shown, one in each corner.\nPress the key matching the position of your choice:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nYou will start with a short practice, then the experiment proper\nin four blocks with a rest after each one.\n\nAnswer as accurately as you can. Speed is not important.\n\nPress the space bar to begin.',
+        text='Main experiment.\n\nFour coloured squares will appear one at a time, one in each corner of the screen, and each of them comes with its own speech sound. Try to remember which colour and which sound belong together and where they appeared.\n\nA frame will then appear at one of the corners, and an item will appear in it. When you see the frame, recall what has just appeared. On the final screen four options are shown, one in each corner - choose the one you have in mind by pressing the key for its position:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nThe picture below shows how the four keys point to the four corners.\n\nYou will start with a short practice, then four blocks with a rest after each one. Answer as accurately as you can - speed is not important.\n\nPress the space bar to begin.',
         font='Arial',
-        pos=(0, 0), draggable=False, height=0.8, wrapWidth=None, ori=0.0, 
-        color='white', colorSpace='rgb', opacity=None, 
-        languageStyle='LTR',
+        pos=(0, 3.0), draggable=False, height=0.65, wrapWidth=26, ori=0.0,
+        color='white', colorSpace='rgb', opacity=None,
+        languageStyle='LTR', alignText='left', anchorHoriz='center',
         depth=0.0);
+    instruction_key_img = visual.ImageStim(
+        win=win, name='instruction_key_img',
+        image='stimuli/box_keys.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, -7.0), size=(5.5, 5.0),
+        color=[1,1,1], colorSpace='rgb', opacity=None,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=-2.0)
     instruction_normal_key = keyboard.Keyboard(deviceName='defaultKeyboard')
     
     # --- Initialize components for Routine "study" ---
@@ -868,11 +875,15 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     adapt_sound.setVolume(1.0)
     adapt_text = visual.TextStim(win=win, name='adapt_text', text='',
                                  height=0.8, color='white', pos=(0, 0), wrapWidth=26)
+    adapt_para = visual.TextStim(win=win, name='adapt_para', text='',
+                                 height=0.7, color='white', pos=(0, 0), wrapWidth=26,
+                                 alignText='left', anchorHoriz='center')
 
-    def _adapt_screen(msg, keys):
+    def _adapt_screen(msg, keys, stim=None):
         """畫一頁文字, 等按鍵。escape 一律可離開。"""
-        adapt_text.text = msg
-        adapt_text.draw()
+        stim = adapt_text if stim is None else stim
+        stim.text = msg
+        stim.draw()
         win.flip()
         _k = event.waitKeys(keyList=list(keys) + ['escape'])
         if 'escape' in _k:
@@ -882,14 +893,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
 
     _adapt_screen(
         "Calibration (about 4 minutes).\n\n"
-        "On each trial you will SEE a coloured square and HEAR a syllable\n"
-        "at the same time. Then answer two questions:\n\n"
+        "On each trial you will see a coloured square and hear a syllable "
+        "at the same time. After each one, answer two questions:\n\n"
         "   COLOUR:   f = more blue        j = more pink\n"
         "   SOUND:    f = like 'b'         j = like 'p'\n\n"
-        "You get feedback after each trial. The colours and sounds are\n"
-        "chosen to stay difficult, so feeling unsure is normal -\n"
-        "just give your best guess every time.\n\n"
-        "Press the space bar to start.", ('space',))
+        "You get feedback after each trial. The colours and sounds are "
+        "chosen to stay difficult, so feeling unsure is normal - just "
+        "give your best guess every time.\n\n"
+        "Press the space bar to start.", ('space',), stim=adapt_para)
 
     agrt = AGRTHandler(nTrials=N_ADAPT, lapse=LAPSE,
                        dim1range=[-_ARC_LIM, _ARC_LIM], dim2range=[1, 9],
@@ -1008,6 +1019,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
     frameN = -1
     
+    instruction_key_img.setAutoDraw(True)   # 按鍵-象限對應圖,隨指導語顯示
     # --- Run Routine "instruction_normal" ---
     thisExp.currentRoutine = instruction_normal
     instruction_normal.forceEnded = routineForceEnded = not continueRoutine
@@ -1101,6 +1113,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
     
+    instruction_key_img.setAutoDraw(False)
     # --- Ending Routine "instruction_normal" ---
     for thisComponent in instruction_normal.components:
         if hasattr(thisComponent, "setAutoDraw"):
