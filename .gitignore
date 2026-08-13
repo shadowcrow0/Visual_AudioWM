@@ -2,8 +2,5 @@
 __pycache__/
 *.pyc
 
-# PsychoPy 由 GRTv2.psyexp 編譯出的產物 —— 以 .psyexp 為準,編譯品不進版本庫
-GRTv2.py
-
 # Claude Code 本機設定
 .claude/
