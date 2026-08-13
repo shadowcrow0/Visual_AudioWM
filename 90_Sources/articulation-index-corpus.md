@@ -225,6 +225,7 @@ voicing 線索全在 8 kHz 以下。若換成 /s/–/ʃ/ 這種靠高頻擦音�
 - 其他自然語音取得管道 —— [[natural-speech-sources]]、[[timit]]、[[oscaar-speechbox]]
 - 合成路線做不到 VOT 的證據 —— [[mbrola-cannot-do-vot]]
 - Miller–Nicely 式子音混淆傳統 —— [[humes1993]]、[[winn2020]]
+- **同一個語料庫在 [[phatak-allen2007]] / [[singh-allen2012]] 被用來做安靜下的 utterance 層級子音混淆分析** —— 見 [[子音混淆最小化]]
 
 ---
 標籤note:[[literature-note]] [[speech-perception]] [[AVWM]]

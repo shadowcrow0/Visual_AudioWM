@@ -103,6 +103,7 @@ https://www.dropbox.com/scl/fi/w2gocofutqe1oftrbcjw7/Puffs_Continua.zip
 
 ## 可連結脈絡
 - 發音部位的選擇(本卡是該回顧的關鍵證據)—— [[consonant-pair-choice]]
+- 子音混淆矩陣正典來源與現代複製(voicing 的知覺穩健度)—— [[子音混淆最小化]]、[[miller-nicely1955]]、[[wang-bilger1973]]
 - 軟顎音的其他結構性問題 —— [[kingston1983]]、[[frisch2016]]
 - 產出 VOT 的現代大語料庫版本 —— [[chodroff2017]]
 - cross-splicing 的方法學正解 —— [[winn2020]]

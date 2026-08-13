@@ -437,7 +437,7 @@ F1 cutback 的混淆來自**母音的 F1 高度**,不是子音的部位。所有
 ---
 
 **相關卡片**:[[goldenberg2022]] · [[kingston1983]] · [[frisch2016]] · [[chodroff2017]] · [[chodroff2014]] · [[chodroff2019]] · [[fox2020]] · [[burst-vot-tradeoff]] · [[winn2020]] · [[abramson2017]] · [[silbert2012]] · [[silbert2014]] · [[mcmurray2008]] · [[zuk2013]] · [[klatt1980]]
-**其他回顧**:[[natural-vs-synthetic-speech]] · [[synthetic-speech-cognitive-load]] · [[軟顎音證據補充]]
+**其他回顧**:[[natural-vs-synthetic-speech]] · [[synthetic-speech-cognitive-load]] · [[軟顎音證據補充]] · [[子音混淆最小化]](本篇處理「哪個部位的 VOT 連續體較好合成/較不易混」;[[子音混淆最小化]] 處理「voicing 這個特徵本身、以及 b–p/d–t/g–k 三對,在混淆矩陣文獻裡誰的知覺混淆最小」——兩者互補,結論一致:都支持 /b/–/p/。)
 **專案決策脈絡**:[[決策脈絡_聽覺維度]]
 
 ---
