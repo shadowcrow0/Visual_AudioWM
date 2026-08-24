@@ -40,7 +40,7 @@ deviceManager = hardware.DeviceManager()
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 # store info about the experiment session
 psychopyVersion = '2026.1.1'
-expName = 'GRTv2'  # from the Builder filename that created this script
+expName = 'GRTv3_a'  # adaptive 版:AGRT 校準 + b/p 連續體
 expVersion = ''
 # a list of functions to run when the experiment ends (starts off blank)
 runAtExit = []

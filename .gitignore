@@ -4,3 +4,7 @@ __pycache__/
 
 # Claude Code 本機設定
 .claude/
+
+# GRTv3 每位受試者開場混好的 SNR 噪音池(每人約 2 MB,可由 CSV 裡的
+# snr_pool_seeds 位元重建,不需要進版控)
+*_snrpool/
