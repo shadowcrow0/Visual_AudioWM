@@ -1,25 +1,23 @@
-"""聽覺維度:把 be/pe 混進語音頻譜噪音,SNR 以 dB 指定。
+"""聽覺維度:把自然 [bi] 混進語音頻譜噪音,SNR 以 dB 指定。
 
-設計理由
---------
-適應式程序每個試次會提出一個**任意實數**的刺激等級。MBROLA 這類 diphone 串接
-合成器做不到這件事(音素時長是它最小的時間控制單位,VOT 之類的音素內部時序
-無法存取,見 90_Sources/mbrola-cannot-do-vot.md)。改用 SNR 就繞開了整個合成問題:
-be/pe 保持自然不動,只調噪音,而噪音是純粹的數值縮放,精度沒有下限。
+設計(2026-08-25 變更)
+---------------------
+聲音刺激 = **單一自然 token [bi]**(Kutlu & McMurray beachpeach1 的 CV 剪裁版,
+CC0),聲音維度 = **SNR(dB)**。不再是 b/p 端點對比 —— 受試者在校準階段
+報告的類別就是「較吵 / 較清楚」,SNR 本身就是被判斷的維度,
+因此可以直接餵給 AGRTHandler(舊 docstring「SNR 只是難度旋鈕、只能配
+QuestHandler」的警告是針對「報告 be/pe 身分」的舊設計,已不適用)。
 
-另一個好處是 **dB 本身已經是對數尺度**。音長維度要先取 log、色相角要換成
-ΔE00 弧長,才能滿足「等物理間距 ≈ 等知覺間距」與「知覺標準差跨範圍固定」
-這兩個假設;dB 不需要任何變換就已經滿足。
+dB 本身已是對數尺度:音長要先取 log、色相角要換成 ΔE00 弧長才能滿足
+「等物理間距 ≈ 等知覺間距」;dB 不需要任何變換。
 
-⚠️ SNR 是**難度旋鈕**,不是 GRT 意義下的維度 —— 受試者報告的是 be 還是 pe
-(語音類別),不是「吵還是乾淨」。所以聽覺這一路要用一維的 QuestHandler
-(找出**單一** SNR),不能用 AGRTHandler(它會回傳對稱的**兩個**值)。
-詳見 snr_vs_grt_dimension.md。
+噪音是 running noise(每 trial 新樣本,frozen noise 會被學會),
+但每次的種子都可記錄(mix_at_snr_logged),事後可位元重建。
 
 用法
 ----
-    from snr_audio import mix_at_snr, write_wav
-    sr, y = mix_at_snr('be', snr_db=-12.0)
+    from snr_audio import mix_at_snr_logged, write_wav
+    sr, y, seed = mix_at_snr_logged('bi', snr_db=-12.0)
     write_wav('trial.wav', sr, y)
 """
 
@@ -33,8 +31,9 @@ import numpy as np
 # ──────────────────────────────────────────────────────────────
 
 SPEECH_FILES = {
-    'be': 'be.wav',   # bˈiː  —— /i/ 母音
-    'pe': 'pe.wav',   # pˈiː
+    # 自然 [bi]:beachpeach1 剪除尾音 /tʃ/ 的 CV 版(單語者、44.1 kHz、CC0)。
+    # LTAS(噪音的頻譜形狀)也由這個 token 估計。
+    'bi': 'stimuli/kutlu_mcmurray_2024/cv/beachpeach1_cv.wav',
 }
 # Winn (2020) §II.D 建議用 /i/ 而非 /ɑ/:低母音的 F1 起始在有聲/無聲之間
 # 差約 300 Hz,會變成與 VOT 共變的混淆線索。/i/ 的 F1 本來就低且穩定。
@@ -320,6 +319,17 @@ def mix_at_snr_logged(name, snr_db, seed=None):
     return sr, wav, seed
 
 
+def render_at_snr(name, snr_db, path, seed=None):
+    """混音後直接寫成 wav 檔;回傳實際使用的噪音種子。
+
+    實驗執行期用這個:每 trial 新抽種子(seed=None),把回傳值記進資料檔;
+    重建時把記下的 seed 傳回來,輸出位元完全相同。
+    """
+    sr, y, seed = mix_at_snr_logged(name, snr_db, seed)
+    write_wav(path, sr, y)
+    return seed
+
+
 # ──────────────────────────────────────────────────────────────
 # 自我檢查
 # ──────────────────────────────────────────────────────────────
@@ -352,14 +362,14 @@ def validate():
     print(f"  最大誤差 {worst:.2e} dB —— {'通過' if worst < 1e-6 else '不通過 ✗'}")
 
     print("\n-- 任意實數解析度 --------------------------------------")
-    a = realised_snr('be', -12.000, np.random.default_rng(1))
-    b = realised_snr('be', -12.001, np.random.default_rng(1))
+    a = realised_snr('bi', -12.000, np.random.default_rng(1))
+    b = realised_snr('bi', -12.001, np.random.default_rng(1))
     print(f"  -12.000 dB -> {a:.6f}    -12.001 dB -> {b:.6f}")
     print(f"  可分辨 0.001 dB 的差距:{'是' if abs(a - b) > 1e-4 else '否 ✗'}")
 
     print("\n-- Running noise(每次呼叫應為不同噪音樣本)-------------")
-    _, y1 = mix_at_snr('be', -10)
-    _, y2 = mix_at_snr('be', -10)
+    _, y1 = mix_at_snr('bi', -10)
+    _, y2 = mix_at_snr('bi', -10)
     print(f"  兩次呼叫的波形最大差異 {np.abs(y1 - y2).max():.4f} "
           f"—— {'不同(正確)' if np.abs(y1 - y2).max() > 1e-6 else '相同 ✗'}")
 
