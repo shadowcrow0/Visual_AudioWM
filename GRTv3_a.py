@@ -666,9 +666,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     rest_text = visual.TextStim(win=win, name='rest_text',
         text='',
         font='Arial',
-        pos=(0, 0), draggable=False, height=0.8, wrapWidth=None, ori=0.0, 
+        pos=(0, 0), draggable=False, height=0.8, wrapWidth=26, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
-        languageStyle='LTR',
+        languageStyle='LTR', alignText='left', anchorHoriz='center',
         depth=-1.0);
     rest_key = keyboard.Keyboard(deviceName='defaultKeyboard')
     
@@ -873,7 +873,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                               speaker='Laptop', name='adapt_sound')
     adapt_sound.setVolume(1.0)
     adapt_text = visual.TextStim(win=win, name='adapt_text', text='',
-                                 height=0.8, color='white', pos=(0, 0), wrapWidth=26)
+                                 height=0.8, color='white', pos=(0, 0), wrapWidth=26,
+                                 alignText='left', anchorHoriz='center')
     adapt_para = visual.TextStim(win=win, name='adapt_para', text='',
                                  height=0.7, color='white', pos=(0, 0), wrapWidth=26,
                                  alignText='left', anchorHoriz='center')

@@ -393,21 +393,21 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     print(f"width_cm: {m.getWidth()}, dist_cm: {m.getDistance()}")
     print(f"res: {m.getSizePix()}, win: {win.size}")
     text = visual.TextStim(win=win, name='text',
-        text='Welcome, and thank you for taking part.\n\nThis session is a single memory experiment: a short practice,\nthen four blocks with a rest after each one.\n\nThe sounds are mixed with background noise, so please wear\nthe headphones - the task does not work over speakers.\n\nPress the space bar to continue.',
+        text='Welcome, and thank you for taking part.\n\nThis session is a single memory experiment: a short practice, then four blocks with a rest after each one.\n\nThe sounds are mixed with background noise, so please wear the headphones - the task does not work over speakers.\n\nPress the space bar to continue.',
         font='Arial',
-        pos=(0, 0), draggable=False, height=1.0, wrapWidth=None, ori=0.0, 
+        pos=(0, 0), draggable=False, height=1.0, wrapWidth=24, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
-        languageStyle='LTR',
+        languageStyle='LTR', alignText='left', anchorHoriz='center',
         depth=-1.0);
     key_resp = keyboard.Keyboard(deviceName='defaultKeyboard')
     
     # --- Initialize components for Routine "instruction_normal" ---
     instruction_normal_text = visual.TextStim(win=win, name='instruction_normal_text',
-        text='Main experiment.\n\nYou will see four coloured squares. They appear one at a time,\nin the four corners of the screen. Each square is paired with a\nsound.\n\nThe spoken syllable is always the same one. What changes is how\nmuch background noise is mixed into it: some are CLEAR and easy\nto make out, others are NOISY and hard to make out. The noise is\nalways there, even on the clear ones.\n\nTry to remember which colour went with a clear sound and which\nwent with a noisy one, and where each pair appeared.\n\nA marker will then point to one of the corners.\nYour task is to report which item was there.\n\nFour options will be shown, one in each corner, each one a colour\nlabelled clear or noisy. Press the key matching the position of\nyour choice:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nYou will start with a short practice, then the experiment proper\nin four blocks with a rest after each one.\n\nAnswer as accurately as you can. Speed is not important.\n\nPress the space bar to begin.',
+        text='Main experiment.\n\nYou will see four coloured squares. They appear one at a time, in the four corners of the screen. Each square is paired with a sound.\n\nThe spoken syllable is always the same one. What changes is how much background noise is mixed into it: some are CLEAR and easy to make out, others are NOISY and hard to make out. The noise is always there, even on the clear ones.\n\nTry to remember which colour went with a clear sound and which went with a noisy one, and where each pair appeared.\n\nA marker will then point to one of the corners. Your task is to report which item was there.\n\nFour options will be shown, one in each corner, each one a colour labelled clear or noisy. Press the key matching the position of your choice:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nYou will start with a short practice, then the experiment proper in four blocks with a rest after each one.\n\nAnswer as accurately as you can. Speed is not important.\n\nPress the space bar to begin.',
         font='Arial',
-        pos=(0, 0), draggable=False, height=0.8, wrapWidth=None, ori=0.0, 
+        pos=(0, 0), draggable=False, height=0.65, wrapWidth=26, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
-        languageStyle='LTR',
+        languageStyle='LTR', alignText='left', anchorHoriz='center',
         depth=0.0);
     instruction_normal_key = keyboard.Keyboard(deviceName='defaultKeyboard')
     
@@ -720,9 +720,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     rest_text = visual.TextStim(win=win, name='rest_text',
         text='',
         font='Arial',
-        pos=(0, 0), draggable=False, height=0.8, wrapWidth=None, ori=0.0, 
+        pos=(0, 0), draggable=False, height=0.8, wrapWidth=26, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
-        languageStyle='LTR',
+        languageStyle='LTR', alignText='left', anchorHoriz='center',
         depth=-1.0);
     rest_key = keyboard.Keyboard(deviceName='defaultKeyboard')
     
