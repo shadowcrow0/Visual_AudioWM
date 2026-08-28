@@ -1,27 +1,161 @@
 # CLAUDE.md
 
+## What this repo is
+
+A **PsychoPy** experiment on **audiovisual working memory**, analysed with
+**GRT** (General Recognition Theory). The question: when you remember a colour
+paired with a speech sound, are the two features stored independently, or does
+one interfere with the other?
+
+Each item is a **colour × sound** pair, encoded as 2 bits:
+
+```
+item = 0     1     2     3
+color  C1    C2    C1    C2      colour = i & 1
+sound  S1    S1    S2    S2      sound  = (i >> 1) & 1
+
+so:  target ^ 1 = differs in colour only
+     target ^ 2 = differs in sound only
+     target ^ 3 = differs in both
+```
+
+That XOR trick is used throughout the trial code — `relation` in the data files
+is exactly this value.
+
+## One trial
+
+```
+study  ~4.3s   four colour+sound items, one per corner, 1s each
+               onsets 0.3 / 1.3 / 2.3 / 3.3s, order reshuffled per trial
+               all four items appear every trial (one of each)
+
+cue     2.0s   0-1s  empty white frame at one corner
+               1-2s  a colour+sound appears inside that frame
+               ⚠ the frame sits where cued_item was studied,
+                 but the content shown is target_item
+
+task     ---   four options (colour + label), one per corner, reshuffled
+               keys:  g = upper left    j = upper right
+                      f = lower left    h = lower right
+
+rest     ---   only after practice and after each block; skipped otherwise
+```
+
+On **valid** trials (2/3 of them) cued_item == target_item, so there is no
+conflict. On **invalid** trials the cue points one way and the probe shows
+another; picking the cued item is scored `intrusion`.
+
+**Because the probe displays the answer, valid trials are an identification
+task, not a memory task.** Memory only enters through the invalid trials'
+intrusions. See `review/voicing×顏色互動_資料怎麼量到.md` §1.3 — that wording
+matters for any write-up.
+
+Counts: 24 practice + 576 main (4 blocks × 144) = 600 trials, valid:invalid
+held at 2:1 within every block. Practice deliberately uses the same ratio.
+
+## The two experiment scripts
+
+Both are PsychoPy Builder output from `GRTv2.psyexp`, hand-edited afterwards.
+**Do not regenerate from Builder** — that would wipe the hand-written sections.
+
+| | `GRTv3_a.py` | `GRTv3.py` |
+|---|---|---|
+| `_a` = | adaptive | — |
+| Sound dimension | **b/p phonetic category** | **noise level (SNR)** |
+| Stimuli | 9-step `beachpeach*_cv.wav` continuum | one syllable `be.wav` (/bi/) at +6 / −6 dB |
+| Calibration | 60-trial AGRT phase, per participant | none — fixed values |
+| Option labels | `[bɛ]` / `[pɛ]` | `clear` / `noisy` |
+| `relation` name for dim 2 | `sound_only` | `snr_only` |
+| Use it for | real data | checking the flow runs |
+
+⚠️ `sound_only` and `snr_only` are **different constructs** — do not pool the
+two scripts' CSVs.
+
+`GRTv3.py`'s auditory dimension is **audibility**, not consonant identity.
+That is a known, deliberate limitation of the flow-check version; see
+`snr_vs_grt_dimension.md`.
+
+## Supporting modules
+
+```
+AGRT.py            Psi adaptive procedure (Kontsevich & Tyler 1999),
+                   GRT variant by Glavan 2022. GPL, third-party.
+                   Locally patched for a removed scipy API.
+                   Two independent Psi objects, one per dimension.
+
+agrt_setup.py      builds the perceptually-uniform colour axis (ΔE00 arc
+   +               length, not CIELAB hue angle — hue degrees are not
+agrt_colour_lut    perceptually uniform, which would silently break AGRT's
+   .json           constant-variance assumption).
+                   ⚠ Needs `colour-science`, which PsychoPy's bundled Python
+                     does NOT have. So the LUT is generated OFFLINE and the
+                     experiment only does a numpy table lookup at runtime.
+                     To change the colour gamut, re-run export_lut().
+
+snr_audio.py       mixes speech into speech-shaped noise at an exact SNR.
+                   Aligns onset + voiced-segment RMS across tokens, fixes
+                   output level so loudness is not a cue, logs the noise
+                   seed so any sample can be rebuilt bit-for-bit.
+
+audio_device.py    resolves the output device BY NAME, never by index
+                   (indices shift between machines and across replugging).
+```
+
+## Gotchas that have already bitten
+
+- **`thisExp.nextEntry()` is written by hand** at the end of the trial loop.
+  The loop's handler is built with `isTrials=False`, so PsychoPy does not
+  emit it. Without that line all 600 trials overwrite one row and the saved
+  file has a single line of data.
+- **`GRTv3.py` requires headphones** (`require_headphones=True`) and errors
+  out if none are found. Over speakers the delivered SNR is not the
+  configured SNR, so the data is worthless.
+- **`dim2steps` in `AGRTHandler` sets three grids at once** — the stimulus
+  grid, the α grid and the β grid. It is 9 for the b/p continuum because only
+  9 audio files exist, which leaves α and β on a 9-point search grid too.
+- **PsychoPy is not installed in the dev container.** Scripts can be
+  `py_compile`d and the pure-numpy modules can be exercised, but nothing
+  visual or audio-related can be run here. Say so rather than implying a
+  script was executed.
+
+## Open design question
+
+The instructions say *"report which item was there"* but scoring credits the
+**probe's** content. On invalid trials a participant following the instructions
+literally is recorded as `intrusion`, and there is no trial-by-trial feedback
+to teach them otherwise. Relative comparisons across `relation` levels survive
+this; absolute rates do not. Fixing it means changing the instruction wording
+or the scoring — a design decision for the researcher, not a cleanup.
+
+## `review/`
+
+Chinese-language decision and audit notes: why the auditory dimension went
+duration → VOT → SNR, why this consonant pair, statistical plan, what was tried
+and abandoned. `決策脈絡_索引.md` is the index.
+
+These are **dated records**. They cite line numbers against the older
+`GRTv2.py` / `GRTv2_demo.py` filenames — that is intentional, not staleness to
+fix.
+
 ## Response style
 
-**Be concise.** Lead with the answer. Cut preamble, recaps of what was just
-asked, and closing summaries of what was already said. Prefer a short paragraph
-or a table over a long section. Length should track the complexity of the
-question, not the effort spent on it.
+**Be concise.** Lead with the answer. Cut preamble, restatements of the
+question, and closing summaries of what was just said. Length should track the
+complexity of the question, not the effort spent on it.
 
-Keep what is load-bearing: caveats that change a decision, what was verified vs.
-assumed, and numbers that back a claim. Trim commentary, not evidence.
+Keep what is load-bearing: caveats that change a decision, what was verified
+versus assumed, and the numbers behind a claim. Trim commentary, not evidence.
 
 **Use ASCII to visualize content when explaining concepts.** When something has
-structure — a trial timeline, a data flow, a grid, a state change, a comparison
-of before/after — draw it rather than describing it in prose.
+structure — a timeline, a data flow, a grid, a state change, a before/after —
+draw it instead of describing it in prose. Label the boxes, keep it under ~15
+lines, put it in a fenced block so the alignment survives. Skip it when there
+is no structure to show (a yes/no answer, a single number).
 
-```
-study                          cue                    task
-0.3s ──■ UR                    0-1s  □ frame          four options
-1.3s ──■ BL                    1-2s  ■ probe          g j / f h
-2.3s ──■ UL                          (target's item,
-3.3s ──■ BR                           cue's position)
-```
+## Conventions
 
-Rules of thumb: label the axes or the boxes; keep it under ~15 lines; put it in
-a fenced block so alignment survives; skip it when the thing genuinely has no
-structure (a yes/no answer, a single number).
+- Comments and docs in this repo are written in Chinese; match that.
+- Comments explain **why**, especially where a simpler-looking approach was
+  tried and failed. Keep that reasoning when editing nearby code.
+- Generated per-participant files (`data/*_snrpool/`) are gitignored — they
+  are rebuildable from the seeds logged in the CSV.
