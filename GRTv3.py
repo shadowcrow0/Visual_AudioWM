@@ -508,53 +508,31 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     # review/聽覺維度_嘗試與放棄紀錄.md §2.6 把這個區別講得很清楚)。
     # 這一版的用途是把實驗流程本身跑通、確認綁定作業做得起來,不是拿來回答
     # 子音表徵的研究問題 —— 正式資料請用 GRTv3_a.py。
-    import snr_audio
+    from snr_runtime import SNRStimulus
 
     SND_TOKEN  = 'be'            # be.wav = /bi/,兩級共用同一個 token
     SNR_LEVELS = [+6.0, -6.0]    # dB;index 0 = clear, index 1 = noisy
     SNR_NAMES  = ['clear', 'noisy']
-    N_SNR_POOL = 24              # 每一級預先混好幾個噪音樣本
 
     # item 編碼沒變:colour = i & 1, sound = (i >> 1) & 1。
     # 「sound」這一位現在指的是 SNR 等級,不是 b/p 類別。
     ITEM_SNR = [0, 0, 1, 1]      # item 0,1 -> clear;item 2,3 -> noisy
 
-    # 為什麼是「池」而不是每一試現混:噪音必須是 running noise(每試換樣本,
-    # 否則 frozen noise 會被學起來),但每試現混要把波形交給 ptb,而 ptb 對
-    # 取樣率與陣列格式的要求跨機器不穩。改成開場先混好 N_SNR_POOL 個檔案、
-    # 每一試從池裡抽 —— 播放走的是 setSound(路徑) 這條已知可用的路徑,
-    # 而 24 個樣本已足夠讓「這一試的噪音長什麼樣」不可預測。
-    _snr_dir = filename + '_snrpool'
-    os.makedirs(_snr_dir, exist_ok=True)
-    SNR_POOL  = [[] for _ in SNR_LEVELS]
-    _pool_log = []
-    for _li, _db in enumerate(SNR_LEVELS):
-        for _pi in range(N_SNR_POOL):
-            _sr, _wav, _seed = snr_audio.mix_at_snr_logged(SND_TOKEN, _db)
-            _path = os.path.join(_snr_dir, f'{SNR_NAMES[_li]}_{_pi:02d}.wav')
-            snr_audio.write_wav(_path, _sr, _wav)
-            SNR_POOL[_li].append(_path)
-            _pool_log.append(f'{SNR_NAMES[_li]}_{_pi:02d}={_seed}')
-    # 種子寫進資料檔:日後 speech_shaped_noise(n, default_rng(seed)) 可以位元
-    # 重建出同一段噪音(double-pass 一致性、反向相關這兩條分析靠它)。
+    # 每一試現混,不預先備池。理由與時間成本見 snr_runtime.py 的 docstring;
+    # 重點是噪音必須是 running noise(每次呈現換新樣本,frozen noise 會被
+    # 學起來),而現混天然滿足這件事 —— 池的版本反而要額外避開「同一試抽到
+    # 同一個檔案」。實測 5 個刺激共 ~15 ms,發生在 Begin Routine、routine
+    # 第一次 flip 之前;所有 onset 都是相對於 routine 起點,所以相對時序不受
+    # 影響,只有試次間隔多了那 15 ms。
+    snd = SNRStimulus(outdir=filename + '_snr', token=SND_TOKEN)
+
     thisExp.addData('snr_token', SND_TOKEN)
     thisExp.addData('snr_levels', str(SNR_LEVELS))
     thisExp.addData('item_snr', str(ITEM_SNR))
-    thisExp.addData('snr_pool_seeds', ';'.join(_pool_log))
     thisExp.nextEntry()
     print(f"[snr] token={SND_TOKEN!r} 兩級 {SNR_LEVELS} dB;"
-          f" 每級 {N_SNR_POOL} 個噪音樣本 -> {_snr_dir}")
+          f" 每試現混 -> {snd.outdir}")
 
-    def snr_wav(level, exclude=()):
-        """level 0/1 -> 從該級的噪音池抽一個檔案路徑,排除 exclude 裡的。
-
-        exclude 是必要的:同一試次若抽中同一個檔案兩次,那兩次呈現就位元相同,
-        「噪音樣本一樣」本身會變成可比對的線索。池有 24 個,不排除的話同一試
-        撞號的機率約 4%。
-        """
-        pool = [_p for _p in SNR_POOL[level] if _p not in exclude]
-        return pool[int(rng.integers(len(pool)))]
-    
     Fixation = visual.ShapeStim(
         win=win, name='Fixation', vertices='cross',
         size=(0.5, 0.5),
@@ -1083,12 +1061,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         cue_valid, target_item, relation, target_serial = trial_plan[trial_i]
         is_practice = (trial_i < N_PRACTICE)
         
-        # 四個 item 各抽一個噪音樣本,且同一試次內互不重複 —— 同 SNR 等級的兩個
-        # item(例如 0 與 1)拿到的必須是**不同**的噪音,否則「噪音樣本一樣」
-        # 本身就成了「這兩個是同一類」的線索。
-        itemAudi   = []
-        for _i in range(4):
-            itemAudi.append(snr_wav(ITEM_SNR[_i], exclude=itemAudi))
+        # 四個 item 各現混一個。每次都抽新種子,所以同 SNR 等級的兩個 item
+        # (例如 0 與 1)拿到的必然是不同的噪音 —— 不然「噪音樣本一樣」本身
+        # 就成了「這兩個是同一類」的線索。
+        itemAudi   = snd.make_many([SNR_LEVELS[ITEM_SNR[_i]] for _i in range(4)],
+                                   tags=[f'item{_i}' for _i in range(4)])
         itemColhex = [COLOUR_HEX[0], COLOUR_HEX[1], COLOUR_HEX[0], COLOUR_HEX[1]]
         Fix_Dur = .3
         
@@ -1549,9 +1526,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         cue_color = itemColhex[target_item]
         # ⚠ 不能沿用 itemAudi[target_item]:那會讓 probe 的波形與 study 階段
         # 那一次呈現**位元完全相同**,受試者可以比對噪音樣本本身而不必記聲音。
-        # 重抽一個同 SNR 等級、且與這一試四個 study 樣本都不同的樣本,
-        # 可比對的就只剩「清楚/吵」這個維度。
-        cue_audi  = snr_wav(ITEM_SNR[target_item], exclude=itemAudi)
+        # 現混一個同 SNR 等級的新樣本,可比對的就只剩「清楚/吵」這個維度。
+        cue_audi  = snd.make(SNR_LEVELS[ITEM_SNR[target_item]], tag='probe')
         
         Cue.setPos(POS_cue)
         targetC.setFillColor(cue_color)
@@ -2135,6 +2111,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         thisExp.addData('err_rel_name', REL_NAME[err_rel] if err_rel else '')
         thisExp.addData('is_correct',   is_correct)
         thisExp.addData('rt',           key_resp_2.rt)
+
+        # 這一試現混的五個刺激,每個記下 dB 與噪音種子。有種子就能位元重建出
+        # 當時到底播了什麼(double-pass 一致性、反向相關這兩條分析靠它)。
+        for _row in snd.drain_log():
+            thisExp.addData('snd_' + _row['tag'], _row['summary'])
         
         # 練習階段累計答對數, 供練習結束時回饋
         if is_practice and outcome == 'correct':

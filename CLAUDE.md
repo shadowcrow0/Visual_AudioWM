@@ -97,6 +97,14 @@ snr_audio.py       mixes speech into speech-shaped noise at an exact SNR.
                    output level so loudness is not a cue, logs the noise
                    seed so any sample can be rebuilt bit-for-bit.
 
+snr_runtime.py     the thin layer between snr_audio and the experiment:
+                   mixes a stimulus ON DEMAND at any real dB (~3 ms each),
+                   writes a wav, and logs dB + noise seed for every one.
+                   Fresh seed per call, so running noise is automatic.
+                   `SNRStimulus.rebuild(seed, db)` reconstructs any
+                   stimulus that was actually presented.
+                   Run `python snr_runtime.py` for its self-check.
+
 audio_device.py    resolves the output device BY NAME, never by index
                    (indices shift between machines and across replugging).
 ```
@@ -157,5 +165,6 @@ is no structure to show (a yes/no answer, a single number).
 - Comments and docs in this repo are written in Chinese; match that.
 - Comments explain **why**, especially where a simpler-looking approach was
   tried and failed. Keep that reasoning when editing nearby code.
-- Generated per-participant files (`data/*_snrpool/`) are gitignored — they
-  are rebuildable from the seeds logged in the CSV.
+- Generated per-participant stimuli (`data/*_snr/`, ~130 MB per session) are
+  gitignored — they are rebuildable from the dB + seed logged in each trial's
+  `snd_*` columns.
