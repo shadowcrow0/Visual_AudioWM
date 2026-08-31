@@ -61,19 +61,31 @@ Both are PsychoPy Builder output from `GRTv2.psyexp`, hand-edited afterwards.
 | | `GRTv3_a.py` | `GRTv3.py` |
 |---|---|---|
 | `_a` = | adaptive | — |
-| Sound dimension | **b/p phonetic category** | **noise level (SNR)** |
-| Stimuli | 9-step `beachpeach*_cv.wav` continuum | one syllable `be.wav` (/bi/) at +6 / −6 dB |
-| Calibration | 60-trial AGRT phase, per participant | none — fixed values |
-| Option labels | `[bɛ]` / `[pɛ]` | `clear` / `noisy` |
-| `relation` name for dim 2 | `sound_only` | `snr_only` |
+| Sound dimension | SNR on `be.wav` (/bi/) | same |
+| SNR levels | **calibrated per participant** by the AGRT phase | **fixed** +6 / −6 dB |
+| Calibration | 60-trial AGRT phase (colour + SNR together) | none |
+| Colour axis | calibrated per participant | fixed ±3.0 ΔE00 |
 | Use it for | real data | checking the flow runs |
 
-⚠️ `sound_only` and `snr_only` are **different constructs** — do not pool the
-two scripts' CSVs.
+Both auditory dimensions are now **SNR**, i.e. **audibility** — not consonant
+identity. The 9-step b/p continuum that `GRTv3_a.py` used to run is in git
+history at `165d823` and earlier; `stimuli/kutlu_mcmurray_2024/` is its stimulus
+set and is currently unused. The trade-off behind that switch: SNR is a
+continuous knob, so the adaptive procedure's arbitrary-real proposals land
+exactly (no rounding to one of 9 files), but what gets measured is audibility.
+See `snr_vs_grt_dimension.md` and `review/聽覺維度_嘗試與放棄紀錄.md` §2.6.
 
-`GRTv3.py`'s auditory dimension is **audibility**, not consonant identity.
-That is a known, deliberate limitation of the flow-check version; see
-`snr_vs_grt_dimension.md`.
+The two scripts' `snr_only` levels are **not the same numbers** — one is
+per-participant, one is fixed — so do not pool their CSVs without accounting
+for that.
+
+⚠️ **Open decision in `GRTv3_a.py`: `SND_FEEDBACK`.** The b/p version could
+score the sound judgement against a real phonetic category boundary. "Clear vs
+noisy" has no such ground truth — the criterion is subjective. The current
+setting gives feedback against 0 dB (speech power = noise power), which anchors
+an otherwise drifting criterion but means the estimated α is partly "where the
+feedback pushed them". Set `SND_FEEDBACK = False` to score nothing on that
+dimension instead.
 
 ## Supporting modules
 
