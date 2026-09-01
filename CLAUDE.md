@@ -58,34 +58,40 @@ held at 2:1 within every block. Practice deliberately uses the same ratio.
 Both are PsychoPy Builder output from `GRTv2.psyexp`, hand-edited afterwards.
 **Do not regenerate from Builder** — that would wipe the hand-written sections.
 
-| | `GRTv3_a.py` | `GRTv3.py` |
+| | `GRTv3.py` | `GRTv3_a.py` |
 |---|---|---|
-| `_a` = | adaptive | — |
-| Sound dimension | SNR on `be.wav` (/bi/) | same |
-| SNR levels | **calibrated per participant** by the AGRT phase | **fixed** +6 / −6 dB |
-| Calibration | 60-trial AGRT phase (colour + SNR together) | none |
-| Colour axis | calibrated per participant | fixed ±3.0 ΔE00 |
-| Use it for | real data | checking the flow runs |
+| Sound stimulus | one token `be.wav` (/bi/), always | same |
+| Two auditory items | **high SNR** vs **low SNR** (+6 / −6 dB, fixed) | ⛔ mismatched — see below |
+| What the listener reports | **the consonant: [bi] or [pi]** | "clear / noisy" |
+| Colour axis | fixed ±3.0 ΔE00 | calibrated by a 60-trial AGRT phase |
+| Status | current design | adaptive phase needs rebuilding |
 
-Both auditory dimensions are now **SNR**, i.e. **audibility** — not consonant
-identity. The 9-step b/p continuum that `GRTv3_a.py` used to run is in git
-history at `165d823` and earlier; `stimuli/kutlu_mcmurray_2024/` is its stimulus
-set and is currently unused. The trade-off behind that switch: SNR is a
-continuous knob, so the adaptive procedure's arbitrary-real proposals land
-exactly (no rounding to one of 9 files), but what gets measured is audibility.
-See `snr_vs_grt_dimension.md` and `review/聽覺維度_嘗試與放棄紀錄.md` §2.6.
+**The design (`GRTv3.py`).** One syllable is played all session. Noise masks the
+voicing cue, so the low-SNR item is often heard as /pi/. The physical difference
+between the two auditory items is the noise level; the *reported* difference is
+the consonant.
 
-The two scripts' `snr_only` levels are **not the same numbers** — one is
-per-participant, one is fixed — so do not pool their CSVs without accounting
-for that.
+⚠️ Structural ceiling to state in any write-up: with only /bi/ presented, the
+low-SNR item can at best drive responses to **chance** (50/50) — it cannot be
+reliably heard as /p/ unless noise produces a systematic b→p bias, which has not
+been measured here. So the auditory dimension's d′ is capped and the confusion
+matrix is asymmetric. The alternative that avoids this is two tokens (be + pe)
+at one shared SNR — which is what `snr_audio.py` was actually built for; it
+aligns the two tokens' onsets and voiced-segment RMS so that one SNR number
+means the same thing for both.
 
-⚠️ **Open decision in `GRTv3_a.py`: `SND_FEEDBACK`.** The b/p version could
-score the sound judgement against a real phonetic category boundary. "Clear vs
-noisy" has no such ground truth — the criterion is subjective. The current
-setting gives feedback against 0 dB (speech power = noise power), which anchors
-an otherwise drifting criterion but means the estimated α is partly "where the
-feedback pushed them". Set `SND_FEEDBACK = False` to score nothing on that
-dimension instead.
+⛔ **`GRTv3_a.py`'s adaptive phase does not implement this design** and must not
+be used for real data yet. It asks "clear or noisy", not "b or p". Simply
+swapping the question does not work: with one token, P(report p) rises from 0
+and flattens at 0.5, and `AGRT.py:133`'s model spans [δ/2, 1−δ/2] — it cannot
+represent a curve that stops at chance. The right tool is a 1-D `QuestHandler`
+with gamma = 0.5 (since /bi/ is always the token, "b" is always correct, so
+P(correct) falls from 1 to 0.5 — exactly Quest's native shape). See
+`snr_vs_grt_dimension.md`. Not built yet.
+
+⚠️ The ±6 dB levels in `GRTv3.py` are **placeholders**, not measured. The low
+level needs to be low enough to actually push /bi/ toward /pi/, and that
+threshold has not been piloted on this token.
 
 ## Supporting modules
 

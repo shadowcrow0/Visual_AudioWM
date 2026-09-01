@@ -403,7 +403,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     # --- Initialize components for Routine "instruction_normal" ---
     instruction_normal_text = visual.TextStim(win=win, name='instruction_normal_text',
-        text='Main experiment.\n\nYou will see four coloured squares. They appear one at a time, in the four corners of the screen. Each square is paired with a sound.\n\nThe spoken syllable is always the same one. What changes is how much background noise is mixed into it: some are CLEAR and easy to make out, others are NOISY and hard to make out. The noise is always there, even on the clear ones.\n\nTry to remember which colour went with a clear sound and which went with a noisy one, and where each pair appeared.\n\nA marker will then point to one of the corners. Your task is to report which item was there.\n\nFour options will be shown, one in each corner, each one a colour labelled clear or noisy. Press the key matching the position of your choice:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nYou will start with a short practice, then the experiment proper in four blocks with a rest after each one.\n\nAnswer as accurately as you can. Speed is not important.\n\nPress the space bar to begin.',
+        text='Main experiment.\n\nYou will see four coloured squares. They appear one at a time, in the four corners of the screen. Each square is paired with a spoken syllable.\n\nThe syllable is always mixed with background noise. On some of them the consonant is easy to hear; on others the noise makes it hard, and it may sound like a different consonant. Report what you actually heard - [bi] or [pi] - not what you think it was meant to be.\n\nTry to remember which colour went with which sound, and where each pair appeared.\n\nA marker will then point to one of the corners. Your task is to report which item was there.\n\nFour options will be shown, one in each corner, each one a colour labelled [bi] or [pi]. Press the key matching the position of your choice:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nYou will start with a short practice, then the experiment proper in four blocks with a rest after each one.\n\nAnswer as accurately as you can. Speed is not important.\n\nPress the space bar to begin.',
         font='Arial',
         pos=(0, 0), draggable=False, height=0.65, wrapWidth=26, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
@@ -423,11 +423,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     #   itemAudi   = [S1, S1, S2, S2]  ->  i >> 1
     # 因此  target ^ 1 = 只差顏色 ,  ^ 2 = 只差聲音 ,  ^ 3 = 兩者都差
     #
-    # ⚠ 這一版的「聲音」那一位是 **SNR 等級**(clear/noisy),不是 b/p 類別,
-    #   所以名稱用 snr_only —— 與 GRTv3_a.py 的 sound_only 是不同的東西,
-    #   兩邊的 CSV 不要無條件併在一起分析。
+    # ⚠ 「聲音」那一位的**物理**差別是 SNR,**反應**上的差別是 b/p:
+    #   整場只播一個 token(/bi/),高 SNR 那一級多半被聽成 b、低 SNR 那一級
+    #   常被聽成 p。受試者報告的是語音類別,不是噪音量。
+    #   欄位名維持 sound_only(那是「聽覺項目不同」的意思);噪音量記在
+    #   target_snr / cued_snr / snd_* 欄位。
     # --------------------------------------------------------------------
-    REL_NAME = {0: 'valid', 1: 'colour_only', 2: 'snr_only', 3: 'both'}
+    REL_NAME = {0: 'valid', 1: 'colour_only', 2: 'sound_only', 3: 'both'}
     
     N_VALID_PER_CELL   = 24   # 每個 (target_item x serial_pos) 的 valid 試次
     N_INVALID_PER_CELL = 4    # 每個 (target_item x relation x serial_pos) 的 invalid 試次
@@ -499,20 +501,28 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     print(f"[colour] 錨點 h={_LUT['anchor_h']} L*={_LUT['lstar']} C*={_LUT['cstar']};"
           f" 弧長 {COLOUR_ARC} -> {COLOUR_HEX}")
 
-    # ---- 聽覺軸:單一音節 /bi/,兩級 SNR ----
-    # ⚠ 與 GRTv3_a.py 的差別就在這裡。GRTv3_a 的聽覺維度是 b/p 語音類別
-    # (受試者報告的是「聽起來像 b 還是像 p」);這一版把音節固定成 be.wav
-    # (/bi/),改用噪音量當維度 —— 受試者報告的是「清楚還是吵」。
+    # ---- 聽覺軸:單一 token /bi/,兩個 SNR 等級 ----
+    # 整場只播一個語音檔(be.wav = /bi/)。兩個聽覺項目的差別是**噪音量**,
+    # 但受試者報告的是**語音類別**(b 還是 p):噪音把 /b/ 的濁音線索蓋掉,
+    # 高 SNR 那一級多半被聽成 b,低 SNR 那一級常被聽成 p。
     #
-    # 那是**可聽度維度**,不是子音身分維度(snr_vs_grt_dimension.md 與
-    # review/聽覺維度_嘗試與放棄紀錄.md §2.6 把這個區別講得很清楚)。
-    # 這一版的用途是把實驗流程本身跑通、確認綁定作業做得起來,不是拿來回答
-    # 子音表徵的研究問題 —— 正式資料請用 GRTv3_a.py。
+    # ⚠ 這個設計有一個結構性的上限,寫報告時要講:因為只有 /bi/,低 SNR 那
+    #   一級最多只能把反應推到**機遇水準**(50/50),不可能穩定地被聽成 p ——
+    #   除非噪音真的造成系統性的 b->p 偏向,而那還沒測過。所以聽覺維度的 d'
+    #   有天花板,混淆矩陣會是不對稱的。
+    #   (要避開這一點的做法是改用 be + pe 兩個 token、同一個 SNR;
+    #    snr_audio.py 本來就是為那個設計建的 —— 它把兩個 token 的起始點與
+    #    有聲段 RMS 對齊,就是為了讓「一個 SNR 數字」在兩類上代表同一件事。)
     from snr_runtime import SNRStimulus
 
-    SND_TOKEN  = 'be'            # be.wav = /bi/,兩級共用同一個 token
-    SNR_LEVELS = [+6.0, -6.0]    # dB;index 0 = clear, index 1 = noisy
-    SNR_NAMES  = ['clear', 'noisy']
+    SND_TOKEN  = 'be'            # be.wav = /bi/ —— 整場只播這一個 token
+    SNR_LEVELS = [+6.0, -6.0]    # dB;index 0 = 高 SNR, index 1 = 低 SNR
+    SNR_NAMES  = ['hi_snr', 'lo_snr']
+
+    # ⚠ 這兩個 dB 是**佔位值**,不是量出來的。低的那一級要低到真的會把 /bi/
+    #   推成「聽起來像 p」,而那個門檻因人而異、也還沒在這個 token 上測過。
+    #   正式收資料前應該先跑一支前測(/bi/ 在一整排 SNR 上各放 N 次,收 b/p
+    #   反應,畫混淆曲線)把 -6.0 換成有根據的值。
 
     # item 編碼沒變:colour = i & 1, sound = (i >> 1) & 1。
     # 「sound」這一位現在指的是 SNR 等級,不是 b/p 類別。
@@ -1748,7 +1758,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         POS_COL = [(x, y - GAP/2) for x, y in POS]
         
         final_value = [COLOUR_HEX[0], COLOUR_HEX[1], COLOUR_HEX[0], COLOUR_HEX[1]]   # 與 itemColhex 同序
-        TXT         = ["clear", "clear", "noisy", "noisy"]   # 與 ITEM_SNR 同序
+        # 選項是**語音類別**,不是噪音量 —— 受試者報告的是他聽到 b 還是 p。
+        # 高 SNR 的項目多半被聽成 b、低 SNR 的常被聽成 p,所以標籤與 ITEM_SNR
+        # 同序仍然對得起來;而「低 SNR 卻聽成 b」正是這個操弄要製造的混淆。
+        TXT         = ["[bi]", "[bi]", "[pi]", "[pi]"]   # 與 ITEM_SNR 同序
         
         # 四個選項元件各自釘在固定螢幕位置
         txtUR_pos, colUR_pos = POS_TXT[0], POS_COL[0]
