@@ -40,7 +40,7 @@ deviceManager = hardware.DeviceManager()
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 # store info about the experiment session
 psychopyVersion = '2026.1.1'
-expName = 'GRTv2'  # from the Builder filename that created this script
+expName = 'GRTv3_a'  # adaptive 版:AGRT 校準 + b/p 連續體
 expVersion = ''
 # a list of functions to run when the experiment ends (starts off blank)
 runAtExit = []
@@ -268,9 +268,10 @@ def setupDevices(expInfo, thisExp, win):
     # initialize 'Laptop' — 依名稱解析實際存在的輸出裝置,不寫死 index。
     # index 會隨插拔/驅動/列舉順序改變(實測 office=7、home=4;耳機沒插著
     # 該 index 根本不在清單裡),寫死遲早 DeviceNotConnectedError。
-    # demo 沒有 SNR 操弄,找不到耳機就退回喇叭(正式版必須 require_headphones=True)。
+    # 聽覺維度是 SNR:用喇叭播的資料是廢的,所以找不到耳機就開場報錯,
+    # 不靜默退回 —— 錯誤訊息會列出可用裝置與處理方式(見 audio_device.py)。
     from audio_device import setup_speaker
-    setup_speaker(label='Laptop', require_headphones=False)
+    setup_speaker(label='Laptop', require_headphones=True)
     # return True if completed successfully
     return True
 
@@ -391,22 +392,29 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     print(f"width_cm: {m.getWidth()}, dist_cm: {m.getDistance()}")
     print(f"res: {m.getSizePix()}, win: {win.size}")
     text = visual.TextStim(win=win, name='text',
-        text='Welcome, and thank you for taking part.\n\nThis session has two parts: a short calibration,\nthen the main experiment.\n\nPlease make sure you are wearing the headphones.\n\nPress the space bar to continue.',
+        text='Welcome, and thank you for taking part.\n\nThis session has two parts: a short calibration, then the main experiment. Please make sure you are wearing the headphones before continuing.\n\nPress the space bar to continue.',
         font='Arial',
-        pos=(0, 0), draggable=False, height=1.0, wrapWidth=None, ori=0.0, 
-        color='white', colorSpace='rgb', opacity=None, 
-        languageStyle='LTR',
+        pos=(0, 0), draggable=False, height=1.0, wrapWidth=24, ori=0.0,
+        color='white', colorSpace='rgb', opacity=None,
+        languageStyle='LTR', alignText='left', anchorHoriz='center',
         depth=-1.0);
     key_resp = keyboard.Keyboard(deviceName='defaultKeyboard')
     
     # --- Initialize components for Routine "instruction_normal" ---
     instruction_normal_text = visual.TextStim(win=win, name='instruction_normal_text',
-        text='Main experiment.\n\nYou will see four coloured squares. They appear one at a time,\nin the four corners of the screen. Each square is paired with a\nspeech sound. Try to remember which colour and which sound went\ntogether, and where each one appeared.\n\nA marker will then point to one of the corners.\nYour task is to report which item was there.\n\nFour options will be shown, one in each corner.\nPress the key matching the position of your choice:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nYou will start with a short practice, then the experiment proper\nin four blocks with a rest after each one.\n\nAnswer as accurately as you can. Speed is not important.\n\nPress the space bar to begin.',
+        text='Main experiment.\n\nFour coloured squares will appear one at a time, one in each corner of the screen, and each of them comes with its own speech sound. Try to remember which colour and which sound belong together and where they appeared.\n\nA frame will then appear at one of the corners, and an item will appear in it. When you see the frame, recall what has just appeared. On the final screen four options are shown, one in each corner - choose the one you have in mind by pressing the key for its position:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nThe picture below shows how the four keys point to the four corners.\n\nYou will start with a short practice, then four blocks with a rest after each one. Answer as accurately as you can - speed is not important.\n\nPress the space bar to begin.',
         font='Arial',
-        pos=(0, 0), draggable=False, height=0.8, wrapWidth=None, ori=0.0, 
-        color='white', colorSpace='rgb', opacity=None, 
-        languageStyle='LTR',
+        pos=(0, 3.0), draggable=False, height=0.65, wrapWidth=26, ori=0.0,
+        color='white', colorSpace='rgb', opacity=None,
+        languageStyle='LTR', alignText='left', anchorHoriz='center',
         depth=0.0);
+    instruction_key_img = visual.ImageStim(
+        win=win, name='instruction_key_img',
+        image='stimuli/box_keys.png', mask=None, anchor='center',
+        ori=0.0, pos=(0, -7.0), size=(5.5, 5.0),
+        color=[1,1,1], colorSpace='rgb', opacity=None,
+        flipHoriz=False, flipVert=False,
+        texRes=128.0, interpolate=True, depth=-2.0)
     instruction_normal_key = keyboard.Keyboard(deviceName='defaultKeyboard')
     
     # --- Initialize components for Routine "study" ---
@@ -420,8 +428,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     #   itemColhex = [C1, C2, C1, C2]  ->  i & 1
     #   itemAudi   = [S1, S1, S2, S2]  ->  i >> 1
     # 因此  target ^ 1 = 只差顏色 ,  ^ 2 = 只差聲音 ,  ^ 3 = 兩者都差
+    #
+    # ⚠ 「聲音」那一位是 **SNR**(可聽度),不是 b/p 子音身分。這一版原本走
+    #   9 步的 b/p 連續體,已換成 SNR;b/p 的版本在 165d823 之前的提交裡。
+    #   換掉的理由是 SNR 是連續旋鈕,適應式程序每試提出的任意實數接得住;
+    #   代價是量到的變成可聽度維度,見 snr_vs_grt_dimension.md。
     # --------------------------------------------------------------------
-    REL_NAME = {0: 'valid', 1: 'colour_only', 2: 'sound_only', 3: 'both'}
+    REL_NAME = {0: 'valid', 1: 'colour_only', 2: 'snr_only', 3: 'both'}
     
     N_VALID_PER_CELL   = 24   # 每個 (target_item x serial_pos) 的 valid 試次
     N_INVALID_PER_CELL = 4    # 每個 (target_item x relation x serial_pos) 的 invalid 試次
@@ -487,7 +500,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         return _LUT_HEX[int(np.abs(_LUT_ARC - arc).argmin())]
     
     # 兩個顏色在弧長軸上的位置,對稱於錨點(座標 0)。
-    # ⚠ 適應階段接上之後,由 calc_adapted 覆寫這兩個數字。
+    # ⚠ 只是開機預設 —— AGRT 適應階段(instruction_normal 之前)會覆寫。
     COLOUR_ARC = [-3.0, +3.0]
     COLOUR_HEX = [colour_for(a) for a in COLOUR_ARC]
     print(f"[colour] 錨點 h={_LUT['anchor_h']} L*={_LUT['lstar']} C*={_LUT['cstar']};"
@@ -658,9 +671,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     rest_text = visual.TextStim(win=win, name='rest_text',
         text='',
         font='Arial',
-        pos=(0, 0), draggable=False, height=0.8, wrapWidth=None, ori=0.0, 
+        pos=(0, 0), draggable=False, height=0.8, wrapWidth=26, ori=0.0, 
         color='white', colorSpace='rgb', opacity=None, 
-        languageStyle='LTR',
+        languageStyle='LTR', alignText='left', anchorHoriz='center',
         depth=-1.0);
     rest_key = keyboard.Keyboard(deviceName='defaultKeyboard')
     
@@ -838,7 +851,200 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     thisExp.nextEntry()
     # the Routine "Intro" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
-    
+
+    # ══════════════════════════════════════════════════════════════════
+    # ⛔ 這一段目前與 GRTv3.py 的設計**不一致,不要拿來收正式資料**。
+    #
+    # GRTv3.py 已經改成:整場只播一個 token(/bi/),兩個聽覺項目的差別是
+    # 噪音量,而受試者報告的是**語音類別**(b 還是 p)。
+    # 下面這段適應階段問的卻是「清楚還是吵」—— 校準的判斷跟主實驗的判斷
+    # 不是同一件事。
+    #
+    # 為什麼不能直接把問題換成 b/p 就好:只播 /bi/ 的話,P(報 p) 從 0 爬到
+    # **0.5(機遇水準)**就停住 —— 噪音大到聽不出來時受試者是用猜的,不會
+    # 系統性地聽成 p。而 AGRT.py:133 的模型是
+    #     P(r=1|x) = δ/2 + (1-δ)·[1 - Φ((α-x)/β)]
+    # 值域是 [δ/2, 1-δ/2],**表示不了一條停在 0.5 的曲線**。硬擬會把 α 推到
+    # 範圍外、β 撐爆,estimateGRTintensities 回傳的兩個值就是垃圾。
+    #
+    # 正確的工具是一維的 QuestHandler(gamma=0.5 的 2AFC 心理計量函數):
+    # 因為 token 恆為 /bi/,「b」永遠是正解,所以 P(正確) 從 1 掉到 0.5,
+    # 那正是 Quest 原生處理的形狀。snr_vs_grt_dimension.md 已經寫過這一條。
+    # 換上去要動的是這一整段的架構(顏色與聲音得各自跑自己的 handler),
+    # 還沒做。
+    # ══════════════════════════════════════════════════════════════════
+    # --- AGRT 適應階段 (官方流程: AGRT.AGRTHandler; Glavan 2022) ---
+    # 每個 trial 是一個「顏色 + 聲音」的視聽複合刺激, 兩個維度都要作答;
+    # 兩條 Psi 在 handler 內部各自獨立更新 (Kontsevich & Tyler 1999)。
+    # 結束時 estimateGRTintensities(OVERALL_ACC) 給出四個刺激值,
+    # 覆寫 COLOUR_ARC / COLOUR_HEX / AUDIO_HI / AUDIO_LO, 主實驗每一試重讀。
+    # ══════════════════════════════════════════════════════════════════
+    from AGRT import AGRTHandler
+
+    N_ADAPT     = 60      # 適應試次數 (每一試同時更新兩條 Psi)
+    OVERALL_ACC = 0.64    # 聯合正確率 0.80、每維 89.4%(estimateGRTintensities
+                          # 傳入 sqrt(0.64)=0.8, estimateThreshold 內部再開一次根號)
+    LAPSE       = 0.08    # 整體 lapse; handler 內部轉成邊際 lapse 1-sqrt(1-.08)
+    from snr_runtime import SNRStimulus
+
+    SND_TOKEN   = 'be'          # be.wav = /bi/,整場只用這一個音節
+    SNR_LIM     = 18.0          # 聽覺軸 = SNR,對稱範圍 ±SNR_LIM dB
+    SNR_NAMES   = ['clear', 'noisy']
+    ITEM_SNR    = [0, 0, 1, 1]  # item 0,1 -> 高 SNR;item 2,3 -> 低 SNR
+    AUDIO_HI, AUDIO_LO = +6.0, -6.0   # 預設值,適應階段結束會覆寫
+    _ARC_LIM = float(min(-_LUT_ARC[0], _LUT_ARC[-1]))  # 對稱可用半長 ~24.13 dE00
+
+    # 聽覺軸為什麼這樣設 —— 與顏色軸刻意做成同一個形狀:
+    #   顏色  弧長 ±24.13 dE00,決策界線在錨點 arc = 0
+    #   聲音  SNR  ±18.00 dB   ,決策界線在      snr = 0
+    # 0 dB 是語音功率等於噪音功率,是**物理上有意義的參考點**,不像原本 b/p
+    # 連續體的「第 5 步」只是名目中點。±18 dB 實測無削波(峰值 0.22-0.41),
+    # 100 格的解析度 0.364 dB,遠鬆於混音器的 0.001 dB 極限。
+    #
+    # ⚠ 待決:回饋規則。b/p 有語音範疇邊界,「答對」有客觀定義;「清楚 vs 吵」
+    #   沒有 —— 受試者的判準是主觀的。這裡沿用與顏色相同的結構(以 0 dB 為
+    #   界),好處是把一條會漂移的判準錨住,代價是估到的 alpha 變成「回饋把他
+    #   推到哪」而不是「他本來的界線在哪」。要改成不評聲音的對錯,
+    #   把 SND_FEEDBACK 設成 False。
+    SND_FEEDBACK = True
+
+    snd = SNRStimulus(outdir=filename + '_snr', token=SND_TOKEN)
+
+    adapt_patch = visual.Rect(
+        win=win, name='adapt_patch', width=4, height=4,
+        ori=0.0, pos=(0, 0), anchor='center', lineWidth=1.0,
+        colorSpace='hex', lineColor=None, fillColor='white', interpolate=True)
+    adapt_sound = sound.Sound('A', secs=-1, stereo=True, hamming=True,
+                              speaker='Laptop', name='adapt_sound')
+    adapt_sound.setVolume(1.0)
+    adapt_text = visual.TextStim(win=win, name='adapt_text', text='',
+                                 height=0.8, color='white', pos=(0, 0), wrapWidth=26,
+                                 alignText='left', anchorHoriz='center')
+    adapt_para = visual.TextStim(win=win, name='adapt_para', text='',
+                                 height=0.7, color='white', pos=(0, 0), wrapWidth=26,
+                                 alignText='left', anchorHoriz='center')
+
+    def _adapt_screen(msg, keys, stim=None):
+        """畫一頁文字, 等按鍵。escape 一律可離開。"""
+        stim = adapt_text if stim is None else stim
+        stim.text = msg
+        stim.draw()
+        win.flip()
+        _k = event.waitKeys(keyList=list(keys) + ['escape'])
+        if 'escape' in _k:
+            endExperiment(thisExp, win=win)
+            core.quit()
+        return _k[0]
+
+    _adapt_screen(
+        "Calibration (about 4 minutes).\n\n"
+        "On each trial you will see a coloured square and hear a syllable "
+        "at the same time. After each one, answer two questions:\n\n"
+        "   COLOUR:   f = more blue        j = more pink\n"
+        "   SOUND:    f = clear            j = noisy\n\n"
+        "The spoken syllable is always the same one - what changes is how "
+        "much background noise is mixed into it.\n\n"
+        "You get feedback after each trial. The colours and sounds are "
+        "chosen to stay difficult, so feeling unsure is normal - just "
+        "give your best guess every time.\n\n"
+        "Press the space bar to start.", ('space',), stim=adapt_para)
+
+    # dim2steps 從 9 改成 100。它在 AGRT.py:313-316 被傳三次,同時決定出題
+    # 網格、alpha 網格與 beta 網格 —— 原本只能是 9,是因為 b/p 連續體只有 9
+    # 個音檔擋住了出題網格,連帶把 alpha/beta 也鎖在 9 格。SNR 是連續的,
+    # 這個限制消失,三個網格一起提到 100(與顏色維度一致)。
+    agrt = AGRTHandler(nTrials=N_ADAPT, lapse=LAPSE,
+                       dim1range=[-_ARC_LIM, _ARC_LIM],
+                       dim2range=[-SNR_LIM, SNR_LIM],
+                       dim1steps=100, dim2steps=100)
+    _adapt_n = 0
+    for _stim in agrt:
+        _adapt_n += 1
+        _arc = float(_stim[0])
+        _snr = float(_stim[1])    # 任意實數 dB,不需要對齊到任何格點
+
+        # 視聽複合刺激 1.0 s
+        adapt_patch.fillColor = colour_for(_arc)
+        adapt_sound.setSound(snd.make(_snr, tag='adapt'), hamming=True)
+        adapt_patch.draw()
+        win.flip()
+        adapt_sound.play()
+        core.wait(1.0)
+        adapt_sound.stop()
+        win.flip()
+        core.wait(0.15)
+
+        # 兩個判斷 (0 = 低端類別, 1 = 高端類別)
+        _kc = _adapt_screen("COLOUR\n\nf = more blue        j = more pink",
+                            ('f', 'j'))
+        _r1 = 1 if _kc == 'j' else 0
+        _ks = _adapt_screen("SOUND\n\nf = clear            j = noisy",
+                            ('f', 'j'))
+        # 反應編碼要與刺激軸同向:_r2=1 表示「高端」。SNR 軸上高端 = 高 SNR
+        # = 清楚,所以 f(clear) 才是 1 —— 與 b/p 版的 j 相反,別寫反。
+        _r2 = 1 if _ks == 'f' else 0
+
+        # 回饋: 顏色邊界 = 錨點(arc 0);聲音邊界 = 0 dB(語音功率 = 噪音功率)。
+        # 兩個網格都是 100 點的偶數格點,不含 0,所以永遠有正解。
+        # SND_FEEDBACK=False 時不評聲音的對錯(見上面那段待決註解)。
+        _corr_c = int(_r1 == int(_arc > 0))
+        _fb_c = 'Colour: correct' if _corr_c else 'Colour: wrong'
+        if not SND_FEEDBACK:
+            _corr_s = -1
+            _fb_s = 'Sound: (no feedback)'
+        else:
+            _corr_s = int(_r2 == int(_snr > 0))
+            _fb_s = 'Sound: correct' if _corr_s else 'Sound: wrong'
+        adapt_text.text = _fb_c + '\n' + _fb_s
+        adapt_text.draw()
+        win.flip()
+        core.wait(0.7)
+        win.flip()
+        core.wait(0.2)
+
+        agrt.addResponse((_r1, _r2))
+        thisExp.addData('adapt_trial', _adapt_n)
+        thisExp.addData('adapt_arc', _arc)
+        thisExp.addData('adapt_snr', _snr)
+        thisExp.addData('adapt_resp_col', _r1)
+        thisExp.addData('adapt_resp_snd', _r2)
+        thisExp.addData('adapt_corr_col', _corr_c)
+        thisExp.addData('adapt_corr_snd', _corr_s)
+        thisExp.nextEntry()
+
+    # ---- 官方估計 -> 覆寫主實驗刺激值 ----
+    _lams = agrt.estimateLambda()
+    (_c_lo, _c_hi), (_s_lo, _s_hi) = agrt.estimateGRTintensities(OVERALL_ACC, _lams)
+    _c_lo = float(np.clip(_c_lo, _LUT_ARC[0], _LUT_ARC[-1]))
+    _c_hi = float(np.clip(_c_hi, _LUT_ARC[0], _LUT_ARC[-1]))
+    # ⚠ 這裡原本要把估計值 int(round(...)) 塞回 1..9 的整數 step,還得補一段
+    # 「兩點落同一步就拉開成相鄰步」的 hack —— 因為 b/p 連續體只有 9 個音檔。
+    # SNR 是連續的,混音器解析度 0.001 dB,估計值直接就是要播的值,兩段都不需要。
+    # estimateGRTintensities 回傳的是以 alpha 為中心對稱推開的一對,所以
+    # _s_lo < _s_hi,低的那個是「吵」、高的那個是「清楚」。
+    _s_lo = float(np.clip(_s_lo, -SNR_LIM, SNR_LIM))
+    _s_hi = float(np.clip(_s_hi, -SNR_LIM, SNR_LIM))
+    COLOUR_ARC = [_c_lo, _c_hi]
+    COLOUR_HEX = [colour_for(_c_lo), colour_for(_c_hi)]
+    AUDIO_HI, AUDIO_LO = _s_hi, _s_lo    # HI = clear, LO = noisy
+    agrt.savePosterior(filename + '_posterior')
+    thisExp.addData('psi_col_alpha', float(_lams[0][0]))
+    thisExp.addData('psi_col_beta', float(_lams[0][1]))
+    thisExp.addData('psi_snd_alpha', float(_lams[1][0]))
+    thisExp.addData('psi_snd_beta', float(_lams[1][1]))
+    thisExp.addData('colour_arc_lo', _c_lo)
+    thisExp.addData('colour_arc_hi', _c_hi)
+    thisExp.addData('snr_clear', AUDIO_HI)
+    thisExp.addData('snr_noisy', AUDIO_LO)
+    thisExp.addData('snr_token', SND_TOKEN)
+    thisExp.addData('snr_lim', SNR_LIM)
+    thisExp.addData('snd_feedback', bool(SND_FEEDBACK))
+    thisExp.nextEntry()
+    print(f"[AGRT] colour lambda={_lams[0]}  sound lambda={_lams[1]}")
+    print(f"[AGRT] COLOUR_ARC={COLOUR_ARC} -> {COLOUR_HEX}; "
+          f"SNR clear={AUDIO_HI:+.2f} noisy={AUDIO_LO:+.2f} dB")
+    # ══════════════════════════ AGRT 適應階段結束 ══════════════════════════
+
     # --- Prepare to start Routine "instruction_normal" ---
     # create an object to store info about Routine instruction_normal
     instruction_normal = data.Routine(
@@ -872,6 +1078,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
     frameN = -1
     
+    instruction_key_img.setAutoDraw(True)   # 按鍵-象限對應圖,隨指導語顯示
     # --- Run Routine "instruction_normal" ---
     thisExp.currentRoutine = instruction_normal
     instruction_normal.forceEnded = routineForceEnded = not continueRoutine
@@ -965,6 +1172,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
     
+    instruction_key_img.setAutoDraw(False)
     # --- Ending Routine "instruction_normal" ---
     for thisComponent in instruction_normal.components:
         if hasattr(thisComponent, "setAutoDraw"):
@@ -1021,7 +1229,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         cue_valid, target_item, relation, target_serial = trial_plan[trial_i]
         is_practice = (trial_i < N_PRACTICE)
         
-        itemAudi   = ['stimuli/b3.wav', 'stimuli/b3.wav', 'stimuli/p3.wav', 'stimuli/p3.wav']
+        # 由 AGRT 適應階段校出的兩級 SNR,每試現混。每次抽新種子,所以同一級的
+        # 兩個 item 拿到的必然是不同的噪音 —— 否則「噪音樣本一樣」本身就成了
+        # 「這兩個是同一類」的線索。
+        SNR_LEVELS = [AUDIO_HI, AUDIO_LO]                  # index 0 = clear, 1 = noisy
+        itemAudi   = snd.make_many([SNR_LEVELS[ITEM_SNR[_i]] for _i in range(4)],
+                                   tags=[f'item{_i}' for _i in range(4)])
         itemColhex = [COLOUR_HEX[0], COLOUR_HEX[1], COLOUR_HEX[0], COLOUR_HEX[1]]
         Fix_Dur = .3
         
@@ -1476,7 +1689,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # probe: 畫在 cue 的位置, 但內容是 target 的 item -- 刻意製造的衝突。
         # invalid 試次上受試者報告 cued_item 即為 intrusion。
         cue_color = itemColhex[target_item]
-        cue_audi  = itemAudi[target_item]
+        # ⚠ 不能沿用 itemAudi[target_item]:那會讓 probe 與 study 那一次呈現
+        # 位元完全相同,受試者可以比對噪音樣本本身而不必記聲音。
+        cue_audi  = snd.make(SNR_LEVELS[ITEM_SNR[target_item]], tag='probe')
         
         Cue.setPos(POS_cue)
         targetC.setFillColor(cue_color)
@@ -1666,6 +1881,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         thisExp.addData('cue_idx',       int(cue_idx))
         thisExp.addData('cue_color',     cue_color)
         thisExp.addData('cue_audi',      cue_audi)
+        thisExp.addData('target_snr',    SNR_NAMES[ITEM_SNR[target_item]])
+        thisExp.addData('cued_snr',      SNR_NAMES[ITEM_SNR[cued_item]])
         thisExp.addData('POS_cue',       str(POS_cue))
         thisExp.addData('target_pos',    str((target_posx, target_posy)))
         
@@ -1695,7 +1912,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         POS_COL = [(x, y - GAP/2) for x, y in POS]
         
         final_value = [COLOUR_HEX[0], COLOUR_HEX[1], COLOUR_HEX[0], COLOUR_HEX[1]]   # 與 itemColhex 同序
-        TXT         = ["[bɛ]", "[bɛ]", "[pɛ]", "[pɛ]"]   # 與 itemAudi 同序
+        TXT         = ["clear", "clear", "noisy", "noisy"]   # 與 ITEM_SNR 同序
         
         # 四個選項元件各自釘在固定螢幕位置
         txtUR_pos, colUR_pos = POS_TXT[0], POS_COL[0]
@@ -2058,6 +2275,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         thisExp.addData('err_rel_name', REL_NAME[err_rel] if err_rel else '')
         thisExp.addData('is_correct',   is_correct)
         thisExp.addData('rt',           key_resp_2.rt)
+
+        # 這一試現混的五個刺激,每個記下 dB 與噪音種子,可位元重建。
+        for _row in snd.drain_log():
+            thisExp.addData('snd_' + _row['tag'], _row['summary'])
         
         # 練習階段累計答對數, 供練習結束時回饋
         if is_practice and outcome == 'correct':
@@ -2252,7 +2473,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             )
             # once done pausing, restore running status
             trials.status = STARTED
-        # ⛔ 關鍵修正(自 ee0f432 移植):每個試次寫成資料檔的一列。
+        # ⛔ 關鍵修正:每個試次寫成資料檔的一列。
         # trials loop 建立時 isTrials=False, PsychoPy 因此不產生這一行;
         # 少了它, 600 個試次的 addData 會互相覆蓋, 存檔只剩一列。
         thisExp.nextEntry()
