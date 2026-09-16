@@ -35,8 +35,8 @@ cue     2.0s   0-1s  empty white frame at one corner
                  but the content shown is target_item
 
 task     ---   four options (colour + label), one per corner, reshuffled
-               keys:  g = upper left    j = upper right
-                      f = lower left    h = lower right
+               keys:  i = upper left    o = upper right
+                      k = lower left    l = lower right
 
 rest     ---   only after practice and after each block; skipped otherwise
 ```

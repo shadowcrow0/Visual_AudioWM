@@ -420,7 +420,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     # --- Initialize components for Routine "instruction_normal" ---
     instruction_normal_text = visual.TextStim(win=win, name='instruction_normal_text',
-        text='The task.\n\nFour coloured squares will appear one at a time, one in each corner of the screen, and each of them comes with its own speech sound. Try to remember which colour and which sound belong together and where they appeared.\n\nA frame will then appear at one of the corners, and an item will appear in it. When you see the frame, recall what has just appeared. On the final screen four options are shown, one in each corner - Each option is a colour with a syllable label, [bi] or [pi], underneath - choose the one you have in mind by pressing the key for its position:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nThe picture below shows how the four keys point to the four corners.\n\nThe session has four parts: colour calibration, sound calibration, a short practice, then the main experiment in four blocks with a rest after each one. During calibration and practice the correct option is framed after each answer. The colours and sounds are adjusted to stay difficult, so feeling unsure is normal - just give your best guess every time. Answer as accurately as you can - speed is not important.\n\nPress the space bar to begin.',
+        text='The task.\n\nFour coloured squares will appear one at a time, one in each corner of the screen, and each of them comes with its own speech sound. Try to remember which colour and which sound belong together and where they appeared.\n\nA frame will then appear at one of the corners, and an item will appear in it. When you see the frame, recall what has just appeared. On the final screen four options are shown, one in each corner - Each option is a colour with a syllable label, [bi] or [pi], underneath - choose the one you have in mind by pressing the key for its position:\n\n        i = upper left            o = upper right\n        k = lower left            l = lower right\n\nThe picture below shows how the four keys point to the four corners.\n\nThe session has four parts: colour calibration, sound calibration, a short practice, then the main experiment in four blocks with a rest after each one. During calibration and practice the correct option is framed after each answer. The colours and sounds are adjusted to stay difficult, so feeling unsure is normal - just give your best guess every time. Answer as accurately as you can - speed is not important.\n\nPress the space bar to begin.',
         font='Arial',
         pos=(0, 3.0), draggable=False, height=0.65, wrapWidth=26, ori=0.0,
         color='white', colorSpace='rgb', opacity=None,
@@ -428,7 +428,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         depth=0.0);
     instruction_key_img = visual.ImageStim(
         win=win, name='instruction_key_img',
-        image='stimuli/box_keys.png', mask=None, anchor='center',
+        image='stimuli/box_keys_iokl.png', mask=None, anchor='center',   # i/o/k/l 版;box_keys.png 是 g/j/f/h,給舊腳本用
         ori=0.0, pos=(0, -7.0), size=(5.5, 5.0),
         color=[1,1,1], colorSpace='rgb', opacity=None,
         flipHoriz=False, flipVert=False,
@@ -2162,7 +2162,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 win.callOnFlip(key_resp_2.clock.reset)  # t=0 on next screen flip
                 win.callOnFlip(key_resp_2.clearEvents, eventType='keyboard')  # clear events on next screen flip
             if key_resp_2.status == STARTED and not waitOnFlip:
-                theseKeys = key_resp_2.getKeys(keyList=['f','g','h','j'], ignoreKeys=["escape"], waitRelease=False)
+                theseKeys = key_resp_2.getKeys(keyList=['i','o','k','l'], ignoreKeys=["escape"], waitRelease=False)
                 _key_resp_2_allKeys.extend(theseKeys)
                 if len(_key_resp_2_allKeys):
                     key_resp_2.keys = _key_resp_2_allKeys[-1].name  # just the last key pressed
@@ -2214,7 +2214,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         task.tStopRefresh = tThisFlipGlobal
         thisExp.addData('task.stopped', task.tStop)
         # Run 'End Routine' code from recog
-        KEY_TO_SLOT = {'f': 'BL', 'g': 'UL', 'h': 'BR', 'j': 'UR'}
+        # 右手自然位置:i o 上排 = 上兩角,k l 下排 = 下兩角(原本是 g j / f h)
+        KEY_TO_SLOT = {'i': 'UL', 'o': 'UR', 'k': 'BL', 'l': 'BR'}
         SLOT_ITEM   = {'UR': UR_item, 'UL': UL_item, 'BL': BL_item, 'BR': BR_item}
         
         pressed_key = key_resp_2.keys       # 之後接 ResponseBox 時改從 respond 讀
@@ -2385,16 +2386,16 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 "If that felt like guessing, tell the experimenter now.\n\n"
                 "The main experiment starts next. There is no more feedback. "
                 f"It is divided into {n_blocks} blocks with a rest after each one.\n\n"
-                "        g = upper left            j = upper right\n"
-                "        f = lower left            h = lower right\n\n"
+                "        i = upper left            o = upper right\n"
+                "        k = lower left            l = lower right\n\n"
                 "Press the space bar to begin.")
         elif n_done > N_PRE and (n_done - N_PRE) % BLOCK_SIZE == 0 and n_done < N_TRIALS:
             done_blocks = (n_done - N_PRE) // BLOCK_SIZE
             rest_msg = (
                 f"Block {done_blocks} of {n_blocks} finished.\n\n"
                 "Take a rest. Look away from the screen for a moment.\n\n"
-                "        g = upper left            j = upper right\n"
-                "        f = lower left            h = lower right\n\n"
+                "        i = upper left            o = upper right\n"
+                "        k = lower left            l = lower right\n\n"
                 "Press the space bar when you are ready to continue.")
         else:
             continueRoutine = False
