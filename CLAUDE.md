@@ -58,13 +58,14 @@ held at 2:1 within every block. Practice deliberately uses the same ratio.
 Both are PsychoPy Builder output from `GRTv2.psyexp`, hand-edited afterwards.
 **Do not regenerate from Builder** — that would wipe the hand-written sections.
 
-| | `GRTv3.py` | `GRTv3_a.py` |
-|---|---|---|
-| Sound stimulus | one token `be.wav` (/bi/), always | same |
-| Two auditory items | **high SNR** vs **low SNR** (+6 / −6 dB, fixed) | ⛔ mismatched — see below |
-| What the listener reports | **the consonant: [bi] or [pi]** | "clear / noisy" |
-| Colour axis | fixed ±3.0 ΔE00 | calibrated by a 60-trial AGRT phase |
-| Status | current design | adaptive phase needs rebuilding |
+| | `GRTv3.py` | `GRTv3_a.py` | `GRTv3_ada.py` |
+|---|---|---|---|
+| Sound stimulus | one token `be.wav` (/bi/), always | same | same |
+| Two auditory items | **high SNR** vs **low SNR** (+6 / −6 dB, fixed) | ±SNR from AGRT | ±SNR from AGRT |
+| What the listener reports | **the consonant: [bi] or [pi]** | "clear / noisy" | **[bi] or [pi]** |
+| Colour axis | fixed ±3.0 ΔE00 | calibrated by a 60-trial AGRT phase | same |
+| Calibration | — | 60 joint trials, two f/j questions | **colour block, then sound block, then 15 practice with feedback** |
+| Status | fixed-level design | superseded by `_ada` | current adaptive design |
 
 **The design (`GRTv3.py`).** One syllable is played all session. Noise masks the
 voicing cue, so the low-SNR item is often heard as /pi/. The physical difference
@@ -80,14 +81,31 @@ at one shared SNR — which is what `snr_audio.py` was actually built for; it
 aligns the two tokens' onsets and voiced-segment RMS so that one SNR number
 means the same thing for both.
 
-⛔ **`GRTv3_a.py`'s adaptive phase does not implement this design** and must not
-be used for real data yet. It asks "clear or noisy", not "b or p". Simply
-swapping the question does not work: with one token, P(report p) rises from 0
-and flattens at 0.5, and `AGRT.py:133`'s model spans [δ/2, 1−δ/2] — it cannot
-represent a curve that stops at chance. The right tool is a 1-D `QuestHandler`
-with gamma = 0.5 (since /bi/ is always the token, "b" is always correct, so
-P(correct) falls from 1 to 0.5 — exactly Quest's native shape). See
-`snr_vs_grt_dimension.md`. Not built yet.
+**`GRTv3_ada.py` — the adaptive design.** Both dimensions are calibrated per
+participant by the two independent Psi objects in `AGRT.py` (60 trials, one
+audiovisual compound per trial). The sound axis is SNR used as a *stand-in for
+the b/p (VOT) continuum*, which the program cannot synthesise: high-SNR /bi/
+stands for the b end, low-SNR /bi/ for the p end, 0 dB is the nominal category
+boundary, and trial-by-trial feedback anchors the listener's b/p criterion
+there. Under that design P(report bi) is meant to run from 1 down to 0 across
+SNR, which is exactly the shape `AGRT.py:133` models ([δ/2, 1−δ/2]) — so the
+earlier objection (a one-token curve that floors at 0.5 and needs a 1-D
+`QuestHandler`) no longer applies. The session runs in three blocks: (1) colour-only
+calibration — a lone patch, answer blue/pink with f/j, driving `_psi1` alone;
+(2) sound-only calibration — a lone syllable, answer bi/pi with f/j, driving
+`_psi2` alone; (3) the estimated values go into the main task, starting with
+`N_PRACTICE` (15) practice trials that frame the correct option after each
+answer, then the four main blocks. Trial counts per calibration block are
+`N_ADAPT_COL` / `N_ADAPT_SND` (144 each, following Glavan's human study;
+the earlier 60 was a placeholder).
+
+Two things the code cannot settle: (1) whether low SNR really pushes /bi/
+toward /pi/ on this token has **not been piloted** — if it does not, the
+estimated sound α/β reflect the learned feedback rule, not perception; and
+(2) turning `SND_FEEDBACK` off removes the anchor and the curve may floor at
+0.5 again, breaking the model.
+
+⛔ `GRTv3_a.py` asks "clear or noisy" and is kept only as the predecessor.
 
 ⚠️ The ±6 dB levels in `GRTv3.py` are **placeholders**, not measured. The low
 level needs to be low enough to actually push /bi/ toward /pi/, and that
