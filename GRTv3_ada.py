@@ -16,12 +16,17 @@ GRTv3_a.py 的接續版。兩個維度都由 AGRT(兩條獨立 Psi)逐人校準:
 聲音維度的設計:b/p(VOT)在語音上是連續值,但程式做不出那個連續體,
 所以用 SNR 當替代軸繞過去。高 SNR 的 /bi/ 代表 b 端、低 SNR 的 /bi/ 代表
 p 端,0 dB 是名目範疇邊界,校準回饋把受試者的判準錨在這裡。
-流程分三個區塊:
-  區塊 1  只校顏色:單獨呈現色塊,答 blue / pink(f / j),逐試回饋。
-  區塊 2  只校聲音:單獨播 /bi/,答 [bi] / [pi](f / j),逐試回饋。
-  區塊 3  把兩個估出的理想值放進主實驗,先練習 N_PRACTICE 試(附正解),再正式。
-區塊 1、2 各自只驅動 AGRTHandler 內的一條 Psi(_psi1 / _psi2),
-估計與存後驗的流程不變。
+流程分三個區塊,**全部走主實驗的完整作業**(四個項目 → 提示 → 四選一),
+不是單純的知覺再認,所以估到的是工作記憶作業下的極限:
+  區塊 1  只校顏色:Psi 提出顏色差距 x,兩個顏色是 ±|x|;四個項目的聲音
+          全是同一個固定的 /bi/(ADAPT_FIX_SNR)。從選中選項解出顏色位元餵 _psi1。
+  區塊 2  只校聲音:Psi 提出 SNR s,兩級是 ±|s|;四個項目的顏色全是同一個
+          固定的錨點色(ADAPT_FIX_ARC)。從選中選項解出聲音位元餵 _psi2。
+  校準時另一維不變,所以四個項目其實只有兩種,選項也是兩兩相同;
+  選到內容相同的另一個角落一樣算對(只看被校的那一維)。
+  區塊 3  兩個估出的理想值放進主實驗,先練習 N_PRACTICE 試(附正解),再正式。
+校準試次全部是 valid(提示與探測一致),每試作答後把正確選項框起來。
+估計與存後驗的流程沿用 AGRTHandler。
 """
 
 # --- Import packages ---
@@ -415,7 +420,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     
     # --- Initialize components for Routine "instruction_normal" ---
     instruction_normal_text = visual.TextStim(win=win, name='instruction_normal_text',
-        text='Main experiment.\n\nFour coloured squares will appear one at a time, one in each corner of the screen, and each of them comes with its own speech sound. Try to remember which colour and which sound belong together and where they appeared.\n\nA frame will then appear at one of the corners, and an item will appear in it. When you see the frame, recall what has just appeared. On the final screen four options are shown, one in each corner - Each option is a colour with a syllable label, [bi] or [pi], underneath - choose the one you have in mind by pressing the key for its position:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nThe picture below shows how the four keys point to the four corners.\n\nYou will start with a short practice of 15 trials - after each practice answer the correct option is framed - then four blocks with a rest after each one. Answer as accurately as you can - speed is not important.\n\nPress the space bar to begin.',
+        text='The task.\n\nFour coloured squares will appear one at a time, one in each corner of the screen, and each of them comes with its own speech sound. Try to remember which colour and which sound belong together and where they appeared.\n\nA frame will then appear at one of the corners, and an item will appear in it. When you see the frame, recall what has just appeared. On the final screen four options are shown, one in each corner - Each option is a colour with a syllable label, [bi] or [pi], underneath - choose the one you have in mind by pressing the key for its position:\n\n        g = upper left            j = upper right\n        f = lower left            h = lower right\n\nThe picture below shows how the four keys point to the four corners.\n\nThe session has four parts: colour calibration, sound calibration, a short practice, then the main experiment in four blocks with a rest after each one. During calibration and practice the correct option is framed after each answer. The colours and sounds are adjusted to stay difficult, so feeling unsure is normal - just give your best guess every time. Answer as accurately as you can - speed is not important.\n\nPress the space bar to begin.',
         font='Arial',
         pos=(0, 3.0), draggable=False, height=0.65, wrapWidth=26, ori=0.0,
         color='white', colorSpace='rgb', opacity=None,
@@ -480,10 +485,24 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     # 用與主實驗**相同的 valid:invalid 比例**(2:1)。若練習全是 valid, 受試者會
     # 帶著「提示一定準」的預期進入正式階段, 前幾個 invalid 試次的效果會異常大、
     # 之後才衰減 —— 那會讓平衡設計失效。
-    # 區塊 3 = 練習:用校準出來的理想值跑主實驗流程,每試給正解(PRACTICE_FEEDBACK)。
+    # ---- 校準計畫(區塊 1、2)----
+    # 校準也走完整作業。全部 valid;target_item 要等 Begin Routine 看 Psi 提出值
+    # 的正負號才決定(見 phase 分支),計畫裡先放 None,只平均分配 serial position。
+    # 試次數:Glavan 2022 人類研究用 144(Adaptive-GRT/Human Study/Adaptive/
+    # AGRT_Exp_1_3_0.py:774),但他們每試是 2 秒的簡單作答;這裡每試是 8-10 秒
+    # 的完整工作記憶試次,144 × 2 會超過 40 分鐘,所以減半成 72。
+    N_ADAPT_COL = 72      # 區塊 1:只校顏色
+    N_ADAPT_SND = 72      # 區塊 2:只校聲音
+    N_ADAPT     = N_ADAPT_COL + N_ADAPT_SND
+    def _adapt_plan(n):
+        _sp = [i % 4 for i in range(n)]
+        return [(1, None, 0, int(_sp[i])) for i in rng.permutation(n)]
+    adapt_plan = _adapt_plan(N_ADAPT_COL) + _adapt_plan(N_ADAPT_SND)
+
+    # 區塊 3 = 練習:用校準出來的理想值跑主實驗流程,每試給正解。
     N_PRACTICE        = 15
-    PRACTICE_FEEDBACK = True    # 練習試次作答後把正確選項框起來
-    PRACTICE_FB_SEC   = 1.5     # 回饋畫面停留秒數
+    FEEDBACK_PRE_MAIN = True    # 校準與練習試次作答後把正確選項框起來;主實驗不給
+    FEEDBACK_SEC      = 1.5     # 回饋畫面停留秒數
     _n_valid   = round(N_PRACTICE * 2 / 3)      # 10 valid
     _n_invalid = N_PRACTICE - _n_valid          # 5 invalid
     _valid_pool = [(1, _it, 0, _sp) for _it in range(4) for _sp in range(4)]
@@ -492,12 +511,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                      [_inval_pool[i] for i in rng.permutation(len(_inval_pool))[:_n_invalid]])
     practice_plan = [practice_plan[i] for i in rng.permutation(len(practice_plan))]
     
-    trial_plan = practice_plan + main_plan
+    trial_plan = adapt_plan + practice_plan + main_plan
+    N_PRE      = N_ADAPT + N_PRACTICE      # 主實驗之前的試次數
     N_TRIALS   = len(trial_plan)
     trial_i    = -1
     practice_correct = 0      # 練習階段的答對數, 用於練習結束時的回饋
     
-    print(f"[plan] 練習 {N_PRACTICE}(附正解) + 主實驗 {N_MAIN} = {N_TRIALS} 試次;"
+    print(f"[plan] 校準 顏色 {N_ADAPT_COL} + 聲音 {N_ADAPT_SND} + 練習 {N_PRACTICE}"
+          f"(皆附正解) + 主實驗 {N_MAIN} = {N_TRIALS} 試次;"
           f" 主實驗 {n_blocks} blocks x {BLOCK_SIZE}")
     
     # ---- 色彩軸:從離線算好的查表載入 ----
@@ -899,11 +920,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     # ══════════════════════════════════════════════════════════════════
     from AGRT import AGRTHandler
 
-    # 校準分兩個單維區塊,各自只更新一條 Psi。試次數沿用 Glavan 2022 人類研究
-    # 的 144(Adaptive-GRT/Human Study/Adaptive/AGRT_Exp_1_3_0.py:774,
-    # nAdaptiveTrials = 144);原本的 60 是早期暫定值。
-    N_ADAPT_COL = 144     # 區塊 1:只校顏色
-    N_ADAPT_SND = 144     # 區塊 2:只校聲音
     OVERALL_ACC = 0.64    # 聯合正確率 0.80、每維 89.4%(estimateGRTintensities
                           # 傳入 sqrt(0.64)=0.8, estimateThreshold 內部再開一次根號)
     LAPSE       = 0.08    # 整體 lapse; handler 內部轉成邊際 lapse 1-sqrt(1-.08)
@@ -916,6 +932,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     ITEM_SNR    = [0, 0, 1, 1]  # item 0,1 -> 高 SNR([bi]);item 2,3 -> 低 SNR([pi])
     AUDIO_HI, AUDIO_LO = +6.0, -6.0   # 預設值,適應階段結束會覆寫
     _ARC_LIM = float(min(-_LUT_ARC[0], _LUT_ARC[-1]))  # 對稱可用半長 ~24.13 dE00
+
+    # 校準時「另一個維度」只出現一個固定值,四個項目在那一維完全相同:
+    #   區塊 1 校顏色 -> 四個項目都播 ADAPT_FIX_SNR 的 /bi/(清楚,標籤都是 [bi])
+    #   區塊 2 校聲音 -> 四個項目都是 ADAPT_FIX_ARC 的顏色(錨點色)
+    # 這一維不進 Psi,也不影響對錯判定。
+    ADAPT_FIX_ARC = 0.0          # 弧長 0 = 錨點色(CIELCh h=303,薰衣草紫)
+    ADAPT_FIX_SNR = 12.0         # dB;清楚的 /bi/
 
     # 聽覺軸為什麼這樣設 —— 與顏色軸刻意做成同一個形狀:
     #   顏色  弧長 ±24.13 dE00,決策界線在錨點 arc = 0
@@ -936,47 +959,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
 
     snd = SNRStimulus(outdir=filename + '_snr', token=SND_TOKEN)
 
-    adapt_patch = visual.Rect(
-        win=win, name='adapt_patch', width=4, height=4,
-        ori=0.0, pos=(0, 0), anchor='center', lineWidth=1.0,
-        colorSpace='hex', lineColor=None, fillColor='white', interpolate=True)
-    adapt_sound = sound.Sound('A', secs=-1, stereo=True, hamming=True,
-                              speaker='Laptop', name='adapt_sound')
-    adapt_sound.setVolume(1.0)
     adapt_text = visual.TextStim(win=win, name='adapt_text', text='',
                                  height=0.8, color='white', pos=(0, 0), wrapWidth=26,
                                  alignText='left', anchorHoriz='center')
-    adapt_para = visual.TextStim(win=win, name='adapt_para', text='',
-                                 height=0.7, color='white', pos=(0, 0), wrapWidth=26,
-                                 alignText='left', anchorHoriz='center')
-
-    def _adapt_screen(msg, keys, stim=None):
-        """畫一頁文字, 等按鍵。escape 一律可離開。"""
-        stim = adapt_text if stim is None else stim
-        stim.text = msg
-        stim.draw()
-        win.flip()
-        _k = event.waitKeys(keyList=list(keys) + ['escape'])
-        if 'escape' in _k:
-            endExperiment(thisExp, win=win)
-            core.quit()
-        return _k[0]
-
-    # 練習回饋用的框:套在正確選項(文字 + 色塊)外圍
+    # 校準與練習回饋用的框:套在正確選項(文字 + 色塊)外圍
     fb_frame = visual.Rect(
         win=win, name='fb_frame', width=7.0, height=9.5,
         ori=0.0, pos=(0, 0), anchor='center', lineWidth=4.0,
         lineColor='white', fillColor=None, interpolate=True)
-
-    _adapt_screen(
-        "Calibration, part 1 of 2: COLOUR (about 8 minutes).\n\n"
-        "On each trial a coloured square appears for one second. "
-        "Then say which way its colour leans:\n\n"
-        "        f = blue            j = pink\n\n"
-        "You get feedback after each trial. The colours are chosen to stay "
-        "difficult, so feeling unsure is normal - just give your best guess "
-        "every time.\n\n"
-        "Press the space bar to start.", ('space',), stim=adapt_para)
 
     # dim2steps 從 9 改成 100。它在 AGRT.py:313-316 被傳三次,同時決定出題
     # 網格、alpha 網格與 beta 網格 —— 原本只能是 9,是因為 b/p 連續體只有 9
@@ -986,117 +976,17 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                        dim1range=[-_ARC_LIM, _ARC_LIM],
                        dim2range=[-SNR_LIM, SNR_LIM],
                        dim1steps=100, dim2steps=100)
-    # 區塊 1、2 各自只驅動一條 Psi:直接用 agrt._psi1 / agrt._psi2 的
-    # nextIntensity 與 update(),不走 agrt 的 __next__ / addResponse(那要求
-    # 兩維同時給反應)。estimateLambda / estimateGRTintensities / savePosterior
-    # 只讀兩個 Psi 的後驗,與怎麼餵反應無關,照用。nTrials 只影響 __next__ 的
-    # 結束判斷,這裡不用到。
-
-    def _adapt_log(block, n, arc, snr_, resp, corr):
-        thisExp.addData('adapt_block', block)
-        thisExp.addData('adapt_trial', n)
-        thisExp.addData('adapt_arc', arc)
-        thisExp.addData('adapt_snr', snr_)
-        thisExp.addData('adapt_resp', resp)
-        thisExp.addData('adapt_corr', corr)
-        thisExp.nextEntry()
-
-    def _adapt_feedback(msg):
-        adapt_text.text = msg
-        adapt_text.draw()
-        win.flip()
-        core.wait(0.7)
-        win.flip()
-        core.wait(0.2)
-
-    print(f"[plan] 校準:區塊 1 顏色 {N_ADAPT_COL} 試,區塊 2 聲音 {N_ADAPT_SND} 試")
-
-    # ════ 區塊 1:只校顏色 ════
-    for _adapt_n in range(1, N_ADAPT_COL + 1):
-        _arc = float(agrt._psi1.nextIntensity)
-        adapt_patch.fillColor = colour_for(_arc)
-        adapt_patch.draw()
-        win.flip()
-        core.wait(1.0)
-        win.flip()
-        core.wait(0.15)
-        # 反應編碼與刺激軸同向:_r1 = 1 是 pink(arc > 0 那端)
-        _kc = _adapt_screen("COLOUR\n\nf = blue            j = pink", ('f', 'j'))
-        _r1 = 1 if _kc == 'j' else 0
-        # 回饋:顏色邊界 = 錨點(arc 0)。網格是 100 點偶數格點,不含 0,永遠有正解。
-        _corr_c = int(_r1 == int(_arc > 0))
-        _adapt_feedback('Colour: correct' if _corr_c else 'Colour: wrong')
-        agrt._psi1.update(_r1)
-        _adapt_log('colour', _adapt_n, _arc, None, _r1, _corr_c)
-
-    # ════ 區塊 2:只校聲音 ════
-    _adapt_screen(
-        "Calibration, part 2 of 2: SOUND (about 8 minutes).\n\n"
-        "On each trial you hear one syllable mixed with background noise. "
-        "Then say what you heard:\n\n"
-        "        f = bi            j = pi\n\n"
-        "Some will sound like 'bi', some more like 'pi' - report what you hear. "
-        "You get feedback after each trial. The sounds are chosen to stay "
-        "difficult, so feeling unsure is normal - just give your best guess "
-        "every time.\n\n"
-        "Press the space bar to start.", ('space',), stim=adapt_para)
-    for _adapt_n in range(1, N_ADAPT_SND + 1):
-        _snr = float(agrt._psi2.nextIntensity)    # 任意實數 dB,不需要對齊到任何格點
-        adapt_sound.setSound(snd.make(_snr, tag='adapt'), hamming=True)
-        adapt_text.text = '+'
-        adapt_text.draw()
-        win.flip()
-        adapt_sound.play()
-        core.wait(1.0)
-        adapt_sound.stop()
-        win.flip()
-        core.wait(0.15)
-        # 反應編碼與刺激軸同向:_r2 = 1 是 [bi](SNR > 0 那端)
-        _ks = _adapt_screen("SOUND\n\nf = bi            j = pi", ('f', 'j'))
-        _r2 = 1 if _ks == 'f' else 0
-        # 回饋:聲音邊界 = 0 dB(語音功率 = 噪音功率),即 SNR > 0 正解 [bi]、
-        # SNR < 0 正解 [pi] —— 不是「永遠 bi」,見 SND_FEEDBACK 註解。
-        if not SND_FEEDBACK:
-            _corr_s = -1
-            _adapt_feedback('Sound: (no feedback)')
-        else:
-            _corr_s = int(_r2 == int(_snr > 0))
-            _adapt_feedback('Sound: correct' if _corr_s else 'Sound: wrong')
-        agrt._psi2.update(_r2)
-        _adapt_log('sound', _adapt_n, None, _snr, _r2, _corr_s)
-
-    # ---- 官方估計 -> 覆寫主實驗刺激值 ----
-    _lams = agrt.estimateLambda()
-    (_c_lo, _c_hi), (_s_lo, _s_hi) = agrt.estimateGRTintensities(OVERALL_ACC, _lams)
-    _c_lo = float(np.clip(_c_lo, _LUT_ARC[0], _LUT_ARC[-1]))
-    _c_hi = float(np.clip(_c_hi, _LUT_ARC[0], _LUT_ARC[-1]))
-    # ⚠ 這裡原本要把估計值 int(round(...)) 塞回 1..9 的整數 step,還得補一段
-    # 「兩點落同一步就拉開成相鄰步」的 hack —— 因為 b/p 連續體只有 9 個音檔。
-    # SNR 是連續的,混音器解析度 0.001 dB,估計值直接就是要播的值,兩段都不需要。
-    # estimateGRTintensities 回傳的是以 alpha 為中心對稱推開的一對,所以
-    # _s_lo < _s_hi,低的那個是 lo_snr([pi] 端)、高的那個是 hi_snr([bi] 端)。
-    _s_lo = float(np.clip(_s_lo, -SNR_LIM, SNR_LIM))
-    _s_hi = float(np.clip(_s_hi, -SNR_LIM, SNR_LIM))
-    COLOUR_ARC = [_c_lo, _c_hi]
-    COLOUR_HEX = [colour_for(_c_lo), colour_for(_c_hi)]
-    AUDIO_HI, AUDIO_LO = _s_hi, _s_lo    # HI = hi_snr([bi]), LO = lo_snr([pi])
-    agrt.savePosterior(filename + '_posterior')
-    thisExp.addData('psi_col_alpha', float(_lams[0][0]))
-    thisExp.addData('psi_col_beta', float(_lams[0][1]))
-    thisExp.addData('psi_snd_alpha', float(_lams[1][0]))
-    thisExp.addData('psi_snd_beta', float(_lams[1][1]))
-    thisExp.addData('colour_arc_lo', _c_lo)
-    thisExp.addData('colour_arc_hi', _c_hi)
-    thisExp.addData('snr_hi', AUDIO_HI)
-    thisExp.addData('snr_lo', AUDIO_LO)
-    thisExp.addData('snr_token', SND_TOKEN)
-    thisExp.addData('snr_lim', SNR_LIM)
-    thisExp.addData('snd_feedback', bool(SND_FEEDBACK))
-    thisExp.nextEntry()
-    print(f"[AGRT] colour lambda={_lams[0]}  sound lambda={_lams[1]}")
-    print(f"[AGRT] COLOUR_ARC={COLOUR_ARC} -> {COLOUR_HEX}; "
-          f"SNR hi([bi])={AUDIO_HI:+.2f} lo([pi])={AUDIO_LO:+.2f} dB")
-    # ══════════════════════════ AGRT 適應階段結束 ══════════════════════════
+    # 區塊 1、2 各自只驅動一條 Psi:在 trial 迴圈的 Begin Routine 讀
+    # agrt._psi1 / agrt._psi2 的 nextIntensity,End Routine 呼叫 update()。
+    # 不走 agrt 的 __next__ / addResponse(那要求兩維同時給反應)。
+    # estimateLambda / estimateGRTintensities / savePosterior 只讀兩個 Psi
+    # 的後驗,與怎麼餵反應無關,照用。nTrials 只影響 __next__,這裡不用到。
+    # 校準結束(最後一個 adapt_snd 試次的 End Routine)才覆寫下面四個值;
+    # 在那之前它們只是佔位,每個校準試次都會依 Psi 提出值重設。
+    COLOUR_ARC = [ADAPT_FIX_ARC, ADAPT_FIX_ARC]
+    COLOUR_HEX = [colour_for(COLOUR_ARC[0]), colour_for(COLOUR_ARC[1])]
+    AUDIO_HI, AUDIO_LO = ADAPT_FIX_SNR, ADAPT_FIX_SNR
+    print(f"[plan] 校準:區塊 1 顏色 {N_ADAPT_COL} 試,區塊 2 聲音 {N_ADAPT_SND} 試,全走完整作業")
 
     # --- Prepare to start Routine "instruction_normal" ---
     # create an object to store info about Routine instruction_normal
@@ -1280,7 +1170,35 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # ---- 這一試次的計畫 ----
         trial_i += 1
         cue_valid, target_item, relation, target_serial = trial_plan[trial_i]
-        is_practice = (trial_i < N_PRACTICE)
+        phase = ('adapt_col' if trial_i < N_ADAPT_COL else
+                 'adapt_snd' if trial_i < N_ADAPT     else
+                 'practice'  if trial_i < N_PRE       else 'main')
+        is_practice = (phase == 'practice')
+        is_adapt    = phase.startswith('adapt')
+
+        # ---- 校準試次:由 Psi 決定這一試的刺激值與 target ----
+        # Psi 提出一個帶正負號的值 x。兩個項目放在 ±|x|(index 0 = 低端 / hi_snr
+        # 的慣例不變),target 落在 x 的那一側;另一維四個項目全部同一個固定值,
+        # 所以 target 在另一維的位元隨便給(只影響 item 編號,不影響內容)。
+        # 作答後從選中選項解出這一維的位元(1 = 高端)餵回 Psi:
+        # P(答高端 | x) 隨 x 從 0 走到 1,正是 AGRT.py:133 那條模型的形狀。
+        adapt_x = None
+        if phase == 'adapt_col':
+            adapt_x = float(agrt._psi1.nextIntensity)
+            COLOUR_ARC = [-abs(adapt_x), abs(adapt_x)]
+            COLOUR_HEX = [colour_for(COLOUR_ARC[0]), colour_for(COLOUR_ARC[1])]
+            AUDIO_HI, AUDIO_LO = ADAPT_FIX_SNR, ADAPT_FIX_SNR   # 聲音全部相同
+            _cb = 1 if adapt_x > 0 else 0          # 顏色位元:1 = pink(arc > 0)
+            _sb = int(rng.integers(2))             # 聲音 index 隨機(內容無差)
+            target_item = _cb + 2 * _sb
+        elif phase == 'adapt_snd':
+            adapt_x = float(agrt._psi2.nextIntensity)
+            AUDIO_HI, AUDIO_LO = abs(adapt_x), -abs(adapt_x)
+            COLOUR_ARC = [ADAPT_FIX_ARC, ADAPT_FIX_ARC]          # 顏色全部相同
+            COLOUR_HEX = [colour_for(COLOUR_ARC[0]), colour_for(COLOUR_ARC[1])]
+            _sb = 0 if adapt_x > 0 else 1          # 聲音 index:0 = hi_snr = [bi](SNR > 0)
+            _cb = int(rng.integers(2))             # 顏色位元隨機(內容無差)
+            target_item = _cb + 2 * _sb
         
         # 由 AGRT 適應階段校出的兩級 SNR,每試現混。每次抽新種子,所以同一級的
         # 兩個 item 拿到的必然是不同的噪音 —— 否則「噪音樣本一樣」本身就成了
@@ -1705,8 +1623,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         study.tStopRefresh = tThisFlipGlobal
         thisExp.addData('study.stopped', study.tStop)
         # Run 'End Routine' code from pattern
-        thisExp.addData('is_practice', bool(is_practice))
+        thisExp.addData('phase',         phase)
+        thisExp.addData('is_practice',   bool(is_practice))
         thisExp.addData('trial_i',       trial_i)
+        thisExp.addData('colour_arc_lo', COLOUR_ARC[0])
+        thisExp.addData('colour_arc_hi', COLOUR_ARC[1])
+        thisExp.addData('snr_hi',        AUDIO_HI)
+        thisExp.addData('snr_lo',        AUDIO_LO)
         thisExp.addData('quad_content',  str(quad_content))
         thisExp.addData('time_perm',     str(time_perm))
         thisExp.addData('target_serial', int(target_serial))
@@ -1965,7 +1888,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         POS_COL = [(x, y - GAP/2) for x, y in POS]
         
         final_value = [COLOUR_HEX[0], COLOUR_HEX[1], COLOUR_HEX[0], COLOUR_HEX[1]]   # 與 itemColhex 同序
-        TXT         = [SND_LABELS[i] for i in ITEM_SNR]     # ["[bi]","[bi]","[pi]","[pi]"],與 ITEM_SNR 同序
+        # 標籤看實際 SNR 的正負號,不看 index:主實驗是 [bi][bi][pi][pi];
+        # 校顏色時兩級同為 +12 dB,四個都是 [bi]。
+        TXT         = [SND_LABELS[0] if SNR_LEVELS[ITEM_SNR[i]] > 0 else SND_LABELS[1]
+                       for i in range(4)]
         
         # 四個選項元件各自釘在固定螢幕位置
         txtUR_pos, colUR_pos = POS_TXT[0], POS_COL[0]
@@ -2337,21 +2263,81 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if is_practice and outcome == 'correct':
             practice_correct += 1
 
-        # ---- 區塊 3:練習試次逐試回饋,把正確選項框起來 ----
+        # ---- 校準試次:解出這一維的位元餵回 Psi ----
+        # 另一維四個項目相同,所以選到「內容相同的另一個角落」一樣算對:
+        # outcome / is_correct 在校準試次改成只看被校的那一維。
+        # 沒作答就不更新,Psi 下一試會再提同一個值。
+        if is_adapt and chosen_item is not None:
+            if phase == 'adapt_col':
+                adapt_resp = chosen_item & 1                      # 1 = pink
+                agrt._psi1.update(adapt_resp)
+            else:
+                adapt_resp = 1 if (chosen_item >> 1) == 0 else 0  # 1 = [bi]
+                agrt._psi2.update(adapt_resp)
+            adapt_corr = int(adapt_resp == int(adapt_x > 0))
+            outcome    = 'correct' if adapt_corr else 'other'
+            is_correct = bool(adapt_corr)
+            thisExp.addData('outcome',    outcome)
+            thisExp.addData('is_correct', is_correct)
+        else:
+            adapt_resp = adapt_corr = None
+        if is_adapt:
+            thisExp.addData('adapt_x',    adapt_x)
+            thisExp.addData('adapt_resp', adapt_resp)
+            thisExp.addData('adapt_corr', adapt_corr)
+
+        # ---- 校準結束:官方估計 -> 覆寫主實驗刺激值 ----
+        if trial_i == N_ADAPT - 1:
+            _lams = agrt.estimateLambda()
+            (_c_lo, _c_hi), (_s_lo, _s_hi) = agrt.estimateGRTintensities(OVERALL_ACC, _lams)
+            _c_lo = float(np.clip(_c_lo, _LUT_ARC[0], _LUT_ARC[-1]))
+            _c_hi = float(np.clip(_c_hi, _LUT_ARC[0], _LUT_ARC[-1]))
+            # SNR 是連續的,混音器解析度 0.001 dB,估計值直接就是要播的值。
+            # estimateGRTintensities 回傳以 alpha 為中心對稱推開的一對,
+            # _s_lo < _s_hi:低的是 lo_snr([pi] 端)、高的是 hi_snr([bi] 端)。
+            _s_lo = float(np.clip(_s_lo, -SNR_LIM, SNR_LIM))
+            _s_hi = float(np.clip(_s_hi, -SNR_LIM, SNR_LIM))
+            COLOUR_ARC = [_c_lo, _c_hi]
+            COLOUR_HEX = [colour_for(_c_lo), colour_for(_c_hi)]
+            AUDIO_HI, AUDIO_LO = _s_hi, _s_lo    # HI = hi_snr([bi]), LO = lo_snr([pi])
+            agrt.savePosterior(filename + '_posterior')
+            thisExp.addData('psi_col_alpha', float(_lams[0][0]))
+            thisExp.addData('psi_col_beta',  float(_lams[0][1]))
+            thisExp.addData('psi_snd_alpha', float(_lams[1][0]))
+            thisExp.addData('psi_snd_beta',  float(_lams[1][1]))
+            thisExp.addData('final_colour_arc_lo', _c_lo)
+            thisExp.addData('final_colour_arc_hi', _c_hi)
+            thisExp.addData('final_snr_hi', AUDIO_HI)
+            thisExp.addData('final_snr_lo', AUDIO_LO)
+            thisExp.addData('snr_token', SND_TOKEN)
+            thisExp.addData('snr_lim', SNR_LIM)
+            print(f"[AGRT] colour lambda={_lams[0]}  sound lambda={_lams[1]}")
+            print(f"[AGRT] COLOUR_ARC={COLOUR_ARC} -> {COLOUR_HEX}; "
+                  f"SNR hi([bi])={AUDIO_HI:+.2f} lo([pi])={AUDIO_LO:+.2f} dB")
+
+        # ---- 校準與練習:逐試回饋,把正確選項框起來 ----
         # 四個選項元件仍保有這一試的位置與內容(Begin Routine 設的),直接重畫。
-        if is_practice and PRACTICE_FEEDBACK:
-            _fb_slot = next(_s for _s, _i in SLOT_ITEM.items() if _i == target_item)
-            _fb_pos  = {'UR': POS[0], 'UL': POS[1], 'BL': POS[2], 'BR': POS[3]}[_fb_slot]
+        if phase != 'main' and FEEDBACK_PRE_MAIN:
+            # 校準時另一維相同,兩個角落內容一樣,兩個都框;練習只框 target。
+            if phase == 'adapt_col':
+                _fb_ok = lambda _i: (_i & 1) == (target_item & 1)
+            elif phase == 'adapt_snd':
+                _fb_ok = lambda _i: (_i >> 1) == (target_item >> 1)
+            else:
+                _fb_ok = lambda _i: _i == target_item
+            _slot_pos = {'UR': POS[0], 'UL': POS[1], 'BL': POS[2], 'BR': POS[3]}
             for _st in (vUL, vUR, vBL, vBR, UL, UR, BL, BR):
                 _st.draw()
-            fb_frame.setPos(_fb_pos)
-            fb_frame.draw()
+            for _s, _i in SLOT_ITEM.items():
+                if _fb_ok(_i):
+                    fb_frame.setPos(_slot_pos[_s])
+                    fb_frame.draw()
             adapt_text.text = ('Correct' if is_correct else
                                'No response' if chosen_item is None else 'Wrong')
             adapt_text.text += '\nThe correct option is framed.'
             adapt_text.draw()
             win.flip()
-            core.wait(PRACTICE_FB_SEC)
+            core.wait(FEEDBACK_SEC)
             win.flip()
             core.wait(0.3)
         # check responses
@@ -2377,19 +2363,33 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # 這個 routine 只在三種時機顯示, 其餘試次直接跳過。
         n_done = trial_i + 1
         
-        if n_done == N_PRACTICE:
+        if n_done == N_ADAPT_COL:
+            rest_msg = (
+                "Part 1 (colour calibration) finished.\n\n"
+                "Part 2 is the same task; this time the sounds are adjusted "
+                "and all the squares have the same colour.\n\n"
+                "Take a short rest.\n\n"
+                "Press the space bar when you are ready to continue.")
+        elif n_done == N_ADAPT:
+            rest_msg = (
+                "Part 2 (sound calibration) finished.\n\n"
+                f"Next is a short practice of {N_PRACTICE} trials with the "
+                "colours and sounds set for you. The correct option is still "
+                "framed after each answer.\n\n"
+                "Press the space bar when you are ready to continue.")
+        elif n_done == N_PRE:
             pct = 100.0 * practice_correct / max(N_PRACTICE, 1)
             rest_msg = (
                 "Practice finished.\n\n"
                 f"You got {practice_correct} of {N_PRACTICE} correct ({pct:.0f}%).\n\n"
                 "If that felt like guessing, tell the experimenter now.\n\n"
-                "The main experiment starts next. It is divided into "
-                f"{n_blocks} blocks with a rest after each one.\n\n"
+                "The main experiment starts next. There is no more feedback. "
+                f"It is divided into {n_blocks} blocks with a rest after each one.\n\n"
                 "        g = upper left            j = upper right\n"
                 "        f = lower left            h = lower right\n\n"
                 "Press the space bar to begin.")
-        elif n_done > N_PRACTICE and (n_done - N_PRACTICE) % BLOCK_SIZE == 0 and n_done < N_TRIALS:
-            done_blocks = (n_done - N_PRACTICE) // BLOCK_SIZE
+        elif n_done > N_PRE and (n_done - N_PRE) % BLOCK_SIZE == 0 and n_done < N_TRIALS:
+            done_blocks = (n_done - N_PRE) // BLOCK_SIZE
             rest_msg = (
                 f"Block {done_blocks} of {n_blocks} finished.\n\n"
                 "Take a rest. Look away from the screen for a moment.\n\n"

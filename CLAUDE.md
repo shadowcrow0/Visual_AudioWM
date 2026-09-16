@@ -64,7 +64,7 @@ Both are PsychoPy Builder output from `GRTv2.psyexp`, hand-edited afterwards.
 | Two auditory items | **high SNR** vs **low SNR** (+6 / −6 dB, fixed) | ±SNR from AGRT | ±SNR from AGRT |
 | What the listener reports | **the consonant: [bi] or [pi]** | "clear / noisy" | **[bi] or [pi]** |
 | Colour axis | fixed ±3.0 ΔE00 | calibrated by a 60-trial AGRT phase | same |
-| Calibration | — | 60 joint trials, two f/j questions | **colour block, then sound block, then 15 practice with feedback** |
+| Calibration | — | 60 joint trials, two f/j questions | **72 colour + 72 sound trials of the real task, then 15 practice with feedback** |
 | Status | fixed-level design | superseded by `_ada` | current adaptive design |
 
 **The design (`GRTv3.py`).** One syllable is played all session. Noise masks the
@@ -90,14 +90,22 @@ boundary, and trial-by-trial feedback anchors the listener's b/p criterion
 there. Under that design P(report bi) is meant to run from 1 down to 0 across
 SNR, which is exactly the shape `AGRT.py:133` models ([δ/2, 1−δ/2]) — so the
 earlier objection (a one-token curve that floors at 0.5 and needs a 1-D
-`QuestHandler`) no longer applies. The session runs in three blocks: (1) colour-only
-calibration — a lone patch, answer blue/pink with f/j, driving `_psi1` alone;
-(2) sound-only calibration — a lone syllable, answer bi/pi with f/j, driving
-`_psi2` alone; (3) the estimated values go into the main task, starting with
-`N_PRACTICE` (15) practice trials that frame the correct option after each
-answer, then the four main blocks. Trial counts per calibration block are
-`N_ADAPT_COL` / `N_ADAPT_SND` (144 each, following Glavan's human study;
-the earlier 60 was a placeholder).
+`QuestHandler`) no longer applies. The session runs in three blocks, **all of them the real task** (four
+study items → cue → four-corner choice), so the calibrated values reflect the
+limit under working-memory load, not bare perception: (1) colour calibration
+— Psi proposes a signed distance x, the two colours are ±|x|, and all four
+squares play the same clear /bi/ (`ADAPT_FIX_SNR`); the chosen option's colour
+bit feeds `_psi1`; (2) sound calibration — Psi proposes s, the two levels are
+±|s|, all four squares are the anchor colour (`ADAPT_FIX_ARC` = 0); the chosen
+option's syllable bit feeds `_psi2`; (3) the estimates go into the main task,
+starting with `N_PRACTICE` (15) practice trials. Calibration trials are all
+valid; in them two corners are content-identical (the other dimension does not
+vary) and either counts as correct — `outcome`/`is_correct` score only the
+calibrated dimension there. Calibration and practice frame the correct
+option(s) after each answer; the main blocks give no feedback. Trial counts
+per calibration block are `N_ADAPT_COL` / `N_ADAPT_SND` (72 each — half of
+Glavan's 144, because each calibration trial here is a full ~8-10 s WM trial
+rather than a 2 s judgement; the two blocks take roughly 20-25 minutes).
 
 Two things the code cannot settle: (1) whether low SNR really pushes /bi/
 toward /pi/ on this token has **not been piloted** — if it does not, the
