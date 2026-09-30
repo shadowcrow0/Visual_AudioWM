@@ -2,6 +2,7 @@
 
 ```
    ① VAWM_calibrate.py            區塊 1 校顏色差距、區塊 2 校子音混淆度（作業 = VAWM_nobox 的 study → probe → y/n）
+          │                       METHOD = "lnrm"（原始 adaptiveSFT）或 "psi"
           │  data/<subj>_calib.json（ΔE_H、ΔE_L、count_H、count_L、假警報率、α、β）
           ▼
    ② make_adaptive_blocks.py      → stimuli/block1..6.csv（欄位與 practice.csv 完全相同）
@@ -14,33 +15,61 @@
                                   SIC / MIC / dominance → 預測架構
 ```
 
+## 兩種校準方法
+
+| | `METHOD = "lnrm"`（**原始 adaptiveSFT**，預設） | `METHOD = "psi"` |
+|---|---|---|
+| 強度怎麼選 | 定值刺激法：6 層固定，各 `N_PER_LEVEL`（8）試，打散 | Psi 逐試選熵最小的 x |
+| 用到的資料 | 正確率 **+ RT**（「不同」試） | 只有正確率 |
+| 模型 | lnrm2（`adaptivesft.models.fit_lnrm`，PyMC NUTS，區塊結束時擬合 20–40 s） | 累積常態心理計量函數 |
+| 目標 | 漂移差 `H_TARG` / `L_TARG`（z₂ − z₁；預設 2.0 / 0.5，Houpt 8.0 / 1.3） | 「答不同」機率 `P_HIGH` / `P_LOW` |
+| 反解 | `adaptivesft.salience.find_salience`（`adaptiveSFT_functions.R:229-232` 的公式，只用 α₂ < 0 的 draw） | `salience_levels` |
+| 實驗機器要什麼 | **完整 adaptivesft 套件（PyMC）** + PsychoPy 在同一個 Python ≥ 3.10 | 只要 `psi.py`（numpy + scipy） |
+| 每區塊試次 | 6 × 8 + 24 AA = 72 | 72（含 1/3 AA） |
+
+兩者共用同一個試次產生器（`ColourCalibrator._make_trial` / `AudioCalibrator._make_trial`），差別只在強度怎麼來、
+結束時怎麼算。json 的 `colour.p_high` / `p_low` 在 lnrm 下放的是 `H_TARG` / `L_TARG`；`extra.method` 標明方法，
+`extra.params` 是 lnrm2 五個參數的後驗平均，`extra.high_median` / `low_median` 是逐 draw 反解的中位數（平均的對照）。
+
+```
+   lnrm：  6 層 × 8 試 ──► (x, correct, rt) ──► fit_lnrm(link="quadratic") ──► {μ, α, α₂, varZ, ψ}
+                                                                                    │
+                                        ΔE_H, ΔE_L  ◄── 換回物理單位 ◄── 解 2·(α·u + α₂·u²) = H_TARG / L_TARG
+```
+
+強度送進模型前縮放：顏色 `u = ΔE / 10`、聲音 `u = x + 2.7`（`x = −log10(count+1)`，平移到 ≥ 0，否則 R 的
+反解公式取錯根）。聲音的層級會貼到目標子音可用的 foil，所以實際的 u 是散的（測試裡 29 個不同值），lnrm2 直接
+對實際值擬合。
+
 ## 一次性
 
-兩台機器、兩種需求：
-
 ```
-   實驗機器（PsychoPy）                          分析機器（Arc 或任何有 Python ≥ 3.10 的地方）
-   ─────────────────────────────────────        ──────────────────────────────────────────
-   ① VAWM_calibrate.py  ② make_adaptive_blocks  ④ analyze_vawm、adaptiveSFT 的 pytest
+   實驗機器（PsychoPy）                                  分析機器（Arc 或任何有 Python ≥ 3.10 的地方）
+   ─────────────────────────────────────────────         ──────────────────────────────────────────
+   ① VAWM_calibrate.py  ② make_adaptive_blocks           ④ analyze_vawm、adaptiveSFT 的 pytest
    ③ VAWM_nobox.py
-   只要 adaptiveSFT/adaptivesft/psi.py            要完整的 adaptivesft 套件（PyMC、numba…）
-   （numpy + scipy，PsychoPy 內建就有）            pip install -e <adaptiveSFT 路徑>
-   不用裝任何東西：clone 在隔壁或設 ADAPTIVESFT_PATH
+   lnrm：Python ≥ 3.10 + psychopy + adaptiveSFT 同一環境   pip install -e <adaptiveSFT 路徑>
+   psi ：只要 adaptiveSFT/adaptivesft/psi.py（numpy+scipy）
+         clone 在隔壁或設 ADAPTIVESFT_PATH，不用裝
 ```
+
+實驗機器（lnrm）建環境，Windows / macOS 都一樣（Arc 不行：沒螢幕沒聲卡，`psychopy-env` 又是 Python 3.6）：
 
 ```bash
-git clone https://github.com/shadowcrow0/adaptiveSFT.git     # 放在 Visual_AudioWM 隔壁，或設 ADAPTIVESFT_PATH=<路徑>
-pip install -e ../adaptiveSFT                               # 只有分析機器需要；要 Python ≥ 3.10
+conda create -n vawm python=3.10
+conda activate vawm
+pip install psychopy                                         # 2023.2+ 支援 3.10
+git clone https://github.com/shadowcrow0/adaptiveSFT.git     # 放在 Visual_AudioWM 隔壁，或任何地方
+pip install -e ../adaptiveSFT                               # 帶 PyMC、numba
+python -c "import psychopy, pymc; print(psychopy.__version__, pymc.__version__)"
+python VAWM_calibrate.py
 ```
 
 `adaptive_vawm.py` 先試 `import adaptivesft.psi`（裝好的套件）；沒裝或 PyMC 不在時，改成直接按檔案載入
-`psi.py`，不執行套件的 `__init__.py`，所以 PsychoPy 的 Python（standalone 常是 3.8/3.10，沒有 PyMC）也能跑
-校準。分析端 `analyze_vawm` 才需要完整套件。
+`psi.py`，不執行套件的 `__init__.py`，所以 PsychoPy standalone 的 Python（沒有 PyMC）也能跑 psi 版校準。
+`METHOD = "lnrm"` 與分析端 `analyze_vawm` 才需要完整套件。
 
 注意：本 repo 自己有一個舊的 `adaptivesft/`（PyMC LNRM 版）會遮住裝好的套件，`adaptive_vawm.py` 會自動繞過。
-
-在 Arc 上不要用 `psychopy-env`（Python 3.6，裝不了 adaptiveSFT，PsychoPy 也編不過、也沒螢幕）；用
-`hpc/arc_setup.sh` 建的 conda 環境（Python 3.11）跑 pytest 與分析。
 
 ## 校準的設計
 
@@ -57,9 +86,11 @@ H = 高 salience = 容易分：顏色 ΔE 大、子音混淆次數少（同 csv 
 
 ## 參數（`VAWM_calibrate.py` 最上面）
 
-`N_COLOUR` / `N_AUDIO`（72）、`P_HIGH` / `P_LOW`（.90 / .75）、`P_MATCH`（1/3）、Psi 的網格在 `adaptive_vawm.py` 的
-`ColourCalibrator` / `AudioCalibrator` 預設參數。目標「答不同」機率要多高才有 SFT 檢定力，見
-`adaptiveSFT/results/power_scan.csv` 與 `p6_results.md`：正確率目標拉不開 RT，分離要夠大。
+`METHOD`；lnrm：`N_PER_LEVEL`（8）、`H_TARG` / `L_TARG`（2.0 / 0.5）、`FIT_KW`（NUTS 1000/1000/4 鏈）、層級
+`LEVELS_COLOUR`（ΔE 2–45）/ `LEVELS_AUDIO` 在 `adaptive_vawm.py`；psi：`N_COLOUR` / `N_AUDIO`（72）、
+`P_HIGH` / `P_LOW`（.90 / .75）、Psi 網格在 `ColourCalibrator` / `AudioCalibrator` 預設參數；共用 `P_MATCH`（1/3）。
+漂移差目標怎麼選見 `adaptiveSFT/results/power_scan.csv` 與 `p6_results.md`：8.0 / 1.3 在 a = 3、v = 2 下 H 超出
+範圍，2.0 / 0.5 在範圍內且 SIC 判對率最好。
 
 ## 驗證
 

@@ -23,6 +23,8 @@ def main(argv=None):
 
     cal = read_calibration(args.calib_json)
     c, a = cal["colour"], cal["audio"]
+    print(f"method: {cal.get('info', {}).get('method', c.get('extra', {}).get('method', 'psi'))}  "
+          f"(p_high/p_low or h_targ/l_targ = {c['p_high']}/{c['p_low']})")
     print(f"colour: FA={c['false_alarm']:.2f}  alpha={c['alpha']:.2f} beta={c['beta']:.2f}  "
           f"dE_H={c['high']:.2f} dE_L={c['low']:.2f}  in_range={c['in_range']} {c['warnings']}")
     print(f"audio : FA={a['false_alarm']:.2f}  alpha={a['alpha']:.2f} beta={a['beta']:.2f}  "

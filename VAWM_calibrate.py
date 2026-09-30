@@ -5,6 +5,12 @@ VAWM 的校準程式（跑在 VAWM_nobox.py 之前）：區塊 1 校顏色差距
 作業與 VAWM_nobox.py 完全相同（注視 .3 s → 左色 1 s → 右色 1 s → 音 1 → 音 2 → 注視 .3 s → 探測色+音 1 s → y/n），
 每試作答後給回饋。結束寫 data/<participant>_calib.json，接著：
 
+兩種方法（METHOD）：
+    "lnrm"  原始 adaptiveSFT（Houpt）：固定 6 個強度層級各 N_PER_LEVEL 試 + 1/3 AA 試，收正確率 + RT，
+            區塊結束時擬合 lnrm2（PyMC NUTS，約 20–40 s，畫面顯示「計算中」），反解漂移差 H_TARG / L_TARG。
+            需要實驗機器裝有完整的 adaptivesft 套件（Python ≥ 3.10 + PsychoPy + PyMC 同一個環境）。
+    "psi"   Psi 逐試選強度，只用正確率，目標是「答不同」機率 P_HIGH / P_LOW。只要 numpy + scipy。
+
     python make_adaptive_blocks.py data/<participant>_calib.json     # 產生 stimuli/block1..6.csv
     python VAWM_nobox.py                                              # 主實驗照舊
 
@@ -16,13 +22,20 @@ import os
 from psychopy import core, data, event, gui, sound, visual
 from psychopy.hardware import keyboard
 
-from adaptive_vawm import AudioCalibrator, ColourCalibrator, save_calibration
+from adaptive_vawm import (LEVELS_AUDIO, LEVELS_COLOUR, AudioCalibrator, AudioLNRMCalibrator, ColourCalibrator,
+                           ColourLNRMCalibrator, save_calibration)
 
 # ───────────── 參數 ─────────────
+METHOD = "lnrm"            # "lnrm" = 原始 adaptiveSFT（LNRM，要 PyMC）；"psi" = Psi 版
+P_MATCH = 1 / 3            # AA（探測 = 目標）試的比例，用來估假警報率
+# lnrm
+N_PER_LEVEL = 8            # 每個強度層級的「不同」試數；6 層 × 8 + 24 AA = 72 試 / 區塊
+H_TARG, L_TARG = 2.0, 0.5  # H / L 的漂移差目標（z2 − z1）。Houpt 原設定 8.0 / 1.3；見 adaptiveSFT/results/power_scan.csv
+FIT_KW = dict(tune=1000, draws=1000, chains=4)   # PyMC NUTS；機器慢就 chains=2
+# psi
 N_COLOUR = 72              # 區塊 1 試次（含 1/3 的 AA 試）
 N_AUDIO = 72               # 區塊 2 試次
 P_HIGH, P_LOW = 0.90, 0.75  # H / L 的目標「答不同」機率（yes/no 作業的正確率）
-P_MATCH = 1 / 3            # AA（探測 = 目標）試的比例，用來估假警報率
 RESP_KEYS = ["y", "n"]     # 同 VAWM_nobox.py：y = 相同、n = 不同
 RESP_WINDOW = 3.0
 # ─────────────────────────────────
@@ -111,8 +124,12 @@ def run_block(cal, n, title):
             w = csv.DictWriter(f, fieldnames=sorted({k for r_ in rows for k in r_}))
             w.writeheader()
             w.writerows(rows)
+    if METHOD == "lnrm":                                            # 擬合要幾十秒，先把畫面停在提示上
+        msg.text = "計算中，請稍候…"
+        msg.draw()
+        win.flip()
     res = cal.finish()
-    print(f"[{cal.dim}] FA={res.false_alarm:.2f} alpha={res.alpha:.2f} beta={res.beta:.2f} "
+    print(f"[{cal.dim}] {res.extra.get('method', 'psi')} FA={res.false_alarm:.2f} alpha={res.alpha:.2f} beta={res.beta:.2f} "
           f"H={res.high:.2f} L={res.low:.2f} in_range={res.in_range} {res.warnings}")
     if not res.in_range:
         show(f"注意：{cal.dim} 的 H/L 落在範圍外\n{res.warnings}\n\n按空白鍵繼續")
@@ -120,10 +137,20 @@ def run_block(cal, n, title):
 
 
 seed = int(subj) if subj.isdigit() else abs(hash(subj)) % 2**32
-colour = run_block(ColourCalibrator(P_HIGH, P_LOW, P_MATCH, seed=seed), N_COLOUR, "區塊 1：顏色")
-audio = run_block(AudioCalibrator(P_HIGH, P_LOW, P_MATCH, seed=seed + 1), N_AUDIO, "區塊 2：聲音")
+if METHOD == "lnrm":
+    cal_c = ColourLNRMCalibrator(LEVELS_COLOUR, N_PER_LEVEL, P_MATCH, H_TARG, L_TARG, seed=seed, **FIT_KW)
+    cal_a = AudioLNRMCalibrator(LEVELS_AUDIO, N_PER_LEVEL, P_MATCH, H_TARG, L_TARG, seed=seed + 1, **FIT_KW)
+    n_c, n_a = cal_c.n_trials, cal_a.n_trials
+elif METHOD == "psi":
+    cal_c = ColourCalibrator(P_HIGH, P_LOW, P_MATCH, seed=seed)
+    cal_a = AudioCalibrator(P_HIGH, P_LOW, P_MATCH, seed=seed + 1)
+    n_c, n_a = N_COLOUR, N_AUDIO
+else:
+    raise ValueError(f"METHOD 必須是 'lnrm' 或 'psi'，拿到 {METHOD!r}")
+colour = run_block(cal_c, n_c, "區塊 1：顏色")
+audio = run_block(cal_a, n_a, "區塊 2：聲音")
 out = f"data/{subj}_calib.json"
-save_calibration(out, colour, audio, info=dict(expInfo, date=data.getDateStr(), n_colour=N_COLOUR, n_audio=N_AUDIO))
+save_calibration(out, colour, audio, info=dict(expInfo, date=data.getDateStr(), method=METHOD, n_colour=n_c, n_audio=n_a))
 show(f"校準完成。\n\n{out}\n接著執行 make_adaptive_blocks.py 再跑 VAWM_nobox.py\n\n按空白鍵結束")
 win.close()
 core.quit()

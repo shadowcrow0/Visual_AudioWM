@@ -136,3 +136,50 @@ def test_vawm_csv_to_dfp_analysis(tmp_path):
     assert out["n_dfp"] == 320 and out["accuracy_other"][0] == 1.0
     assert out["result"]["DFP"]["classification"]["Predicted_by"] == "ParallelOR"
     assert "ParallelOR" in out["report"]
+
+
+def _lnrm_observer(alpha, alpha2, mu=1.0, varZ=0.5, psi=0.2, fa=0.1, rng=None):
+    """原始 adaptiveSFT 的生成模型：d(u) = α·u + α₂·u²，兩個對數常態累積器賽跑（adaptivesft.race.lnrm_random）。"""
+    from adaptive_vawm import _import_experiment
+    _import_experiment()
+    from adaptivesft.race import lnrm_random
+
+    def respond(cal, t):
+        if t["is_match"]:
+            key, rt = ("n" if rng.uniform() < fa else "y"), float(np.exp(rng.normal(mu, varZ)) * 0.5 + psi)
+        else:
+            u = cal._to_model(t["x"])
+            rt, correct = lnrm_random([alpha * u + alpha2 * u * u], mu, varZ, psi, rng)
+            key, rt = ("n" if correct[0] == 1 else "y"), float(rt[0])
+        return key, rt
+    return respond
+
+
+@pytest.mark.parametrize("dim", ["colour", "audio"])
+def test_lnrm_calibrator_recovers_and_matches_adaptivesft_inversion(dim):
+    """定值刺激法 + lnrm2 擬合 + 反解漂移差：回復 α/α₂，H/L 與 adaptivesft.salience 的反解一致，H > L。"""
+    pytest.importorskip("pymc")
+    from adaptive_vawm import AudioLNRMCalibrator, ColourLNRMCalibrator
+    rng = np.random.default_rng(11)
+    alpha, alpha2 = 1.0, -0.12
+    Cal = ColourLNRMCalibrator if dim == "colour" else AudioLNRMCalibrator
+    cal = Cal(n_per_level=12, seed=11, tune=400, draws=400, chains=2)
+    respond = _lnrm_observer(alpha, alpha2, rng=rng)
+    assert cal.n_trials == 6 * 12 + 36
+    for _ in range(cal.n_trials):
+        t = cal.next_trial()
+        assert t["x_index"] is None and {"probe_colour", "probe_sound"} <= set(t)
+        cal.record(*respond(cal, t))
+    with pytest.raises(StopIteration):
+        cal.next_trial()
+    res = cal.finish()
+    assert res.dim == dim and res.extra["method"] == "lnrm_quadratic" and res.n_match == 36
+    assert abs(res.alpha - alpha) < 0.5 and abs(res.beta - alpha2) < 0.15
+    assert res.extra["divergences"] < 20
+    # 反解：2·d(u) = targ 的較小根（adaptiveSFT_functions.R:229-232）
+    a, a2 = res.alpha, res.beta
+    u_h = (-a / a2 - np.sqrt((a / a2) ** 2 + 2 / a2 * cal.h_targ)) / 2
+    assert abs(cal._to_model(res.high) - u_h) < 0.15                  # posterior-mean 反解 vs 逐 draw 平均
+    assert res.low < res.high and res.in_range
+    if dim == "audio":
+        assert res.extra["count_high"] < res.extra["count_low"]

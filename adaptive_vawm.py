@@ -86,7 +86,7 @@ def _import_experiment():
 
 Psi, salience_levels = _import_psi()
 
-__all__ = ["ColourCalibrator", "AudioCalibrator", "load_confusion", "write_blocks", "read_calibration",
+__all__ = ["ColourCalibrator", "AudioCalibrator", "ColourLNRMCalibrator", "AudioLNRMCalibrator", "load_confusion", "write_blocks", "read_calibration",
            "lab_to_hex", "delta_e", "random_lab", "find_colour_at", "CSV_COLUMNS", "vawm_to_dfp_rows", "analyze_vawm"]
 
 # stimuli/practice.csv 的欄位順序（VAWM_nobox.py 用名字取欄，順序照舊最保險）
@@ -236,6 +236,9 @@ class _WMCalibrator:
     def _make_trial(self, x, is_match):
         raise NotImplementedError
 
+    def _idx(self, x):
+        return None if self.psi is None else self.psi.nearest_index(x)
+
     def next_trial(self):
         is_match = self.rng.uniform() < self.p_match
         x = float(self.psi.next_intensity)
@@ -253,7 +256,7 @@ class _WMCalibrator:
             raise ValueError("key 必須是 'y' / 'n' / None")
         r = None if key is None else int(key == "n")
         correct = None if r is None else int(r == (0 if t["is_match"] else 1))
-        if r is not None and not t["is_match"]:                       # AA 試不進 Psi（x = 0 不在網格上）
+        if r is not None and not t["is_match"] and self.psi is not None:   # AA 試不進 Psi（x = 0 不在網格上）
             self.psi.update_at(t["x_index"], r)
         self.log.append(dict(**t, key=key, rt=rt, r=r, correct=correct))
         self._pending = None
@@ -309,7 +312,7 @@ class ColourCalibrator(_WMCalibrator):
         return dict(color1_target=lab_to_hex(t1), color2_target=lab_to_hex(t2),
                     audio1_target_file=sound_file(k1, s1), audio2_target_file=sound_file(k2, s2),
                     probe_colour=lab_to_hex(probe), probe_sound=sound_file((k1, k2)[which], (s1, s2)[which]),
-                    probe_of=which + 1, x=de, x_index=self.psi.nearest_index(de))
+                    probe_of=which + 1, x=de, x_index=self._idx(de))
 
 
 class AudioCalibrator(_WMCalibrator):
@@ -347,10 +350,138 @@ class AudioCalibrator(_WMCalibrator):
         return dict(color1_target=lab_to_hex(t1), color2_target=lab_to_hex(t2),
                     audio1_target_file=sound_file(k1, s1), audio2_target_file=sound_file(k2, s2),
                     probe_colour=lab_to_hex((t1, t2)[which]), probe_sound=sound_file(talker, foil),
-                    probe_of=which + 1, foil=foil, count=count, x=x_act, x_index=self.psi.nearest_index(x_act))
+                    probe_of=which + 1, foil=foil, count=count, x=x_act, x_index=self._idx(x_act))
 
     def _extra(self, high, low):
         return dict(count_high=count_from_x(high), count_low=count_from_x(low))
+
+
+# ============================================================================================
+# 原始 adaptiveSFT（Houpt 2018–2019）的做法：定值刺激法 → lnrm2（正確率 + RT）→ 反解漂移差目標
+# ============================================================================================
+
+class _LNRMMixin:
+    """
+    與 Psi 版共用 _make_trial / record；差別只在 (1) 強度不是 Psi 逐試選，而是固定幾層各跑 n 試（打散），
+    (2) finish() 用 adaptivesft.models.fit_lnrm（PyMC NUTS，約 20–40 s）擬合 lnrm2，再用
+    adaptivesft.salience.find_salience 反解漂移差 h_targ / l_targ（adaptiveSFT_functions.R:229-232 的公式）。
+    只用「不同」試（AA 試估假警報率，不進模型）；correct = 答「不同」，rt 從探測出現算起。
+
+    需要完整的 adaptivesft 套件（PyMC）在實驗機器上；PsychoPy 內建的 Python 沒有就用 Psi 版。
+    強度送進模型前先縮放（R 的 (x − thres50)/(x_max − thres50) 的簡化）：顏色 ΔE/10、聲音 x + 2.7，
+    讓 α、α₂ 落在 lnrm2.stan 先驗 Normal(0,2) / Normal(0,1) 的尺度；反解後再換回物理單位。
+    """
+    method = "lnrm"
+
+    def _init_lnrm(self, levels, n_per_level, p_match, h_targ, l_targ, link, seed, rt_min, rt_max, fit_kwargs,
+                   alpha2_rule="filter"):
+        self.psi = None
+        self.alpha2_rule = alpha2_rule
+        self.levels = [float(v) for v in levels]
+        self.h_targ, self.l_targ, self.link = float(h_targ), float(l_targ), link
+        self.p_match = float(p_match)
+        self.p_high, self.p_low = self.h_targ, self.l_targ          # CalibResult 欄位沿用：這裡放漂移差目標
+        self.rt_min, self.rt_max, self.fit_kwargs = rt_min, rt_max, fit_kwargs
+        self.rng = np.random.default_rng(seed)
+        self.log, self._pending = [], None
+        n_mis = len(self.levels) * int(n_per_level)
+        n_match = int(round(n_mis * self.p_match / (1 - self.p_match)))
+        plan = [float(v) for v in np.repeat(self.levels, int(n_per_level))] + [None] * n_match
+        self.rng.shuffle(plan)
+        self.plan = plan
+        self.n_trials = len(plan)
+
+    def next_trial(self):
+        if len(self.log) >= self.n_trials:
+            raise StopIteration
+        x = self.plan[len(self.log)]
+        is_match = x is None
+        trial = self._make_trial(0.0 if is_match else x, is_match)
+        trial.update(trial_no=len(self.log) + 1, is_match=is_match, x_planned=x)
+        self._pending = trial
+        return trial
+
+    def finish(self):
+        _import_experiment()
+        from adaptivesft.models import fit_lnrm, make_data
+        from adaptivesft.salience import find_salience
+        rows = [t for t in self.log if not t["is_match"] and t["r"] is not None
+                and t["rt"] is not None and self.rt_min <= t["rt"] <= self.rt_max]
+        if len(rows) < 10:
+            raise RuntimeError(f"可用的「不同」試只有 {len(rows)} 筆，無法擬合")
+        data = make_data([self._to_model(t["x"]) for t in rows], [t["rt"] for t in rows], [t["correct"] for t in rows])
+        tr = fit_lnrm(data, link=self.link, **self.fit_kwargs)
+        # 反解逐 draw 取平均（R :229-232）。α₂ ≥ 0 的 draw 在 R 的公式下給負根，平均就毀了（WM 資料常有三成
+        # 這種 draw，見 tests），所以預設 alpha2_rule="filter" 只用 α₂ < 0 的 draw；"all_draws" 是 R 字面。
+        kw = dict(alpha2_rule=self.alpha2_rule) if self.link == "quadratic" else {}
+        res = find_salience(tr, h_targ=self.h_targ, l_targ=self.l_targ, **kw)
+        high, low = self._from_model(res["high"]["intensity"]), self._from_model(res["low"]["intensity"])
+        warns = list(res["warnings"])
+        x_range = (min(self.levels), max(self.levels))
+        in_range = bool(np.isfinite(high) and np.isfinite(low) and x_range[0] <= high <= x_range[1]
+                        and x_range[0] <= low <= x_range[1])
+        if not in_range:
+            warns.append(f"H={high:.3f} / L={low:.3f} 不在校準層級 [{x_range[0]}, {x_range[1]}] 內")
+        params = {k: float(tr.posterior[k].values.mean()) for k in tr.posterior.data_vars if k != "log_likelihood"}
+        n_match = sum(t["is_match"] for t in self.log)
+        n_mis_all = sum(1 for t in self.log if not t["is_match"])
+        extra = dict(method="lnrm_" + self.link, targets="drift separation (z2 - z1)", params=params,
+                     implied_acc_high=res["high"].get("implied_accuracy"), implied_acc_low=res["low"].get("implied_accuracy"),
+                     n_used=len(rows), n_trimmed=n_mis_all - len(rows),
+                     divergences=int(tr.sample_stats["diverging"].sum()),
+                     dropped_high=res["high"].get("dropped"), dropped_low=res["low"].get("dropped"),
+                     high_median=self._from_model(res["high"]["median"]), low_median=self._from_model(res["low"]["median"]),
+                     alpha2_rule=self.alpha2_rule, levels=self.levels, **self._extra(high, low))
+        self.trace = tr
+        return CalibResult(self.dim, len(self.log), n_match, self.false_alarm_rate(), params.get("alpha", float("nan")),
+                           params.get("alpha2", float("nan")), high, low, self.h_targ, self.l_targ, x_range,
+                           in_range, warns, extra)
+
+
+# 漂移差目標的預設：adaptiveSFT/results/power_scan.csv（a = 3, v = 2）8.0/1.3（Houpt）H 會超出範圍，
+# 2.0/0.5 在範圍內且 PAR / COA 的 SIC 判對率最好；改成 8.0/1.3 就是 repo 字面的設定。
+H_TARG_DEFAULT, L_TARG_DEFAULT = 2.0, 0.5
+LEVELS_COLOUR = (2.0, 6.0, 12.0, 20.0, 30.0, 45.0)                   # ΔE；現有 csv 的 L 在 20–30、H 在 25–50
+LEVELS_AUDIO = (-2.6, -2.1, -1.6, -1.1, -0.7, -0.3)                  # −log10(count + 1)，貼到各子音可用 foil
+
+
+class ColourLNRMCalibrator(_LNRMMixin, ColourCalibrator):
+    """區塊 1（原始 adaptiveSFT 版）：固定 ΔE 層級各 n 試 → lnrm2 → ΔE_H / ΔE_L。"""
+
+    def __init__(self, levels=LEVELS_COLOUR, n_per_level=8, p_match=1 / 3, h_targ=H_TARG_DEFAULT, l_targ=L_TARG_DEFAULT,
+                 link="quadratic", seed=None, rt_min=0.15, rt_max=3.0, floor_guess=0.10, confusion=None,
+                 alpha2_rule="filter", **fit_kwargs):
+        self.floor_guess = float(floor_guess)
+        self.confusion = confusion or load_confusion()
+        self.sounds = sorted(self.confusion)
+        self._init_lnrm(levels, n_per_level, p_match, h_targ, l_targ, link, seed, rt_min, rt_max, fit_kwargs, alpha2_rule)
+
+    @staticmethod
+    def _to_model(x):
+        return x / 10.0
+
+    @staticmethod
+    def _from_model(u):
+        return u * 10.0
+
+
+class AudioLNRMCalibrator(_LNRMMixin, AudioCalibrator):
+    """區塊 2（原始 adaptiveSFT 版）：固定混淆度層級各 n 試（貼到可用 foil）→ lnrm2 → count_H / count_L。"""
+    X_SHIFT = 2.7                                                     # audio_x(451) = −2.66，平移到 ≥ 0
+
+    def __init__(self, levels=LEVELS_AUDIO, n_per_level=8, p_match=1 / 3, h_targ=H_TARG_DEFAULT, l_targ=L_TARG_DEFAULT,
+                 link="quadratic", seed=None, rt_min=0.15, rt_max=3.0, floor_guess=0.10, confusion=None,
+                 alpha2_rule="filter", **fit_kwargs):
+        self.floor_guess = float(floor_guess)
+        self.confusion = confusion or load_confusion()
+        self.sounds = sorted(self.confusion)
+        self._init_lnrm(levels, n_per_level, p_match, h_targ, l_targ, link, seed, rt_min, rt_max, fit_kwargs, alpha2_rule)
+
+    def _to_model(self, x):
+        return x + self.X_SHIFT
+
+    def _from_model(self, u):
+        return u - self.X_SHIFT
 
 
 # ============================================================================================
