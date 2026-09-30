@@ -2083,7 +2083,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             col_type, aud_type = get_probe_types(targetCol, targetAud, trial_data)
 
             # Look up rule based on (col_type, aud_type, response)
-            user_response = ResponseBox.keys if ResponseBox.keys else 'None'
+            # rule.csv 的 ResponseBox 欄是 Cedrus 按鍵碼：4 = Yes/相同、3 = No/不同（rule.csv 第 2、4 列）；
+            # 鍵盤版收到的是 'y' / 'n'，要先換成按鍵碼，否則 rule_key 永遠對不上、acc 恆為 0。
+            user_response = {'y': '4', 'n': '3'}.get(ResponseBox.keys, 'None') if ResponseBox.keys else 'None'
             rule_key = (col_type, aud_type, user_response)
             if rule_key in FEEDBACK_RULES:
                 acc = FEEDBACK_RULES[rule_key]['Acc']
