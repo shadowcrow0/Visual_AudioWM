@@ -959,6 +959,97 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
 
     snd = SNRStimulus(outdir=filename + '_snr', token=SND_TOKEN)
 
+    # ══════════════════════════════════════════════════════════════════
+    # --- 遮蔽(mask):study 最後一個項目結束 -> 遮蔽 MASK_DUR 秒 -> cue ---
+    # 為什麼要遮蔽:study 最後一個項目一結束就進 cue 的話,最後那個(甚至前一、
+    # 兩個)項目還留在**感覺記憶**裡 —— 視覺的圖像記憶(iconic,約數百 ms)與
+    # 聽覺的迴聲記憶(echoic,可到 1-2 s)。那段殘像的容量大、不受工作記憶
+    # 負荷限制,會讓最後序列位置的項目「免費」答對,而且兩個維度的殘留時間
+    # 長短不同(迴聲 > 圖像),會把序列位置效應與維度不對稱混在一起。
+    # 在同一個位置、同一個感覺通道放一段無意義的噪音把殘像蓋掉,cue 之後
+    # 能用的就只剩工作記憶裡的表徵 —— 校準(adapt_col / adapt_snd)估到的
+    # α/β 與主實驗量到的混淆,才都是「工作記憶負荷下」的值。三個階段都遮,
+    # 否則校準值與主實驗值不在同一個條件下,拿校準值去設主實驗就不成立。
+    #
+    #   study ... 最後項目結束 | mask 0.3 s(四角噪音塊 + 語音形狀噪音) | cue 2.0 s
+    #
+    # MASK_VISUAL / MASK_AUDIO 兩個都關掉時,mask routine 整段跳過,時間軸
+    # 與加入遮蔽之前完全相同(study -> cue)。
+    # ══════════════════════════════════════════════════════════════════
+    MASK_DUR      = 0.3      # 秒
+    MASK_VISUAL   = True     # 四個角落各一塊隨機亮度像素噪音
+    MASK_AUDIO    = True     # 語音形狀噪音(與刺激同一個 SSN 產生器)
+    MASK_NOISE_DB = 0.0      # 相對「0 dB SNR 刺激裡的噪音位準」的偏移(dB);0 = 同位準
+    MASK_TEX_N    = 32       # 噪音塊每邊幾格。用 2 的次方:PsychoPy 的 numpy 紋理
+                             # 在某些版本要求正方、2 的次方,不是的話會報錯或被重採樣
+    MASK_SIZE     = 4.0      # deg;與 colorUR 等色塊同大小
+
+    # 聽覺遮蔽的位準:對齊「0 dB SNR 刺激裡、語音那一段的噪音 RMS」。
+    # ⚠ 不能直接用 snr_audio.TARGET_RMS 或 OUTPUT_RMS:mix_components 最後會把
+    #   整段(語音 + 噪音,含前後引導噪音)正規化到 OUTPUT_RMS,所以受試者實際
+    #   聽到的噪音位準是「縮放之後」的值,只能從混出來的成分量。0 dB 時
+    #   語音段裡 noise RMS == speech RMS,所以這也就是「與語音 token 同 RMS」。
+    # 輸出正規化的增益會隨噪音樣本微幅變動(實測 16 個種子 0.0385-0.0410,
+    # 約 ±0.3 dB),所以用固定種子 0..15 的功率平均當參考 —— 確定性、可重現,
+    # 每次開實驗都得到同一個數字。
+    import snr_audio
+    def _mask_ref_rms(n_seeds=16):
+        _v = []
+        for _s in range(n_seeds):
+            _sr, _sp, _nz, _lead = snr_audio.mix_components(
+                SND_TOKEN, 0.0, np.random.default_rng(_s))
+            _tail = int(round(snr_audio.NOISE_TAIL_MS * _sr / 1000.0))
+            _v.append(float(np.mean(_nz[_lead:len(_nz) - _tail] ** 2)))
+        return _sr, float(np.sqrt(np.mean(_v)))
+    MASK_SR, MASK_REF_RMS = _mask_ref_rms()
+    MASK_N_SAMP = int(round(MASK_DUR * MASK_SR))
+    print(f"[mask] {MASK_DUR}s 視覺={MASK_VISUAL} 聽覺={MASK_AUDIO};"
+          f" 0 dB SNR 噪音參考 RMS={MASK_REF_RMS:.4f},偏移 {MASK_NOISE_DB:+.1f} dB")
+
+    def make_mask_noise(trial_idx):
+        """每試現做一段 MASK_DUR 秒的純語音形狀噪音,寫成 wav。
+
+        每試新種子(running noise,理由同 snr_audio.speech_shaped_noise)。
+        重建:snr_audio.speech_shaped_noise(MASK_N_SAMP, np.random.default_rng(seed))
+              * MASK_REF_RMS * 10 ** (db / 20)
+        回傳 (seed, db, rms, path, summary);summary 的格式比照 snd_* 欄位。
+        """
+        _seed = snr_audio.new_seed()
+        _db   = float(MASK_NOISE_DB)
+        _rms  = MASK_REF_RMS * 10.0 ** (_db / 20.0)
+        _y    = snr_audio.speech_shaped_noise(
+            MASK_N_SAMP, np.random.default_rng(_seed)) * _rms
+        # 檔名不用 snd 的流水號,避免與 snd.make() 的檔名撞號
+        _name = f"mask_{trial_idx:04d}_{_db:+.2f}dB.wav"
+        _path = os.path.join(snd.outdir, _name)
+        _scale = snr_audio.write_wav(_path, MASK_SR, _y)   # >1 表示峰值被壓過(不該發生)
+        _summary = f"ssn|{_db:+.2f}dB|seed={_seed}|{_name}|scale={_scale:.3f}"
+        return _seed, _db, _rms, _path, _summary
+
+    # --- Initialize components for Routine "mask" ---
+    # 四塊噪音的順序與 POS 一致:0 = UR, 1 = UL, 2 = BL, 3 = BR
+    # sf 必須明寫:numpy 紋理在 deg 單位下 sf=None 會變成 1 cycle/deg,
+    # 4 deg 的塊裡紋理會重複 4×4 次 —— 那就不是隨機噪音了。1/MASK_SIZE = 整塊一個週期。
+    # interpolate=False:每一格保持方形「像素」,不被平滑成模糊雲。
+    MASK_VIS_STIMS = []
+    for _q, _nm in enumerate(['maskUR', 'maskUL', 'maskBL', 'maskBR']):
+        MASK_VIS_STIMS.append(visual.GratingStim(
+            win=win, name=_nm, units='deg',
+            tex=np.zeros((MASK_TEX_N, MASK_TEX_N)), mask=None,
+            size=(MASK_SIZE, MASK_SIZE), sf=1.0 / MASK_SIZE, phase=0.0,
+            ori=0.0, pos=(0, 0),
+            color=[1, 1, 1], colorSpace='rgb', contrast=1.0, opacity=None,
+            interpolate=False, depth=-1.0 - _q))
+    maskUR, maskUL, maskBL, maskBR = MASK_VIS_STIMS
+    maskAudi = sound.Sound(
+        'A',
+        secs=MASK_DUR,
+        stereo=True,
+        hamming=True,
+        speaker='Laptop',    name='maskAudi'
+    )
+    maskAudi.setVolume(1.0)
+
     adapt_text = visual.TextStim(win=win, name='adapt_text', text='',
                                  height=0.8, color='white', pos=(0, 0), wrapWidth=26,
                                  alignText='left', anchorHoriz='center')
@@ -1264,6 +1355,26 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         audiBR.seek(0)
         colorBR.setFillColor(StudyBR)
         colorBR.setPos((posBRx, posBRy))
+        # ---- 這一試的遮蔽刺激:在 study 開始前就先做好 ----
+        # 不放在 mask 自己的 Begin Routine:那段程式跑在 study 最後一幀與 mask
+        # 第一幀之間,混噪音 + 寫檔 + setSound 要幾到十幾 ms,會在「最後項目
+        # 消失」與「遮蔽出現」之間插進一段空白 —— 正是遮蔽要蓋掉的那段時間。
+        # 放在這裡,這段成本跟其他刺激的準備一起落在 study 第一幀之前。
+        mask_vis_seed = mask_noise_seed = mask_noise_db = mask_noise_rms = None
+        mask_noise_summary = ''
+        if MASK_VISUAL:
+            # 每試重抽;四塊各自獨立,但共用一個可記錄的種子
+            mask_vis_seed = snr_audio.new_seed()
+            _mrng = np.random.default_rng(mask_vis_seed)
+            for _q, _mk in enumerate(MASK_VIS_STIMS):
+                _mk.setTex(_mrng.uniform(-1.0, 1.0, (MASK_TEX_N, MASK_TEX_N)))
+                _mk.setPos(POS[_q])
+        if MASK_AUDIO:
+            (mask_noise_seed, mask_noise_db, mask_noise_rms,
+             _mask_wav, mask_noise_summary) = make_mask_noise(trial_i)
+            maskAudi.setSound(_mask_wav, secs=MASK_DUR, hamming=True)
+            maskAudi.setVolume(1.0, log=False)
+            maskAudi.seek(0)
         # store start times for study
         study.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
         study.tStart = globalClock.getTime(format='float')
@@ -1645,6 +1756,178 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # the Routine "study" was not non-slip safe, so reset the non-slip timer
         routineTimer.reset()
         
+        # --- Prepare to start Routine "mask" ---
+        # 手寫的 routine(不在 GRTv2.psyexp 裡)。刺激已在 study 的 Begin Routine
+        # 備好。不走 non-slip:以「每個成分從自己實際出現的那一幀起算 MASK_DUR」
+        # 結束,跟 study 一樣,結束後 reset routineTimer,cue 的 non-slip 計時不受影響。
+        mask = data.Routine(
+            name='mask',
+            components=((list(MASK_VIS_STIMS) if MASK_VISUAL else []) +
+                        ([maskAudi] if MASK_AUDIO else [])),
+        )
+        mask.status = NOT_STARTED
+        # 兩種遮蔽都關掉 -> 整段跳過,時間軸回到 study -> cue
+        continueRoutine = bool(mask.components)
+        # store start times for mask
+        mask.tStartRefresh = win.getFutureFlipTime(clock=globalClock)
+        mask.tStart = globalClock.getTime(format='float')
+        mask.status = STARTED
+        thisExp.addData('mask.started', mask.tStart)
+        mask.maxDuration = None
+        # keep track of which components have finished
+        maskComponents = mask.components
+        for thisComponent in mask.components:
+            thisComponent.tStart = None
+            thisComponent.tStop = None
+            thisComponent.tStartRefresh = None
+            thisComponent.tStopRefresh = None
+            if hasattr(thisComponent, 'status'):
+                thisComponent.status = NOT_STARTED
+        # reset timers
+        t = 0
+        _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+        frameN = -1
+
+        # --- Run Routine "mask" ---
+        thisExp.currentRoutine = mask
+        mask.forceEnded = routineForceEnded = not continueRoutine
+        while continueRoutine:
+            # if trial has changed, end Routine now
+            if hasattr(thisTrial, 'status') and thisTrial.status == STOPPING:
+                continueRoutine = False
+            # get current time
+            t = routineTimer.getTime()
+            tThisFlip = win.getFutureFlipTime(clock=routineTimer)
+            tThisFlipGlobal = win.getFutureFlipTime(clock=None)
+            frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
+            # update/draw components on each frame
+
+            # *maskUR / maskUL / maskBL / maskBR* updates
+            # 四塊的起訖條件完全相同,用迴圈寫;每塊仍各自記 .started / .stopped
+            for _mk in (MASK_VIS_STIMS if MASK_VISUAL else []):
+                # if _mk is starting this frame...
+                if _mk.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                    # keep track of start time/frame for later
+                    _mk.frameNStart = frameN  # exact frame index
+                    _mk.tStart = t  # local t and not account for scr refresh
+                    _mk.tStartRefresh = tThisFlipGlobal  # on global time
+                    win.timeOnFlip(_mk, 'tStartRefresh')  # time at next scr refresh
+                    # add timestamp to datafile
+                    thisExp.timestampOnFlip(win, _mk.name + '.started')
+                    # update status
+                    _mk.status = STARTED
+                    _mk.setAutoDraw(True)
+
+                # if _mk is stopping this frame...
+                if _mk.status == STARTED:
+                    # is it time to stop? (based on global clock, using actual start)
+                    if tThisFlipGlobal > _mk.tStartRefresh + MASK_DUR-frameTolerance:
+                        # keep track of stop time/frame for later
+                        _mk.tStop = t  # not accounting for scr refresh
+                        _mk.tStopRefresh = tThisFlipGlobal  # on global time
+                        _mk.frameNStop = frameN  # exact frame index
+                        # add timestamp to datafile
+                        thisExp.timestampOnFlip(win, _mk.name + '.stopped')
+                        # update status
+                        _mk.status = FINISHED
+                        _mk.setAutoDraw(False)
+
+            # *maskAudi* updates
+            if MASK_AUDIO:
+                # if maskAudi is starting this frame...
+                if maskAudi.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
+                    # keep track of start time/frame for later
+                    maskAudi.frameNStart = frameN  # exact frame index
+                    maskAudi.tStart = t  # local t and not account for scr refresh
+                    maskAudi.tStartRefresh = tThisFlipGlobal  # on global time
+                    # add timestamp to datafile
+                    thisExp.addData('maskAudi.started', tThisFlipGlobal)
+                    # update status
+                    maskAudi.status = STARTED
+                    maskAudi.play(when=win)  # sync with win flip
+
+                # if maskAudi is stopping this frame...
+                if maskAudi.status == STARTED:
+                    # 比視覺多留一幀才強制 stop():Builder 的寫法在「下一幀 > 起點 +
+                    # 時長」那一輪就 stop(),實際時間比終點早將近一幀,會把 0.3 s
+                    # 噪音的尾巴(含 hamming 收尾)硬切掉、留下喀聲。wav 本身就是
+                    # MASK_DUR 長,正常情況由 isFinished 結束;多一幀只是保險。
+                    # 代價:mask 與 cue 之間可能多一幀空白。
+                    if tThisFlipGlobal > maskAudi.tStartRefresh + MASK_DUR + frameDur-frameTolerance or maskAudi.isFinished:
+                        # keep track of stop time/frame for later
+                        maskAudi.tStop = t  # not accounting for scr refresh
+                        maskAudi.tStopRefresh = tThisFlipGlobal  # on global time
+                        maskAudi.frameNStop = frameN  # exact frame index
+                        # add timestamp to datafile
+                        thisExp.timestampOnFlip(win, 'maskAudi.stopped')
+                        # update status
+                        maskAudi.status = FINISHED
+                        maskAudi.stop()
+
+            # check for quit (typically the Esc key)
+            if defaultKeyboard.getKeys(keyList=["escape"]):
+                thisExp.status = FINISHED
+            if thisExp.status == FINISHED or endExpNow:
+                endExperiment(thisExp, win=win)
+                return
+            # pause experiment here if requested
+            if thisExp.status == PAUSED:
+                pauseExperiment(
+                    thisExp=thisExp,
+                    win=win,
+                    timers=[routineTimer, globalClock],
+                    currentRoutine=mask,
+                )
+                # skip the frame we paused on
+                continue
+
+            # has a Component requested the Routine to end?
+            if not continueRoutine:
+                mask.forceEnded = routineForceEnded = True
+            # has the Routine been forcibly ended?
+            if mask.forceEnded or routineForceEnded:
+                break
+            # has every Component finished?
+            continueRoutine = False
+            for thisComponent in mask.components:
+                if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
+                    continueRoutine = True
+                    break  # at least one component has not yet finished
+
+            # refresh the screen
+            if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
+                win.flip()
+
+        # --- Ending Routine "mask" ---
+        for thisComponent in mask.components:
+            if hasattr(thisComponent, "setAutoDraw"):
+                thisComponent.setAutoDraw(False)
+        # store stop times for mask
+        mask.tStop = globalClock.getTime(format='float')
+        mask.tStopRefresh = tThisFlipGlobal
+        thisExp.addData('mask.stopped', mask.tStop)
+        # 遮蔽的實際起訖(全域時間):起 = 第一個成分出現的那一幀,
+        # 訖 = 最後一個成分結束的那一幀。沒跑(兩種都關)就留空。
+        _on  = [c.tStartRefresh for c in mask.components if c.tStartRefresh is not None]
+        _off = [c.tStopRefresh  for c in mask.components if c.tStopRefresh  is not None]
+        thisExp.addData('mask_onset',      min(_on)  if _on  else '')
+        thisExp.addData('mask_offset',     max(_off) if _off else '')
+        thisExp.addData('mask_dur',        MASK_DUR if mask.components else 0.0)
+        thisExp.addData('mask_visual',     bool(MASK_VISUAL))
+        thisExp.addData('mask_audio',      bool(MASK_AUDIO))
+        thisExp.addData('mask_vis_seed',   mask_vis_seed   if MASK_VISUAL else '')
+        thisExp.addData('mask_noise_seed', mask_noise_seed if MASK_AUDIO else '')
+        thisExp.addData('mask_noise_db',   mask_noise_db   if MASK_AUDIO else '')
+        thisExp.addData('mask_noise_rms',  mask_noise_rms  if MASK_AUDIO else '')
+        thisExp.addData('mask_ref_rms',    MASK_REF_RMS)
+        if MASK_AUDIO:
+            thisExp.addData('snd_mask', mask_noise_summary)
+
+        if MASK_AUDIO:
+            maskAudi.pause()  # ensure sound has stopped at end of Routine
+        # the Routine "mask" was not non-slip safe, so reset the non-slip timer
+        routineTimer.reset()
+
         # --- Prepare to start Routine "cue" ---
         # create an object to store info about Routine cue
         cue = data.Routine(
