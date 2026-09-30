@@ -32,29 +32,56 @@ import numpy as np
 _HERE = os.path.dirname(os.path.abspath(__file__))
 
 
+def _adaptivesft_root():
+    """adaptiveSFT repo 的根目錄：$ADAPTIVESFT_PATH，否則本目錄隔壁的 ../adaptiveSFT；找不到回 None。"""
+    for c in (os.environ.get("ADAPTIVESFT_PATH"), os.path.join(os.path.dirname(_HERE), "adaptiveSFT")):
+        if c and os.path.isfile(os.path.join(c, "adaptivesft", "psi.py")):
+            return c
+    return None
+
+
 def _import_psi():
     """
-    要的是 adaptiveSFT repo 的 adaptivesft 套件（有 psi.py）。本 repo 自己也有一個舊的 adaptivesft/（PyMC LNRM，
-    沒有 psi），從這個目錄啟動時它會遮住裝好的那個，所以：先試 import，失敗就清掉再從
-    $ADAPTIVESFT_PATH 或隔壁的 ../adaptiveSFT 載入。
+    要的是 adaptiveSFT repo 的 adaptivesft/psi.py（只用 numpy + scipy）。兩個坑：
+    (1) 本 repo 自己也有一個舊的 adaptivesft/（PyMC LNRM，沒有 psi），從這個目錄啟動時它會遮住裝好的那個；
+    (2) adaptiveSFT 的 adaptivesft/__init__.py 會 import PyMC，實驗機器（PsychoPy）通常沒有 PyMC。
+    所以：先試正常 import；不行就從 _adaptivesft_root() 直接按檔案載入 psi.py，不執行套件的 __init__.py。
+    實驗端（校準、產生 block csv）只需要這個；分析端（analyze_vawm）才需要完整套件。
     """
     import importlib
+    import importlib.util
     import sys
     try:
         m = importlib.import_module("adaptivesft.psi")
         return m.Psi, m.salience_levels
     except ImportError:
         pass
+    root = _adaptivesft_root()
+    if root is None:
+        raise ImportError("找不到 adaptiveSFT 的 adaptivesft/psi.py：設 ADAPTIVESFT_PATH=<adaptiveSFT 路徑>，"
+                          "或把 adaptiveSFT clone 在本目錄隔壁（本目錄的 adaptivesft/ 是舊的 LNRM 套件，會遮住它）")
+    spec = importlib.util.spec_from_file_location("adaptivesft_psi", os.path.join(root, "adaptivesft", "psi.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    sys.modules["adaptivesft_psi"] = m
+    return m.Psi, m.salience_levels
+
+
+def _import_experiment():
+    """分析端：完整的 adaptivesft 套件（要 PyMC 等）。裝好的優先；否則清掉遮住的舊套件、從 repo 路徑載入。"""
+    import importlib
+    import sys
+    try:
+        return importlib.import_module("adaptivesft.experiment")
+    except ImportError:
+        pass
+    root = _adaptivesft_root()
+    if root is None:
+        raise ImportError("找不到 adaptiveSFT：pip install -e <adaptiveSFT 路徑> 或設 ADAPTIVESFT_PATH")
     for k in [k for k in sys.modules if k == "adaptivesft" or k.startswith("adaptivesft.")]:
         del sys.modules[k]
-    cands = [os.environ.get("ADAPTIVESFT_PATH"), os.path.join(os.path.dirname(_HERE), "adaptiveSFT")]
-    for c in cands:
-        if c and os.path.isfile(os.path.join(c, "adaptivesft", "psi.py")):
-            sys.path.insert(0, c)
-            m = importlib.import_module("adaptivesft.psi")
-            return m.Psi, m.salience_levels
-    raise ImportError("找不到 adaptiveSFT 的 adaptivesft 套件：pip install -e <adaptiveSFT 路徑>，"
-                      "或設 ADAPTIVESFT_PATH=<adaptiveSFT 路徑>（本目錄的 adaptivesft/ 是舊的 LNRM 套件，會遮住它）")
+    sys.path.insert(0, root)
+    return importlib.import_module("adaptivesft.experiment")
 
 
 Psi, salience_levels = _import_psi()
@@ -450,11 +477,8 @@ def vawm_to_dfp_rows(path, subject=None, rt_col="ResponseBox.rt", key_col="Respo
 
 def analyze_vawm(path, subject=None, **kw):
     """VAWM_nobox.py 的 csv → 四格答對 RT → SIC / MIC / dominance → 預測架構（用 adaptivesft.experiment）。"""
-    try:
-        from adaptivesft.experiment import analyze_participant, report
-    except ImportError:
-        _import_psi()
-        from adaptivesft.experiment import analyze_participant, report
+    exp = _import_experiment()
+    analyze_participant, report = exp.analyze_participant, exp.report
     rows, others = vawm_to_dfp_rows(path, subject)
     for r in rows:
         r["correct"] = "" if r["correct"] is None else r["correct"]

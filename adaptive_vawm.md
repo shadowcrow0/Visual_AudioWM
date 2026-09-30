@@ -16,13 +16,31 @@
 
 ## 一次性
 
-```bash
-git clone https://github.com/shadowcrow0/adaptiveSFT.git     # 放在 Visual_AudioWM 隔壁，或任何地方
-pip install -e ../adaptiveSFT                               # 或 set ADAPTIVESFT_PATH=<路徑>
+兩台機器、兩種需求：
+
+```
+   實驗機器（PsychoPy）                          分析機器（Arc 或任何有 Python ≥ 3.10 的地方）
+   ─────────────────────────────────────        ──────────────────────────────────────────
+   ① VAWM_calibrate.py  ② make_adaptive_blocks  ④ analyze_vawm、adaptiveSFT 的 pytest
+   ③ VAWM_nobox.py
+   只要 adaptiveSFT/adaptivesft/psi.py            要完整的 adaptivesft 套件（PyMC、numba…）
+   （numpy + scipy，PsychoPy 內建就有）            pip install -e <adaptiveSFT 路徑>
+   不用裝任何東西：clone 在隔壁或設 ADAPTIVESFT_PATH
 ```
 
-注意：本 repo 自己有一個舊的 `adaptivesft/`（PyMC LNRM 版）會遮住裝好的套件，`adaptive_vawm.py` 會自動繞過，
-但要有 `../adaptiveSFT` 或 `ADAPTIVESFT_PATH`。
+```bash
+git clone https://github.com/shadowcrow0/adaptiveSFT.git     # 放在 Visual_AudioWM 隔壁，或設 ADAPTIVESFT_PATH=<路徑>
+pip install -e ../adaptiveSFT                               # 只有分析機器需要；要 Python ≥ 3.10
+```
+
+`adaptive_vawm.py` 先試 `import adaptivesft.psi`（裝好的套件）；沒裝或 PyMC 不在時，改成直接按檔案載入
+`psi.py`，不執行套件的 `__init__.py`，所以 PsychoPy 的 Python（standalone 常是 3.8/3.10，沒有 PyMC）也能跑
+校準。分析端 `analyze_vawm` 才需要完整套件。
+
+注意：本 repo 自己有一個舊的 `adaptivesft/`（PyMC LNRM 版）會遮住裝好的套件，`adaptive_vawm.py` 會自動繞過。
+
+在 Arc 上不要用 `psychopy-env`（Python 3.6，裝不了 adaptiveSFT，PsychoPy 也編不過、也沒螢幕）；用
+`hpc/arc_setup.sh` 建的 conda 環境（Python 3.11）跑 pytest 與分析。
 
 ## 校準的設計
 
@@ -46,7 +64,8 @@ H = 高 salience = 容易分：顏色 ΔE 大、子音混淆次數少（同 csv 
 ## 驗證
 
 `tests/test_adaptive_vawm.py`（7 個）：模擬受試者跑完兩個區塊回復 α/β/FA；audio 的 foil 一定是該子音表裡的；
-產生的 block csv 欄位 = `practice.csv`、ΔE 在 ±0.5、H 的 count ≤ L 的；VAWM 格式的輸出 → 判對 ParallelOR。
+產生的 block csv 欄位 = `practice.csv`、ΔE 在 ±0.5、H 的 count ≤ L 的；VAWM 格式的輸出 → 判對 ParallelOR
+（最後這個要 PyMC，沒有就 skip；前六個只要 numpy + scipy）。
 PsychoPy 的 `VAWM_calibrate.py` 在這個容器裡只做過 `py_compile`。
 
 ## 順便修的 bug

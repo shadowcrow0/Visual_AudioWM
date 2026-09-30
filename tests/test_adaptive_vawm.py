@@ -107,9 +107,11 @@ def test_write_blocks_matches_practice_csv_layout(tmp_path):
 
 
 def test_vawm_csv_to_dfp_analysis(tmp_path):
-    """假造一份 VAWM_nobox.py 格式的輸出（每個探測一列），PAR-OR 的 DDM 填 RT → 判 ParallelOR。"""
-    from adaptive_vawm import analyze_vawm, vawm_to_dfp_rows
-    sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "adaptiveSFT"))
+    """假造一份 VAWM_nobox.py 格式的輸出（每個探測一列），PAR-OR 的 DDM 填 RT → 判 ParallelOR。
+    分析端要完整的 adaptivesft 套件（PyMC）；實驗機器沒有就跳過，其餘六個測試不受影響。"""
+    pytest.importorskip("pymc")
+    from adaptive_vawm import _import_experiment, analyze_vawm, vawm_to_dfp_rows
+    _import_experiment()
     from adaptivesft.ddm import dfp_ddm
     rng = np.random.default_rng(9)
     drift = {2: 3.0, 1: 1.0}
