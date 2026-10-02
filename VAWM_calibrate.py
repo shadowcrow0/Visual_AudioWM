@@ -31,6 +31,8 @@ P_MATCH = 1 / 3            # AA（探測 = 目標）試的比例，用來估假�
 # lnrm
 N_PER_LEVEL = 8            # 每個強度層級的「不同」試數；6 層 × 8 + 24 AA = 72 試 / 區塊
 H_TARG, L_TARG = 2.0, 0.5  # H / L 的漂移差目標（z2 − z1）。Houpt 原設定 8.0 / 1.3；見 adaptiveSFT/results/power_scan.csv
+LINK = "quadratic"         # "quadratic" = lnrm2（原檔，已對 Stan 驗證）；"ogival" = lnrm2a（adaptiveSFT 的重建：½L·inv_logit, L = 10）
+                           # 兩者都用漂移差目標 —— decisions_for_author.md 的 B（2026-10-02 定案）
 FIT_KW = dict(tune=1000, draws=1000, chains=4)   # PyMC NUTS；機器慢就 chains=2
 # psi
 N_COLOUR = 72              # 區塊 1 試次（含 1/3 的 AA 試）
@@ -138,8 +140,8 @@ def run_block(cal, n, title):
 
 seed = int(subj) if subj.isdigit() else abs(hash(subj)) % 2**32
 if METHOD == "lnrm":
-    cal_c = ColourLNRMCalibrator(LEVELS_COLOUR, N_PER_LEVEL, P_MATCH, H_TARG, L_TARG, seed=seed, **FIT_KW)
-    cal_a = AudioLNRMCalibrator(LEVELS_AUDIO, N_PER_LEVEL, P_MATCH, H_TARG, L_TARG, seed=seed + 1, **FIT_KW)
+    cal_c = ColourLNRMCalibrator(LEVELS_COLOUR, N_PER_LEVEL, P_MATCH, H_TARG, L_TARG, link=LINK, seed=seed, **FIT_KW)
+    cal_a = AudioLNRMCalibrator(LEVELS_AUDIO, N_PER_LEVEL, P_MATCH, H_TARG, L_TARG, link=LINK, seed=seed + 1, **FIT_KW)
     n_c, n_a = cal_c.n_trials, cal_a.n_trials
 elif METHOD == "psi":
     cal_c = ColourCalibrator(P_HIGH, P_LOW, P_MATCH, seed=seed)

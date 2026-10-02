@@ -183,3 +183,29 @@ def test_lnrm_calibrator_recovers_and_matches_adaptivesft_inversion(dim):
     assert res.low < res.high and res.in_range
     if dim == "audio":
         assert res.extra["count_high"] < res.extra["count_low"]
+
+
+def test_lnrm_calibrator_ogival_link_decision_b():
+    """LINK = "ogival"（決定 B：½L·inv_logit、L = 10 固定）配 Houpt 的 8.0 / 1.3：回復 slope / midpoint，H/L 對上閉式反解。"""
+    pytest.importorskip("pymc")
+    from adaptive_vawm import ColourLNRMCalibrator, _import_experiment
+    _import_experiment()
+    from adaptivesft.race import lnrm_random
+    rng = np.random.default_rng(6)
+    slope, mid, L = 2.0, 1.5, 10.0
+
+    def respond(cal, t):
+        if t["is_match"]:
+            return ("n" if rng.uniform() < 0.1 else "y"), 0.8
+        u = cal._to_model(t["x"])
+        rt, c = lnrm_random([0.5 * L / (1 + np.exp(-slope * (u - mid)))], 1.0, 0.5, 0.2, rng)
+        return ("n" if c[0] == 1 else "y"), float(rt[0])
+
+    cal = ColourLNRMCalibrator(n_per_level=12, seed=6, link="ogival", h_targ=8.0, l_targ=1.3, tune=400, draws=400, chains=2)
+    for _ in range(cal.n_trials):
+        cal.record(*respond(cal, cal.next_trial()))
+    res = cal.finish()
+    p = res.extra["params"]
+    assert res.extra["method"] == "lnrm_ogival" and abs(p["slope"] - slope) < 0.6 and abs(p["midpoint"] - mid) < 0.3
+    inv = lambda targ: (np.log((targ / L) / (1 - targ / L)) / slope + mid) * 10        # adaptiveSFT_functions.R:180-199
+    assert abs(res.high - inv(8.0)) < 3 and abs(res.low - inv(1.3)) < 3 and res.in_range

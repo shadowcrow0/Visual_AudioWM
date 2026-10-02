@@ -17,6 +17,15 @@
 
 ## 兩種校準方法
 
+定案（2026-10-02）：實驗用 `adaptiveSFT/decisions_for_author.md` 的 **B**——LNRM 分支、目標是漂移差（不是正確率）、
+ogival 模型照 adaptiveSFT 的重建（½L·inv_logit、L = 10 固定、Normal(0, 2) 先驗）。`LINK` 預設 `"quadratic"`（lnrm2，
+原檔、已對 Stan 驗證），`"ogival"` 換成 lnrm2a。Psi 版保留但不是實驗用的。
+
+**`LINK` 和 `H_TARG` / `L_TARG` 是綁在一起的。** ogival 的分離上限是 L = 10，目標是「L 的幾分之幾」：Houpt 的
+8.0 / 1.3 = 80% / 13%，合理；2.0 / 0.5 = 20% / 5% 落在曲線底部，L 會反解到層級範圍外（測試裡量到 ΔE −19）。
+quadratic 沒有上限，2.0 / 0.5 是 power scan 建議的值。所以：`LINK = "quadratic"` 配 2.0 / 0.5，
+`LINK = "ogival"` 配 8.0 / 1.3（或自己從 L 的比例算）。
+
 | | `METHOD = "lnrm"`（**原始 adaptiveSFT**，預設） | `METHOD = "psi"` |
 |---|---|---|
 | 強度怎麼選 | 定值刺激法：6 層固定，各 `N_PER_LEVEL`（8）試，打散 | Psi 逐試選熵最小的 x |
