@@ -18,6 +18,8 @@ VAWM_nobox.py 的自適應校準。每位受試者先各校一次「顏色差距
           count 小 = 不易混淆 = 好分 = 高 salience（現有 csv：audio1_H_count = 1、audio1_L_count = 91）
 
 受試者按 n（不同）記 r = 1，按 y（相同）記 r = 0。不同試答 n 算對，AA 試答 y 算對。
+
+要改這個檔：每個決定的理由在 DECISIONS.md；改之前先跑 tests/test_adaptive_vawm.py，表在 DECISIONS.md 最後。
 """
 import ast
 import csv

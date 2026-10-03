@@ -1,5 +1,7 @@
 # VAWM 的自適應校準（adaptive SFT）—— 怎麼跑
 
+每個決定的理由與生效位置：`DECISIONS.md`。
+
 ```
    ① VAWM_calibrate.py            區塊 1 校顏色差距、區塊 2 校子音混淆度（作業 = VAWM_nobox 的 study → probe → y/n）
           │                       METHOD = "lnrm"（原始 adaptiveSFT）或 "psi"

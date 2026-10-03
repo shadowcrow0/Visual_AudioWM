@@ -15,6 +15,7 @@ VAWM 的校準程式（跑在 VAWM_nobox.py 之前）：區塊 1 校顏色差距
     python VAWM_nobox.py                                              # 主實驗照舊
 
 需要 adaptivesft 套件：pip install -e <adaptiveSFT 的路徑>。本檔在沒有 PsychoPy 的容器裡只做過 py_compile。
+參數為什麼是這些值：DECISIONS.md。
 """
 import csv
 import os
