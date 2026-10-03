@@ -16,7 +16,7 @@ VAWM 的校準程式（跑在 VAWM_nobox.py 之前）：區塊 1 校顏色差距
 
 需要 adaptivesft 套件：pip install -e <adaptiveSFT 的路徑>。本檔在沒有 PsychoPy 的容器裡只做過 py_compile。
 """
-import json
+import csv
 import os
 
 from psychopy import core, data, event, gui, sound, visual
@@ -66,8 +66,7 @@ def _pick_audio_device():
 _pick_audio_device()
 
 
-from adaptive_vawm import (LEVELS_AUDIO, LEVELS_COLOUR, AudioCalibrator, AudioLNRMCalibrator, ColourCalibrator,
-                           ColourLNRMCalibrator, save_calibration)
+from adaptive_vawm import LNRMCalibrator, PsiCalibrator, save_calibration
 
 # ───────────── 參數 ─────────────
 METHOD = "lnrm"            # "lnrm" = 原始 adaptiveSFT（LNRM，要 PyMC）；"psi" = Psi 版
@@ -103,6 +102,19 @@ snd = sound.Sound("A", secs=1, stereo=True, hamming=True)
 kb = keyboard.Keyboard()
 clock = core.Clock()
 rows = []
+
+
+def save_trial_log():
+    """每試寫一次，中途當掉也留得住。"""
+    columns = []
+    for r in rows:
+        for k in r:
+            if k not in columns:
+                columns.append(k)
+    with open(log_path, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=columns)
+        w.writeheader()
+        w.writerows(rows)
 
 
 def show(text):
@@ -164,32 +176,32 @@ def run_block(cal, n, title):
         r, correct = cal.record(key, rt)
         fb = "沒有作答" if key is None else ("正確" if correct else "錯誤")
         present(lambda: (setattr(msg, "text", fb), msg.draw()), 0.8)
-        rows.append(dict(block=cal.dim, **{k: v for k, v in cal.log[-1].items()}))
-        with open(log_path, "w", newline="", encoding="utf-8") as f:
-            import csv
-            w = csv.DictWriter(f, fieldnames=sorted({k for r_ in rows for k in r_}))
-            w.writeheader()
-            w.writerows(rows)
+        row = dict(cal.log[-1])
+        row["block"] = cal.dim
+        rows.append(row)
+        save_trial_log()
     if METHOD == "lnrm":                                            # 擬合要幾十秒，先把畫面停在提示上
         msg.text = "計算中，請稍候…"
         msg.draw()
         win.flip()
     res = cal.finish()
-    print(f"[{cal.dim}] {res.extra.get('method', 'psi')} FA={res.false_alarm:.2f} alpha={res.alpha:.2f} beta={res.beta:.2f} "
-          f"H={res.high:.2f} L={res.low:.2f} in_range={res.in_range} {res.warnings}")
-    if not res.in_range:
-        show(f"注意：{cal.dim} 的 H/L 落在範圍外\n{res.warnings}\n\n按空白鍵繼續")
+    print(f"[{cal.dim}] {res['extra']['method']} FA={res['false_alarm']:.2f} alpha={res['alpha']:.2f} "
+          f"beta={res['beta']:.2f} H={res['high']:.2f} L={res['low']:.2f} in_range={res['in_range']} {res['warnings']}")
+    if not res["in_range"]:
+        show(f"注意：{cal.dim} 的 H/L 落在範圍外\n{res['warnings']}\n\n按空白鍵繼續")
     return res
 
 
 seed = int(subj) if subj.isdigit() else abs(hash(subj)) % 2**32
 if METHOD == "lnrm":
-    cal_c = ColourLNRMCalibrator(LEVELS_COLOUR, N_PER_LEVEL, P_MATCH, H_TARG, L_TARG, link=LINK, seed=seed, **FIT_KW)
-    cal_a = AudioLNRMCalibrator(LEVELS_AUDIO, N_PER_LEVEL, P_MATCH, H_TARG, L_TARG, link=LINK, seed=seed + 1, **FIT_KW)
+    cal_c = LNRMCalibrator("colour", n_per_level=N_PER_LEVEL, p_match=P_MATCH, h_targ=H_TARG, l_targ=L_TARG,
+                           link=LINK, seed=seed, **FIT_KW)
+    cal_a = LNRMCalibrator("audio", n_per_level=N_PER_LEVEL, p_match=P_MATCH, h_targ=H_TARG, l_targ=L_TARG,
+                           link=LINK, seed=seed + 1, **FIT_KW)
     n_c, n_a = cal_c.n_trials, cal_a.n_trials
 elif METHOD == "psi":
-    cal_c = ColourCalibrator(P_HIGH, P_LOW, P_MATCH, seed=seed)
-    cal_a = AudioCalibrator(P_HIGH, P_LOW, P_MATCH, seed=seed + 1)
+    cal_c = PsiCalibrator("colour", p_high=P_HIGH, p_low=P_LOW, p_match=P_MATCH, seed=seed)
+    cal_a = PsiCalibrator("audio", p_high=P_HIGH, p_low=P_LOW, p_match=P_MATCH, seed=seed + 1)
     n_c, n_a = N_COLOUR, N_AUDIO
 else:
     raise ValueError(f"METHOD 必須是 'lnrm' 或 'psi'，拿到 {METHOD!r}")

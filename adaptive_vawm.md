@@ -36,8 +36,8 @@ quadratic 沒有上限，2.0 / 0.5 是 power scan 建議的值。所以：`LINK 
 | 實驗機器要什麼 | **完整 adaptivesft 套件（PyMC）** + PsychoPy 在同一個 Python ≥ 3.10 | 只要 `psi.py`（numpy + scipy） |
 | 每區塊試次 | 6 × 8 + 24 AA = 72 | 72（含 1/3 AA） |
 
-兩者共用同一個試次產生器（`ColourCalibrator._make_trial` / `AudioCalibrator._make_trial`），差別只在強度怎麼來、
-結束時怎麼算。json 的 `colour.p_high` / `p_low` 在 lnrm 下放的是 `H_TARG` / `L_TARG`；`extra.method` 標明方法，
+兩者共用同一個試次產生器（`make_colour_trial` / `make_audio_trial`），差別只在強度怎麼來、結束時怎麼算。
+類別只有兩個：`LNRMCalibrator(dim, …)` 與 `PsiCalibrator(dim, …)`，`dim` 是 `"colour"` 或 `"audio"`；結果是普通 dict。json 的 `colour.p_high` / `p_low` 在 lnrm 下放的是 `H_TARG` / `L_TARG`；`extra.method` 標明方法，
 `extra.params` 是 lnrm2 五個參數的後驗平均，`extra.high_median` / `low_median` 是逐 draw 反解的中位數（平均的對照）。
 
 ```
@@ -74,9 +74,9 @@ python -c "import psychopy, pymc; print(psychopy.__version__, pymc.__version__)"
 python VAWM_calibrate.py
 ```
 
-`adaptive_vawm.py` 先試 `import adaptivesft.psi`（裝好的套件）；沒裝或 PyMC 不在時，改成直接按檔案載入
-`psi.py`，不執行套件的 `__init__.py`，所以 PsychoPy standalone 的 Python（沒有 PyMC）也能跑 psi 版校準。
-`METHOD = "lnrm"` 與分析端 `analyze_vawm` 才需要完整套件。
+`adaptive_vawm.py` 直接按檔案載入 `psi.py`（`load_psi_module`），不執行套件的 `__init__.py`，所以 PsychoPy
+standalone 的 Python（沒有 PyMC）也能跑 psi 版校準。`METHOD = "lnrm"` 與分析端 `analyze_vawm` 才載完整套件
+（`load_full_package`）。
 
 注意：本 repo 自己有一個舊的 `adaptivesft/`（PyMC LNRM 版）會遮住裝好的套件，`adaptive_vawm.py` 會自動繞過。
 
@@ -97,7 +97,7 @@ H = 高 salience = 容易分：顏色 ΔE 大、子音混淆次數少（同 csv 
 
 `METHOD`；lnrm：`N_PER_LEVEL`（8）、`H_TARG` / `L_TARG`（2.0 / 0.5）、`FIT_KW`（NUTS 1000/1000/4 鏈）、層級
 `LEVELS_COLOUR`（ΔE 2–45）/ `LEVELS_AUDIO` 在 `adaptive_vawm.py`；psi：`N_COLOUR` / `N_AUDIO`（72）、
-`P_HIGH` / `P_LOW`（.90 / .75）、Psi 網格在 `ColourCalibrator` / `AudioCalibrator` 預設參數；共用 `P_MATCH`（1/3）。
+`P_HIGH` / `P_LOW`（.90 / .75）、Psi 網格在 `PsiCalibrator.__init__`；共用 `P_MATCH`（1/3）。
 漂移差目標怎麼選見 `adaptiveSFT/results/power_scan.csv` 與 `p6_results.md`：8.0 / 1.3 在 a = 3、v = 2 下 H 超出
 範圍，2.0 / 0.5 在範圍內且 SIC 判對率最好。
 
