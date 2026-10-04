@@ -205,9 +205,10 @@ H = 高 salience = 容易分：顏色 ΔE 大、子音混淆次數少（同 csv 
 
 ## 驗證
 
-`tests/test_adaptive_vawm.py`（7 個）：模擬受試者跑完兩個區塊回復 α/β/FA；audio 的 foil 一定是該子音表裡的；
-產生的 block csv 欄位 = `practice.csv`、ΔE 在 ±0.5、H 的 count ≤ L 的；VAWM 格式的輸出 → 判對 ParallelOR
-（最後這個要 PyMC，沒有就 skip；前六個只要 numpy + scipy）。
+`tests/test_adaptive_vawm.py`（10 個）：Psi 版模擬受試者跑完兩個區塊回復 α/β/FA；audio 的 foil 一定是該子音表裡的；
+產生的 block csv 欄位 = `practice.csv`、ΔE 在 ±0.5、H 的 count ≤ L 的；VAWM 格式的輸出 → 判對 ParallelOR；
+lnrm 版（quadratic 兩個維度 + ogival 一個）用賽跑模型生成的受試者回復 α/α₂ 或 slope/midpoint，H/L 對上閉式反解。
+要 PyMC 的四個（分析、三個 lnrm）沒有 PyMC 就自動 skip；其餘六個只要 numpy + scipy。
 PsychoPy 的 `VAWM_calibrate.py` 在這個容器裡只做過 `py_compile`。
 
 白話：測試用「假的受試者」（電腦模擬、已知真實答案）跑一遍校準，確認程式能把真實答案找回來；再確認產生的
