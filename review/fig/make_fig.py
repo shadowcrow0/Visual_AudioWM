@@ -9,6 +9,11 @@
              --window-size=2120,1480 GRTv3_ada_trial_flow.svg
     inkscape GRTv3_ada_trial_flow.svg --export-type=png --export-dpi=300
 
+轉 PDF(向量,投稿用;文字與線條不點陣化,只有 Cedrus 圖是嵌入的 PNG):
+    inkscape GRTv3_ada_trial_flow.svg --export-type=pdf
+    或用 Chromium:寫一個只含 <img src="...svg"> 的 HTML,@page 設成 2120px 1480px、
+    margin 0,再 chromium --headless --no-pdf-header-footer --print-to-pdf=out.pdf page.html
+
 APA 7 §7.22–7.28 的限制,也是這張圖為什麼長這樣:
   - 圖內只放面板字母(A–D)、單詞標籤、時間、座標軸與圖例;
     解釋性文字一律寫在圖下方的 Note(見 GRTv3_ada_trial_flow_note.md)。
