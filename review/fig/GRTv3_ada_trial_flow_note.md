@@ -33,3 +33,31 @@ icons with jagged lines denote low SNR (labelled [pi]). The two colours shown ar
 from the anchor hue along a perceptually uniform arc and are illustrative; the values
 used in the main experiment were set per participant by the colour calibration (Part 1).
 Screen background is mid-grey.
+
+---
+
+## References(APA 7)
+
+Note 裡的「Glavan (2022)」其實是 AGRT.py 的版權年份,不是論文。Psi-GRT 程序目前只有
+兩篇 MathPsych/ICCM 會議發表與 GitHub 程式碼,沒有期刊論文(2026-10 查證)。
+Note 內文建議改引 Glavan, Havig, et al. (2020) 與 Glavan, Houpt, et al. (2023),
+程式碼另引軟體條目。
+
+Glavan, J. J. (2022). *Adaptive-GRT* [Computer software]. GitHub.
+    https://github.com/JosephGlavan/Adaptive-GRT
+
+Glavan, J. J., Havig, P. R., Mohd-Zaid, F., & Houpt, J. W. (2020, July).
+    *Adaptive design for general recognition theory experiments* [Conference
+    presentation]. Virtual MathPsych/ICCM 2020. https://mathpsych.org/presentation/29
+
+Glavan, J. J., Houpt, J. W., Havig, P. R., Mohd-Zaid, F., Bennett, M. S., Chen, Y.-Y.,
+    & Fox, E. L. (2023, July). *Toward the adaptive design of general recognition theory
+    experiments: A control study* [Conference presentation]. Virtual MathPsych/ICCM 2023.
+    https://mathpsych.org/presentation/1292
+
+Kontsevich, L. L., & Tyler, C. W. (1999). Bayesian adaptive estimation of psychometric
+    slope and threshold. *Vision Research, 39*(16), 2729–2737.
+    https://doi.org/10.1016/S0042-6989(98)00285-5
+
+待核對:兩篇會議發表的確切日期(APA 要 月 日–日),以及 Havig / Bennett / Fox 的
+中間名縮寫 —— mathpsych.org 在本機被擋,作者順序與全名取自搜尋摘要。
