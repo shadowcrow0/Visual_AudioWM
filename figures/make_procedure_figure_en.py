@@ -87,6 +87,12 @@ def screen(ax, i, title, t, note, content, dashed=False):
             speaker(ax, cx + 0.2, cy)
         elif kind == "spkR":
             speaker(ax, cx + 1.0, cy + 0.6)
+        elif kind == "spklab":                      # 喇叭 + 音節
+            speaker(ax, cx - 1.6, cy + 0.6)
+            ax.text(cx + 0.4, cy - 2.2, args, color="white", ha="center", va="center", fontsize=9)
+        elif kind == "spkRlab":                     # 探測：色塊 + 喇叭 + 音節
+            speaker(ax, cx + 1.0, cy + 0.6)
+            ax.text(cx + 1.6, cy - 2.4, args, color="white", ha="center", va="center", fontsize=9)
         elif kind == "text":
             ax.text(cx, cy, args, color="white", ha="center", va="center", fontsize=9.5)
         elif kind == "yn":
@@ -103,10 +109,10 @@ screens = [
     ("Fixation",  "300 ms",   "",                              [("fix", None)], False),
     ("Color 1",  "1,000 ms", "left",                     [("patchL", C1)], False),
     ("Color 2",  "1,000 ms", "right",                    [("patchR", C2)], False),
-    ("Sound 1",   "1,000 ms", "consonant 1, blank screen",     [("spk", None)], False),
-    ("Sound 2",   "1,000 ms", "consonant 2, blank screen",     [("spk", None)], False),
+    ("Sound 1",   "1,000 ms", "[bi], blank screen",            [("spklab", "[bi]")], False),
+    ("Sound 2",   "1,000 ms", "[pi], blank screen",            [("spklab", "[pi]")], False),
     ("Fixation",  "300 ms",   "",                              [("fix", None)], False),
-    ("Probe",     "1,000 ms", "color 1 shifted by x\n+ sound 1 (unchanged)", [("patchC", C1_SHIFT), ("spkR", None)], False),
+    ("Probe",     "1,000 ms", "color 1 shifted by x\n+ [bi] (unchanged)", [("patchC", C1_SHIFT), ("spkRlab", "[bi]")], False),
     ("Response",  "2,000 ms", "from 500 ms after probe onset\ny = same, n = different\n(calibration: up to 3,000 ms)", [("yn", None)], False),
     ("Feedback",  "800 ms",      "calibration and practice only", [("text", "Correct")], True),
 ]
@@ -129,7 +135,7 @@ ax.text(x8 + W + 4, y8 - H / 2, "next trial", ha="left", va="center", fontsize=9
 # ───────────────────────────── C. Timeline ─────────────────────────────
 ax = fig.add_subplot(gs[2]); ax.set_xlim(0, 100); ax.set_ylim(0, 10); ax.axis("off")
 ax.text(0, 9.6, "C. Timeline", fontsize=13, va="top", color=INK)
-segs = [("Fix.", 0.3, "#f2f2f2"), ("Study  (color 1, color 2, sound 1, sound 2)", 4.0, "#dde3f3"),
+segs = [("Fix.", 0.3, "#f2f2f2"), ("Study  (color 1, color 2, [bi], [pi])", 4.0, "#dde3f3"),
         ("Fix.", 0.3, "#f2f2f2"), ("Probe", 1.0, "#e8dcf0"), ("Response", 2.0, "#f3e8d3"),
         ("Feedback", 0.8, "#dcefd9")]
 durs = ["300 ms", "4 × 1,000 ms", "300 ms", "1,000 ms", "2,000 ms", "800 ms"]
@@ -159,10 +165,10 @@ mini = [
     ("Fixation",  "300 ms",         [("fix", None)], False),
     ("Color 1",   "1,000 ms",       [("patchL", C1)], False),
     ("Color 2",   "1,000 ms",       [("patchR", C2)], False),
-    ("Sound 1",   "1,000 ms",       [("spk", None)], False),
-    ("Sound 2",   "1,000 ms",       [("spk", None)], False),
+    ("Sound 1",   "1,000 ms\n[bi]", [("spk", None)], False),
+    ("Sound 2",   "1,000 ms\n[pi]", [("spk", None)], False),
     ("Fixation",  "300 ms",         [("fix", None)], False),
-    ("Probe",     "1,000 ms\ncolor 1 ± x\nsound 1",  [("patchC", C1_SHIFT), ("spkR", None)], False),
+    ("Probe",     "1,000 ms\ncolor 1 ± x\n[bi]",  [("patchC", C1_SHIFT), ("spkR", None)], False),
     ("Response",  "≤ 3,000 ms\ny / n, RT", [("yn", None)], False),
     ("Feedback",  "800 ms",         [("text", "Correct")], True),
 ]
@@ -190,7 +196,7 @@ for i, (lab, sub, content, dashed) in enumerate(mini):
 x_last = 8 * (mw + gap) + mw / 2
 ax.plot([x_last, x_last, mw / 2, mw / 2], [my + mh + 2, my + mh + 11, my + mh + 11, my + mh + 2], color=INK, lw=1)
 ax.add_patch(FancyArrowPatch((mw / 2, my + mh + 7), (mw / 2, my + mh + 2.5), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
-ax.text((x_last + mw / 2) / 2, my + mh + 12.5, "× 72 trials: 6 ΔE levels × 8 + 24 same, shuffled; sounds identical to the studied items on every trial",
+ax.text((x_last + mw / 2) / 2, my + mh + 12.5, "× 72 trials: 6 ΔE levels × 8 + 24 same, shuffled; [bi] and [pi] identical on every trial",
         ha="center", va="bottom", fontsize=8.5, color=INK)
 # → lnrm2 box below the row
 ax.add_patch(FancyArrowPatch((x_last, my - 21), (x_last, my - 28), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))

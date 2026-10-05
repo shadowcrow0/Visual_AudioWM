@@ -71,9 +71,9 @@ response time and inverted to obtain the participant's high- and low-salience le
 consonant-confusion count). Practice (5 study sets × 9 probes, feedback 1 s) and the main task (6 blocks × 24 study
 sets × 9 probes = 1,296 probes, no feedback, self-paced rest between blocks) followed. Panel B shows one
 color-calibration trial. Study: fixation 300 ms, color 1 on the left for 1,000 ms, color 2 on the right for
-1,000 ms, consonant 1 for 1,000 ms, consonant 2 for 1,000 ms (screen blank during sounds). Probe: fixation 300 ms,
-then a color patch and a consonant presented together for 1,000 ms; here the color is color 1 shifted by x ΔE
-and the consonant is consonant 1 unchanged. The response window opened 500 ms after probe onset and lasted 2,000 ms
+1,000 ms, the syllable [bi] for 1,000 ms, the syllable [pi] for 1,000 ms (screen blank during sounds). Probe: fixation 300 ms,
+then a color patch and a syllable presented together for 1,000 ms; here the color is color 1 shifted by x ΔE
+and the syllable is [bi], unchanged. The response window opened 500 ms after probe onset and lasted 2,000 ms
 (up to 3,000 ms in calibration); participants pressed y for "same as studied" or n for "different." Feedback
 (800 ms in calibration, 1,000 ms in practice) was shown only in calibration and practice. In the main task the
 probe sequence (fixation, probe, response) repeated nine times after each study set, with one of nine probe types
