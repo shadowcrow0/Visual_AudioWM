@@ -2,7 +2,7 @@
 English procedure figure, cascade layout (same layout as the GRTv3_ada flow figure).
 Panel B shows a COLOUR-CALIBRATION trial: the probe keeps the studied sound and shifts only the colour.
 Minimal text: labels and times on the cascade and the timeline only.
-Font: Times New Roman (rendered here with the metric-identical Liberation Serif; the SVG names Times New Roman first).
+Font: APA 7 §7.26 — sans serif inside the figure, 8–14 pt. Arial (rendered here with the metric-identical Liberation Sans; the SVG names Arial first).
 
     python figures/make_procedure_figure_en.py   # -> figures/experiment_procedure_en.svg / .png
 """
@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Arc, FancyArrowPatch, FancyBboxPatch, Polygon, Rectangle
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-plt.rcParams["font.family"] = ["Times New Roman", "Liberation Serif", "DejaVu Serif"]
+plt.rcParams["font.family"] = ["Arial", "Liberation Sans", "DejaVu Sans"]
 plt.rcParams["svg.fonttype"] = "none"
 plt.rcParams["axes.unicode_minus"] = False
 
@@ -42,12 +42,12 @@ for x, w, t, s, c in stages:
     ax.add_patch(FancyBboxPatch((x, 3.0), w, 5.2, boxstyle="round,pad=0,rounding_size=0.4", fc=c, ec=GREY, lw=1))
     ax.text(x + w / 2, 7.1 if s else 5.6, t, ha="center", va="center", fontsize=10.5, color=INK)
     if s:
-        ax.text(x + w / 2, 4.8, s, ha="center", va="center", fontsize=7.8, color=GREY)
+        ax.text(x + w / 2, 4.8, s, ha="center", va="center", fontsize=8, color=GREY)
 for i in range(len(stages) - 1):
     x0 = stages[i][0] + stages[i][1]; x1 = stages[i + 1][0]
     ax.add_patch(FancyArrowPatch((x0 + 0.2, 5.6), (x1 - 0.2, 5.6), arrowstyle="-|>", mutation_scale=12, color=INK, lw=1.2))
     if stages[i + 1][2] in ("Practice", "Main task") or stages[i][2].startswith("Part"):
-        ax.text((x0 + x1) / 2, 6.4, "rest", ha="center", va="bottom", fontsize=7, color=GREY)
+        ax.text((x0 + x1) / 2, 6.4, "rest", ha="center", va="bottom", fontsize=8, color=GREY)
 
 # ───────────────────────────── B. Trial (colour-calibration example) ─────────────────────────────
 ax = fig.add_subplot(gs[1]); ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
@@ -76,7 +76,7 @@ def screen(ax, i, title, t, note, content, dashed=False):
     cx, cy = x + W / 2, y - H / 2
     for kind, args in content:
         if kind == "fix":
-            ax.text(cx, cy, "+", color="white", ha="center", va="center", fontsize=16)
+            ax.text(cx, cy, "+", color="white", ha="center", va="center", fontsize=14)
         elif kind == "patchL":
             patch(ax, x + 0.28 * W, cy, args)
         elif kind == "patchR":
@@ -95,7 +95,7 @@ def screen(ax, i, title, t, note, content, dashed=False):
     ax.text(cx, y - H - 1.6, title, ha="center", va="top", fontsize=10.5, color=INK)
     ax.text(cx, y - H - 4.6, t, ha="center", va="top", fontsize=8.5, color=GREY)
     if note:
-        ax.text(cx, y - H - 7.4, note, ha="center", va="top", fontsize=7.8, color=GREY, linespacing=1.25)
+        ax.text(cx, y - H - 7.4, note, ha="center", va="top", fontsize=8, color=GREY, linespacing=1.25)
     return x, y
 
 
@@ -166,7 +166,7 @@ def mini_screen(x, label, sub, content):
             ax.text(cx, cy + 6, "Same?", color="white", ha="center", va="center", fontsize=8.5)
             ax.text(cx, cy - 5, "[y]   [n]", color="white", ha="center", va="center", fontsize=8.5)
     ax.text(cx, by - 5, label, ha="center", va="top", fontsize=9.5, color=INK)
-    ax.text(cx, by - 14, sub, ha="center", va="top", fontsize=7.8, color=GREY)
+    ax.text(cx, by - 14, sub, ha="center", va="top", fontsize=8, color=GREY)
 mini_screen(0,  "Study",    "two colours + two sounds",           [("patchL", C1), ("patchR", C2)])
 mini_screen(27, "Probe",    "colour 1 ± x,\nsound 1 unchanged",   [("patchC", C1_SHIFT), ("spk", None)])
 mini_screen(54, "Response", "y / n, RT",                          [("yn", None)])
@@ -179,9 +179,9 @@ ax.text(38, by + bh + 13.5, "× 72 trials: 6 ΔE levels × 8 + 24 same, shuffled
 # fit box
 ax.add_patch(FancyBboxPatch((82, by + 4), 17, bh - 8, boxstyle="round,pad=0,rounding_size=2", fc="#fdf2cc", ec=INK, lw=1))
 ax.text(90.5, by + bh / 2 + 6, "lnrm2", ha="center", va="center", fontsize=10, color=INK)
-ax.text(90.5, by + bh / 2 - 5, "fit accuracy + RT,\ninvert for H / L", ha="center", va="center", fontsize=7.8, color=GREY)
+ax.text(90.5, by + bh / 2 - 5, "fit accuracy + RT,\ninvert for H / L", ha="center", va="center", fontsize=8, color=GREY)
 ax.add_patch(FancyArrowPatch((54 + bw + 0.5, by + bh / 2), (81.5, by + bh / 2), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
-ax.text(90.5, by - 5, "after the 72nd trial", ha="center", va="top", fontsize=7.8, color=GREY)
+ax.text(90.5, by - 5, "after the 72nd trial", ha="center", va="top", fontsize=8, color=GREY)
 
 # D-middle: the 72-trial sequence of ΔE levels (schematic)
 rng = np.random.default_rng(3)
@@ -201,7 +201,7 @@ ax.set_xticks([1, 36, 72]); ax.set_yticks(levels)
 ax.set_xlabel("trial", fontsize=9); ax.set_ylabel("probe ΔE (colour 1 ± x)", fontsize=9)
 ax.tick_params(labelsize=8)
 ax.set_title("Levels presented across the 72 trials (schematic)", fontsize=9.5, color=INK)
-ax.text(72, 48, "○  same probe (ΔE = 0)", ha="right", va="top", fontsize=7.5, color=GREY)
+ax.text(72, 48, "○  same probe (ΔE = 0)", ha="right", va="top", fontsize=8, color=GREY)
 for sp in ("top", "right"):
     ax.spines[sp].set_visible(False)
 
@@ -232,8 +232,8 @@ for sp in ("top", "right"):
 svg = os.path.join(HERE, "experiment_procedure_en.svg")
 fig.savefig(svg, bbox_inches="tight")
 fig.savefig(os.path.join(HERE, "experiment_procedure_en.png"), dpi=170, bbox_inches="tight")
-# name Times New Roman first in the SVG so it renders in the real font where it is installed
+# name Arial first in the SVG so it renders in the real font where it is installed
 txt = open(svg, encoding="utf-8").read()
-txt = re.sub(r"font-family:\s*'?Liberation Serif'?", "font-family: 'Times New Roman', 'Liberation Serif', serif", txt)
+txt = re.sub(r"font-family:\s*'?Liberation Sans'?", "font-family: 'Arial', 'Liberation Sans', sans-serif", txt)
 open(svg, "w", encoding="utf-8").write(txt)
 print("saved")

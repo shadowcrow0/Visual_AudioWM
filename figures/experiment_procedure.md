@@ -1,7 +1,7 @@
 # Figure 1. 實驗流程 / Experimental procedure
 
 圖檔：
-- `experiment_procedure_en.svg` / `.png`：英文、斜階梯版式、Times New Roman（SVG 裡字型名為 Times New Roman，容器用同字寬的 Liberation Serif 排版）；B 面板以顏色校準試次為例（聲音與學習項目相同，只變顏色）；D 面板是校準迴圈（72 試定值刺激 → lnrm2 擬合 → 反解 H/L）、72 試的 ΔE 層級序列與擬合曲線示意；只有標籤與時間，沒有說明文字。重畫：`python figures/make_procedure_figure_en.py`
+- `experiment_procedure_en.svg` / `.png`：英文、斜階梯版式、APA 7 §7.26 字型（圖內 sans serif 8–14 pt：SVG 裡字型名為 Arial，容器用同字寬的 Liberation Sans 排版）；B 面板以顏色校準試次為例（聲音與學習項目相同，只變顏色）；D 面板是校準迴圈（72 試定值刺激 → lnrm2 擬合 → 反解 H/L）、72 試的 ΔE 層級序列與擬合曲線示意；只有標籤與時間，沒有說明文字。重畫：`python figures/make_procedure_figure_en.py`
 - `experiment_procedure_zh.svg` / `.png`：中文版，照 GRTv3_ada 流程圖的版式（A 整場流程、B 單一試次斜階梯螢幕序列、C 時間軸）。重畫：`python figures/make_procedure_figure_zh.py`
 - `experiment_procedure.svg` / `.png`：英文版（A 整場流程、B 試次、C 探測類型與 2×2 設計）。重畫：`python figures/make_procedure_figure.py`
 所有數字來自 `VAWM_nobox.py` 與 `VAWM_calibrate.py`。
@@ -53,8 +53,7 @@ or add blocks to increase SIC power.
 APA 7（§7.22–7.36）的規定：圖的四個部分是 **圖號**（Figure 1，粗體）、**標題**（斜體，另起一行）、**圖本體**、**註**（Note.，在圖下方）。
 說明性的文字放在 **Note**，不放在圖裡；圖裡只放標籤（label）——能辨識元件的最短文字：名稱、時間、單位、軸名。
 圖例（legend）只用來解釋符號，放在圖的邊框內。另外 §7.26：**圖本體內的字要用 sans serif（Arial、Calibri 等），8–14 pt**；
-圖號、標題與 Note 用內文字型（Times New Roman 12 pt）。所以「Times New Roman 放在圖裡」與 APA 相衝；
-投 APA 期刊時圖內改 Arial，`make_procedure_figure_en.py` 把 `font.family` 換成 `["Arial", "Liberation Sans"]` 即可。
+圖號、標題與 Note 用內文字型（Times New Roman 12 pt）。`experiment_procedure_en` 已照此設定（圖內 Arial 8–14 pt）；圖號、標題、Note 貼進稿件時用內文字型。
 
 以下可直接貼進稿件（圖號與標題在圖的上方，Note 在下方）：
 
@@ -80,4 +79,3 @@ and the consonant is consonant 1 unchanged. The response window opened 500 ms af
 probe sequence (fixation, probe, response) repeated nine times after each study set, with one of nine probe types
 on each repetition. Panel C shows the same trial on a single time axis. Panel D shows the calibration loop for Part 1: the 72 trials present six ΔE levels (2, 6, 12, 20, 30, 45) eight times each plus 24 same probes in shuffled order (middle, schematic); after the last trial the lnrm2 model is fitted to accuracy and response time, and the drift-separation curve 2·d(ΔE) is inverted at the targets H = 2.0 and L = 0.5 to give ΔE_H and ΔE_L (right, schematic observer), which are then used in practice and the main task. Part 2 follows the same loop with the consonant-confusion level in place of ΔE.
 
-（如果圖內改成 Arial，這段 Note 不用動。）
