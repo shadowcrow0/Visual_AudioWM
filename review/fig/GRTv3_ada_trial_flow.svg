@@ -1,38 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2120" height="1480" viewBox="0 0 2120 1480">
 <rect width="2120" height="1480" fill="white"/>
 <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker><marker id="arrg" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#999"/></marker></defs>
-<text x="40" y="40" font-size="18" text-anchor="start" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >A.  Session structure</text>
+<text x="40" y="40" font-size="18" text-anchor="start" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >A.  Session structure</text>
 <rect x="40" y="60" width="150" height="64" rx="6" fill="#eeeeee" stroke="#555" stroke-width="1.2"/>
-<text x="115.0" y="88" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Instructions</text>
+<text x="115.0" y="88" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Instructions</text>
 <line x1="192" y1="92.0" x2="216" y2="92.0" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
 <rect x="218" y="60" width="250" height="64" rx="6" fill="#dfe6f5" stroke="#555" stroke-width="1.2"/>
-<text x="343.0" y="84" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Part 1  Colour calibration</text>
-<text x="343.0" y="104" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >72 trials · Psi on colour</text>
+<text x="343.0" y="84" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Part 1  Colour calibration</text>
+<text x="343.0" y="104" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >72 trials · Psi on colour</text>
 <line x1="470" y1="92.0" x2="494" y2="92.0" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
-<text x="482" y="84.0" font-size="9" text-anchor="middle" font-weight="normal" fill="#666" font-family="Arial, Helvetica, sans-serif" >rest</text>
+<text x="482" y="84.0" font-size="9" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >rest</text>
 <rect x="496" y="60" width="250" height="64" rx="6" fill="#e8dff2" stroke="#555" stroke-width="1.2"/>
-<text x="621.0" y="84" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Part 2  Sound calibration</text>
-<text x="621.0" y="104" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >72 trials · Psi on SNR</text>
+<text x="621.0" y="84" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Part 2  Sound calibration</text>
+<text x="621.0" y="104" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >72 trials · Psi on SNR</text>
 <line x1="748" y1="92.0" x2="772" y2="92.0" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
-<text x="760" y="84.0" font-size="9" text-anchor="middle" font-weight="normal" fill="#666" font-family="Arial, Helvetica, sans-serif" >rest</text>
+<text x="760" y="84.0" font-size="9" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >rest</text>
 <rect x="774" y="60" width="190" height="64" rx="6" fill="#f3ead9" stroke="#555" stroke-width="1.2"/>
-<text x="869.0" y="84" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Practice</text>
-<text x="869.0" y="104" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >15 trials · feedback</text>
+<text x="869.0" y="84" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Practice</text>
+<text x="869.0" y="104" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >15 trials · feedback</text>
 <line x1="966" y1="92.0" x2="990" y2="92.0" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
-<text x="978" y="84.0" font-size="9" text-anchor="middle" font-weight="normal" fill="#666" font-family="Arial, Helvetica, sans-serif" >rest</text>
+<text x="978" y="84.0" font-size="9" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >rest</text>
 <rect x="992" y="60" width="300" height="64" rx="6" fill="#dcefe0" stroke="#555" stroke-width="1.2"/>
-<text x="1142.0" y="84" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Main experiment</text>
-<text x="1142.0" y="104" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >4 blocks × 144 = 576 trials</text>
+<text x="1142.0" y="84" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Main experiment</text>
+<text x="1142.0" y="104" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >4 blocks × 144 = 576 trials</text>
 <line x1="1294" y1="92.0" x2="1318" y2="92.0" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
-<text x="1306" y="84.0" font-size="9" text-anchor="middle" font-weight="normal" fill="#666" font-family="Arial, Helvetica, sans-serif" >rest</text>
+<text x="1306" y="84.0" font-size="9" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >rest</text>
 <rect x="1320" y="60" width="110" height="64" rx="6" fill="#eeeeee" stroke="#555" stroke-width="1.2"/>
-<text x="1375.0" y="88" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >End</text>
-<text x="40" y="185" font-size="18" text-anchor="start" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >B.  Trial sequence (invalid trial shown)</text>
+<text x="1375.0" y="88" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >End</text>
+<text x="40" y="185" font-size="18" text-anchor="start" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >B.  Trial sequence (invalid trial shown)</text>
 <rect x="44" y="215" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="40" y="210" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
 <path d="M131.0,283.5 h14 M138.0,276.5 v14" stroke="white" stroke-width="2"/>
-<text x="138.0" y="379" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Fixation</text>
-<text x="138.0" y="397" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >0.3 s</text>
+<text x="138.0" y="379" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Fixation</text>
+<text x="138.0" y="397" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >0.3 s</text>
 <rect x="262" y="285" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="258" y="280" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
 <path d="M349.0,353.5 h14 M356.0,346.5 v14" stroke="white" stroke-width="2"/>
@@ -40,8 +40,8 @@
 <g transform="translate(333.0,313.5) scale(0.9)"><path d="M-9,-4 h5 l6,-5 v18 l-6,-5 h-5 z" fill="white"/>
 <path d="M5,-4 a6,6 0 0 1 0,8" stroke="white" stroke-width="1.8" fill="none"/><path d="M8,-8 a11,11 0 0 1 0,16" stroke="white" stroke-width="1.8" fill="none"/>
 </g>
-<text x="356.0" y="449" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Study item 1</text>
-<text x="356.0" y="467" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >1 s</text>
+<text x="356.0" y="449" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Study item 1</text>
+<text x="356.0" y="467" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >1 s</text>
 <rect x="480" y="355" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="476" y="350" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
 <path d="M567.0,423.5 h14 M574.0,416.5 v14" stroke="white" stroke-width="2"/>
@@ -49,8 +49,8 @@
 <g transform="translate(597.0,463.5) scale(0.9)"><path d="M-9,-4 h5 l6,-5 v18 l-6,-5 h-5 z" fill="white"/>
 <path d="M5,-7 l3,3 l-3,3 l3,3 l-3,3 l3,3 l-3,3" stroke="white" stroke-width="1.6" fill="none"/><path d="M10,-9 l3,3 l-3,3 l3,3 l-3,3 l3,3 l-3,3 l3,3" stroke="white" stroke-width="1.6" fill="none" opacity="0.7"/>
 </g>
-<text x="574.0" y="519" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Study item 2</text>
-<text x="574.0" y="537" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >1 s</text>
+<text x="574.0" y="519" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Study item 2</text>
+<text x="574.0" y="537" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >1 s</text>
 <rect x="698" y="425" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="694" y="420" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
 <path d="M785.0,493.5 h14 M792.0,486.5 v14" stroke="white" stroke-width="2"/>
@@ -58,8 +58,8 @@
 <g transform="translate(815.0,453.5) scale(0.9)"><path d="M-9,-4 h5 l6,-5 v18 l-6,-5 h-5 z" fill="white"/>
 <path d="M5,-4 a6,6 0 0 1 0,8" stroke="white" stroke-width="1.8" fill="none"/><path d="M8,-8 a11,11 0 0 1 0,16" stroke="white" stroke-width="1.8" fill="none"/>
 </g>
-<text x="792.0" y="589" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Study item 3</text>
-<text x="792.0" y="607" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >1 s</text>
+<text x="792.0" y="589" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Study item 3</text>
+<text x="792.0" y="607" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >1 s</text>
 <rect x="916" y="495" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="912" y="490" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
 <path d="M1003.0,563.5 h14 M1010.0,556.5 v14" stroke="white" stroke-width="2"/>
@@ -67,14 +67,14 @@
 <g transform="translate(987.0,603.5) scale(0.9)"><path d="M-9,-4 h5 l6,-5 v18 l-6,-5 h-5 z" fill="white"/>
 <path d="M5,-7 l3,3 l-3,3 l3,3 l-3,3 l3,3 l-3,3" stroke="white" stroke-width="1.6" fill="none"/><path d="M10,-9 l3,3 l-3,3 l3,3 l-3,3 l3,3 l-3,3 l3,3" stroke="white" stroke-width="1.6" fill="none" opacity="0.7"/>
 </g>
-<text x="1010.0" y="659" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Study item 4</text>
-<text x="1010.0" y="677" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >1 s</text>
+<text x="1010.0" y="659" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Study item 4</text>
+<text x="1010.0" y="677" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >1 s</text>
 <rect x="1134" y="565" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="1130" y="560" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
 <rect x="1260.0" y="651.5" width="44" height="44" fill="none" stroke="white" stroke-width="2.2"/>
-<text x="1228.0" y="729" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Cue</text>
-<text x="1228.0" y="747" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >1 s</text>
-<text x="1228.0" y="765" font-size="11" text-anchor="middle" font-weight="normal" fill="#666" font-family="Arial, Helvetica, sans-serif" >frame at the cued item's location</text>
+<text x="1228.0" y="729" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Cue</text>
+<text x="1228.0" y="747" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >1 s</text>
+<text x="1228.0" y="765" font-size="11" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >frame at the cued item's location</text>
 <rect x="1352" y="635" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="1348" y="630" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
 <rect x="1478.0" y="721.5" width="44" height="44" fill="none" stroke="white" stroke-width="2.2"/>
@@ -82,50 +82,50 @@
 <g transform="translate(1467.0,743.5) scale(0.9)"><path d="M-9,-4 h5 l6,-5 v18 l-6,-5 h-5 z" fill="white"/>
 <path d="M5,-7 l3,3 l-3,3 l3,3 l-3,3 l3,3 l-3,3" stroke="white" stroke-width="1.6" fill="none"/><path d="M10,-9 l3,3 l-3,3 l3,3 l-3,3 l3,3 l-3,3 l3,3" stroke="white" stroke-width="1.6" fill="none" opacity="0.7"/>
 </g>
-<text x="1446.0" y="799" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Probe</text>
-<text x="1446.0" y="817" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >1 s</text>
-<text x="1446.0" y="835" font-size="11" text-anchor="middle" font-weight="normal" fill="#666" font-family="Arial, Helvetica, sans-serif" >target item shown in the frame</text>
-<text x="1446.0" y="850" font-size="11" text-anchor="middle" font-weight="normal" fill="#666" font-family="Arial, Helvetica, sans-serif" >(invalid: target ≠ cued item)</text>
+<text x="1446.0" y="799" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Probe</text>
+<text x="1446.0" y="817" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >1 s</text>
+<text x="1446.0" y="835" font-size="11" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >target item shown in the frame</text>
+<text x="1446.0" y="850" font-size="11" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >(invalid: target ≠ cued item)</text>
 <rect x="1570" y="705" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="1566" y="700" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
 <rect x="1598.0" y="727.5" width="24" height="24" fill="#7280C2"/>
-<text x="1610.0" y="722.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Arial, Helvetica, sans-serif" >[pi]</text>
+<text x="1610.0" y="722.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[pi]</text>
 <rect x="1706.0" y="727.5" width="24" height="24" fill="#A273AE"/>
-<text x="1718.0" y="722.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Arial, Helvetica, sans-serif" >[bi]</text>
+<text x="1718.0" y="722.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[bi]</text>
 <rect x="1598.0" y="807.5" width="24" height="24" fill="#7280C2"/>
-<text x="1610.0" y="802.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Arial, Helvetica, sans-serif" >[bi]</text>
+<text x="1610.0" y="802.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[bi]</text>
 <rect x="1706.0" y="807.5" width="24" height="24" fill="#A273AE"/>
-<text x="1718.0" y="802.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Arial, Helvetica, sans-serif" >[pi]</text>
+<text x="1718.0" y="802.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[pi]</text>
 <rect x="1646.0" y="759.5" width="36" height="28" fill="none" stroke="white" stroke-width="1.2"/>
 <path d="M1664.0,759.5 v28 M1646.0,773.5 h36" stroke="white" stroke-width="1.2"/>
-<text x="1655.0" y="769.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >i</text>
-<text x="1673.0" y="769.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >o</text>
-<text x="1655.0" y="783.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >k</text>
-<text x="1673.0" y="783.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >l</text>
-<text x="1664.0" y="869" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Response</text>
-<text x="1664.0" y="887" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >until keypress</text>
-<text x="1664.0" y="905" font-size="11" text-anchor="middle" font-weight="normal" fill="#666" font-family="Arial, Helvetica, sans-serif" >i / o / k / l = corner</text>
+<text x="1655.0" y="769.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >i</text>
+<text x="1673.0" y="769.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >o</text>
+<text x="1655.0" y="783.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >k</text>
+<text x="1673.0" y="783.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >l</text>
+<text x="1664.0" y="869" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Response</text>
+<text x="1664.0" y="887" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >until keypress</text>
+<text x="1664.0" y="905" font-size="11" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >i / o / k / l = corner</text>
 <line x1="1774" y1="773.5" x2="1822" y2="773.5" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
-<text x="1828" y="777.5" font-size="12" text-anchor="start" font-weight="normal" fill="#222" font-family="Arial, Helvetica, sans-serif" >Next trial</text>
+<text x="1828" y="777.5" font-size="12" text-anchor="start" font-weight="normal" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Next trial</text>
 <line x1="30" y1="427" x2="1556" y2="917" stroke="#999" stroke-width="2" marker-end="url(#arrg)"/>
-<text x="1526" y="939" font-size="13" text-anchor="end" font-weight="normal" fill="#777" font-family="Arial, Helvetica, sans-serif" >Time →</text>
-<text x="40" y="957" font-size="18" text-anchor="start" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >C.  Timeline</text>
+<text x="1526" y="939" font-size="13" text-anchor="end" font-weight="normal" fill="#777" font-family="Times New Roman, Liberation Serif, Times, serif" >Time →</text>
+<text x="40" y="957" font-size="18" text-anchor="start" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >C.  Timeline</text>
 <rect x="40" y="977" width="33.0" height="36" fill="#cccccc" stroke="#444" stroke-width="1.2"/>
-<text x="56.5" y="1000" font-size="12" text-anchor="middle" font-weight="normal" fill="#222" font-family="Arial, Helvetica, sans-serif" >Fix</text>
-<text x="56.5" y="1029" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >0.3 s</text>
+<text x="56.5" y="1000" font-size="12" text-anchor="middle" font-weight="normal" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Fix</text>
+<text x="56.5" y="1029" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >0.3 s</text>
 <rect x="73.0" y="977" width="440.0" height="36" fill="#dfe6f5" stroke="#444" stroke-width="1.2"/>
-<text x="293.0" y="1000" font-size="12" text-anchor="middle" font-weight="normal" fill="#222" font-family="Arial, Helvetica, sans-serif" >Study (4 × 1 s)</text>
-<text x="293.0" y="1029" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >4 s</text>
+<text x="293.0" y="1000" font-size="12" text-anchor="middle" font-weight="normal" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Study (4 × 1 s)</text>
+<text x="293.0" y="1029" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >4 s</text>
 <rect x="513.0" y="977" width="110.0" height="36" fill="#eeeeee" stroke="#444" stroke-width="1.2"/>
-<text x="568.0" y="1000" font-size="12" text-anchor="middle" font-weight="normal" fill="#222" font-family="Arial, Helvetica, sans-serif" >Cue</text>
-<text x="568.0" y="1029" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >1 s</text>
+<text x="568.0" y="1000" font-size="12" text-anchor="middle" font-weight="normal" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Cue</text>
+<text x="568.0" y="1029" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >1 s</text>
 <rect x="623.0" y="977" width="110.0" height="36" fill="#e8dff2" stroke="#444" stroke-width="1.2"/>
-<text x="678.0" y="1000" font-size="12" text-anchor="middle" font-weight="normal" fill="#222" font-family="Arial, Helvetica, sans-serif" >Probe</text>
-<text x="678.0" y="1029" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >1 s</text>
+<text x="678.0" y="1000" font-size="12" text-anchor="middle" font-weight="normal" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Probe</text>
+<text x="678.0" y="1029" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >1 s</text>
 <rect x="733.0" y="977" width="176.0" height="36" fill="#f3ead9" stroke="#444" stroke-width="1.2"/>
-<text x="821.0" y="1000" font-size="12" text-anchor="middle" font-weight="normal" fill="#222" font-family="Arial, Helvetica, sans-serif" >Response</text>
-<text x="821.0" y="1029" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >RT</text>
-<text x="40" y="1072" font-size="18" text-anchor="start" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >D.  Adaptive calibration — Part 2, sound (Psi)</text>
+<text x="821.0" y="1000" font-size="12" text-anchor="middle" font-weight="normal" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Response</text>
+<text x="821.0" y="1029" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >RT</text>
+<text x="40" y="1072" font-size="18" text-anchor="start" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >D.  Adaptive calibration — Part 2, sound (Psi)</text>
 <rect x="44" y="1137" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="40" y="1132" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
 <rect x="69.0" y="1150.5" width="30" height="30" fill="#8B7ABB"/>
@@ -144,50 +144,50 @@
 <g transform="translate(161.0,1245.5) scale(0.9)"><path d="M-9,-4 h5 l6,-5 v18 l-6,-5 h-5 z" fill="white"/>
 <path d="M5,-4 a6,6 0 0 1 0,8" stroke="white" stroke-width="1.8" fill="none"/><path d="M8,-8 a11,11 0 0 1 0,16" stroke="white" stroke-width="1.8" fill="none"/>
 </g>
-<text x="84.0" y="1195.5" font-size="10" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >+|s| dB</text>
-<text x="192.0" y="1195.5" font-size="10" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >−|s| dB</text>
-<text x="84.0" y="1275.5" font-size="10" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >−|s| dB</text>
-<text x="192.0" y="1275.5" font-size="10" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >+|s| dB</text>
-<text x="138.0" y="1301" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Study (all 4 items)</text>
-<text x="138.0" y="1319" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >same colour, SNR = ±|s|</text>
+<text x="84.0" y="1195.5" font-size="10" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >+|s| dB</text>
+<text x="192.0" y="1195.5" font-size="10" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >−|s| dB</text>
+<text x="84.0" y="1275.5" font-size="10" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >−|s| dB</text>
+<text x="192.0" y="1275.5" font-size="10" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >+|s| dB</text>
+<text x="138.0" y="1301" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Study (all 4 items)</text>
+<text x="138.0" y="1319" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >same colour, SNR = ±|s|</text>
 <line x1="246" y1="1205.5" x2="286" y2="1205.5" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
-<text x="266" y="1193.5" font-size="10" text-anchor="middle" font-weight="normal" fill="#666" font-family="Arial, Helvetica, sans-serif" >cue + probe</text>
+<text x="266" y="1193.5" font-size="10" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >cue + probe</text>
 <rect x="300" y="1137" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="296" y="1132" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
 <rect x="328.0" y="1159.5" width="24" height="24" fill="#8B7ABB"/>
-<text x="340.0" y="1154.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Arial, Helvetica, sans-serif" >[bi]</text>
+<text x="340.0" y="1154.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[bi]</text>
 <rect x="436.0" y="1159.5" width="24" height="24" fill="#8B7ABB"/>
-<text x="448.0" y="1154.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Arial, Helvetica, sans-serif" >[pi]</text>
+<text x="448.0" y="1154.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[pi]</text>
 <rect x="328.0" y="1239.5" width="24" height="24" fill="#8B7ABB"/>
-<text x="340.0" y="1234.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Arial, Helvetica, sans-serif" >[pi]</text>
+<text x="340.0" y="1234.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[pi]</text>
 <rect x="436.0" y="1239.5" width="24" height="24" fill="#8B7ABB"/>
-<text x="448.0" y="1234.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Arial, Helvetica, sans-serif" >[bi]</text>
+<text x="448.0" y="1234.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[bi]</text>
 <rect x="376.0" y="1191.5" width="36" height="28" fill="none" stroke="white" stroke-width="1.2"/>
 <path d="M394.0,1191.5 v28 M376.0,1205.5 h36" stroke="white" stroke-width="1.2"/>
-<text x="385.0" y="1201.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >i</text>
-<text x="403.0" y="1201.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >o</text>
-<text x="385.0" y="1215.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >k</text>
-<text x="403.0" y="1215.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Arial, Helvetica, sans-serif" >l</text>
-<text x="394.0" y="1301" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Response</text>
-<text x="394.0" y="1319" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >[bi] or [pi]</text>
+<text x="385.0" y="1201.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >i</text>
+<text x="403.0" y="1201.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >o</text>
+<text x="385.0" y="1215.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >k</text>
+<text x="403.0" y="1215.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >l</text>
+<text x="394.0" y="1301" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Response</text>
+<text x="394.0" y="1319" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >[bi] or [pi]</text>
 <line x1="502" y1="1205.5" x2="544" y2="1205.5" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
 <rect x="552" y="1171.5" width="150" height="68" rx="8" fill="#fff4d6" stroke="#555" stroke-width="1.4"/>
-<text x="627" y="1197.5" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Arial, Helvetica, sans-serif" >Psi</text>
-<text x="627" y="1215.5" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >update posterior,</text>
-<text x="627" y="1229.5" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >propose next s</text>
+<text x="627" y="1197.5" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Psi</text>
+<text x="627" y="1215.5" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >update posterior,</text>
+<text x="627" y="1229.5" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >propose next s</text>
 <path d="M627,1171.5 V1102 H138.0 V1126" fill="none" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
-<text x="382.5" y="1096" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >× 72 trials</text>
-<text x="1032.0" y="1114" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, sans-serif" >Psi-proposed SNR across calibration trials (schematic)</text>
+<text x="382.5" y="1096" font-size="11" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >× 72 trials</text>
+<text x="1032.0" y="1114" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >Psi-proposed SNR across calibration trials (schematic)</text>
 <rect x="752" y="1122" width="560" height="200" fill="#fafafa" stroke="#999" stroke-width="1"/>
 <line x1="752" y1="1222.0" x2="1312" y2="1222.0" stroke="#bbb" stroke-width="1" stroke-dasharray="3,3"/>
-<text x="746" y="1126.0" font-size="10" text-anchor="end" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >+18</text>
-<text x="746" y="1226.0" font-size="10" text-anchor="end" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >0</text>
-<text x="746" y="1326.0" font-size="10" text-anchor="end" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >-18</text>
-<text x="724" y="1222.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" transform="rotate(-90 724 1222.0)">SNR (dB)</text>
-<text x="1032.0" y="1348" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >trial</text>
-<text x="772.0" y="1335" font-size="10" text-anchor="middle" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >1</text>
-<text x="1028.338028169014" y="1335" font-size="10" text-anchor="middle" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >36</text>
-<text x="1292.0" y="1335" font-size="10" text-anchor="middle" font-weight="normal" fill="#555" font-family="Arial, Helvetica, sans-serif" >72</text>
+<text x="746" y="1126.0" font-size="10" text-anchor="end" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >+18</text>
+<text x="746" y="1226.0" font-size="10" text-anchor="end" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >0</text>
+<text x="746" y="1326.0" font-size="10" text-anchor="end" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >-18</text>
+<text x="724" y="1222.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" transform="rotate(-90 724 1222.0)">SNR (dB)</text>
+<text x="1032.0" y="1348" font-size="11" text-anchor="middle" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >trial</text>
+<text x="772.0" y="1335" font-size="10" text-anchor="middle" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >1</text>
+<text x="1028.338028169014" y="1335" font-size="10" text-anchor="middle" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >36</text>
+<text x="1292.0" y="1335" font-size="10" text-anchor="middle" font-weight="normal" fill="#555" font-family="Times New Roman, Liberation Serif, Times, serif" >72</text>
 <polyline points="772.0,1138.9 779.3,1141.0 786.6,1146.7 794.0,1288.7 801.3,1159.5 808.6,1162.9 815.9,1280.7 823.3,1169.2 830.6,1276.2 837.9,1171.0 845.2,1170.1 852.6,1173.6 859.9,1182.2 867.2,1261.1 874.5,1258.0 881.9,1183.7 889.2,1186.3 896.5,1192.2 903.8,1188.2 911.2,1251.2 918.5,1192.8 925.8,1253.0 933.1,1247.0 940.5,1248.5 947.8,1194.7 955.1,1193.4 962.4,1244.8 969.7,1202.3 977.1,1239.9 984.4,1245.7 991.7,1197.9 999.0,1243.9 1006.4,1201.7 1013.7,1244.1 1021.0,1240.4 1028.3,1236.3 1035.7,1241.1 1043.0,1201.8 1050.3,1238.0 1057.6,1209.6 1065.0,1208.6 1072.3,1234.2 1079.6,1209.5 1086.9,1236.6 1094.3,1210.4 1101.6,1237.6 1108.9,1239.8 1116.2,1209.2 1123.5,1235.3 1130.9,1203.5 1138.2,1210.6 1145.5,1210.3 1152.8,1207.2 1160.2,1212.5 1167.5,1234.6 1174.8,1239.7 1182.1,1235.7 1189.5,1207.0 1196.8,1238.9 1204.1,1238.6 1211.4,1209.7 1218.8,1231.6 1226.1,1212.8 1233.4,1211.6 1240.7,1210.5 1248.1,1213.5 1255.4,1212.7 1262.7,1230.6 1270.0,1208.2 1277.4,1211.5 1284.7,1210.5 1292.0,1237.8" fill="none" stroke="#999" stroke-width="1"/>
 <circle cx="772.0" cy="1138.9" r="2.4" fill="#5b4a9c"/>
 <circle cx="779.3" cy="1141.0" r="2.4" fill="#5b4a9c"/>
@@ -262,10 +262,10 @@
 <circle cx="1284.7" cy="1210.5" r="2.4" fill="#5b4a9c"/>
 <circle cx="1292.0" cy="1237.8" r="2.4" fill="#5b4a9c"/>
 <line x1="752" y1="1197.0" x2="1312" y2="1197.0" stroke="#7280C2" stroke-width="2" stroke-dasharray="8,4"/>
-<text x="1320" y="1201.0" font-size="11" text-anchor="start" font-weight="bold" fill="#333" font-family="Arial, Helvetica, sans-serif" >SNR hi → [bi]</text>
+<text x="1320" y="1201.0" font-size="11" text-anchor="start" font-weight="bold" fill="#333" font-family="Times New Roman, Liberation Serif, Times, serif" >SNR hi → [bi]</text>
 <line x1="752" y1="1247.0" x2="1312" y2="1247.0" stroke="#A273AE" stroke-width="2" stroke-dasharray="8,4"/>
-<text x="1320" y="1251.0" font-size="11" text-anchor="start" font-weight="bold" fill="#333" font-family="Arial, Helvetica, sans-serif" >SNR lo → [pi]</text>
+<text x="1320" y="1251.0" font-size="11" text-anchor="start" font-weight="bold" fill="#333" font-family="Times New Roman, Liberation Serif, Times, serif" >SNR lo → [pi]</text>
 <line x1="1424" y1="1222.0" x2="1472" y2="1222.0" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
-<text x="1478" y="1216.0" font-size="12" text-anchor="start" font-weight="normal" fill="#222" font-family="Arial, Helvetica, sans-serif" >Practice +</text>
-<text x="1478" y="1232.0" font-size="12" text-anchor="start" font-weight="normal" fill="#222" font-family="Arial, Helvetica, sans-serif" >main experiment</text>
+<text x="1478" y="1216.0" font-size="12" text-anchor="start" font-weight="normal" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Practice +</text>
+<text x="1478" y="1232.0" font-size="12" text-anchor="start" font-weight="normal" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >main experiment</text>
 </svg>
