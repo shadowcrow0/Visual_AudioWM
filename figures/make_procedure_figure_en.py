@@ -4,7 +4,7 @@ Panel B shows a COLOUR-CALIBRATION trial: the probe keeps the studied sound and 
 Minimal text: labels and times on the cascade and the timeline only.
 Font: APA 7 §7.26 — sans serif inside the figure, 8–14 pt. Arial (rendered here with the metric-identical Liberation Sans; the SVG names Arial first).
 
-    python figures/make_procedure_figure_en.py   # -> figures/experiment_procedure_en.svg / .png
+    python figures/make_procedure_figure_en.py   # -> figures/experiment_procedure_en.svg / .png / .pdf
 """
 import os
 import re
@@ -246,6 +246,8 @@ for sp in ("top", "right"):
 svg = os.path.join(HERE, "experiment_procedure_en.svg")
 fig.savefig(svg, bbox_inches="tight")
 fig.savefig(os.path.join(HERE, "experiment_procedure_en.png"), dpi=170, bbox_inches="tight")
+plt.rcParams["pdf.fonttype"] = 42          # 字型以 TrueType 嵌入，PDF 裡文字可選取、可編輯
+fig.savefig(os.path.join(HERE, "experiment_procedure_en.pdf"), bbox_inches="tight")
 # name Arial first in the SVG so it renders in the real font where it is installed
 txt = open(svg, encoding="utf-8").read()
 txt = re.sub(r"font-family:\s*'?Liberation Sans'?", "font-family: 'Arial', 'Liberation Sans', sans-serif", txt)
