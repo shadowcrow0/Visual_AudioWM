@@ -1,7 +1,9 @@
 # Figure 1. 實驗流程 / Experimental procedure
 
-圖檔：`experiment_procedure.svg`（向量，投稿用）、`experiment_procedure.png`（200 dpi）。
-重畫：`python figures/make_procedure_figure.py`。所有數字來自 `VAWM_nobox.py` 與 `VAWM_calibrate.py`。
+圖檔：
+- `experiment_procedure_zh.svg` / `.png`：中文版，照 GRTv3_ada 流程圖的版式（A 整場流程、B 單一試次斜階梯螢幕序列、C 時間軸）。重畫：`python figures/make_procedure_figure_zh.py`
+- `experiment_procedure.svg` / `.png`：英文版（A 整場流程、B 試次、C 探測類型與 2×2 設計）。重畫：`python figures/make_procedure_figure.py`
+所有數字來自 `VAWM_nobox.py` 與 `VAWM_calibrate.py`。
 
 ## 圖說（中文）
 
