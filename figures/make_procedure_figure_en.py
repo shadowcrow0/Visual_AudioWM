@@ -100,14 +100,14 @@ def screen(ax, i, title, t, note, content, dashed=False):
 
 
 screens = [
-    ("Fixation",  "0 – 300 ms",   "",                              [("fix", None)], False),
-    ("Color 1",  "300 – 1,300 ms", "left, 1,000 ms",                     [("patchL", C1)], False),
-    ("Color 2",  "1,300 – 2,300 ms", "right, 1,000 ms",                    [("patchR", C2)], False),
-    ("Sound 1",   "2,300 – 3,300 ms", "consonant 1, blank screen",     [("spk", None)], False),
-    ("Sound 2",   "3,300 – 4,300 ms", "consonant 2, blank screen",     [("spk", None)], False),
-    ("Fixation",  "0 – 300 ms",   "",                              [("fix", None)], False),
-    ("Probe",     "300 – 1,300 ms", "color 1 shifted by x\n+ sound 1 (unchanged)", [("patchC", C1_SHIFT), ("spkR", None)], False),
-    ("Response",  "500 – 2,500 ms", "y = same, n = different\n(calibration: up to 3,000 ms)", [("yn", None)], False),
+    ("Fixation",  "300 ms",   "",                              [("fix", None)], False),
+    ("Color 1",  "1,000 ms", "left",                     [("patchL", C1)], False),
+    ("Color 2",  "1,000 ms", "right",                    [("patchR", C2)], False),
+    ("Sound 1",   "1,000 ms", "consonant 1, blank screen",     [("spk", None)], False),
+    ("Sound 2",   "1,000 ms", "consonant 2, blank screen",     [("spk", None)], False),
+    ("Fixation",  "300 ms",   "",                              [("fix", None)], False),
+    ("Probe",     "1,000 ms", "color 1 shifted by x\n+ sound 1 (unchanged)", [("patchC", C1_SHIFT), ("spkR", None)], False),
+    ("Response",  "2,000 ms", "from 500 ms after probe onset\ny = same, n = different\n(calibration: up to 3,000 ms)", [("yn", None)], False),
     ("Feedback",  "800 ms",      "calibration and practice only", [("text", "Correct")], True),
 ]
 pos = [screen(ax, i, *sc) for i, sc in enumerate(screens)]
@@ -121,17 +121,18 @@ ax.plot([x5, x8 + W], [y5 + 1.5, y5 + 1.5], color=INK, lw=1)
 ax.plot([x5, x5], [y5 + 1.5, y5 + 0.5], color=INK, lw=1); ax.plot([x8 + W, x8 + W], [y5 + 1.5, y5 + 0.5], color=INK, lw=1)
 ax.text((x5 + x8 + W) / 2, y5 + 2.3, "Probe, 3,300 ms  (× 1 in calibration, × 9 in the main task)", ha="center", va="bottom", fontsize=9.5, color=INK)
 x2_, y2_ = pos[2]
-ax.add_patch(FancyArrowPatch((x2_, y2_ - H - 15.5), (x8 + W + 1, y8 - H - 15.5), arrowstyle="-|>", mutation_scale=14, color="#999999", lw=1))
-ax.text(x8 + W + 1.5, y8 - H - 16.3, "time", ha="left", va="top", fontsize=9, color=GREY, style="italic")
+ax.add_patch(FancyArrowPatch((x2_, y2_ - H - 18.5), (x8 + W + 1, y8 - H - 18.5), arrowstyle="-|>", mutation_scale=14, color="#999999", lw=1))
+ax.text(x8 + W + 1.5, y8 - H - 19.3, "time", ha="left", va="top", fontsize=9, color=GREY, style="italic")
 ax.add_patch(FancyArrowPatch((x8 + W + 0.5, y8 - H / 2), (x8 + W + 3.5, y8 - H / 2), arrowstyle="-|>", mutation_scale=12, color=INK, lw=1.2))
 ax.text(x8 + W + 4, y8 - H / 2, "next trial", ha="left", va="center", fontsize=9.5, color=INK)
 
 # ───────────────────────────── C. Timeline ─────────────────────────────
 ax = fig.add_subplot(gs[2]); ax.set_xlim(0, 100); ax.set_ylim(0, 10); ax.axis("off")
 ax.text(0, 9.6, "C. Timeline", fontsize=13, va="top", color=INK)
-segs = [("Fix.", 0.3, "#f2f2f2"), ("Study  (4 × 1,000 ms: color 1, color 2, sound 1, sound 2)", 4.0, "#dde3f3"),
-        ("Fix.", 0.3, "#f2f2f2"), ("Probe", 1.0, "#e8dcf0"), ("Response  (from 500 ms)", 1.5, "#f3e8d3"),
+segs = [("Fix.", 0.3, "#f2f2f2"), ("Study  (color 1, color 2, sound 1, sound 2)", 4.0, "#dde3f3"),
+        ("Fix.", 0.3, "#f2f2f2"), ("Probe", 1.0, "#e8dcf0"), ("Response", 2.0, "#f3e8d3"),
         ("Feedback", 0.8, "#dcefd9")]
+durs = ["300 ms", "4 × 1,000 ms", "300 ms", "1,000 ms", "2,000 ms", "800 ms"]
 scale = 70 / sum(s for _, s, _ in segs)
 x = 0
 ticks = [0.0]
@@ -141,10 +142,11 @@ for lab, dur, c in segs:
     ax.text(x + w / 2, 5.25, lab, ha="center", va="center", fontsize=8.5 if w > 6 else 7.5, color=INK)
     x += w
     ticks.append(ticks[-1] + dur)
-labels = ["0", "300", "4,300", "4,600", "5,600", "7,100", "7,900 ms"]
-for i, tk in enumerate(ticks):
-    dx = 1.6 if labels[i] in ("300", "4,600") else 0.0
-    ax.text(tk * scale + dx, 3.0, labels[i], ha="center", va="top", fontsize=8, color=GREY)
+x = 0
+for (lab, dur, c), d in zip(segs, durs):
+    w = dur * scale
+    ax.text(x + w / 2, 3.0, d, ha="center", va="top", fontsize=8, color=GREY)
+    x += w
 
 # ───────────────────────────── D. Adaptive calibration (Part 1, color, lnrm2) ─────────────────────────────
 import numpy as np
