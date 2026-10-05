@@ -96,15 +96,14 @@
 <text x="1610.0" y="802.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[bi]</text>
 <rect x="1706.0" y="807.5" width="24" height="24" fill="#9477B7"/>
 <text x="1718.0" y="802.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[pi]</text>
-<rect x="1646.0" y="759.5" width="36" height="28" fill="none" stroke="white" stroke-width="1.2"/>
-<path d="M1664.0,759.5 v28 M1646.0,773.5 h36" stroke="white" stroke-width="1.2"/>
-<text x="1655.0" y="769.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >i</text>
-<text x="1673.0" y="769.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >o</text>
-<text x="1655.0" y="783.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >k</text>
-<text x="1673.0" y="783.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >l</text>
+<rect x="1642.0" y="756.5" width="44" height="34" rx="5" fill="#2b2b2b" stroke="white" stroke-width="1.2"/>
+<circle cx="1654.0" cy="766.5" r="5" fill="white" stroke="#2b2b2b" stroke-width="0.8"/>
+<circle cx="1674.0" cy="766.5" r="5" fill="white" stroke="#2b2b2b" stroke-width="0.8"/>
+<circle cx="1654.0" cy="781.5" r="5" fill="white" stroke="#2b2b2b" stroke-width="0.8"/>
+<circle cx="1674.0" cy="781.5" r="5" fill="white" stroke="#2b2b2b" stroke-width="0.8"/>
 <text x="1664.0" y="869" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Response</text>
-<text x="1664.0" y="887" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >until keypress</text>
-<text x="1664.0" y="905" font-size="11" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >i / o / k / l = corner</text>
+<text x="1664.0" y="887" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >until button press</text>
+<text x="1664.0" y="905" font-size="11" text-anchor="middle" font-weight="normal" fill="#666" font-family="Times New Roman, Liberation Serif, Times, serif" >response pad, one button per corner</text>
 <line x1="1774" y1="773.5" x2="1822" y2="773.5" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
 <text x="1828" y="777.5" font-size="12" text-anchor="start" font-weight="normal" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Next trial</text>
 <line x1="30" y1="427" x2="1556" y2="917" stroke="#999" stroke-width="2" marker-end="url(#arrg)"/>
@@ -162,12 +161,11 @@
 <text x="340.0" y="1234.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[pi]</text>
 <rect x="436.0" y="1239.5" width="24" height="24" fill="#8B7ABB"/>
 <text x="448.0" y="1234.5" font-size="11" text-anchor="middle" font-weight="bold" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >[bi]</text>
-<rect x="376.0" y="1191.5" width="36" height="28" fill="none" stroke="white" stroke-width="1.2"/>
-<path d="M394.0,1191.5 v28 M376.0,1205.5 h36" stroke="white" stroke-width="1.2"/>
-<text x="385.0" y="1201.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >i</text>
-<text x="403.0" y="1201.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >o</text>
-<text x="385.0" y="1215.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >k</text>
-<text x="403.0" y="1215.5" font-size="9" text-anchor="middle" font-weight="normal" fill="white" font-family="Times New Roman, Liberation Serif, Times, serif" >l</text>
+<rect x="372.0" y="1188.5" width="44" height="34" rx="5" fill="#2b2b2b" stroke="white" stroke-width="1.2"/>
+<circle cx="384.0" cy="1198.5" r="5" fill="white" stroke="#2b2b2b" stroke-width="0.8"/>
+<circle cx="404.0" cy="1198.5" r="5" fill="white" stroke="#2b2b2b" stroke-width="0.8"/>
+<circle cx="384.0" cy="1213.5" r="5" fill="white" stroke="#2b2b2b" stroke-width="0.8"/>
+<circle cx="404.0" cy="1213.5" r="5" fill="white" stroke="#2b2b2b" stroke-width="0.8"/>
 <text x="394.0" y="1301" font-size="14" text-anchor="middle" font-weight="bold" fill="#222" font-family="Times New Roman, Liberation Serif, Times, serif" >Response</text>
 <text x="394.0" y="1319" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Times New Roman, Liberation Serif, Times, serif" >[bi] or [pi]</text>
 <line x1="502" y1="1205.5" x2="544" y2="1205.5" stroke="#333" stroke-width="1.6" marker-end="url(#arr)"/>
