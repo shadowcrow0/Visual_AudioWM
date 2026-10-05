@@ -22,8 +22,8 @@ plt.rcParams["axes.unicode_minus"] = False
 INK, GREY, SCREEN = "#333333", "#666666", "#7a7a7a"
 C1, C2, C1_SHIFT = "#9b59b6", "#3f51b5", "#b06fc9"     # studied colours; probe = colour 1 shifted by x
 
-fig = plt.figure(figsize=(20, 11.5))
-gs = fig.add_gridspec(3, 1, height_ratios=[1.0, 5.4, 0.9], hspace=0.10)
+fig = plt.figure(figsize=(20, 15))
+gs = fig.add_gridspec(4, 1, height_ratios=[1.0, 5.4, 0.9, 2.6], hspace=0.12)
 
 # ───────────────────────────── A. Session ─────────────────────────────
 ax = fig.add_subplot(gs[0]); ax.set_xlim(0, 100); ax.set_ylim(0, 10); ax.axis("off")
@@ -145,6 +145,89 @@ labels = ["0", "0.3", "4.3", "4.6", "5.6", "7.1", "7.9 s"]
 for i, tk in enumerate(ticks):
     dx = 1.2 if labels[i] in ("0.3", "4.6") else 0.0
     ax.text(tk * scale + dx, 3.0, labels[i], ha="center", va="top", fontsize=8, color=GREY)
+
+# ───────────────────────────── D. Adaptive calibration (Part 1, colour, lnrm2) ─────────────────────────────
+import numpy as np
+gsD = gs[3].subgridspec(1, 3, width_ratios=[1.35, 1.0, 1.0], wspace=0.22)
+ax = fig.add_subplot(gsD[0]); ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
+ax.text(0, 112, "D. Adaptive calibration — Part 1, colour (method of constant stimuli + lnrm2)", fontsize=13, va="top", color=INK, clip_on=False)
+# study screen (two colours) → probe (colour ± x, same sound) → response → lnrm2 → H / L
+bw, bh, by = 22, 34, 40
+def mini_screen(x, label, sub, content):
+    ax.add_patch(Rectangle((x + 0.8, by - 0.8), bw, bh, fc="#bdbdbd", ec="none"))
+    ax.add_patch(Rectangle((x, by), bw, bh, fc=SCREEN, ec=INK, lw=1.1))
+    cx, cy = x + bw / 2, by + bh / 2
+    for kind, args in content:
+        if kind == "patchL": patch(ax, x + 0.3 * bw, cy, args, s=2.2)
+        elif kind == "patchR": patch(ax, x + 0.7 * bw, cy, args, s=2.2)
+        elif kind == "patchC": patch(ax, cx - 2.5, cy + 1.5, args, s=2.2)
+        elif kind == "spk": speaker(ax, cx + 1.5, cy + 1.5, s=2.2)
+        elif kind == "yn":
+            ax.text(cx, cy + 6, "Same?", color="white", ha="center", va="center", fontsize=8.5)
+            ax.text(cx, cy - 5, "[y]   [n]", color="white", ha="center", va="center", fontsize=8.5)
+    ax.text(cx, by - 5, label, ha="center", va="top", fontsize=9.5, color=INK)
+    ax.text(cx, by - 14, sub, ha="center", va="top", fontsize=7.8, color=GREY)
+mini_screen(0,  "Study",    "two colours + two sounds",           [("patchL", C1), ("patchR", C2)])
+mini_screen(27, "Probe",    "colour 1 ± x,\nsound 1 unchanged",   [("patchC", C1_SHIFT), ("spk", None)])
+mini_screen(54, "Response", "y / n, RT",                          [("yn", None)])
+for x0 in (bw + 0.5, 27 + bw + 0.5):
+    ax.add_patch(FancyArrowPatch((x0, by + bh / 2), (x0 + 4, by + bh / 2), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
+# loop ×72 above
+ax.plot([54 + bw / 2, 54 + bw / 2, bw / 2, bw / 2], [by + bh + 2, by + bh + 12, by + bh + 12, by + bh + 2], color=INK, lw=1)
+ax.add_patch(FancyArrowPatch((bw / 2, by + bh + 8), (bw / 2, by + bh + 2.5), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
+ax.text(38, by + bh + 13.5, "× 72 trials: 6 ΔE levels × 8 + 24 same, shuffled", ha="center", va="bottom", fontsize=8.5, color=INK)
+# fit box
+ax.add_patch(FancyBboxPatch((82, by + 4), 17, bh - 8, boxstyle="round,pad=0,rounding_size=2", fc="#fdf2cc", ec=INK, lw=1))
+ax.text(90.5, by + bh / 2 + 6, "lnrm2", ha="center", va="center", fontsize=10, color=INK)
+ax.text(90.5, by + bh / 2 - 5, "fit accuracy + RT,\ninvert for H / L", ha="center", va="center", fontsize=7.8, color=GREY)
+ax.add_patch(FancyArrowPatch((54 + bw + 0.5, by + bh / 2), (81.5, by + bh / 2), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
+ax.text(90.5, by - 5, "after the 72nd trial", ha="center", va="top", fontsize=7.8, color=GREY)
+
+# D-middle: the 72-trial sequence of ΔE levels (schematic)
+rng = np.random.default_rng(3)
+levels = [2, 6, 12, 20, 30, 45]
+plan = [v for v in levels for _ in range(8)] + [0] * 24
+rng.shuffle(plan)
+plan = np.array(plan, float)
+ax = fig.add_subplot(gsD[1])
+tr = np.arange(1, 73)
+is_same = plan == 0
+ax.scatter(tr[~is_same], plan[~is_same], s=14, color="#4b3f8f", zorder=3)
+ax.scatter(tr[is_same], plan[is_same], s=14, facecolors="white", edgecolors="#4b3f8f", zorder=3)
+for v in levels:
+    ax.axhline(v, color="#cccccc", lw=0.6, zorder=1)
+ax.set_xlim(0, 73); ax.set_ylim(-3, 52)
+ax.set_xticks([1, 36, 72]); ax.set_yticks(levels)
+ax.set_xlabel("trial", fontsize=9); ax.set_ylabel("probe ΔE (colour 1 ± x)", fontsize=9)
+ax.tick_params(labelsize=8)
+ax.set_title("Levels presented across the 72 trials (schematic)", fontsize=9.5, color=INK)
+ax.text(72, 48, "○  same probe (ΔE = 0)", ha="right", va="top", fontsize=7.5, color=GREY)
+for sp in ("top", "right"):
+    ax.spines[sp].set_visible(False)
+
+# D-right: fitted drift separation 2·d(ΔE) and the inversion to H / L
+alpha, alpha2, h_targ, l_targ = 1.0, -0.12, 2.0, 0.5          # schematic observer, units of ΔE / 10
+x = np.linspace(0, 45, 300); u = x / 10
+sep = 2 * (alpha * u + alpha2 * u ** 2)
+def invert(t): return 10 * (-alpha / alpha2 - np.sqrt((alpha / alpha2) ** 2 + 2 / alpha2 * t)) / 2
+xH, xL = invert(h_targ), invert(l_targ)
+ax = fig.add_subplot(gsD[2])
+ax.plot(x, sep, color="#4b3f8f", lw=1.6)
+for t, xv, lab in ((h_targ, xH, "H"), (l_targ, xL, "L")):
+    ax.plot([0, xv], [t, t], color="#7b68ee", lw=1, ls="--")
+    ax.plot([xv, xv], [0, t], color="#7b68ee", lw=1, ls="--")
+    ax.text(xv + 0.6, 0.12, f"ΔE_{lab}", ha="left", va="bottom", fontsize=8.5, color=INK)
+    ax.text(45, t + 0.08, f"target {lab} = {t}", ha="right", va="bottom", fontsize=8, color=INK)
+for v in levels:
+    ax.plot(v, 2 * (alpha * v / 10 + alpha2 * (v / 10) ** 2), "o", ms=4, color="#4b3f8f")
+ax.set_xlim(0, 45); ax.set_ylim(0, 4.6)
+ax.set_xticks([0, 10, 20, 30, 40]); ax.set_yticks([0, 1, 2, 3, 4])
+ax.set_xlabel("probe ΔE", fontsize=9); ax.set_ylabel("drift separation  2·d(ΔE)", fontsize=9)
+ax.tick_params(labelsize=8)
+ax.set_title("Fitted lnrm2 curve and inversion to H / L (schematic)", fontsize=9.5, color=INK)
+ax.text(1, 4.45, "ΔE_H and ΔE_L are then used in practice and the main task", ha="left", va="top", fontsize=8, color=GREY)
+for sp in ("top", "right"):
+    ax.spines[sp].set_visible(False)
 
 svg = os.path.join(HERE, "experiment_procedure_en.svg")
 fig.savefig(svg, bbox_inches="tight")

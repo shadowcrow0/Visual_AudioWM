@@ -1,7 +1,7 @@
 # Figure 1. 實驗流程 / Experimental procedure
 
 圖檔：
-- `experiment_procedure_en.svg` / `.png`：英文、斜階梯版式、Times New Roman（SVG 裡字型名為 Times New Roman，容器用同字寬的 Liberation Serif 排版）；B 面板以顏色校準試次為例（聲音與學習項目相同，只變顏色）；只有標籤與時間，沒有說明文字。重畫：`python figures/make_procedure_figure_en.py`
+- `experiment_procedure_en.svg` / `.png`：英文、斜階梯版式、Times New Roman（SVG 裡字型名為 Times New Roman，容器用同字寬的 Liberation Serif 排版）；B 面板以顏色校準試次為例（聲音與學習項目相同，只變顏色）；D 面板是校準迴圈（72 試定值刺激 → lnrm2 擬合 → 反解 H/L）、72 試的 ΔE 層級序列與擬合曲線示意；只有標籤與時間，沒有說明文字。重畫：`python figures/make_procedure_figure_en.py`
 - `experiment_procedure_zh.svg` / `.png`：中文版，照 GRTv3_ada 流程圖的版式（A 整場流程、B 單一試次斜階梯螢幕序列、C 時間軸）。重畫：`python figures/make_procedure_figure_zh.py`
 - `experiment_procedure.svg` / `.png`：英文版（A 整場流程、B 試次、C 探測類型與 2×2 設計）。重畫：`python figures/make_procedure_figure.py`
 所有數字來自 `VAWM_nobox.py` 與 `VAWM_calibrate.py`。
@@ -78,6 +78,6 @@ and the consonant is consonant 1 unchanged. The response window opened 500 ms af
 (up to 3,000 ms in calibration); participants pressed y for "same as studied" or n for "different." Feedback
 (800 ms in calibration, 1,000 ms in practice) was shown only in calibration and practice. In the main task the
 probe sequence (fixation, probe, response) repeated nine times after each study set, with one of nine probe types
-on each repetition. Panel C shows the same trial on a single time axis.
+on each repetition. Panel C shows the same trial on a single time axis. Panel D shows the calibration loop for Part 1: the 72 trials present six ΔE levels (2, 6, 12, 20, 30, 45) eight times each plus 24 same probes in shuffled order (middle, schematic); after the last trial the lnrm2 model is fitted to accuracy and response time, and the drift-separation curve 2·d(ΔE) is inverted at the targets H = 2.0 and L = 0.5 to give ΔE_H and ΔE_L (right, schematic observer), which are then used in practice and the main task. Part 2 follows the same loop with the consonant-confusion level in place of ΔE.
 
 （如果圖內改成 Arial，這段 Note 不用動。）
