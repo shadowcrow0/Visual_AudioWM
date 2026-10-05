@@ -1,6 +1,7 @@
 # Figure 1. 實驗流程 / Experimental procedure
 
 圖檔：
+- `experiment_procedure_en.svg` / `.png`：英文、斜階梯版式、Times New Roman（SVG 裡字型名為 Times New Roman，容器用同字寬的 Liberation Serif 排版）；B 面板以顏色校準試次為例（聲音與學習項目相同，只變顏色）；只有標籤與時間，沒有說明文字。重畫：`python figures/make_procedure_figure_en.py`
 - `experiment_procedure_zh.svg` / `.png`：中文版，照 GRTv3_ada 流程圖的版式（A 整場流程、B 單一試次斜階梯螢幕序列、C 時間軸）。重畫：`python figures/make_procedure_figure_zh.py`
 - `experiment_procedure.svg` / `.png`：英文版（A 整場流程、B 試次、C 探測類型與 2×2 設計）。重畫：`python figures/make_procedure_figure.py`
 所有數字來自 `VAWM_nobox.py` 與 `VAWM_calibrate.py`。
