@@ -47,3 +47,37 @@ MIC used to infer the processing architecture of colour and sound; 432 double-fa
 About 108 probes per DFP cell is below the 250 per cell recommended by `adaptiveSFT/results/power_scan.csv`.
 Raise the number of double-factorial probes per set in `generate_stratified_conditions()` (`VAWM_nobox.py:137`)
 or add blocks to increase SIC power.
+
+## APA 7 格式的圖說（給 `experiment_procedure_en`）
+
+APA 7（§7.22–7.36）的規定：圖的四個部分是 **圖號**（Figure 1，粗體）、**標題**（斜體，另起一行）、**圖本體**、**註**（Note.，在圖下方）。
+說明性的文字放在 **Note**，不放在圖裡；圖裡只放標籤（label）——能辨識元件的最短文字：名稱、時間、單位、軸名。
+圖例（legend）只用來解釋符號，放在圖的邊框內。另外 §7.26：**圖本體內的字要用 sans serif（Arial、Calibri 等），8–14 pt**；
+圖號、標題與 Note 用內文字型（Times New Roman 12 pt）。所以「Times New Roman 放在圖裡」與 APA 相衝；
+投 APA 期刊時圖內改 Arial，`make_procedure_figure_en.py` 把 `font.family` 換成 `["Arial", "Liberation Sans"]` 即可。
+
+以下可直接貼進稿件（圖號與標題在圖的上方，Note 在下方）：
+
+**Figure 1**
+
+*Session Structure, Trial Sequence, and Timeline of the Audiovisual Working-Memory Task*
+
+[圖]
+
+*Note.* Panel A shows the order of phases in one session. In the two calibration parts, each trial varied only the
+dimension being calibrated (colour in Part 1, sound in Part 2); the other dimension was identical to the studied
+item. Each calibration part comprised 72 trials: 6 intensity levels × 8 "different" probes plus 24 "same" probes,
+with feedback after every trial. At the end of each part the lognormal race model (lnrm2) was fitted to accuracy and
+response time and inverted to obtain the participant's high- and low-salience levels (colour: CIELAB ΔE; sound:
+consonant-confusion count). Practice (5 study sets × 9 probes, feedback 1 s) and the main task (6 blocks × 24 study
+sets × 9 probes = 1,296 probes, no feedback, self-paced rest between blocks) followed. Panel B shows one
+colour-calibration trial. Study: fixation 300 ms, colour 1 on the left for 1,000 ms, colour 2 on the right for
+1,000 ms, consonant 1 for 1,000 ms, consonant 2 for 1,000 ms (screen blank during sounds). Probe: fixation 300 ms,
+then a colour patch and a consonant presented together for 1,000 ms; here the colour is colour 1 shifted by x ΔE
+and the consonant is consonant 1 unchanged. The response window opened 500 ms after probe onset and lasted 2,000 ms
+(up to 3,000 ms in calibration); participants pressed y for "same as studied" or n for "different." Feedback
+(800 ms in calibration, 1,000 ms in practice) was shown only in calibration and practice. In the main task the
+probe sequence (fixation, probe, response) repeated nine times after each study set, with one of nine probe types
+on each repetition. Panel C shows the same trial on a single time axis.
+
+（如果圖內改成 Arial，這段 Note 不用動。）
