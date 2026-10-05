@@ -64,18 +64,18 @@ APA 7（§7.22–7.36）的規定：圖的四個部分是 **圖號**（Figure 1�
 [圖]
 
 *Note.* Panel A shows the order of phases in one session. In the two calibration parts, each trial varied only the
-dimension being calibrated (colour in Part 1, sound in Part 2); the other dimension was identical to the studied
+dimension being calibrated (color in Part 1, sound in Part 2); the other dimension was identical to the studied
 item. Each calibration part comprised 72 trials: 6 intensity levels × 8 "different" probes plus 24 "same" probes,
 with feedback after every trial. At the end of each part the lognormal race model (lnrm2) was fitted to accuracy and
-response time and inverted to obtain the participant's high- and low-salience levels (colour: CIELAB ΔE; sound:
+response time and inverted to obtain the participant's high- and low-salience levels (color: CIELAB ΔE; sound:
 consonant-confusion count). Practice (5 study sets × 9 probes, feedback 1 s) and the main task (6 blocks × 24 study
 sets × 9 probes = 1,296 probes, no feedback, self-paced rest between blocks) followed. Panel B shows one
-colour-calibration trial. Study: fixation 300 ms, colour 1 on the left for 1,000 ms, colour 2 on the right for
+color-calibration trial. Study: fixation 300 ms, color 1 on the left for 1,000 ms, color 2 on the right for
 1,000 ms, consonant 1 for 1,000 ms, consonant 2 for 1,000 ms (screen blank during sounds). Probe: fixation 300 ms,
-then a colour patch and a consonant presented together for 1,000 ms; here the colour is colour 1 shifted by x ΔE
+then a color patch and a consonant presented together for 1,000 ms; here the color is color 1 shifted by x ΔE
 and the consonant is consonant 1 unchanged. The response window opened 500 ms after probe onset and lasted 2,000 ms
 (up to 3,000 ms in calibration); participants pressed y for "same as studied" or n for "different." Feedback
 (800 ms in calibration, 1,000 ms in practice) was shown only in calibration and practice. In the main task the
 probe sequence (fixation, probe, response) repeated nine times after each study set, with one of nine probe types
-on each repetition. Panel C shows the same trial on a single time axis. Panel D shows the calibration loop for Part 1: the 72 trials present six ΔE levels (2, 6, 12, 20, 30, 45) eight times each plus 24 same probes in shuffled order (middle, schematic); after the last trial the lnrm2 model is fitted to accuracy and response time, and the drift-separation curve 2·d(ΔE) is inverted at the targets H = 2.0 and L = 0.5 to give ΔE_H and ΔE_L (right, schematic observer), which are then used in practice and the main task. Part 2 follows the same loop with the consonant-confusion level in place of ΔE.
+on each repetition. Panel C shows the same trial on a single time axis. Panel D shows the calibration loop for Part 1: the 72 trials present six ΔE levels (2, 6, 12, 20, 30, 45) eight times each plus 24 same probes in shuffled order (middle, schematic); after the last trial the lnrm2 model is fitted to accuracy and response time, and the drift-separation curve 2·d(ΔE) is inverted at the targets H = 2.0 and L = 0.5 to give ΔE_H and ΔE_L (right, schematic observer), which are then used in practice and the main task. The calibration trial is identical to the trial in Panel B; only the probe color varies, and the sounds are the studied sounds on every trial. Part 2 follows the same loop with the consonant-confusion level in place of ΔE and the colors unchanged.
 

@@ -1,6 +1,6 @@
 """
 English procedure figure, cascade layout (same layout as the GRTv3_ada flow figure).
-Panel B shows a COLOUR-CALIBRATION trial: the probe keeps the studied sound and shifts only the colour.
+Panel B shows a COLOUR-CALIBRATION trial: the probe keeps the studied sound and shifts only the color.
 Minimal text: labels and times on the cascade and the timeline only.
 Font: APA 7 §7.26 — sans serif inside the figure, 8–14 pt. Arial (rendered here with the metric-identical Liberation Sans; the SVG names Arial first).
 
@@ -20,19 +20,19 @@ plt.rcParams["svg.fonttype"] = "none"
 plt.rcParams["axes.unicode_minus"] = False
 
 INK, GREY, SCREEN = "#333333", "#666666", "#7a7a7a"
-C1, C2, C1_SHIFT = "#9b59b6", "#3f51b5", "#b06fc9"     # studied colours; probe = colour 1 shifted by x
+C1, C2, C1_SHIFT = "#9b59b6", "#3f51b5", "#b06fc9"     # studied colors; probe = color 1 shifted by x
 
-fig = plt.figure(figsize=(20, 15))
-gs = fig.add_gridspec(4, 1, height_ratios=[1.0, 5.4, 0.9, 2.6], hspace=0.12)
+fig = plt.figure(figsize=(22, 15.5))
+gs = fig.add_gridspec(4, 1, height_ratios=[1.0, 5.4, 0.9, 2.8], hspace=0.12)
 
 # ───────────────────────────── A. Session ─────────────────────────────
 ax = fig.add_subplot(gs[0]); ax.set_xlim(0, 100); ax.set_ylim(0, 10); ax.axis("off")
 ax.text(0, 9.6, "A. Session", fontsize=13, va="top", color=INK)
 stages = [
     (0,   7,  "Instructions",            "",                                              "#eeeeee"),
-    (9,   15, "Part 1  Colour calibration", "72 trials · 6 ΔE levels × 8 + 24 match\nsound = studied sound · feedback", "#dde3f3"),
+    (9,   15, "Part 1  Color calibration", "72 trials · 6 ΔE levels × 8 + 24 match\nsound = studied sound · feedback", "#dde3f3"),
     (26,  5,  "Fit",                     "lnrm2\n20–40 s",                                "#e6e6e6"),
-    (33,  15, "Part 2  Sound calibration", "72 trials · 6 confusion levels × 8 + 24 match\ncolour = studied colour · feedback", "#e8dcf0"),
+    (33,  15, "Part 2  Sound calibration", "72 trials · 6 confusion levels × 8 + 24 match\ncolor = studied color · feedback", "#e8dcf0"),
     (50,  5,  "Fit",                     "lnrm2\n20–40 s",                                "#e6e6e6"),
     (57,  11, "Practice",                "5 sets × 9 probes\nfeedback 1,000 ms",               "#f3e8d3"),
     (70,  22, "Main task",               "6 blocks × 24 sets × 9 probes = 1296\nno feedback · rest between blocks", "#dcefd9"),
@@ -49,9 +49,9 @@ for i in range(len(stages) - 1):
     if stages[i + 1][2] in ("Practice", "Main task") or stages[i][2].startswith("Part"):
         ax.text((x0 + x1) / 2, 6.4, "rest", ha="center", va="bottom", fontsize=8, color=GREY)
 
-# ───────────────────────────── B. Trial (colour-calibration example) ─────────────────────────────
+# ───────────────────────────── B. Trial (color-calibration example) ─────────────────────────────
 ax = fig.add_subplot(gs[1]); ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
-ax.text(0, 99, "B. Trial (colour-calibration example: the probe keeps the studied sound and changes only the colour)",
+ax.text(0, 99, "B. Trial (color-calibration example: the probe keeps the studied sound and changes only the color)",
         fontsize=13, va="top", color=INK)
 
 W, H = 9.2, 13.0
@@ -65,8 +65,8 @@ def speaker(ax, x, y, s=1.0):
         ax.add_patch(Arc((x + 1.3 * s, y), r * s, 1.6 * r * s, theta1=-45, theta2=45, color="white", lw=1.0))
 
 
-def patch(ax, x, y, colour, s=1.0):
-    ax.add_patch(Rectangle((x - 1.1 * s, y - 1.6 * s), 2.2 * s, 3.2 * s, fc=colour, ec="#bbbbbb", lw=0.5))
+def patch(ax, x, y, color, s=1.0):
+    ax.add_patch(Rectangle((x - 1.1 * s, y - 1.6 * s), 2.2 * s, 3.2 * s, fc=color, ec="#bbbbbb", lw=0.5))
 
 
 def screen(ax, i, title, t, note, content, dashed=False):
@@ -101,12 +101,12 @@ def screen(ax, i, title, t, note, content, dashed=False):
 
 screens = [
     ("Fixation",  "0 – 300 ms",   "",                              [("fix", None)], False),
-    ("Colour 1",  "300 – 1,300 ms", "left, 1,000 ms",                     [("patchL", C1)], False),
-    ("Colour 2",  "1,300 – 2,300 ms", "right, 1,000 ms",                    [("patchR", C2)], False),
+    ("Color 1",  "300 – 1,300 ms", "left, 1,000 ms",                     [("patchL", C1)], False),
+    ("Color 2",  "1,300 – 2,300 ms", "right, 1,000 ms",                    [("patchR", C2)], False),
     ("Sound 1",   "2,300 – 3,300 ms", "consonant 1, blank screen",     [("spk", None)], False),
     ("Sound 2",   "3,300 – 4,300 ms", "consonant 2, blank screen",     [("spk", None)], False),
     ("Fixation",  "0 – 300 ms",   "",                              [("fix", None)], False),
-    ("Probe",     "300 – 1,300 ms", "colour 1 shifted by x\n+ sound 1 (unchanged)", [("patchC", C1_SHIFT), ("spkR", None)], False),
+    ("Probe",     "300 – 1,300 ms", "color 1 shifted by x\n+ sound 1 (unchanged)", [("patchC", C1_SHIFT), ("spkR", None)], False),
     ("Response",  "500 – 2,500 ms", "y = same, n = different\n(calibration: up to 3,000 ms)", [("yn", None)], False),
     ("Feedback",  "800 ms",      "calibration and practice only", [("text", "Correct")], True),
 ]
@@ -129,7 +129,7 @@ ax.text(x8 + W + 4, y8 - H / 2, "next trial", ha="left", va="center", fontsize=9
 # ───────────────────────────── C. Timeline ─────────────────────────────
 ax = fig.add_subplot(gs[2]); ax.set_xlim(0, 100); ax.set_ylim(0, 10); ax.axis("off")
 ax.text(0, 9.6, "C. Timeline", fontsize=13, va="top", color=INK)
-segs = [("Fix.", 0.3, "#f2f2f2"), ("Study  (4 × 1,000 ms: colour 1, colour 2, sound 1, sound 2)", 4.0, "#dde3f3"),
+segs = [("Fix.", 0.3, "#f2f2f2"), ("Study  (4 × 1,000 ms: color 1, color 2, sound 1, sound 2)", 4.0, "#dde3f3"),
         ("Fix.", 0.3, "#f2f2f2"), ("Probe", 1.0, "#e8dcf0"), ("Response  (from 500 ms)", 1.5, "#f3e8d3"),
         ("Feedback", 0.8, "#dcefd9")]
 scale = 70 / sum(s for _, s, _ in segs)
@@ -146,42 +146,56 @@ for i, tk in enumerate(ticks):
     dx = 1.6 if labels[i] in ("300", "4,600") else 0.0
     ax.text(tk * scale + dx, 3.0, labels[i], ha="center", va="top", fontsize=8, color=GREY)
 
-# ───────────────────────────── D. Adaptive calibration (Part 1, colour, lnrm2) ─────────────────────────────
+# ───────────────────────────── D. Adaptive calibration (Part 1, color, lnrm2) ─────────────────────────────
 import numpy as np
-gsD = gs[3].subgridspec(1, 3, width_ratios=[1.35, 1.0, 1.0], wspace=0.22)
+gsD = gs[3].subgridspec(1, 3, width_ratios=[2.3, 1.0, 1.0], wspace=0.18)
 ax = fig.add_subplot(gsD[0]); ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
-ax.text(0, 112, "D. Adaptive calibration — Part 1, colour (method of constant stimuli + lnrm2)", fontsize=13, va="top", color=INK, clip_on=False)
-# study screen (two colours) → probe (colour ± x, same sound) → response → lnrm2 → H / L
-bw, bh, by = 22, 34, 40
-def mini_screen(x, label, sub, content):
-    ax.add_patch(Rectangle((x + 0.8, by - 0.8), bw, bh, fc="#bdbdbd", ec="none"))
-    ax.add_patch(Rectangle((x, by), bw, bh, fc=SCREEN, ec=INK, lw=1.1))
-    cx, cy = x + bw / 2, by + bh / 2
+ax.text(0, 112, "D. Adaptive calibration — Part 1, color: the same trial as B, only the probe color varies; sounds are unchanged",
+        fontsize=13, va="top", color=INK, clip_on=False)
+mw, mh, my, gap = 9.0, 15.0, 54, 1.3            # 九個小螢幕排成一列
+mini = [
+    ("Fixation",  "300 ms",         [("fix", None)], False),
+    ("Color 1",   "1,000 ms",       [("patchL", C1)], False),
+    ("Color 2",   "1,000 ms",       [("patchR", C2)], False),
+    ("Sound 1",   "1,000 ms",       [("spk", None)], False),
+    ("Sound 2",   "1,000 ms",       [("spk", None)], False),
+    ("Fixation",  "300 ms",         [("fix", None)], False),
+    ("Probe",     "1,000 ms\ncolor 1 ± x\nsound 1",  [("patchC", C1_SHIFT), ("spkR", None)], False),
+    ("Response",  "≤ 3,000 ms\ny / n, RT", [("yn", None)], False),
+    ("Feedback",  "800 ms",         [("text", "Correct")], True),
+]
+for i, (lab, sub, content, dashed) in enumerate(mini):
+    x = i * (mw + gap)
+    ax.add_patch(Rectangle((x + 0.4, my - 0.4), mw, mh, fc="#bdbdbd", ec="none"))
+    ax.add_patch(Rectangle((x, my), mw, mh, fc=SCREEN, ec=INK, lw=1, ls="--" if dashed else "-"))
+    cx, cy = x + mw / 2, my + mh / 2
     for kind, args in content:
-        if kind == "patchL": patch(ax, x + 0.3 * bw, cy, args, s=2.2)
-        elif kind == "patchR": patch(ax, x + 0.7 * bw, cy, args, s=2.2)
-        elif kind == "patchC": patch(ax, cx - 2.5, cy + 1.5, args, s=2.2)
-        elif kind == "spk": speaker(ax, cx + 1.5, cy + 1.5, s=2.2)
+        if kind == "fix": ax.text(cx, cy, "+", color="white", ha="center", va="center", fontsize=11)
+        elif kind == "patchL": patch(ax, x + 0.3 * mw, cy, args, s=0.9)
+        elif kind == "patchR": patch(ax, x + 0.7 * mw, cy, args, s=0.9)
+        elif kind == "patchC": patch(ax, cx - 1.3, cy + 0.5, args, s=0.9)
+        elif kind == "spk": speaker(ax, cx - 0.4, cy, s=0.9)
+        elif kind == "spkR": speaker(ax, cx + 0.9, cy + 0.5, s=0.9)
         elif kind == "yn":
-            ax.text(cx, cy + 6, "Same?", color="white", ha="center", va="center", fontsize=8.5)
-            ax.text(cx, cy - 5, "[y]   [n]", color="white", ha="center", va="center", fontsize=8.5)
-    ax.text(cx, by - 5, label, ha="center", va="top", fontsize=9.5, color=INK)
-    ax.text(cx, by - 14, sub, ha="center", va="top", fontsize=8, color=GREY)
-mini_screen(0,  "Study",    "two colours + two sounds",           [("patchL", C1), ("patchR", C2)])
-mini_screen(27, "Probe",    "colour 1 ± x,\nsound 1 unchanged",   [("patchC", C1_SHIFT), ("spk", None)])
-mini_screen(54, "Response", "y / n, RT",                          [("yn", None)])
-for x0 in (bw + 0.5, 27 + bw + 0.5):
-    ax.add_patch(FancyArrowPatch((x0, by + bh / 2), (x0 + 4, by + bh / 2), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
-# loop ×72 above
-ax.plot([54 + bw / 2, 54 + bw / 2, bw / 2, bw / 2], [by + bh + 2, by + bh + 12, by + bh + 12, by + bh + 2], color=INK, lw=1)
-ax.add_patch(FancyArrowPatch((bw / 2, by + bh + 8), (bw / 2, by + bh + 2.5), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
-ax.text(38, by + bh + 13.5, "× 72 trials: 6 ΔE levels × 8 + 24 same, shuffled", ha="center", va="bottom", fontsize=8.5, color=INK)
-# fit box
-ax.add_patch(FancyBboxPatch((82, by + 4), 17, bh - 8, boxstyle="round,pad=0,rounding_size=2", fc="#fdf2cc", ec=INK, lw=1))
-ax.text(90.5, by + bh / 2 + 6, "lnrm2", ha="center", va="center", fontsize=10, color=INK)
-ax.text(90.5, by + bh / 2 - 5, "fit accuracy + RT,\ninvert for H / L", ha="center", va="center", fontsize=8, color=GREY)
-ax.add_patch(FancyArrowPatch((54 + bw + 0.5, by + bh / 2), (81.5, by + bh / 2), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
-ax.text(90.5, by - 5, "after the 72nd trial", ha="center", va="top", fontsize=8, color=GREY)
+            ax.text(cx, cy + 2.5, "Same?", color="white", ha="center", va="center", fontsize=8)
+            ax.text(cx, cy - 2.5, "[y]  [n]", color="white", ha="center", va="center", fontsize=8)
+        elif kind == "text": ax.text(cx, cy, args, color="white", ha="center", va="center", fontsize=8)
+    ax.text(cx, my - 3, lab, ha="center", va="top", fontsize=8.5, color=INK)
+    ax.text(cx, my - 10, sub, ha="center", va="top", fontsize=8, color=GREY, linespacing=1.15)
+    if i < len(mini) - 1:
+        ax.add_patch(FancyArrowPatch((x + mw + 0.1, cy), (x + mw + gap - 0.1, cy), arrowstyle="-|>", mutation_scale=6, color=INK, lw=0.8))
+# loop ×72 above the row
+x_last = 8 * (mw + gap) + mw / 2
+ax.plot([x_last, x_last, mw / 2, mw / 2], [my + mh + 2, my + mh + 11, my + mh + 11, my + mh + 2], color=INK, lw=1)
+ax.add_patch(FancyArrowPatch((mw / 2, my + mh + 7), (mw / 2, my + mh + 2.5), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
+ax.text((x_last + mw / 2) / 2, my + mh + 12.5, "× 72 trials: 6 ΔE levels × 8 + 24 same, shuffled; sounds identical to the studied items on every trial",
+        ha="center", va="bottom", fontsize=8.5, color=INK)
+# → lnrm2 box below the row
+ax.add_patch(FancyArrowPatch((x_last, my - 21), (x_last, my - 28), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
+ax.add_patch(FancyBboxPatch((x_last - 14, my - 46), 28, 17, boxstyle="round,pad=0,rounding_size=2", fc="#fdf2cc", ec=INK, lw=1))
+ax.text(x_last, my - 34, "lnrm2", ha="center", va="center", fontsize=10, color=INK)
+ax.text(x_last, my - 41, "fit accuracy + RT, invert for H / L", ha="center", va="center", fontsize=8, color=GREY)
+ax.text(x_last - 16, my - 37.5, "after the 72nd trial", ha="right", va="center", fontsize=8, color=GREY)
 
 # D-middle: the 72-trial sequence of ΔE levels (schematic)
 rng = np.random.default_rng(3)
@@ -198,7 +212,7 @@ for v in levels:
     ax.axhline(v, color="#cccccc", lw=0.6, zorder=1)
 ax.set_xlim(0, 73); ax.set_ylim(-3, 52)
 ax.set_xticks([1, 36, 72]); ax.set_yticks(levels)
-ax.set_xlabel("trial", fontsize=9); ax.set_ylabel("probe ΔE (colour 1 ± x)", fontsize=9)
+ax.set_xlabel("trial", fontsize=9); ax.set_ylabel("probe ΔE (color 1 ± x)", fontsize=9)
 ax.tick_params(labelsize=8)
 ax.set_title("Levels presented across the 72 trials (schematic)", fontsize=9.5, color=INK)
 ax.text(72, 48, "○  same probe (ΔE = 0)", ha="right", va="top", fontsize=8, color=GREY)
