@@ -135,7 +135,7 @@ px, py = P(0); panel(px, py); cross(px, py); caption(px, py, "Fixation", "0.3 s"
 # item 編碼同 GRTv3_ada.py:0 = C1 clear [bi], 1 = C2 clear [bi], 2 = C1 noisy [pi], 3 = C2 noisy [pi]
 study = [("UL", C2, False), ("BR", C1, True), ("UR", C1, False), ("BL", C2, True)]
 for k, (corner, col, noisy) in enumerate(study):
-    px, py = P(1 + k); panel(px, py); cross(px, py); study_item(px, py, corner, col, noisy)
+    px, py = P(1 + k); panel(px, py); study_item(px, py, corner, col, noisy)   # 注視點只在前 0.3 s
     caption(px, py, f"Study item {k+1}", "1 s")
 
 px, py = P(5); panel(px, py); frame(px, py, "BR")              # 框在 cued item(item 2)的位置

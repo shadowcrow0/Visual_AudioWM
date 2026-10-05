@@ -35,7 +35,6 @@
 <text x="138.0" y="397" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, Liberation Sans, sans-serif" >0.3 s</text>
 <rect x="262" y="285" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="258" y="280" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
-<path d="M349.0,353.5 h14 M356.0,346.5 v14" stroke="white" stroke-width="2"/>
 <rect x="287.0" y="298.5" width="30" height="30" fill="#9477B7"/>
 <g transform="translate(333.0,313.5) scale(0.9)"><path d="M-9,-4 h5 l6,-5 v18 l-6,-5 h-5 z" fill="white"/>
 <path d="M5,-4 a6,6 0 0 1 0,8" stroke="white" stroke-width="1.8" fill="none"/><path d="M8,-8 a11,11 0 0 1 0,16" stroke="white" stroke-width="1.8" fill="none"/>
@@ -44,7 +43,6 @@
 <text x="356.0" y="467" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, Liberation Sans, sans-serif" >1 s</text>
 <rect x="480" y="355" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="476" y="350" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
-<path d="M567.0,423.5 h14 M574.0,416.5 v14" stroke="white" stroke-width="2"/>
 <rect x="613.0" y="448.5" width="30" height="30" fill="#827CBE"/>
 <g transform="translate(597.0,463.5) scale(0.9)"><path d="M-9,-4 h5 l6,-5 v18 l-6,-5 h-5 z" fill="white"/>
 <path d="M5,-7 l3,3 l-3,3 l3,3 l-3,3 l3,3 l-3,3" stroke="white" stroke-width="1.6" fill="none"/><path d="M10,-9 l3,3 l-3,3 l3,3 l-3,3 l3,3 l-3,3 l3,3" stroke="white" stroke-width="1.6" fill="none" opacity="0.7"/>
@@ -53,7 +51,6 @@
 <text x="574.0" y="537" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, Liberation Sans, sans-serif" >1 s</text>
 <rect x="698" y="425" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="694" y="420" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
-<path d="M785.0,493.5 h14 M792.0,486.5 v14" stroke="white" stroke-width="2"/>
 <rect x="831.0" y="438.5" width="30" height="30" fill="#827CBE"/>
 <g transform="translate(815.0,453.5) scale(0.9)"><path d="M-9,-4 h5 l6,-5 v18 l-6,-5 h-5 z" fill="white"/>
 <path d="M5,-4 a6,6 0 0 1 0,8" stroke="white" stroke-width="1.8" fill="none"/><path d="M8,-8 a11,11 0 0 1 0,16" stroke="white" stroke-width="1.8" fill="none"/>
@@ -62,7 +59,6 @@
 <text x="792.0" y="607" font-size="12" text-anchor="middle" font-weight="normal" fill="#444" font-family="Arial, Helvetica, Liberation Sans, sans-serif" >1 s</text>
 <rect x="916" y="495" width="196" height="147" rx="4" fill="#000" opacity="0.18"/>
 <rect x="912" y="490" width="196" height="147" rx="4" fill="#7f7f7f" stroke="#333" stroke-width="1.6"/>
-<path d="M1003.0,563.5 h14 M1010.0,556.5 v14" stroke="white" stroke-width="2"/>
 <rect x="941.0" y="588.5" width="30" height="30" fill="#9477B7"/>
 <g transform="translate(987.0,603.5) scale(0.9)"><path d="M-9,-4 h5 l6,-5 v18 l-6,-5 h-5 z" fill="white"/>
 <path d="M5,-7 l3,3 l-3,3 l3,3 l-3,3 l3,3 l-3,3" stroke="white" stroke-width="1.6" fill="none"/><path d="M10,-9 l3,3 l-3,3 l3,3 l-3,3 l3,3 l-3,3 l3,3" stroke="white" stroke-width="1.6" fill="none" opacity="0.7"/>
