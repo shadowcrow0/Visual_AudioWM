@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-VAWM_simple.py —— SFT 實驗的「看得懂」版：校準（原始 adaptiveSFT，lnrm）→ 練習 → 主實驗，一個檔案從頭跑到尾。
+SFT_WM_change.py —— SFT 實驗的「看得懂」版（change 版）：校準（原始 adaptiveSFT，lnrm）→ 練習 → 主實驗，一個檔案跑到尾。
+【change 版】校準時另一個維度也每試重抽：校顏色時兩個聲音每試換、校聲音時兩個顏色每試換。
+            姊妹版 SFT_WM_nochange.py：校顏色時固定一組聲音配對、校聲音時固定一組顏色配對。
 
 跟正式版（VAWM_calibrate.py + make_adaptive_blocks.py + VAWM_nobox.py）做的事一樣、時間軸一樣、資料欄位相容，
 只是寫法攤平：一個區塊一個區塊往下讀就是受試者會經歷的順序。數學（擬合、找顏色）照舊借用，其餘都寫在這裡。
 
     Coder 直接 Run。                          正式跑
-    python VAWM_simple.py --robot             機器人自己答，不開視窗（測流程）
-    python VAWM_simple.py --robot --quick     機器人 + 縮短擬合 + 一個 block（幾分鐘跑完）
+    python SFT_WM_change.py --robot             機器人自己答，不開視窗（測流程）
+    python SFT_WM_change.py --robot --quick     機器人 + 縮短擬合 + 一個 block（幾分鐘跑完）
 
 產出（都在 data/）：
     <subj>_simple_calib_trials.csv   校準的每一試
