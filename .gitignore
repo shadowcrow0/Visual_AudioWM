@@ -10,3 +10,4 @@ __pycache__/
 # snd_* 欄位(dB + 噪音種子)位元重建,不需要進版控。
 *_snr/
 *_snrpool/
+adaptivesft_path.txt

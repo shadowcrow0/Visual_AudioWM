@@ -39,6 +39,29 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # 找 adaptiveSFT
 # ============================================================================================
 
+def _ensure_user_site():
+    """pymc / nutpie / pip -e 的 adaptiveSFT 都裝在 Python 的 user-site（獨立版的 Program Files 不可寫）。
+    兩種情況會看不到它：腳本被 python -s 啟動；或 psychopy 先被匯入 —— 它會把 site.USER_SITE 改成自己的
+    packages 目錄，之後再問 site 就拿不到真正的 user-site。所以這裡用 sysconfig 直接算路徑並加回 sys.path。"""
+    import site
+    import sysconfig
+    cands = []
+    try:                                   # 真正的 Python user-site；不受 psychopy 覆寫 site.USER_SITE 影響
+        cands.append(sysconfig.get_path("purelib", "nt_user" if os.name == "nt" else "posix_user"))
+    except Exception:
+        pass
+    try:                                   # psychopy 匯入後這個會變成它自己的 packages 目錄，也一併加
+        cands.append(site.getusersitepackages())
+    except Exception:
+        pass
+    for usp in cands:
+        if usp and os.path.isdir(usp) and usp not in sys.path:
+            site.addsitedir(usp)
+
+
+_ensure_user_site()
+
+
 def _editable_install_root():
     """pip install -e 過的 adaptiveSFT：從 dist-info 的 direct_url.json 讀出 repo 路徑。
     不用 find_spec：本 repo 自己的舊 adaptivesft/ 會先被找到。"""
@@ -59,12 +82,15 @@ def _editable_install_root():
 def adaptivesft_root():
     """adaptiveSFT repo 的目錄，依序：環境變數 ADAPTIVESFT_PATH → 本目錄隔壁的 ../adaptiveSFT
     → pip install -e 裝進去的那份（Coder 從任何資料夾開都找得到）。"""
+    cfg = os.path.join(HERE, "adaptivesft_path.txt")        # 第四條路：本資料夾放一行路徑的文字檔
+    from_file = open(cfg, encoding="utf-8").read().strip() if os.path.isfile(cfg) else None
     candidates = [os.environ.get("ADAPTIVESFT_PATH"), os.path.join(os.path.dirname(HERE), "adaptiveSFT"),
-                  _editable_install_root()]
+                  _editable_install_root(), from_file]
     for c in candidates:
         if c and os.path.isfile(os.path.join(c, "adaptivesft", "psi.py")):
             return c
-    raise ImportError("找不到 adaptiveSFT：把它 clone 在本目錄隔壁，或設 ADAPTIVESFT_PATH=<adaptiveSFT 路徑>")
+    raise ImportError("找不到 adaptiveSFT：把它 clone 在本目錄隔壁、設 ADAPTIVESFT_PATH=<路徑>、pip install -e 它、"
+                      "或在本資料夾放 adaptivesft_path.txt（內容一行：adaptiveSFT 的路徑）")
 
 
 def load_psi_module():
