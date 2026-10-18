@@ -152,19 +152,16 @@ else:
     def feedback(text):
         pass
 
-    ROBOT_PSYCH = {"colour": (12.0, 8.0), "audio": (-1.5, 0.6)}   # (邊界, 寬度)
+    load_full_package()
+    from adaptivesft.race import lnrm_random     # 跟 tests/test_adaptive_vawm.py 的 lnrm_observer 一樣的模擬受試者
 
     def one_trial(c1, c2, s1, s2, probe_col, probe_snd, _info=None):
         dim, x, is_match = _info
-        if is_match:
-            p_diff = 0.10
-        else:
-            a, b = ROBOT_PSYCH[dim]
-            p_diff = 0.10 + 0.88 * norm.cdf(x, a, b)
-        key = "n" if rng.uniform() < p_diff else "y"
-        ease = 0.0 if is_match else float(norm.cdf(x, *ROBOT_PSYCH[dim]))   # 0 = 很難, 1 = 很容易
-        rt = float(np.exp(rng.normal(np.log(1.1) - 0.5 * ease, 0.25)))     # 容易 → 快（約 0.6 s），難 → 慢（約 1.1 s）
-        return key, rt
+        if is_match:                                            # AA 試：10% 誤按「不同」
+            return ("n" if rng.uniform() < 0.10 else "y"), 0.8
+        u = to_model_units(dim, x)                              # 難度 d(u) = 1.0·u − 0.12·u²（跟測試同一組真值）
+        rt, correct = lnrm_random([1.0 * u - 0.12 * u * u], 1.0, 0.5, 0.2, rng)
+        return ("n" if correct[0] == 1 else "y"), float(rt[0])
 
 os.makedirs("data", exist_ok=True)
 
@@ -246,6 +243,9 @@ def calibrate(dim, log_rows):
     high = from_model_units(dim, res["high"]["intensity"])     # 回到 ΔE 或 x
     low = from_model_units(dim, res["low"]["intensity"])
     lo_lim, hi_lim = min(levels), max(levels)                  # 校準時呈現過的範圍
+    if not (np.isfinite(high) and np.isfinite(low)):           # 後驗裡沒有任何 draw 解得出來
+        print(f"  ⚠ [{dim}] 擬合解不出 H/L（{res['warnings']}），暫用中間層級頂著；這位受試者的校準要重做")
+        high, low = levels[-2], levels[1]
     in_range = bool(lo_lim <= low < high <= hi_lim)
     if not in_range:                                           # 超出範圍 = 模型外插，不能信；夾回去並明講
         print(f"  ⚠ [{dim}] 擬合給的 H={high:.2f} L={low:.2f} 超出可呈現範圍 [{lo_lim}, {hi_lim}]，已夾回；"
