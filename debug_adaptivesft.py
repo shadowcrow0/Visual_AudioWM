@@ -335,6 +335,31 @@ else:
     win.close()
     ok("視窗流程跑完（沒有 finish()，試次太少）")
 
+# ───────────────────────────── 7. VAWM_calibrate.py 開頭 dry-run ─────────────────────────────
+hdr(7, "VAWM_calibrate.py 開頭 dry-run（import、挑音訊裝置、建 calibrator；停在對話框之前）")
+if not HAVE_PSYCHOPY:
+    print("  跳過（沒有 psychopy）")
+else:
+    try:
+        _src = open("VAWM_calibrate.py", encoding="utf-8").read().split("expInfo = {")[0]
+        _ns = {"__name__": "_vawm_head", "__file__": os.path.abspath("VAWM_calibrate.py")}
+        exec(compile(_src, "VAWM_calibrate.py(head)", "exec"), _ns)
+        ok(f"METHOD={_ns['METHOD']!r}  FIT_KW={_ns.get('FIT_KW')}")
+        if _ns["METHOD"] == "lnrm" and not LNRM_OK:
+            bad("METHOD 是 lnrm 但這個環境擬合不了（見第 3 步）")
+        _cal = (A.LNRMCalibrator("colour", n_per_level=_ns["N_PER_LEVEL"], p_match=_ns["P_MATCH"], seed=1,
+                                 **_ns.get("FIT_KW", {})) if _ns["METHOD"] == "lnrm"
+                else A.PsiCalibrator("colour", seed=1))
+        _t = _cal.next_trial()
+        ok(f"第一試可建：probe {_t['probe_colour']} + {_t['probe_sound']}"
+           f"（{'檔案存在' if os.path.exists(_t['probe_sound']) else '檔案缺 ✘'}）")
+        print("  ↑ 上面 [audio] 那行是實驗會用的喇叭/耳機；不對就去 PsychoPy 偏好設定改 audioDevice")
+    except SystemExit:
+        bad("VAWM_calibrate.py 開頭呼叫了 core.quit()（多半是音訊裝置或視窗問題，看上面訊息）")
+    except Exception:
+        bad("VAWM_calibrate.py 開頭失敗：")
+        traceback.print_exc()
+
 print("\n" + "=" * W)
 print("DEBUG 結束。沒看到 ✘ 就代表校準鏈在這個環境是通的。")
 print("=" * W)

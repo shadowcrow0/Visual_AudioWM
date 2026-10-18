@@ -39,9 +39,28 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # 找 adaptiveSFT
 # ============================================================================================
 
+def _editable_install_root():
+    """pip install -e 過的 adaptiveSFT：從 dist-info 的 direct_url.json 讀出 repo 路徑。
+    不用 find_spec：本 repo 自己的舊 adaptivesft/ 會先被找到。"""
+    try:
+        from importlib.metadata import distribution
+        from urllib.parse import unquote, urlparse
+        info = json.loads(distribution("adaptivesft").read_text("direct_url.json") or "{}")
+        if info.get("dir_info", {}).get("editable"):
+            path = unquote(urlparse(info["url"]).path)
+            if os.name == "nt" and path.startswith("/") and path[2:3] == ":":
+                path = path[1:]                                   # file:///C:/... -> C:/...
+            return path
+    except Exception:
+        pass
+    return None
+
+
 def adaptivesft_root():
-    """adaptiveSFT repo 的目錄：環境變數 ADAPTIVESFT_PATH，否則本目錄隔壁的 ../adaptiveSFT。"""
-    candidates = [os.environ.get("ADAPTIVESFT_PATH"), os.path.join(os.path.dirname(HERE), "adaptiveSFT")]
+    """adaptiveSFT repo 的目錄，依序：環境變數 ADAPTIVESFT_PATH → 本目錄隔壁的 ../adaptiveSFT
+    → pip install -e 裝進去的那份（Coder 從任何資料夾開都找得到）。"""
+    candidates = [os.environ.get("ADAPTIVESFT_PATH"), os.path.join(os.path.dirname(HERE), "adaptiveSFT"),
+                  _editable_install_root()]
     for c in candidates:
         if c and os.path.isfile(os.path.join(c, "adaptivesft", "psi.py")):
             return c
