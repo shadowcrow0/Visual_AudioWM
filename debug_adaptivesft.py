@@ -67,6 +67,9 @@ def fix(msg):
 hdr(0, "環境")
 print(f"  Python   {sys.version.split()[0]}  ({sys.executable})")
 print(f"  cwd      {os.getcwd()}")
+import site as _site
+print(f"  user-site {_site.getusersitepackages()}  在 sys.path: {_site.getusersitepackages() in sys.path}"
+      f"  (python -s 啟動: {bool(sys.flags.no_user_site)})")
 try:
     import numpy as np
     import scipy
