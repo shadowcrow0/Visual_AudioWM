@@ -127,7 +127,8 @@ if not ROBOT:
     SUBJ = exp["participant"]
     win = visual.Window(fullscr=True, color="black", units="pix")
     fix = visual.TextStim(win, text="+", height=40, color="white")
-    msg = visual.TextStim(win, text="", height=28, color="white", wrapWidth=1000)
+    msg = visual.TextStim(win, text="", height=28, color="white", wrapWidth=1000,
+                          alignText="left", anchorHoriz="center")
     patch_l = visual.Rect(win, width=100, height=100, pos=(-200, 0), colorSpace="hex", lineColor="#808080")
     patch_r = visual.Rect(win, width=100, height=100, pos=(200, 0), colorSpace="hex", lineColor="#808080")
     patch_c = visual.Rect(win, width=100, height=100, pos=(0, 0), colorSpace="hex", lineColor="#808080")
@@ -237,8 +238,13 @@ def calibrate(dim, log_rows):
     plan += [None] * int(round(len(plan) * P_MATCH / (1 - P_MATCH)))
     rng.shuffle(plan)
 
-    show(("區塊 1：顏色" if dim == "colour" else "區塊 2：聲音") +
-         "\n\n記住兩個顏色和兩個聲音。\n之後看到一個顏色並聽到一個聲音：\n跟剛才的相同按 [y]，不同按 [n]\n\n按空白鍵開始")
+    show(("Part 1 of 3: colour calibration (72 trials)" if dim == "colour"
+          else "Part 2 of 3: sound calibration (72 trials)") +
+         "\n\nOn each trial you will first see two coloured squares and hear two speech sounds. "
+         "Try to remember them. Then one colour will appear together with one sound.\n\n"
+         "If the colour AND the sound are both the same as what you just saw and heard, press Y.\n"
+         "If anything is different, press N.\n\n"
+         "You will get feedback after every answer.\n\nPress the space bar to begin.")
     for i, x in enumerate(plan, 1):
         t1, t2, s1, s2, k1, k2 = two_targets()
         which = int(rng.integers(2))                 # 探測第 1 還是第 2 個目標
@@ -265,13 +271,17 @@ def calibrate(dim, log_rows):
         args = (lab_to_hex(t1), lab_to_hex(t2), sound_file(k1, s1), sound_file(k2, s2), probe_col, probe_snd)
         key, rt = one_trial(*args, _info=(dim, x_actual, is_match)) if ROBOT else one_trial(*args)
         correct = None if key is None else int(key == ("y" if is_match else "n"))
-        feedback("沒有作答" if key is None else ("正確" if correct else "錯誤"))
+        feedback("No response" if key is None else ("Correct" if correct else "Wrong"))
         log_rows.append(dict(dim=dim, trial=i, is_match=int(is_match), x_planned=x, x=round(x_actual, 3),
                              probe_col=probe_col, probe_snd=probe_snd, key=key, rt=rt, correct=correct))
         write_csv(f"data/{SUBJ}_simple_calib_trials.csv", log_rows)
 
     # 3b. 擬合 lnrm2（只用有作答、RT 在範圍內的「不同」試）
-    show("計算中，請稍候（約 1 分鐘）…") if not ROBOT else print("  擬合中…")
+    if not ROBOT:
+        msg.text = "Calculating... this takes about a minute. Please wait."
+        msg.draw(); win.flip()
+    else:
+        print("  fitting...")
     load_full_package()
     from adaptivesft.models import fit_lnrm, make_data
     from adaptivesft.salience import find_salience
@@ -306,7 +316,8 @@ def calibrate(dim, log_rows):
     print(f"[{dim}] H={out['high']:.2f} L={out['low']:.2f} in_range={in_range} FA={out['false_alarm']} "
           f"擬合 {out['fit_seconds']}s {out['warnings']}")
     if not ROBOT and not in_range:
-        show(f"注意：{dim} 的 H/L 超出範圍，已夾回。\n請記下來，之後決定要不要重校。\n\n按空白鍵繼續")
+        show(f"Note for the experimenter: the {dim} calibration fell outside the tested range "
+             "and was clipped. Please write this down.\n\nPress the space bar to continue.")
     return out
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -374,7 +385,7 @@ def run_sets(n_sets, block, calib, rows, with_feedback):
             key, rt = one_trial(*args, _info=("colour", 20.0 if name != "AA" else 0.0, name == "AA")) if ROBOT else one_trial(*args)
             correct = None if key is None else int(key == ("y" if name == "AA" else "n"))
             if with_feedback:
-                feedback("沒有作答" if key is None else ("正確" if correct else "錯誤"))
+                feedback("No response" if key is None else ("Correct" if correct else "Wrong"))
             row = dict(participant=SUBJ, block=block, set=s, probe=p, condition=cond, cond_name=name,
                        targetCol=probe_col, targetAud=probe_snd, correct=correct)
             row["ResponseBox.keys"] = key          # 欄名照 VAWM_nobox.py，analyze_vawm 認這兩欄
@@ -394,12 +405,17 @@ with open(f"data/{SUBJ}_simple_calib.json", "w", encoding="utf-8") as f:
     json.dump(calib, f, ensure_ascii=False, indent=2)
 
 main_rows = []
-show("練習\n\n接下來每組先記 2 色 2 音，然後連續 9 題：\n相同按 [y]，不同按 [n]，這段有回饋\n\n按空白鍵開始")
+show("Part 3 of 3: the main task. First, a short practice.\n\n"
+     "Each round starts the same way: two colours and two sounds to remember. "
+     "Then you will answer nine questions in a row, one colour-and-sound pair at a time.\n\n"
+     "Both the same as before: press Y.   Anything different: press N.\n\n"
+     "Feedback is shown during practice only.\n\nPress the space bar to begin.")
 run_sets(N_PRACTICE_SETS, 0, calib, main_rows, with_feedback=True)
 for b in range(1, N_BLOCKS + 1):
-    show(f"主實驗 Block {b} / {N_BLOCKS}\n\n規則相同，沒有回饋\n\n按空白鍵開始")
+    show(f"Main task: block {b} of {N_BLOCKS}\n\nSame rules as the practice. There is no feedback from now on.\n\n"
+         "Answer as accurately as you can; speed is not important.\n\nPress the space bar to begin.")
     run_sets(SETS_PER_BLOCK, b, calib, main_rows, with_feedback=False)
-show(f"做完了，謝謝。\n\n資料：data/{SUBJ}_simple_main.csv\n\n按空白鍵結束")
+show("That is the end of the experiment. Thank you very much!\n\nPress the space bar to finish.")
 print("done:", f"data/{SUBJ}_simple_calib.json", f"data/{SUBJ}_simple_main.csv")
 if not ROBOT:
     win.close()
