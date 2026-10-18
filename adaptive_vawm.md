@@ -157,9 +157,10 @@ python VAWM_calibrate.py
 不能跑實驗；它上面現成的 `psychopy-env` 是 Python 3.6，太舊，裝不了 adaptiveSFT。
 
 **PsychoPy 獨立版（Windows，就是 Coder 用的那個 Python）直接裝，不用 conda（2026-10-19 實測）：**
-獨立版的 `site-packages` 在 Program Files、不可寫，但它的 Python 開著 user-site，所以用 `--user` 裝就好，不用管理員：
+獨立版的 `site-packages` 在 Program Files、不可寫。**而且 Coder 啟動腳本時，psychopy 會把 `PYTHONUSERBASE` 指到 `%APPDATA%\psychopy3\packages`**（`psychopy/__init__.py:78`），所以一般 `pip --user` 裝到的 `%APPDATA%\Python\…` Coder 看不到——要先把 `PYTHONUSERBASE` 設成同一個目錄再 `--user` 裝，不用管理員：
 
 ```bat
+set PYTHONUSERBASE=%APPDATA%\psychopy3\packages
 "C:\Program Files\PsychoPy\python.exe" -m pip install --user pymc numba arviz nutpie
 "C:\Program Files\PsychoPy\python.exe" -m pip install --user --no-deps -e "C:\...\adaptiveSFT"
 "C:\Program Files\PsychoPy\python.exe" -c "import pymc, nutpie, adaptivesft; print(pymc.__version__)"
