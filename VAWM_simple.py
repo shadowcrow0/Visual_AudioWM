@@ -229,7 +229,7 @@ def two_targets():
     return t1, t2, str(s1), str(s2), str(k1), str(k2)
 
 # ════════════════════════════════════════════════════════════════════════════════
-# 3. 校準：一個維度跑 72 試 → 擬合 → 得到 H（容易）與 L（困難）
+# 3. 校準：一個維度跑 72 試 → 擬合 → 得到 H（容易）與 L（困難）。不給回饋（回饋只在練習）
 # ════════════════════════════════════════════════════════════════════════════════
 def calibrate(dim, log_rows):
     levels = LEVELS_COLOUR if dim == "colour" else LEVELS_AUDIO
@@ -244,7 +244,7 @@ def calibrate(dim, log_rows):
          "Try to remember them. Then one colour will appear together with one sound.\n\n"
          "If the colour AND the sound are both the same as what you just saw and heard, press Y.\n"
          "If anything is different, press N.\n\n"
-         "You will get feedback after every answer.\n\nPress the space bar to begin.")
+         "There is no feedback in this part.\n\nPress the space bar to begin.")
     for i, x in enumerate(plan, 1):
         t1, t2, s1, s2, k1, k2 = two_targets()
         which = int(rng.integers(2))                 # 探測第 1 還是第 2 個目標
@@ -271,7 +271,6 @@ def calibrate(dim, log_rows):
         args = (lab_to_hex(t1), lab_to_hex(t2), sound_file(k1, s1), sound_file(k2, s2), probe_col, probe_snd)
         key, rt = one_trial(*args, _info=(dim, x_actual, is_match)) if ROBOT else one_trial(*args)
         correct = None if key is None else int(key == ("y" if is_match else "n"))
-        feedback("No response" if key is None else ("Correct" if correct else "Wrong"))
         log_rows.append(dict(dim=dim, trial=i, is_match=int(is_match), x_planned=x, x=round(x_actual, 3),
                              probe_col=probe_col, probe_snd=probe_snd, key=key, rt=rt, correct=correct))
         write_csv(f"data/{SUBJ}_simple_calib_trials.csv", log_rows)
