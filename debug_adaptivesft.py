@@ -32,7 +32,7 @@ SIM_SEED = 7
 RUN_WINDOW_TRIALS = 0      # 第 6 步：開視窗實跑幾試（0 = 跳過；建議先 0 跑通無視窗部分，再改 3）
 WINDOW_DIM = "colour"      # 第 6 步用哪個維度："colour" 或 "audio"
 TRY_LNRM = True            # 第 5 步：有 PyMC 就試一次縮短版 lnrm 擬合
-LNRM_FIT_KW = dict(tune=200, draws=200, chains=1)   # 縮短版；正式是 1000/1000/4
+LNRM_FIT_KW = dict(tune=200, draws=200, chains=1, nuts_sampler="nutpie")   # 縮短版；正式是 1000/1000/4。沒裝 nutpie 就拿掉那個參數（會慢 4 倍以上）
 # 已知的 fork 位置（找不到時依序嘗試；可自行加一行）
 KNOWN_FORK_PATHS = [
     r"C:\Users\spt904\OneDrive - University of Texas at San Antonio\Desktop\adaptiveSFT",

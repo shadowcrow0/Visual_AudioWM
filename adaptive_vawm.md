@@ -156,6 +156,24 @@ python VAWM_calibrate.py
 下載到旁邊、裝進去、確認兩個套件都叫得到、然後開始校準。Arc（實驗室的計算伺服器）沒有螢幕也沒有聲卡，
 不能跑實驗；它上面現成的 `psychopy-env` 是 Python 3.6，太舊，裝不了 adaptiveSFT。
 
+**PsychoPy 獨立版（Windows，就是 Coder 用的那個 Python）直接裝，不用 conda（2026-10-19 實測）：**
+獨立版的 `site-packages` 在 Program Files、不可寫，但它的 Python 開著 user-site，所以用 `--user` 裝就好，不用管理員：
+
+```bat
+"C:\Program Files\PsychoPy\python.exe" -m pip install --user pymc numba arviz nutpie
+"C:\Program Files\PsychoPy\python.exe" -m pip install --user --no-deps -e "C:\...\adaptiveSFT"
+"C:\Program Files\PsychoPy\python.exe" -c "import pymc, nutpie, adaptivesft; print(pymc.__version__)"
+```
+（或直接執行 repo 裡的 `setup_pymc_coder.bat`。）pip 不會動到獨立版的 numpy 2.2.6 / scipy 1.14.1，PsychoPy 不受影響；
+要還原就 `pip uninstall`。裝完 Coder 直接跑 `VAWM_calibrate.py`，`METHOD = "lnrm"` 不用改。
+
+**為什麼要 nutpie**：Windows 上沒有 g++，PyTensor 會退回純 Python 執行（啟動時印 `g++ not detected`），
+PyMC 預設 NUTS 連 200/200/1 chain 的縮短擬合都要 5 分鐘，正式的 1000/1000/4 要 20 分鐘以上，受試者等不了。
+`nutpie`（Rust 版 NUTS，用 numba 編譯 logp，有 win-64 wheel）同一台機器正式設定 **69 s**，α/α₂ 回復與預設採樣器一致、
+零 divergence。`fit_lnrm(**sample_kwargs)` 會把 `nuts_sampler="nutpie"` 原樣傳給 `pm.sample`，所以只要 `FIT_KW` 加這一個鍵
+（`VAWM_calibrate.py` 已加）。conda-forge 路線（`conda create -n vawm -c conda-forge python=3.10 pymc` 會附編譯器）也行，
+但 Coder 就得從那個環境用 `python -m psychopy.app.psychopyApp` 啟動。
+
 `adaptive_vawm.py` 直接按檔案載入 `psi.py`（`load_psi_module`），不執行套件的 `__init__.py`，所以 PsychoPy
 standalone 的 Python（沒有 PyMC）也能跑 psi 版校準。`METHOD = "lnrm"` 與分析端 `analyze_vawm` 才載完整套件
 （`load_full_package`）。

@@ -77,7 +77,9 @@ N_PER_LEVEL = 8            # 每個強度層級的「不同」試數；6 層 × 
 H_TARG, L_TARG = 2.0, 0.5  # H / L 的漂移差目標（z2 − z1）。Houpt 原設定 8.0 / 1.3；見 adaptiveSFT/results/power_scan.csv
 LINK = "quadratic"         # "quadratic" = lnrm2（原檔，已對 Stan 驗證）；"ogival" = lnrm2a（adaptiveSFT 的重建：½L·inv_logit, L = 10）
                            # 兩者都用漂移差目標 —— decisions_for_author.md 的 B（2026-10-02 定案）
-FIT_KW = dict(tune=1000, draws=1000, chains=4)   # PyMC NUTS；機器慢就 chains=2
+FIT_KW = dict(tune=1000, draws=1000, chains=4,   # PyMC NUTS；機器慢就 chains=2
+              nuts_sampler="nutpie")              # 實驗機沒有 g++：PyMC 預設採樣器退回純 Python，這組設定要 20 分鐘以上；
+                                                  # nutpie（pip install nutpie，numba 後端）實測 69 s，參數回復一樣。見 adaptive_vawm.md
 # psi
 N_COLOUR = 72              # 區塊 1 試次（含 1/3 的 AA 試）
 N_AUDIO = 72               # 區塊 2 試次
