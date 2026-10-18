@@ -133,7 +133,8 @@ except Exception:
 hdr(2, "import adaptive_vawm")
 try:
     import adaptive_vawm as A
-    ok(f"import 成功；psi.py 來自 {A.psi_module.__file__}")
+    _psi_src = getattr(getattr(A, "psi_module", None), "__file__", "（舊版：沒有 psi_module 屬性）")
+    ok(f"import 成功；psi.py 來自 {_psi_src}")
 except Exception:
     bad("import adaptive_vawm 失敗：")
     traceback.print_exc()
