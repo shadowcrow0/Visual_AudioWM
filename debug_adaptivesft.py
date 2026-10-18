@@ -20,6 +20,12 @@ import sys
 import time
 import traceback
 
+for _stream in (sys.stdout, sys.stderr):          # Windows 主控台預設 cp950，印 ✔/中文會炸
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 # ───────────────────────────── 設定 ─────────────────────────────
 N_SIM = 48                 # 第 4 步每個維度模擬幾試（正式是 72）
 SIM_SEED = 7
@@ -131,6 +137,12 @@ try:
 except Exception:
     bad("import adaptive_vawm 失敗：")
     traceback.print_exc()
+    raise SystemExit
+if not hasattr(A, "PsiCalibrator"):
+    bad("這份 adaptive_vawm.py 是舊版 API（有 ColourCalibrator/AudioCalibrator，沒有 PsiCalibrator/LNRMCalibrator）")
+    print(f"    檔案：{A.__file__}")
+    fix("這個資料夾不是 GitHub main 的最新版（2026-10-02 之前的 ZIP）。"
+        "請重新 clone / 下載 main 到新資料夾再跑；舊資料夾裡手改過的 VAWM_calibrate.py 先另存")
     raise SystemExit
 for name in ("next_intensity", "update_at", "nearest_index", "estimate"):
     (ok if hasattr(A.Psi, name) or name == "next_intensity" else bad)(f"Psi.{name}")
