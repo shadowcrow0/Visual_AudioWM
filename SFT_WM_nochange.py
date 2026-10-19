@@ -84,6 +84,9 @@ if not ROBOT:
     from psychopy.hardware import keyboard
 
     # 偏好設定裡記的喇叭（例如 DELL 螢幕）不在時 sound.Sound() 會直接炸，先逐一試開、留下第一個能用的
+    AUDIO_DEVICE = ""                                   # 指定輸出裝置名稱的一部分（例 "Headphones"）；空字串 = 自動挑
+    AUDIO_PREFER = ["headphone", "耳機", "earphone"]     # 自動挑時優先的名字（小寫比對）
+
     def _pick_audio_device():
         """
         PsychoPy 的偏好設定會記住上次用的喇叭名字（userPrefs.cfg 的 hardware/audioDevice）。
@@ -108,7 +111,11 @@ if not ROBOT:
         want = prefs.hardware.get("audioDevice") or []
         if isinstance(want, str):
             want = [want]
-        order = [w for w in want if w in avail] + [a for a in avail if a not in want]
+        # 排序：AUDIO_DEVICE 指名的 > 名字像耳機的 > 偏好設定裡的 > 其他。受試者要戴耳機，不能落到喇叭。
+        named = [a for a in avail if AUDIO_DEVICE and AUDIO_DEVICE.lower() in a.lower()]
+        headph = [a for a in avail if any(k in a.lower() for k in AUDIO_PREFER) and a not in named]
+        rest = [a for a in avail if a not in named + headph]
+        order = named + headph + [w for w in want if w in rest] + [a for a in rest if a not in want]
         for name in order:
             try:
                 SpeakerDevice(name=name)      # 第一個位置參數是 index，一定要用關鍵字
@@ -120,6 +127,8 @@ if not ROBOT:
                 print(f"[audio] 改用：{name}")
             else:
                 print(f"[audio] 使用偏好設定的裝置：{name}")
+            if not any(k in name.lower() for k in AUDIO_PREFER):
+                print(f"[audio] ⚠ 這不是耳機（{name}）。請插上耳機再跑，或在檔頭 AUDIO_DEVICE 指定裝置名稱")
             return
         print(f"[audio] 這些裝置都開不起來：{avail}；請插上喇叭或耳機再跑")
     _pick_audio_device()
