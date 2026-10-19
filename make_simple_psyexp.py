@@ -93,7 +93,8 @@ def make_study_set():            # 主實驗的一組：2 目標色各有 H/L �
                 audio2_target_file=sound_file(k2, s2), audio2_H_file=sound_file(k2, foil_near(s2, cnt_h)),
                 audio2_L_file=sound_file(k2, foil_near(s2, cnt_l)))
 
-# 條件編號跟 VAWM_nobox.py 一樣：(名字, 探測色欄位, 探測音欄位)；偶數 = 第 1 個目標、奇數 = 第 2 個
+# 條件編號與名字跟 VAWM_nobox.py 一樣：(名字, 探測色欄位, 探測音欄位)；偶數 = 第 1 個目標、奇數 = 第 2 個
+# ⚠ 名字字母順序原版就不一致（HA/LA = 聲音 H/L；AH/AL = 顏色 H/L；HH/LH/HL/LL = 顏色,聲音）；計分只看 AA，看欄位別看名字
 COND = {0: ("AA", "color1_target", "audio1_target_file"), 1: ("AA", "color2_target", "audio2_target_file"),
         2: ("HA", "color1_target", "audio1_H_file"),      3: ("HA", "color2_target", "audio2_H_file"),
         4: ("LA", "color1_target", "audio1_L_file"),      5: ("LA", "color2_target", "audio2_L_file"),

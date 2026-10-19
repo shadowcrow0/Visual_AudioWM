@@ -1,4 +1,4 @@
-﻿targetCol,targetAud,ResposeBox,Acc,resp
+﻿targetCol,targetAud,ResponseBox,Acc,resp
  color1_target, audio1_target_file,4,1,Correct
  color1_target, audio2_target_file,4,1,Correct
  color1_target, audio1_H_file,3,1,Correct
