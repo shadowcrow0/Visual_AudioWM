@@ -36,7 +36,9 @@ H_TARG, L_TARG = 2.0, 0.5                            # 漂移差目標：容易 
 FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")
 RT_MIN, RT_MAX = 0.15, 3.0
 N_BLOCKS, SETS_PER_BLOCK, N_PRACTICE_SETS = 6, 24, 2
-N_CALIB = int(len(LEVELS_COLOUR) * N_PER_LEVEL * (1 + P_MATCH / (1 - P_MATCH)) + 0.5)   # = 72
+N_CALIB = int(len(LEVELS_COLOUR) * N_PER_LEVEL * (1 + P_MATCH / (1 - P_MATCH)) + 0.5)   # = 72（另一維度 = T，進擬合）
+N_FILLER = 24             # 另一維度 H/L 的填充試（答案一定 N、不進擬合）
+N_CALIB_TOTAL = N_CALIB + N_FILLER
 OTHER_TARGETS_CHANGE = False  # False = nochange：另一維度的靶整區塊固定；True = change：每試重抽靶。兩版另一維度探測都抽 T/H/L
 PROV_DE_H, PROV_DE_L = 30.0, 6.0
 PROV_COUNT_H, PROV_COUNT_L = 10, 200
@@ -59,14 +61,16 @@ def two_targets():
     s1, s2 = rng.choice(CONSONANTS, 2, replace=False); k1, k2 = rng.choice(TALKERS, 2)
     return t1, t2, str(s1), str(s2), str(k1), str(k2)
 
-def calib_plan(levels):          # 每層 N_PER_LEVEL 試 + AA 試，打散；None = AA
-    plan = [x for x in levels for _ in range(N_PER_LEVEL)]
-    plan += [None] * int(round(len(plan) * P_MATCH / (1 - P_MATCH)))
+def calib_plan(levels):          # (正在校維度的等級, 另一維度等級)：72 試 other=T + 24 填充 other=H/L，打散
+    plan = [(x, 'T') for x in levels for _ in range(N_PER_LEVEL)]
+    plan += [(None, 'T')] * int(round(len(plan) * P_MATCH / (1 - P_MATCH)))
+    plan += [(rng.choice(levels + [None]), lev) for lev in ['H', 'L'] * (N_FILLER // 2)]
+    plan = [(None if x is None else float(x), o) for x, o in plan]
     rng.shuffle(plan); return plan
 
 def warmup_plan(levels):         # 暖機：AA 與最容易層級交替（None, 最容易, None, 最容易, ...）
     easiest = levels[-1]
-    return [None, easiest] * (N_WARMUP // 2)
+    return [(None, 'T'), (easiest, 'T')] * (N_WARMUP // 2)
 
 def foil_near(cons, count):      # 目標子音的干擾子音裡，混淆次數最接近 count 的
     cands = CONFUSION[cons]
@@ -111,7 +115,7 @@ def fit_dim(dim):                # 72 試 -> lnrm2 -> H / L（原始 adaptiveSFT
     load_full_package()
     from adaptivesft.models import fit_lnrm, make_data
     from adaptivesft.salience import find_salience
-    use = [r for r in calib_log if r['dim'] == dim and not r['is_match'] and r['key'] is not None
+    use = [r for r in calib_log if r['dim'] == dim and r['other'] == 'T' and not r['is_match'] and r['key'] is not None
            and RT_MIN <= r['rt'] <= RT_MAX]
     data = make_data([to_model_units(dim, r['x']) for r in use], [r['rt'] for r in use], [r['correct'] for r in use])
     trace = fit_lnrm(data, link='quadratic', **FIT_KW)
@@ -149,8 +153,9 @@ if PHASE in ('calib_colour', 'calib_audio', 'warm_colour', 'warm_audio'):
                     FIXED_COLS[(wi, lev)] = lab_to_hex(lab if lab is not None else tcol)
     elif not is_warmup and loop.thisN == 0:
         plan = calib_plan(LEVELS_COLOUR if dim == 'colour' else LEVELS_AUDIO)
-    x_planned = plan[loop.thisN]
-    is_match = x_planned is None
+    x_planned, other = plan[loop.thisN]
+    dim_match = x_planned is None                        # 正在校的維度一樣嗎（擬合用）
+    is_match = dim_match and other == 'T'                # 受試者的規則：兩個都一樣才 Y
     t1, t2, s1, s2, k1, k2 = two_targets()               # change：每試新的靶
     if not OTHER_TARGETS_CHANGE:
         if dim == 'colour':
@@ -159,15 +164,14 @@ if PHASE in ('calib_colour', 'calib_audio', 'warm_colour', 'warm_audio'):
             t1, t2 = FIXED_PAIR[:2]
     which = int(rng.integers(2))
     target_col, target_snd, talker = [t1, t2][which], [s1, s2][which], [k1, k2][which]
-    other = str(rng.choice(['T', 'H', 'L']))             # 另一維度的探測：T/H/L（兩版相同）
     if dim == 'colour':                                  # 校顏色：顏色走層級，聲音 T 或暫定 H/L
-        probe_lab = target_col if is_match else find_colour_at(target_col, x_planned, rng)
+        probe_lab = target_col if dim_match else find_colour_at(target_col, x_planned, rng)
         if probe_lab is None: probe_lab = target_col
         x_actual = delta_e(target_col, probe_lab)
         targetCol = lab_to_hex(probe_lab)
         targetAud = sound_file(talker, target_snd if other == 'T' else foil_near(target_snd, PROV_COUNT_H if other == 'H' else PROV_COUNT_L))
     else:                                                # 校聲音：聲音走層級，顏色 T 或暫定 H/L
-        foil, count = (target_snd, 0) if is_match else foil_for(CONFUSION, target_snd, x_planned)
+        foil, count = (target_snd, 0) if dim_match else foil_for(CONFUSION, target_snd, x_planned)
         x_actual = audio_x(count)
         targetAud = sound_file(talker, foil)
         if other == 'T':
@@ -206,7 +210,7 @@ thisExp.addData('is_match', int(is_match)); thisExp.addData('correct', correct)
 if PHASE in ('calib_colour', 'calib_audio', 'warm_colour', 'warm_audio'):
     thisExp.addData('x', x_actual)
     if PHASE in ('calib_colour', 'calib_audio'):          # 暖機不進 calib_log（擬合只用正式試次）
-        calib_log.append(dict(dim='colour' if PHASE == 'calib_colour' else 'audio', is_match=is_match,
+        calib_log.append(dict(dim='colour' if PHASE == 'calib_colour' else 'audio', is_match=dim_match, other=other,
                               x=x_actual, key=key, rt=rt, correct=correct))
 resp = 'No response' if key is None else ('Correct' if correct else 'Wrong')
 '''
@@ -278,8 +282,8 @@ INTRO_TXT = ("{title}\n\nOn each trial you will first see two coloured squares a
              "Try to remember them.\nThen one colour will appear together with one sound.\n\n"
              "If the colour AND the sound are both the same as before, press Y.\nIf anything is different, press N.\n"
              "{extra}\n\nPress the space bar to begin.")
-clone_routine('practice_intro', 'calibC_intro', 'Part 1 of 3: colour calibration (72 trials)\n\nOn each trial you will first see two coloured squares and hear two speech sounds. Try to remember them.\nThen one colour will appear together with one sound.\n\nIn this part, judge the COLOUR only: same colour as that item had before - press Y; different - press N.\nThe sound may or may not be the same - ignore it in this part.\n\nFirst, 8 practice trials with feedback. Then 72 trials without feedback.\n\nPress the space bar to begin.', "PHASE = 'warm_colour'")
-clone_routine('practice_intro', 'calibA_intro', 'Part 2 of 3: sound calibration (72 trials)\n\nSame as before, but now judge the SOUND only: same sound as that item had before - press Y; different - press N.\nThe colour may or may not be the same - ignore it in this part.\n\nFirst, 8 practice trials with feedback. Then 72 trials without feedback.\n\nPress the space bar to begin.', "PHASE = 'warm_audio'")
+clone_routine('practice_intro', 'calibC_intro', 'Part 1 of 3: colour calibration (96 trials)\n\nOn each trial you will first see two coloured squares and hear two speech sounds. Try to remember them. Then one colour will appear together with one sound.\n\nDid this colour AND this sound both appear a moment ago?\n   Y = yes, both of them did.      N = no, at least one of them is different.\n\nFirst, 8 practice trials with feedback. Then 96 trials without feedback.\n\nPress the space bar to begin.', "PHASE = 'warm_colour'")
+clone_routine('practice_intro', 'calibA_intro', 'Part 2 of 3: sound calibration (96 trials)\n\nOn each trial you will first see two coloured squares and hear two speech sounds. Try to remember them. Then one colour will appear together with one sound.\n\nDid this colour AND this sound both appear a moment ago?\n   Y = yes, both of them did.      N = no, at least one of them is different.\n\nFirst, 8 practice trials with feedback. Then 96 trials without feedback.\n\nPress the space bar to begin.', "PHASE = 'warm_audio'")
 PRACTICE_DONE_TXT = 'Practice done. From now on there is no feedback.\n\nPress the space bar to continue.'
 clone_routine('practice_intro', 'calibCw_done', PRACTICE_DONE_TXT, "PHASE = 'calib_colour'")
 clone_routine('practice_intro', 'calibAw_done', PRACTICE_DONE_TXT, "PHASE = 'calib_audio'")
@@ -312,7 +316,7 @@ def loop_pair(name, nreps, is_trials):
 def rnode(n): e = ET.Element('Routine'); e.set('name', n); return e
 
 for e in list(flow): flow.remove(e)
-cC, cCt = loop_pair('calibC', 'N_CALIB', True); cA, cAt = loop_pair('calibA', 'N_CALIB', True)
+cC, cCt = loop_pair('calibC', 'N_CALIB_TOTAL', True); cA, cAt = loop_pair('calibA', 'N_CALIB_TOTAL', True)
 cCw, cCwt = loop_pair('calibCw', 'N_WARMUP', True); cAw, cAwt = loop_pair('calibAw', 'N_WARMUP', True)
 pr_, prt = loop_pair('practice', 'N_PRACTICE_SETS', False); pin, pint = loop_pair('pinner', '9', True)
 bl, blt = loop_pair('blocks', 'N_BLOCKS', False); se, set_ = loop_pair('sets', 'SETS_PER_BLOCK', False); inn, innt = loop_pair('inner', '9', True)
