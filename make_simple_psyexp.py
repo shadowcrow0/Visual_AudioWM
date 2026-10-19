@@ -36,7 +36,9 @@ FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")
 RT_MIN, RT_MAX = 0.15, 3.0
 N_BLOCKS, SETS_PER_BLOCK, N_PRACTICE_SETS = 6, 24, 2
 N_CALIB = int(len(LEVELS_COLOUR) * N_PER_LEVEL * (1 + P_MATCH / (1 - P_MATCH)) + 0.5)   # = 72
-OTHER_DIM_FIXED = False   # False = change 版（校準時另一維度每試重抽）；True = nochange 版（整區塊固定一組配對）
+OTHER_DIM_VARIES = False  # False = nochange（校準時另一維度永遠 T）；True = change（每試從 T/H/L 抽）
+PROV_DE_H, PROV_DE_L = 30.0, 6.0
+PROV_COUNT_H, PROV_COUNT_L = 10, 200
 FIXED_PAIR = None
 
 # ═══════════ 1. 借來的數學 ═══════════
@@ -60,6 +62,10 @@ def calib_plan(levels):          # 每層 N_PER_LEVEL 試 + AA 試，打散；No
     plan += [None] * int(round(len(plan) * P_MATCH / (1 - P_MATCH)))
     rng.shuffle(plan); return plan
 
+def foil_near(cons, count):      # 目標子音的干擾子音裡，混淆次數最接近 count 的
+    cands = CONFUSION[cons]
+    return cands[int(np.argmin([abs(np.log10(c + 1) - np.log10(count + 1)) for _, c in cands]))][0]
+
 def make_study_set():            # 主實驗的一組：2 目標色各有 H/L 版本、2 目標音各有 H/L 干擾子音
     de_h, de_l = CALIB['colour']['high'], CALIB['colour']['low']
     cnt_h, cnt_l = CALIB['audio']['count_high'], CALIB['audio']['count_low']
@@ -70,9 +76,6 @@ def make_study_set():            # 主實驗的一組：2 目標色各有 H/L �
     else:
         raise RuntimeError("色域內找不到符合 dE_H / dE_L 的顏色")
     h1, l1, h2, l2 = cols
-    def foil_near(cons, count):
-        cands = CONFUSION[cons]
-        return cands[int(np.argmin([abs(np.log10(c + 1) - np.log10(count + 1)) for _, c in cands]))][0]
     return dict(color1_target=lab_to_hex(t1), color1_H=lab_to_hex(h1), color1_L=lab_to_hex(l1),
                 color2_target=lab_to_hex(t2), color2_H=lab_to_hex(h2), color2_L=lab_to_hex(l2),
                 audio1_target_file=sound_file(k1, s1), audio1_H_file=sound_file(k1, foil_near(s1, cnt_h)),
@@ -132,25 +135,27 @@ if PHASE in ('calib_colour', 'calib_audio'):
         plan = calib_plan(LEVELS_COLOUR if dim == 'colour' else LEVELS_AUDIO)
     x_planned = plan[loop.thisN]
     is_match = x_planned is None
-    t1, t2, s1, s2, k1, k2 = two_targets()
-    if OTHER_DIM_FIXED:                                  # nochange：不校的那個維度整區塊用同一組配對
-        if loop.thisN == 0:
-            FIXED_PAIR = (t1, t2, s1, s2, k1, k2)
-        if dim == 'colour':
-            s1, s2, k1, k2 = FIXED_PAIR[2:]
-        else:
-            t1, t2 = FIXED_PAIR[:2]
+    if loop.thisN == 0:                                  # 靶固定：整區塊同一組兩色兩音
+        FIXED_PAIR = two_targets()
+    t1, t2, s1, s2, k1, k2 = FIXED_PAIR
     which = int(rng.integers(2))
     target_col, target_snd, talker = [t1, t2][which], [s1, s2][which], [k1, k2][which]
-    if dim == 'colour':                                  # 只動顏色
+    other = 'T' if not OTHER_DIM_VARIES else str(rng.choice(['T', 'H', 'L']))   # 另一維度
+    if dim == 'colour':                                  # 校顏色：顏色走層級，聲音 T 或暫定 H/L
         probe_lab = target_col if is_match else find_colour_at(target_col, x_planned, rng)
         if probe_lab is None: probe_lab = target_col
         x_actual = delta_e(target_col, probe_lab)
-        targetCol, targetAud = lab_to_hex(probe_lab), sound_file(talker, target_snd)
-    else:                                                # 只動聲音
+        targetCol = lab_to_hex(probe_lab)
+        targetAud = sound_file(talker, target_snd if other == 'T' else foil_near(target_snd, PROV_COUNT_H if other == 'H' else PROV_COUNT_L))
+    else:                                                # 校聲音：聲音走層級，顏色 T 或暫定 H/L
         foil, count = (target_snd, 0) if is_match else foil_for(CONFUSION, target_snd, x_planned)
         x_actual = audio_x(count)
-        targetCol, targetAud = lab_to_hex(target_col), sound_file(talker, foil)
+        targetAud = sound_file(talker, foil)
+        if other == 'T':
+            targetCol = lab_to_hex(target_col)
+        else:
+            lab = find_colour_at(target_col, PROV_DE_H if other == 'H' else PROV_DE_L, rng)
+            targetCol = lab_to_hex(lab if lab is not None else target_col)
     color1_target, color2_target = lab_to_hex(t1), lab_to_hex(t2)
     audio1_target_file, audio2_target_file = sound_file(k1, s1), sound_file(k2, s2)
     condition, cond_name = -1, 'AA' if is_match else 'calib'
@@ -251,8 +256,8 @@ INTRO_TXT = ("{title}\n\nOn each trial you will first see two coloured squares a
              "Try to remember them.\nThen one colour will appear together with one sound.\n\n"
              "If the colour AND the sound are both the same as before, press Y.\nIf anything is different, press N.\n"
              "{extra}\n\nPress the space bar to begin.")
-clone_routine('practice_intro', 'calibC_intro', INTRO_TXT.format(title='Part 1 of 3: colour calibration (72 trials)', extra='There is no feedback in this part.'), "PHASE = 'calib_colour'")
-clone_routine('practice_intro', 'calibA_intro', INTRO_TXT.format(title='Part 2 of 3: sound calibration (72 trials)', extra='There is no feedback in this part.'), "PHASE = 'calib_audio'")
+clone_routine('practice_intro', 'calibC_intro', 'Part 1 of 3: colour calibration (72 trials)\n\nOn each trial you will first see two coloured squares and hear two speech sounds. Try to remember them.\nThen one colour will appear together with one sound.\n\nIn this part, judge the COLOUR only: same colour as that item had before - press Y; different - press N.\nThe sound may or may not be the same - ignore it in this part.\n\nThere is no feedback in this part.\n\nPress the space bar to begin.', "PHASE = 'calib_colour'")
+clone_routine('practice_intro', 'calibA_intro', 'Part 2 of 3: sound calibration (72 trials)\n\nSame as before, but now judge the SOUND only: same sound as that item had before - press Y; different - press N.\nThe colour may or may not be the same - ignore it in this part.\n\nThere is no feedback in this part.\n\nPress the space bar to begin.', "PHASE = 'calib_audio'")
 clone_routine('practice_intro', 'fit_msg', 'Calculating... this takes about a minute. Please wait.', "")
 setp(comp(R['fit_msg'], 'key_resp_2_fit_msg'), 'stopVal', '0.5'); setp(comp(R['fit_msg'], 'key_resp_2_fit_msg'), 'forceEndRoutine', 'False')
 setp(comp(R['fit_msg'], 'prac_intro_fit_msg'), 'stopVal', '0.5')

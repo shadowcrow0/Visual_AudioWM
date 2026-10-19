@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 SFT_WM_nochange.py —— SFT 實驗的「看得懂」版（nochange 版）：校準（原始 adaptiveSFT，lnrm）→ 練習 → 主實驗。
-【nochange 版】校顏色時整個區塊固定同一組聲音配對（同兩個子音、同兩個語者），只有顏色在變；
-            校聲音時整個區塊固定同一組顏色配對，只有子音在變。主實驗跟 change 版一樣每組重抽。
+【nochange 版】校準時「另一個維度」永遠是 T：校顏色時聲音都跟目標一樣、校聲音時顏色都跟目標一樣；
+            受試者只判斷正在校的那個維度。靶（兩色、兩音）整區塊固定。
             姊妹版 SFT_WM_change.py：校準時另一個維度也每試重抽。
 
 跟正式版（VAWM_calibrate.py + make_adaptive_blocks.py + VAWM_nobox.py）做的事一樣、時間軸一樣、資料欄位相容，
@@ -54,6 +54,10 @@ SETS_PER_BLOCK = 24          # 每個 block 幾組「學習 2 色 2 音」
 PROBES_PER_SET = 9           # 每組學習後接幾個探測（固定：2 AA、1 HA、1 LA、1 AH、1 AL、3 個 HH/HL/LH/LL）
 N_PRACTICE_SETS = 2          # 練習幾組（有回饋）
 RESP_WINDOW = 3.0            # 探測後等作答幾秒
+# 校準時「另一個維度」怎麼辦（change / nochange 兩版唯一的差別）
+OTHER_DIM_VARIES = False          # False = 另一維度永遠 T；True = 每試從 T / H / L 抽
+PROV_DE_H, PROV_DE_L = 30.0, 6.0        # 校聲音時暫定的顏色 H / L（ΔE）；主實驗用真正校出的值
+PROV_COUNT_H, PROV_COUNT_L = 10, 200    # 校顏色時暫定的聲音 H / L（混淆次數）
 if QUICK:
     FIT_KW = dict(tune=300, draws=300, chains=2, nuts_sampler="nutpie")
     N_BLOCKS, SETS_PER_BLOCK, N_PRACTICE_SETS = 1, 3, 1
@@ -247,6 +251,12 @@ def write_csv(path, rows):               # 每試寫一次整個檔，中途當�
         w.writerows(rows)
 
 
+def foil_near(cons, count):
+    """目標子音的干擾子音裡，混淆次數最接近 count 的那個。"""
+    cands = CONFUSION[cons]
+    return cands[int(np.argmin([abs(np.log10(c + 1) - np.log10(count + 1)) for _, c in cands]))][0]
+
+
 def two_targets():
     """抽兩個目標色（相距 ≥ 20 ΔE）、兩個不同子音、各自一個語者。"""
     t1 = random_target(rng)
@@ -265,25 +275,30 @@ def calibrate(dim, log_rows):
     plan += [None] * int(round(len(plan) * P_MATCH / (1 - P_MATCH)))
     rng.shuffle(plan)
 
-    show(("Part 1 of 3: colour calibration (72 trials)" if dim == "colour"
-          else "Part 2 of 3: sound calibration (72 trials)") +
-         "\n\nOn each trial you will first see two coloured squares and hear two speech sounds. "
-         "Try to remember them. Then one colour will appear together with one sound.\n\n"
-         "If the colour AND the sound are both the same as what you just saw and heard, press Y.\n"
-         "If anything is different, press N.\n\n"
-         "There is no feedback in this part.\n\nPress the space bar to begin.")
-    fixed = two_targets()                        # nochange：這一區塊固定的另一維度配對，抽一次
+    if dim == "colour":
+        show("Part 1 of 3: colour calibration (72 trials)\n\n"
+             "On each trial you will first see two coloured squares and hear two speech sounds. "
+             "Try to remember them. Then one colour will appear together with one sound.\n\n"
+             "In this part, judge the COLOUR only: if it is the same colour as that item had before, "
+             "press Y; if the colour is different, press N.\n"
+             "The sound may or may not be the same - ignore it in this part.\n\n"
+             "There is no feedback in this part.\n\nPress the space bar to begin.")
+    else:
+        show("Part 2 of 3: sound calibration (72 trials)\n\n"
+             "Same as before, but now judge the SOUND only: if it is the same sound as that item had before, "
+             "press Y; if the sound is different, press N.\n"
+             "The colour may or may not be the same - ignore it in this part.\n\n"
+             "There is no feedback in this part.\n\nPress the space bar to begin.")
+    # 靶固定：整個區塊用同一組兩個目標色、兩個目標音（降低複合）
+    t1, t2, s1, s2, k1, k2 = two_targets()
     for i, x in enumerate(plan, 1):
-        t1, t2, s1, s2, k1, k2 = two_targets()   # 先抽新的，再把「不校的那個維度」換回固定配對
-        if dim == "colour":
-            s1, s2, k1, k2 = fixed[2], fixed[3], fixed[4], fixed[5]     # 校顏色：聲音配對固定
-        else:
-            t1, t2 = fixed[0], fixed[1]                                 # 校聲音：顏色配對固定
         which = int(rng.integers(2))                 # 探測第 1 還是第 2 個目標
         target_col = [t1, t2][which]
         target_snd, talker = [s1, s2][which], [k1, k2][which]
-        is_match = x is None
-        if dim == "colour":                          # 只動顏色：探測音 = 目標音
+        is_match = x is None                         # 正在校的維度跟目標一樣嗎（受試者只判斷這個維度）
+        # 另一個維度：nochange = 永遠 T；change = 每試從 T / H / L 抽（校完前用暫定 H/L）
+        other = "T" if not OTHER_DIM_VARIES else str(rng.choice(["T", "H", "L"]))
+        if dim == "colour":
             if is_match:
                 probe_lab = target_col
             else:
@@ -291,19 +306,27 @@ def calibrate(dim, log_rows):
                 if probe_lab is None:                 # 這個目標往哪走都出色域：退回目標色（極少發生）
                     probe_lab = target_col
             x_actual = delta_e(target_col, probe_lab)
-            probe_col, probe_snd = lab_to_hex(probe_lab), sound_file(talker, target_snd)
-        else:                                        # 只動聲音：探測色 = 目標色
+            probe_col = lab_to_hex(probe_lab)
+            if other == "T":
+                probe_snd = sound_file(talker, target_snd)
+            else:
+                probe_snd = sound_file(talker, foil_near(target_snd, PROV_COUNT_H if other == "H" else PROV_COUNT_L))
+        else:
             if is_match:
                 foil, count = target_snd, 0
             else:
                 foil, count = foil_for(CONFUSION, target_snd, x)
             x_actual = audio_x(count)
-            probe_col, probe_snd = lab_to_hex(target_col), sound_file(talker, foil)
-
+            probe_snd = sound_file(talker, foil)
+            if other == "T":
+                probe_col = lab_to_hex(target_col)
+            else:
+                lab = find_colour_at(target_col, PROV_DE_H if other == "H" else PROV_DE_L, rng)
+                probe_col = lab_to_hex(lab if lab is not None else target_col)
         args = (lab_to_hex(t1), lab_to_hex(t2), sound_file(k1, s1), sound_file(k2, s2), probe_col, probe_snd)
         key, rt = one_trial(*args, _info=(dim, x_actual, is_match)) if ROBOT else one_trial(*args)
         correct = None if key is None else int(key == ("y" if is_match else "n"))
-        log_rows.append(dict(dim=dim, trial=i, is_match=int(is_match), x_planned=x, x=round(x_actual, 3),
+        log_rows.append(dict(dim=dim, trial=i, is_match=int(is_match), x_planned=x, x=round(x_actual, 3), other=other,
                              probe_col=probe_col, probe_snd=probe_snd, key=key, rt=rt, correct=correct))
         write_csv(f"data/{SUBJ}_simple_calib_trials.csv", log_rows)
         record(dict(phase=f"calib_{dim}", **log_rows[-1]))
@@ -366,10 +389,6 @@ def make_study_set(calib):
     else:
         raise RuntimeError("色域內找不到符合 ΔE_H / ΔE_L 的顏色")
     h1, l1, h2, l2 = cols
-
-    def foil_near(cons, count):           # 目標子音的干擾子音裡，混淆次數最接近 count 的
-        cands = CONFUSION[cons]
-        return cands[int(np.argmin([abs(np.log10(c + 1) - np.log10(count + 1)) for _, c in cands]))][0]
 
     return dict(
         color1_target=lab_to_hex(t1), color1_H=lab_to_hex(h1), color1_L=lab_to_hex(l1),
