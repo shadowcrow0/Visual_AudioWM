@@ -13,9 +13,10 @@ SFT_WM_change.py —— SFT 實驗的「看得懂」版（change 版）：校準
     python SFT_WM_change.py --robot --quick     機器人 + 縮短擬合 + 一個 block（幾分鐘跑完）
 
 產出（都在 data/）：
-    <subj>_simple_calib_trials.csv   校準的每一試
+    <subj>_simple_calib_trials.csv   校準的每一試（簡單 csv）
     <subj>_simple_calib.json         校到的 H / L（make_adaptive_blocks.py 也讀得懂）
     <subj>_simple_main.csv           主實驗每個探測一列（adaptive_vawm.analyze_vawm 讀得懂）
+    <subj>_SFT_WM_<日期>.csv / .psydat / .log   PsychoPy 標準格式（ExperimentHandler；校準+練習+主實驗全部試次）
 """
 import csv
 import json
@@ -136,6 +137,12 @@ if not ROBOT:
     if not gui.DlgFromDict(exp, title="VAWM simple").OK:
         core.quit()
     SUBJ = exp["participant"]
+    # PsychoPy 標準的三種輸出：<檔名>.csv（寬表）、.psydat（可用 psychopy.misc.fromFile 讀回）、.log
+    from psychopy import data as _pdata, logging as _plog
+    thisExp = _pdata.ExperimentHandler(name="SFT_WM", extraInfo=dict(exp),
+                                       dataFileName=f"data/{SUBJ}_SFT_WM_{_pdata.getDateStr()}",
+                                       savePickle=True, saveWideText=True)
+    _plog.LogFile(thisExp.dataFileName + ".log", level=_plog.EXP)
     win = visual.Window(fullscr=True, color="black", units="pix")
     fix = visual.TextStim(win, text="+", height=40, color="white")
     msg = visual.TextStim(win, text="", height=28, color="white", wrapWidth=1000,
@@ -194,6 +201,11 @@ if not ROBOT:
         msg.text = text
         present(msg.draw, 0.8)
 
+    def record(row):                       # 同一列資料也寫進 ExperimentHandler
+        for k, v in row.items():
+            thisExp.addData(k, v)
+        thisExp.nextEntry()
+
 else:
     # 機器人：不開視窗。答「不同」的機率隨差異變大而上升；AA 試以 10% 誤按「不同」。
     SUBJ = "robot"
@@ -201,6 +213,9 @@ else:
 
     def show(text):
         print("[畫面]", text.split("\n")[0])
+
+    def record(row):
+        pass
 
     def feedback(text):
         pass
@@ -285,6 +300,7 @@ def calibrate(dim, log_rows):
         log_rows.append(dict(dim=dim, trial=i, is_match=int(is_match), x_planned=x, x=round(x_actual, 3),
                              probe_col=probe_col, probe_snd=probe_snd, key=key, rt=rt, correct=correct))
         write_csv(f"data/{SUBJ}_simple_calib_trials.csv", log_rows)
+        record(dict(phase=f"calib_{dim}", **log_rows[-1]))
 
     # 3b. 擬合 lnrm2（只用有作答、RT 在範圍內的「不同」試）
     if not ROBOT:
@@ -403,6 +419,7 @@ def run_sets(n_sets, block, calib, rows, with_feedback):
             row.update(st)
             rows.append(row)
             write_csv(f"data/{SUBJ}_simple_main.csv", rows)
+            record(dict(phase="practice" if block == 0 else "main", **row))
 
 # ════════════════════════════════════════════════════════════════════════════════
 # 6. 整個流程
@@ -428,5 +445,8 @@ for b in range(1, N_BLOCKS + 1):
 show("That is the end of the experiment. Thank you very much!\n\nPress the space bar to finish.")
 print("done:", f"data/{SUBJ}_simple_calib.json", f"data/{SUBJ}_simple_main.csv")
 if not ROBOT:
+    thisExp.saveAsWideText(thisExp.dataFileName + ".csv")
+    thisExp.saveAsPickle(thisExp.dataFileName)
+    _plog.flush()
     win.close()
     core.quit()
