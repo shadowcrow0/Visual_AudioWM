@@ -84,7 +84,8 @@ rng = np.random.default_rng()
 
 # ════════════════════════════════════════════════════════════════════════════════
 # 2. 畫面與一試的流程（跟 VAWM_nobox.py 的時間軸一樣）
-#    注視 .3 → 左色 1 s → 右色 1 s → 音 1（1 s）→ 音 2（1 s）→ 注視 .3 → 探測色+音 1 s → 等按 y / n
+#    學習：注視 .3 → 左色 1 s → 右色 1 s → 音 1（1 s）→ 音 2（1 s）；探測：注視 .3 → 色+音 1 s → 等按 y / n
+#    校準每試 = 學習 + 1 探測；主實驗每組 = 學習 1 次 + 連續 9 個探測（同 VAWM_nobox.py）
 # ════════════════════════════════════════════════════════════════════════════════
 if not ROBOT:
     from psychopy import core, event, gui, sound, visual
@@ -182,8 +183,8 @@ if not ROBOT:
         if play:
             snd.stop()
 
-    def one_trial(c1, c2, s1, s2, probe_col, probe_snd):
-        """學習 2 色 2 音，然後探測一個 色+音，回傳 (按鍵 'y'/'n'/None, 反應時間)。"""
+    def study(c1, c2, s1, s2):
+        """學習階段：注視 .3 → 左色 1 s → 右色 1 s → 音 1 → 音 2（主實驗每組只做一次，之後接 9 個探測）"""
         present(fix.draw, 0.3)
         patch_l.fillColor = c1
         present(patch_l.draw, 1.0)
@@ -191,6 +192,9 @@ if not ROBOT:
         present(patch_r.draw, 1.0)
         present(None, 1.0, play=s1)
         present(None, 1.0, play=s2)
+
+    def probe_trial(probe_col, probe_snd):
+        """探測：注視 .3 → 色+音 1 s → 等 y/n，回傳 (按鍵, 反應時間)。"""
         present(fix.draw, 0.3)
         patch_c.fillColor = probe_col
         kb.clearEvents()
@@ -203,6 +207,11 @@ if not ROBOT:
             if kb.getKeys(["escape"]):
                 core.quit()
         return (keys[0].name, keys[0].rt) if keys else (None, None)
+
+    def one_trial(c1, c2, s1, s2, probe_col, probe_snd):
+        """校準用：學習一次 + 探測一次（校準每試都重新學）。"""
+        study(c1, c2, s1, s2)
+        return probe_trial(probe_col, probe_snd)
 
     def feedback(text):
         msg.text = text
@@ -223,6 +232,12 @@ else:
 
     def record(row):
         pass
+
+    def study(c1, c2, s1, s2):
+        pass
+
+    def probe_trial(probe_col, probe_snd, _info=None):
+        return one_trial(None, None, None, None, probe_col, probe_snd, _info=_info)
 
     def feedback(text):
         pass
@@ -466,12 +481,12 @@ def nine_probes():
 def run_sets(n_sets, block, calib, rows, with_feedback):
     for s in range(1, n_sets + 1):
         st = make_study_set(calib)
-        for p, cond in enumerate(nine_probes(), 1):
+        study(st["color1_target"], st["color2_target"], st["audio1_target_file"], st["audio2_target_file"])  # 一組只學一次
+        for p, cond in enumerate(nine_probes(), 1):                                                         # 然後連續 9 個探測
             name, col_key, snd_key = COND[cond]
             probe_col, probe_snd = st[col_key], st[snd_key]
-            args = (st["color1_target"], st["color2_target"], st["audio1_target_file"], st["audio2_target_file"],
-                    probe_col, probe_snd)
-            key, rt = one_trial(*args, _info=("colour", 20.0 if name != "AA" else 0.0, name == "AA", "T")) if ROBOT else one_trial(*args)
+            key, rt = (probe_trial(probe_col, probe_snd, _info=("colour", 20.0 if name != "AA" else 0.0, name == "AA", "T"))
+                       if ROBOT else probe_trial(probe_col, probe_snd))
             correct = None if key is None else int(key == ("y" if name == "AA" else "n"))
             if with_feedback:
                 feedback("No response" if key is None else ("Correct" if correct else "Wrong"))
