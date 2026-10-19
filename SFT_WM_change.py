@@ -135,8 +135,8 @@ if not ROBOT:
     patch_r = visual.Rect(win, width=100, height=100, pos=(200, 0), colorSpace="hex", lineColor="#808080")
     patch_c = visual.Rect(win, width=100, height=100, pos=(0, 0), colorSpace="hex", lineColor="#808080")
     snd = sound.Sound("A", secs=1, stereo=True, hamming=True)
-    kb = keyboard.Keyboard()
     clock = core.Clock()
+    kb = keyboard.Keyboard(clock=clock)   # RT 以這個 clock 為準；每題探測前 clock.reset()
 
     def show(text):                       # 顯示一段文字，等空白鍵；esc 離開
         msg.text = text
