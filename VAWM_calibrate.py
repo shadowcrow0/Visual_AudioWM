@@ -103,6 +103,12 @@ if not gui.DlgFromDict(expInfo, title="VAWM calibration").OK:
 subj = expInfo["participant"]
 os.makedirs("data", exist_ok=True)
 log_path = f"data/{subj}_calib_trials.csv"
+# PsychoPy 標準三種輸出（與 Builder 腳本一致）：<檔名>.csv 寬表、.psydat、.log
+from psychopy import logging as _plog
+thisExp = data.ExperimentHandler(name="VAWM_calib", extraInfo=dict(expInfo),
+                                 dataFileName=f"data/{subj}_VAWM_calib_{data.getDateStr()}",
+                                 savePickle=True, saveWideText=True)
+_plog.LogFile(thisExp.dataFileName + ".log", level=_plog.EXP)
 
 win = visual.Window(fullscr=True, color="black", units="pix")
 fix = visual.TextStim(win, text="+", height=40, color="white")
@@ -192,6 +198,9 @@ def run_block(cal, n, title):
         row["block"] = cal.dim
         rows.append(row)
         save_trial_log()
+        for k, v in row.items():                 # 同一列也進 ExperimentHandler
+            thisExp.addData(k, v)
+        thisExp.nextEntry()
     if METHOD == "lnrm":                                            # 擬合要幾十秒，先把畫面停在提示上
         msg.text = "計算中，請稍候…"
         msg.draw()
@@ -221,6 +230,9 @@ colour = run_block(cal_c, n_c, "區塊 1：顏色")
 audio = run_block(cal_a, n_a, "區塊 2：聲音")
 out = f"data/{subj}_calib.json"
 save_calibration(out, colour, audio, info=dict(expInfo, date=data.getDateStr(), method=METHOD, n_colour=n_c, n_audio=n_a))
+thisExp.saveAsWideText(thisExp.dataFileName + ".csv")
+thisExp.saveAsPickle(thisExp.dataFileName)
+_plog.flush()
 show(f"校準完成。\n\n{out}\n接著執行 make_adaptive_blocks.py 再跑 VAWM_nobox.py\n\n按空白鍵結束")
 win.close()
 core.quit()
