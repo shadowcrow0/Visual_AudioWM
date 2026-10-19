@@ -45,6 +45,7 @@ LEVELS_COLOUR = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0]   # 探測色與目標色的�
 LEVELS_AUDIO = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3]  # 子音不相似度 = −log10(混淆次數+1)（越大越好分）
 N_PER_LEVEL = 8                                      # 每個強度幾試 → 6×8 = 48 試「不同」
 P_MATCH = 1 / 3                                      # 再加 1/3 的「相同」試（探測 = 目標）→ 共 72 試
+N_WARMUP = 8                                         # 校準前的暖機試次，有回饋、不進擬合
 H_TARG, L_TARG = 2.0, 0.5                            # 要找的兩個難度：漂移差 2.0（容易 H）/ 0.5（困難 L）
 FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")   # 擬合設定；nutpie 約 70 s
 RT_MIN, RT_MAX = 0.15, 3.0                           # 擬合只用這範圍內的反應時間
@@ -266,10 +267,61 @@ def two_targets():
     return t1, t2, str(s1), str(s2), str(k1), str(k2)
 
 # ════════════════════════════════════════════════════════════════════════════════
-# 3. 校準：一個維度跑 72 試 → 擬合 → 得到 H（容易）與 L（困難）。不給回饋（回饋只在練習）
+# 3. 校準：8 試暖機（有回饋）→ 72 試正式 → 擬合 → 得到 H（容易）與 L（困難）。正式試次不給回饋
 # ════════════════════════════════════════════════════════════════════════════════
+def run_calib_trial(dim, x, fixed, fixed_cols):
+    """跑校準的「一試」：抽靶、決定 is_match / other、找探測顏色+聲音、呼叫 one_trial。
+    暖機與正式 72 試共用這個函式，行為完全一樣；回傳一列資料（不含試次編號）。"""
+    t1, t2, s1, s2, k1, k2 = two_targets()   # change：每試新的靶（兩個維度都新）
+    if not OTHER_TARGETS_CHANGE:             # nochange：把「另一維度」換回固定的那組
+        if dim == "colour":
+            s1, s2, k1, k2 = fixed[2], fixed[3], fixed[4], fixed[5]
+        else:
+            t1, t2 = fixed[0], fixed[1]
+    which = int(rng.integers(2))                 # 探測第 1 還是第 2 個目標
+    target_col = [t1, t2][which]
+    target_snd, talker = [s1, s2][which], [k1, k2][which]
+    is_match = x is None                         # 正在校的維度跟目標一樣嗎（受試者只判斷這個維度）
+    # 另一個維度的探測：每試從 T / H / L 抽（校完前用暫定 H/L）—— 兩版相同
+    other = str(rng.choice(["T", "H", "L"]))
+    if dim == "colour":
+        if is_match:
+            probe_lab = target_col
+        else:
+            probe_lab = find_colour_at(target_col, x, rng)
+            if probe_lab is None:                 # 這個目標往哪走都出色域：退回目標色（極少發生）
+                probe_lab = target_col
+        x_actual = delta_e(target_col, probe_lab)
+        probe_col = lab_to_hex(probe_lab)
+        if other == "T":
+            probe_snd = sound_file(talker, target_snd)
+        else:
+            probe_snd = sound_file(talker, foil_near(target_snd, PROV_COUNT_H if other == "H" else PROV_COUNT_L))
+    else:
+        if is_match:
+            foil, count = target_snd, 0
+        else:
+            foil, count = foil_for(CONFUSION, target_snd, x)
+        x_actual = audio_x(count)
+        probe_snd = sound_file(talker, foil)
+        if other == "T":
+            probe_col = lab_to_hex(target_col)
+        elif (which, other) in fixed_cols:          # nochange：固定靶的固定 H/L 色
+            probe_col = fixed_cols[(which, other)]
+        else:                                        # change：這一試的新靶，現算 H/L 色
+            lab = find_colour_at(target_col, PROV_DE_H if other == "H" else PROV_DE_L, rng)
+            probe_col = lab_to_hex(lab if lab is not None else target_col)
+    args = (lab_to_hex(t1), lab_to_hex(t2), sound_file(k1, s1), sound_file(k2, s2), probe_col, probe_snd)
+    key, rt = one_trial(*args, _info=(dim, x_actual, is_match)) if ROBOT else one_trial(*args)
+    correct = None if key is None else int(key == ("y" if is_match else "n"))
+    return dict(dim=dim, is_match=int(is_match), x_planned=x, x=round(x_actual, 3), other=other,
+                probe_col=probe_col, probe_snd=probe_snd, key=key, rt=rt, correct=correct)
+
+
 def calibrate(dim, log_rows):
     levels = LEVELS_COLOUR if dim == "colour" else LEVELS_AUDIO
+    easiest = levels[-1]                          # 暖機固定用 AA 與最容易的層級交替
+    warmup_plan = [None, easiest] * (N_WARMUP // 2)
     # 3a. 排試次：每個強度 N_PER_LEVEL 試，再加 AA 試湊到 1/3，打散
     plan = [x for x in levels for _ in range(N_PER_LEVEL)]
     plan += [None] * int(round(len(plan) * P_MATCH / (1 - P_MATCH)))
@@ -282,13 +334,15 @@ def calibrate(dim, log_rows):
              "In this part, judge the COLOUR only: if it is the same colour as that item had before, "
              "press Y; if the colour is different, press N.\n"
              "The sound may or may not be the same - ignore it in this part.\n\n"
-             "There is no feedback in this part.\n\nPress the space bar to begin.")
+             "First, 8 practice trials with feedback. Then 72 trials without feedback.\n\n"
+             "Press the space bar to begin.")
     else:
         show("Part 2 of 3: sound calibration (72 trials)\n\n"
              "Same as before, but now judge the SOUND only: if it is the same sound as that item had before, "
              "press Y; if the sound is different, press N.\n"
              "The colour may or may not be the same - ignore it in this part.\n\n"
-             "There is no feedback in this part.\n\nPress the space bar to begin.")
+             "First, 8 practice trials with feedback. Then 72 trials without feedback.\n\n"
+             "Press the space bar to begin.")
     fixed = two_targets()                        # nochange：另一維度整區塊固定的靶
     # nochange 校聲音時，固定靶的 H/L 顏色也只算一次（find_colour_at 每次會挑隨機方向，不固定就會每試不同色）
     fixed_cols = {}
@@ -297,51 +351,20 @@ def calibrate(dim, log_rows):
             for lev, de in (("H", PROV_DE_H), ("L", PROV_DE_L)):
                 lab = find_colour_at(tcol, de, rng)
                 fixed_cols[(wi, lev)] = lab_to_hex(lab if lab is not None else tcol)
+
+    # 3a-暖機：AA 與最容易層級交替，有回饋，不進 log_rows（擬合只用正式試次）
+    for i, x in enumerate(warmup_plan, 1):
+        row = run_calib_trial(dim, x, fixed, fixed_cols)
+        feedback("No response" if row["key"] is None else ("Correct" if row["correct"] else "Wrong"))
+        record(dict(phase=f"warmup_{dim}", trial=i, is_match=row["is_match"], x=row["x"], other=row["other"],
+                    key=row["key"], rt=row["rt"], correct=row["correct"]))
+    show("Practice done. From now on there is no feedback.\n\nPress the space bar to continue.")
+
     for i, x in enumerate(plan, 1):
-        t1, t2, s1, s2, k1, k2 = two_targets()   # change：每試新的靶（兩個維度都新）
-        if not OTHER_TARGETS_CHANGE:             # nochange：把「另一維度」換回固定的那組
-            if dim == "colour":
-                s1, s2, k1, k2 = fixed[2], fixed[3], fixed[4], fixed[5]
-            else:
-                t1, t2 = fixed[0], fixed[1]
-        which = int(rng.integers(2))                 # 探測第 1 還是第 2 個目標
-        target_col = [t1, t2][which]
-        target_snd, talker = [s1, s2][which], [k1, k2][which]
-        is_match = x is None                         # 正在校的維度跟目標一樣嗎（受試者只判斷這個維度）
-        # 另一個維度的探測：每試從 T / H / L 抽（校完前用暫定 H/L）—— 兩版相同
-        other = str(rng.choice(["T", "H", "L"]))
-        if dim == "colour":
-            if is_match:
-                probe_lab = target_col
-            else:
-                probe_lab = find_colour_at(target_col, x, rng)
-                if probe_lab is None:                 # 這個目標往哪走都出色域：退回目標色（極少發生）
-                    probe_lab = target_col
-            x_actual = delta_e(target_col, probe_lab)
-            probe_col = lab_to_hex(probe_lab)
-            if other == "T":
-                probe_snd = sound_file(talker, target_snd)
-            else:
-                probe_snd = sound_file(talker, foil_near(target_snd, PROV_COUNT_H if other == "H" else PROV_COUNT_L))
-        else:
-            if is_match:
-                foil, count = target_snd, 0
-            else:
-                foil, count = foil_for(CONFUSION, target_snd, x)
-            x_actual = audio_x(count)
-            probe_snd = sound_file(talker, foil)
-            if other == "T":
-                probe_col = lab_to_hex(target_col)
-            elif (which, other) in fixed_cols:          # nochange：固定靶的固定 H/L 色
-                probe_col = fixed_cols[(which, other)]
-            else:                                        # change：這一試的新靶，現算 H/L 色
-                lab = find_colour_at(target_col, PROV_DE_H if other == "H" else PROV_DE_L, rng)
-                probe_col = lab_to_hex(lab if lab is not None else target_col)
-        args = (lab_to_hex(t1), lab_to_hex(t2), sound_file(k1, s1), sound_file(k2, s2), probe_col, probe_snd)
-        key, rt = one_trial(*args, _info=(dim, x_actual, is_match)) if ROBOT else one_trial(*args)
-        correct = None if key is None else int(key == ("y" if is_match else "n"))
-        log_rows.append(dict(dim=dim, trial=i, is_match=int(is_match), x_planned=x, x=round(x_actual, 3), other=other,
-                             probe_col=probe_col, probe_snd=probe_snd, key=key, rt=rt, correct=correct))
+        row = run_calib_trial(dim, x, fixed, fixed_cols)
+        log_rows.append(dict(dim=row["dim"], trial=i, is_match=row["is_match"], x_planned=row["x_planned"],
+                             x=row["x"], other=row["other"], probe_col=row["probe_col"], probe_snd=row["probe_snd"],
+                             key=row["key"], rt=row["rt"], correct=row["correct"]))
         write_csv(f"data/{SUBJ}_simple_calib_trials.csv", log_rows)
         record(dict(phase=f"calib_{dim}", **log_rows[-1]))
 
