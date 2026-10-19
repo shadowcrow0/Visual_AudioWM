@@ -290,6 +290,13 @@ def calibrate(dim, log_rows):
              "The colour may or may not be the same - ignore it in this part.\n\n"
              "There is no feedback in this part.\n\nPress the space bar to begin.")
     fixed = two_targets()                        # nochange：另一維度整區塊固定的靶
+    # nochange 校聲音時，固定靶的 H/L 顏色也只算一次（find_colour_at 每次會挑隨機方向，不固定就會每試不同色）
+    fixed_cols = {}
+    if not OTHER_TARGETS_CHANGE and dim == "audio":
+        for wi, tcol in enumerate(fixed[:2]):
+            for lev, de in (("H", PROV_DE_H), ("L", PROV_DE_L)):
+                lab = find_colour_at(tcol, de, rng)
+                fixed_cols[(wi, lev)] = lab_to_hex(lab if lab is not None else tcol)
     for i, x in enumerate(plan, 1):
         t1, t2, s1, s2, k1, k2 = two_targets()   # change：每試新的靶（兩個維度都新）
         if not OTHER_TARGETS_CHANGE:             # nochange：把「另一維度」換回固定的那組
@@ -325,7 +332,9 @@ def calibrate(dim, log_rows):
             probe_snd = sound_file(talker, foil)
             if other == "T":
                 probe_col = lab_to_hex(target_col)
-            else:
+            elif (which, other) in fixed_cols:          # nochange：固定靶的固定 H/L 色
+                probe_col = fixed_cols[(which, other)]
+            else:                                        # change：這一試的新靶，現算 H/L 色
                 lab = find_colour_at(target_col, PROV_DE_H if other == "H" else PROV_DE_L, rng)
                 probe_col = lab_to_hex(lab if lab is not None else target_col)
         args = (lab_to_hex(t1), lab_to_hex(t2), sound_file(k1, s1), sound_file(k2, s2), probe_col, probe_snd)

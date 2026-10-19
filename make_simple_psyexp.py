@@ -40,6 +40,7 @@ OTHER_TARGETS_CHANGE = False  # False = nochange：另一維度的靶整區塊�
 PROV_DE_H, PROV_DE_L = 30.0, 6.0
 PROV_COUNT_H, PROV_COUNT_L = 10, 200
 FIXED_PAIR = None
+FIXED_COLS = {}
 
 # ═══════════ 1. 借來的數學 ═══════════
 from adaptive_vawm import (TALKERS, audio_x, count_from_x, delta_e, find_colour_at, foil_for,
@@ -137,6 +138,12 @@ if PHASE in ('calib_colour', 'calib_audio'):
     is_match = x_planned is None
     if loop.thisN == 0:
         FIXED_PAIR = two_targets()                       # nochange：另一維度整區塊固定的靶
+        FIXED_COLS = {}                                  # nochange 校聲音：固定靶的 H/L 色只算一次
+        if not OTHER_TARGETS_CHANGE and dim == 'audio':
+            for wi, tcol in enumerate(FIXED_PAIR[:2]):
+                for lev, de in (('H', PROV_DE_H), ('L', PROV_DE_L)):
+                    lab = find_colour_at(tcol, de, rng)
+                    FIXED_COLS[(wi, lev)] = lab_to_hex(lab if lab is not None else tcol)
     t1, t2, s1, s2, k1, k2 = two_targets()               # change：每試新的靶
     if not OTHER_TARGETS_CHANGE:
         if dim == 'colour':
@@ -158,6 +165,8 @@ if PHASE in ('calib_colour', 'calib_audio'):
         targetAud = sound_file(talker, foil)
         if other == 'T':
             targetCol = lab_to_hex(target_col)
+        elif (which, other) in FIXED_COLS:
+            targetCol = FIXED_COLS[(which, other)]
         else:
             lab = find_colour_at(target_col, PROV_DE_H if other == 'H' else PROV_DE_L, rng)
             targetCol = lab_to_hex(lab if lab is not None else target_col)
