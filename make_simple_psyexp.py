@@ -36,7 +36,7 @@ FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")
 RT_MIN, RT_MAX = 0.15, 3.0
 N_BLOCKS, SETS_PER_BLOCK, N_PRACTICE_SETS = 6, 24, 2
 N_CALIB = int(len(LEVELS_COLOUR) * N_PER_LEVEL * (1 + P_MATCH / (1 - P_MATCH)) + 0.5)   # = 72
-OTHER_DIM_VARIES = False  # False = nochange（校準時另一維度永遠 T）；True = change（每試從 T/H/L 抽）
+OTHER_TARGETS_CHANGE = False  # False = nochange：另一維度的靶整區塊固定；True = change：每試重抽靶。兩版另一維度探測都抽 T/H/L
 PROV_DE_H, PROV_DE_L = 30.0, 6.0
 PROV_COUNT_H, PROV_COUNT_L = 10, 200
 FIXED_PAIR = None
@@ -135,12 +135,17 @@ if PHASE in ('calib_colour', 'calib_audio'):
         plan = calib_plan(LEVELS_COLOUR if dim == 'colour' else LEVELS_AUDIO)
     x_planned = plan[loop.thisN]
     is_match = x_planned is None
-    if loop.thisN == 0:                                  # 靶固定：整區塊同一組兩色兩音
-        FIXED_PAIR = two_targets()
-    t1, t2, s1, s2, k1, k2 = FIXED_PAIR
+    if loop.thisN == 0:
+        FIXED_PAIR = two_targets()                       # nochange：另一維度整區塊固定的靶
+    t1, t2, s1, s2, k1, k2 = two_targets()               # change：每試新的靶
+    if not OTHER_TARGETS_CHANGE:
+        if dim == 'colour':
+            s1, s2, k1, k2 = FIXED_PAIR[2:]
+        else:
+            t1, t2 = FIXED_PAIR[:2]
     which = int(rng.integers(2))
     target_col, target_snd, talker = [t1, t2][which], [s1, s2][which], [k1, k2][which]
-    other = 'T' if not OTHER_DIM_VARIES else str(rng.choice(['T', 'H', 'L']))   # 另一維度
+    other = str(rng.choice(['T', 'H', 'L']))             # 另一維度的探測：T/H/L（兩版相同）
     if dim == 'colour':                                  # 校顏色：顏色走層級，聲音 T 或暫定 H/L
         probe_lab = target_col if is_match else find_colour_at(target_col, x_planned, rng)
         if probe_lab is None: probe_lab = target_col

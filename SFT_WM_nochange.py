@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 SFT_WM_nochange.py —— SFT 實驗的「看得懂」版（nochange 版）：校準（原始 adaptiveSFT，lnrm）→ 練習 → 主實驗。
-【nochange 版】校準時「另一個維度」永遠是 T：校顏色時聲音都跟目標一樣、校聲音時顏色都跟目標一樣；
-            受試者只判斷正在校的那個維度。靶（兩色、兩音）整區塊固定。
+【nochange 版】校準時「另一個維度」的靶整區塊固定（校顏色時永遠同兩個聲音、校聲音時永遠同兩個顏色），
+            它的探測仍每試從 T/H/L 抽；正在校的維度每試重抽靶。受試者只判斷正在校的維度。
             姊妹版 SFT_WM_change.py：校準時另一個維度也每試重抽。
 
 跟正式版（VAWM_calibrate.py + make_adaptive_blocks.py + VAWM_nobox.py）做的事一樣、時間軸一樣、資料欄位相容，
@@ -54,8 +54,8 @@ SETS_PER_BLOCK = 24          # 每個 block 幾組「學習 2 色 2 音」
 PROBES_PER_SET = 9           # 每組學習後接幾個探測（固定：2 AA、1 HA、1 LA、1 AH、1 AL、3 個 HH/HL/LH/LL）
 N_PRACTICE_SETS = 2          # 練習幾組（有回饋）
 RESP_WINDOW = 3.0            # 探測後等作答幾秒
-# 校準時「另一個維度」怎麼辦（change / nochange 兩版唯一的差別）
-OTHER_DIM_VARIES = False          # False = 另一維度永遠 T；True = 每試從 T / H / L 抽
+# 校準時另一個維度的探測每試都從 T / H / L 抽（兩版相同）；兩版唯一的差別：
+OTHER_TARGETS_CHANGE = False   # False = nochange：另一維度的靶整區塊固定；True = change：每試重抽新的靶（兩個維度都是）
 PROV_DE_H, PROV_DE_L = 30.0, 6.0        # 校聲音時暫定的顏色 H / L（ΔE）；主實驗用真正校出的值
 PROV_COUNT_H, PROV_COUNT_L = 10, 200    # 校顏色時暫定的聲音 H / L（混淆次數）
 if QUICK:
@@ -289,15 +289,20 @@ def calibrate(dim, log_rows):
              "press Y; if the sound is different, press N.\n"
              "The colour may or may not be the same - ignore it in this part.\n\n"
              "There is no feedback in this part.\n\nPress the space bar to begin.")
-    # 靶固定：整個區塊用同一組兩個目標色、兩個目標音（降低複合）
-    t1, t2, s1, s2, k1, k2 = two_targets()
+    fixed = two_targets()                        # nochange：另一維度整區塊固定的靶
     for i, x in enumerate(plan, 1):
+        t1, t2, s1, s2, k1, k2 = two_targets()   # change：每試新的靶（兩個維度都新）
+        if not OTHER_TARGETS_CHANGE:             # nochange：把「另一維度」換回固定的那組
+            if dim == "colour":
+                s1, s2, k1, k2 = fixed[2], fixed[3], fixed[4], fixed[5]
+            else:
+                t1, t2 = fixed[0], fixed[1]
         which = int(rng.integers(2))                 # 探測第 1 還是第 2 個目標
         target_col = [t1, t2][which]
         target_snd, talker = [s1, s2][which], [k1, k2][which]
         is_match = x is None                         # 正在校的維度跟目標一樣嗎（受試者只判斷這個維度）
-        # 另一個維度：nochange = 永遠 T；change = 每試從 T / H / L 抽（校完前用暫定 H/L）
-        other = "T" if not OTHER_DIM_VARIES else str(rng.choice(["T", "H", "L"]))
+        # 另一個維度的探測：每試從 T / H / L 抽（校完前用暫定 H/L）—— 兩版相同
+        other = str(rng.choice(["T", "H", "L"]))
         if dim == "colour":
             if is_match:
                 probe_lab = target_col
