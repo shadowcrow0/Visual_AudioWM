@@ -471,7 +471,7 @@ def run_sets(n_sets, block, calib, rows, with_feedback):
             probe_col, probe_snd = st[col_key], st[snd_key]
             args = (st["color1_target"], st["color2_target"], st["audio1_target_file"], st["audio2_target_file"],
                     probe_col, probe_snd)
-            key, rt = one_trial(*args, _info=("colour", 20.0 if name != "AA" else 0.0, name == "AA")) if ROBOT else one_trial(*args)
+            key, rt = one_trial(*args, _info=("colour", 20.0 if name != "AA" else 0.0, name == "AA", "T")) if ROBOT else one_trial(*args)
             correct = None if key is None else int(key == ("y" if name == "AA" else "n"))
             if with_feedback:
                 feedback("No response" if key is None else ("Correct" if correct else "Wrong"))
