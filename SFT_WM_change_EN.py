@@ -37,6 +37,8 @@ LEVELS_COLOUR = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0]
 LEVELS_AUDIO = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3]
 N_PER_LEVEL = 8
 P_MATCH = 1 / 3
+N_WARMUP = 8
+N_FILLER = 24
 H_TARG, L_TARG = 2.0, 0.5
 FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")
 RT_MIN, RT_MAX = 0.15, 3.0
@@ -151,8 +153,8 @@ if not ROBOT:
         if play:
             snd.stop()
 
-    def one_trial(c1, c2, s1, s2, probe_col, probe_snd):
-        """Study 2 colours and 2 sounds, then probe one colour+sound; returns (key 'y'/'n'/None, reaction time)."""
+    def study(c1, c2, s1, s2):
+        """Study phase: fixation .3 → left colour 1 s → right colour 1 s → sound 1 → sound 2 (once per set in the main task, followed by 9 probes)."""
         present(fix.draw, 0.3)
         patch_l.fillColor = c1
         present(patch_l.draw, 1.0)
@@ -160,6 +162,9 @@ if not ROBOT:
         present(patch_r.draw, 1.0)
         present(None, 1.0, play=s1)
         present(None, 1.0, play=s2)
+
+    def probe_trial(probe_col, probe_snd):
+        """Probe: fixation .3 → colour+sound 1 s → wait for y/n; returns (key, reaction time)."""
         present(fix.draw, 0.3)
         patch_c.fillColor = probe_col
         kb.clearEvents()
@@ -172,6 +177,11 @@ if not ROBOT:
             if kb.getKeys(["escape"]):
                 core.quit()
         return (keys[0].name, keys[0].rt) if keys else (None, None)
+
+    def one_trial(c1, c2, s1, s2, probe_col, probe_snd):
+        """For calibration: one study + one probe (calibration re-studies on every trial)."""
+        study(c1, c2, s1, s2)
+        return probe_trial(probe_col, probe_snd)
 
     def feedback(text):
         msg.text = text
@@ -192,6 +202,12 @@ else:
     def record(row):
         pass
 
+    def study(c1, c2, s1, s2):
+        pass
+
+    def probe_trial(probe_col, probe_snd, _info=None):
+        return one_trial(None, None, None, None, probe_col, probe_snd, _info=_info)
+
     def feedback(text):
         pass
 
@@ -199,7 +215,9 @@ else:
     from adaptivesft.race import lnrm_random
 
     def one_trial(c1, c2, s1, s2, probe_col, probe_snd, _info=None):
-        dim, x, is_match = _info
+        dim, x, is_match, other = _info
+        if other != "T":
+            return ("y" if rng.uniform() < 0.10 else "n"), 0.9
         if is_match:
             return ("n" if rng.uniform() < 0.10 else "y"), 0.8
         u = to_model_units(dim, x)
@@ -237,69 +255,92 @@ def two_targets():
 
 # ════════════════════════════════════════════════════════════════════════════════
 # ════════════════════════════════════════════════════════════════════════════════
+def run_calib_trial(dim, x, other, fixed, fixed_cols):
+    """Run one calibration trial: draw targets, decide is_match / other, find the probe colour+sound, call one_trial; shared by the warm-up and the 72 real trials, returns one data row (without trial number)."""
+    t1, t2, s1, s2, k1, k2 = two_targets()
+    if not OTHER_TARGETS_CHANGE:
+        if dim == "colour":
+            s1, s2, k1, k2 = fixed[2], fixed[3], fixed[4], fixed[5]
+        else:
+            t1, t2 = fixed[0], fixed[1]
+    which = int(rng.integers(2))
+    target_col = [t1, t2][which]
+    target_snd, talker = [s1, s2][which], [k1, k2][which]
+    is_match = x is None
+    answer_same = is_match and other == "T"
+    if dim == "colour":
+        if is_match:
+            probe_lab = target_col
+        else:
+            probe_lab = find_colour_at(target_col, x, rng)
+            if probe_lab is None:
+                probe_lab = target_col
+        x_actual = delta_e(target_col, probe_lab)
+        probe_col = lab_to_hex(probe_lab)
+        if other == "T":
+            probe_snd = sound_file(talker, target_snd)
+        else:
+            probe_snd = sound_file(talker, foil_near(target_snd, PROV_COUNT_H if other == "H" else PROV_COUNT_L))
+    else:
+        if is_match:
+            foil, count = target_snd, 0
+        else:
+            foil, count = foil_for(CONFUSION, target_snd, x)
+        x_actual = audio_x(count)
+        probe_snd = sound_file(talker, foil)
+        if other == "T":
+            probe_col = lab_to_hex(target_col)
+        elif (which, other) in fixed_cols:
+            probe_col = fixed_cols[(which, other)]
+        else:
+            lab = find_colour_at(target_col, PROV_DE_H if other == "H" else PROV_DE_L, rng)
+            probe_col = lab_to_hex(lab if lab is not None else target_col)
+    args = (lab_to_hex(t1), lab_to_hex(t2), sound_file(k1, s1), sound_file(k2, s2), probe_col, probe_snd)
+    key, rt = one_trial(*args, _info=(dim, x_actual, answer_same, other)) if ROBOT else one_trial(*args)
+    correct = None if key is None else int(key == ("y" if answer_same else "n"))
+    return dict(dim=dim, is_match=int(is_match), x_planned=x, x=round(x_actual, 3), other=other,
+                probe_col=probe_col, probe_snd=probe_snd, key=key, rt=rt, correct=correct)
+
+
 def calibrate(dim, log_rows):
     levels = LEVELS_COLOUR if dim == "colour" else LEVELS_AUDIO
-    plan = [x for x in levels for _ in range(N_PER_LEVEL)]
-    plan += [None] * int(round(len(plan) * P_MATCH / (1 - P_MATCH)))
+    easiest = levels[-1]
+    warmup_plan = [(None, "T"), (easiest, "T")] * (N_WARMUP // 2)
+    plan = [(x, "T") for x in levels for _ in range(N_PER_LEVEL)]
+    plan += [(None, "T")] * int(round(len(plan) * P_MATCH / (1 - P_MATCH)))
+    plan += [(rng.choice(levels + [None]), lev) for lev in ["H", "L"] * (N_FILLER // 2)]
+    plan = [(None if x is None else float(x), o) for x, o in plan]
     rng.shuffle(plan)
 
-    if dim == "colour":
-        show("Part 1 of 3: colour calibration (72 trials)\n\n"
-             "On each trial you will first see two coloured squares and hear two speech sounds. "
-             "Try to remember them. Then one colour will appear together with one sound.\n\n"
-             "In this part, judge the COLOUR only: if it is the same colour as that item had before, "
-             "press Y; if the colour is different, press N.\n"
-             "The sound may or may not be the same - ignore it in this part.\n\n"
-             "There is no feedback in this part.\n\nPress the space bar to begin.")
-    else:
-        show("Part 2 of 3: sound calibration (72 trials)\n\n"
-             "Same as before, but now judge the SOUND only: if it is the same sound as that item had before, "
-             "press Y; if the sound is different, press N.\n"
-             "The colour may or may not be the same - ignore it in this part.\n\n"
-             "There is no feedback in this part.\n\nPress the space bar to begin.")
+    n_total = len(plan)
+    show((f"Part 1 of 3: colour calibration ({n_total} trials)" if dim == "colour"
+          else f"Part 2 of 3: sound calibration ({n_total} trials)") +
+         "\n\nOn each trial you will first see two coloured squares and hear two speech sounds. "
+         "Try to remember them. Then one colour will appear together with one sound.\n\n"
+         "Did this colour AND this sound both appear a moment ago?\n"
+         "   Y = yes, both of them did.      N = no, at least one of them is different.\n\n"
+         f"First, {N_WARMUP} practice trials with feedback. Then {n_total} trials without feedback.\n\n"
+         "Press the space bar to begin.")
     fixed = two_targets()
-    for i, x in enumerate(plan, 1):
-        t1, t2, s1, s2, k1, k2 = two_targets()
-        if not OTHER_TARGETS_CHANGE:
-            if dim == "colour":
-                s1, s2, k1, k2 = fixed[2], fixed[3], fixed[4], fixed[5]
-            else:
-                t1, t2 = fixed[0], fixed[1]
-        which = int(rng.integers(2))
-        target_col = [t1, t2][which]
-        target_snd, talker = [s1, s2][which], [k1, k2][which]
-        is_match = x is None
-        other = str(rng.choice(["T", "H", "L"]))
-        if dim == "colour":
-            if is_match:
-                probe_lab = target_col
-            else:
-                probe_lab = find_colour_at(target_col, x, rng)
-                if probe_lab is None:
-                    probe_lab = target_col
-            x_actual = delta_e(target_col, probe_lab)
-            probe_col = lab_to_hex(probe_lab)
-            if other == "T":
-                probe_snd = sound_file(talker, target_snd)
-            else:
-                probe_snd = sound_file(talker, foil_near(target_snd, PROV_COUNT_H if other == "H" else PROV_COUNT_L))
-        else:
-            if is_match:
-                foil, count = target_snd, 0
-            else:
-                foil, count = foil_for(CONFUSION, target_snd, x)
-            x_actual = audio_x(count)
-            probe_snd = sound_file(talker, foil)
-            if other == "T":
-                probe_col = lab_to_hex(target_col)
-            else:
-                lab = find_colour_at(target_col, PROV_DE_H if other == "H" else PROV_DE_L, rng)
-                probe_col = lab_to_hex(lab if lab is not None else target_col)
-        args = (lab_to_hex(t1), lab_to_hex(t2), sound_file(k1, s1), sound_file(k2, s2), probe_col, probe_snd)
-        key, rt = one_trial(*args, _info=(dim, x_actual, is_match)) if ROBOT else one_trial(*args)
-        correct = None if key is None else int(key == ("y" if is_match else "n"))
-        log_rows.append(dict(dim=dim, trial=i, is_match=int(is_match), x_planned=x, x=round(x_actual, 3), other=other,
-                             probe_col=probe_col, probe_snd=probe_snd, key=key, rt=rt, correct=correct))
+    fixed_cols = {}
+    if not OTHER_TARGETS_CHANGE and dim == "audio":
+        for wi, tcol in enumerate(fixed[:2]):
+            for lev, de in (("H", PROV_DE_H), ("L", PROV_DE_L)):
+                lab = find_colour_at(tcol, de, rng)
+                fixed_cols[(wi, lev)] = lab_to_hex(lab if lab is not None else tcol)
+
+    for i, (x, other) in enumerate(warmup_plan, 1):
+        row = run_calib_trial(dim, x, other, fixed, fixed_cols)
+        feedback("No response" if row["key"] is None else ("Correct" if row["correct"] else "Wrong"))
+        record(dict(phase=f"warmup_{dim}", trial=i, is_match=row["is_match"], x=row["x"], other=row["other"],
+                    key=row["key"], rt=row["rt"], correct=row["correct"]))
+    show("Practice done. From now on there is no feedback.\n\nPress the space bar to continue.")
+
+    for i, (x, other) in enumerate(plan, 1):
+        row = run_calib_trial(dim, x, other, fixed, fixed_cols)
+        log_rows.append(dict(dim=row["dim"], trial=i, is_match=row["is_match"], x_planned=row["x_planned"],
+                             x=row["x"], other=row["other"], probe_col=row["probe_col"], probe_snd=row["probe_snd"],
+                             key=row["key"], rt=row["rt"], correct=row["correct"]))
         write_csv(f"data/{SUBJ}_simple_calib_trials.csv", log_rows)
         record(dict(phase=f"calib_{dim}", **log_rows[-1]))
 
@@ -311,7 +352,7 @@ def calibrate(dim, log_rows):
     load_full_package()
     from adaptivesft.models import fit_lnrm, make_data
     from adaptivesft.salience import find_salience
-    use = [r for r in log_rows if r["dim"] == dim and not r["is_match"] and r["key"] is not None
+    use = [r for r in log_rows if r["dim"] == dim and r["other"] == "T" and not r["is_match"] and r["key"] is not None
            and RT_MIN <= r["rt"] <= RT_MAX]
     data = make_data([to_model_units(dim, r["x"]) for r in use], [r["rt"] for r in use], [r["correct"] for r in use])
     t0 = time.time()
@@ -331,7 +372,7 @@ def calibrate(dim, log_rows):
         low = float(np.clip(low, lo_lim, hi_lim))
         if low >= high:
             low = lo_lim
-    aa = [r["key"] == "n" for r in log_rows if r["dim"] == dim and r["is_match"] and r["key"] is not None]
+    aa = [r["key"] == "n" for r in log_rows if r["dim"] == dim and r["other"] == "T" and r["is_match"] and r["key"] is not None]
     out = dict(dim=dim, high=float(high), low=float(low), in_range=in_range,
                false_alarm=float(np.mean(aa)) if aa else None,
                n_used=len(use), fit_seconds=round(time.time() - t0), warnings=list(res["warnings"]),
@@ -396,12 +437,12 @@ def nine_probes():
 def run_sets(n_sets, block, calib, rows, with_feedback):
     for s in range(1, n_sets + 1):
         st = make_study_set(calib)
+        study(st["color1_target"], st["color2_target"], st["audio1_target_file"], st["audio2_target_file"])
         for p, cond in enumerate(nine_probes(), 1):
             name, col_key, snd_key = COND[cond]
             probe_col, probe_snd = st[col_key], st[snd_key]
-            args = (st["color1_target"], st["color2_target"], st["audio1_target_file"], st["audio2_target_file"],
-                    probe_col, probe_snd)
-            key, rt = one_trial(*args, _info=("colour", 20.0 if name != "AA" else 0.0, name == "AA")) if ROBOT else one_trial(*args)
+            key, rt = (probe_trial(probe_col, probe_snd, _info=("colour", 20.0 if name != "AA" else 0.0, name == "AA", "T"))
+                       if ROBOT else probe_trial(probe_col, probe_snd))
             correct = None if key is None else int(key == ("y" if name == "AA" else "n"))
             if with_feedback:
                 feedback("No response" if key is None else ("Correct" if correct else "Wrong"))
