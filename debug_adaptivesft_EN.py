@@ -259,7 +259,7 @@ else:
         ok("sound.Sound opens")
     except Exception as e:
         bad(f"sound.Sound failed: {type(e).__name__}: {e}")
-        fix("check audioDevice in the PsychoPy preferences (_pick_audio_device in VAWM_calibrate.py switches automatically)")
+        fix("run python audio_pick.py to list the output devices, then python audio_pick.py --set \"NAME\" to pick the headphones")
         snd = None
     kb = keyboard.Keyboard()
     clock = core.Clock()

@@ -53,7 +53,20 @@ speech-shaped noise, coordinate = SNR in dB). Both dimensions are calibrated per
    headless simulated calibration, a short real fit, and a dry run of `VAWM_calibrate.py` up to the dialog).
 3. Open `SFT_WM_change.py` or `SFT_WM_nochange.py` in Coder and Run. `--robot --quick` on the command line runs the
    whole flow in a few minutes with a simulated participant and no window.
-4. Wear headphones: the scripts pick a device whose name says "Headphones" over speakers and warn otherwise.
+4. Wear headphones. On a machine you have not used before (e.g. a remote PC), find the output device first:
+
+   ```
+   python audio_pick.py                     # table of every output device; marks names that look like headphones
+   python audio_pick.py --probe --beep      # also open each device, then play a 1 s tone on the chosen one
+   python audio_pick.py --set "Headphones"  # remember that device (audio_device.txt + PsychoPy preference)
+   ```
+
+   Every experiment script then takes the device from, in this order: `--audio-device "NAME"` on the command line,
+   the environment variable `VAWM_AUDIO_DEVICE`, `audio_device.txt`, or an automatic choice (headphone-like name >
+   saved PsychoPy preference > anything that opens). A named device must exist or the script stops and lists what is
+   there; `--require-headphones` makes the automatic choice stop instead of falling back to speakers
+   (`GRTv3_ada.py` always requires headphones). The chosen name is written into every data row (`audio_device`).
+   `--list-audio` on any script only prints the table. Logic and tests: `audio_pick.py`, `tests/test_audio_pick.py`.
 
 Outputs per participant (in `data/`): `<id>_simple_calib_trials.csv`, `<id>_simple_calib.json` (H/L),
 `<id>_simple_main.csv` (one row per probe; read by the analysis), plus PsychoPy's standard

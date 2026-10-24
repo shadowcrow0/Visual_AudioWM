@@ -1,5 +1,9 @@
 """跨電腦解析音訊輸出裝置 —— 用名稱比對,不用 index。
 
+⚠ 2026-10-24 起實驗腳本改用 audio_pick.py(列裝置、實際試開、命令列指定);本檔保留給
+  舊流程與 validate() 自我檢查。新版 PsychoPy 的 getAvailableDevices() 回傳的鍵是
+  'deviceName'(舊版是 'name'),下面兩種都接受。
+
 為什麼不能寫死 index
 --------------------
 PsychoPy 的 device manager 把裝置存在 `%APPDATA%/psychopy3/devices.json`,
@@ -84,7 +88,7 @@ def _match(devices, patterns):
     for pat in patterns:
         rx = re.compile(pat, re.IGNORECASE)
         for d in devices:
-            if rx.search(str(d.get("name", ""))):
+            if rx.search(str(d.get("deviceName") or d.get("name") or "")):
                 return d, pat
     return None, None
 
@@ -117,7 +121,7 @@ def resolve_speaker(require_headphones=True, devices=None):
 
     if dev is None:
         if require_headphones:
-            names = "\n".join(f"    - {d.get('name')!r} (index {d.get('index')})"
+            names = "\n".join(f"    - {d.get('deviceName') or d.get('name')!r} (index {d.get('index')})"
                               for d in devices)
             raise RuntimeError(
                 f"在 {host} 上找不到耳機裝置。目前可用的是:\n{names}\n\n"
@@ -132,12 +136,12 @@ def resolve_speaker(require_headphones=True, devices=None):
             dev, pat = devices[0], "(第一個可用裝置)"
 
     return {
-        "name": dev.get("name"),
+        "name": dev.get("deviceName") or dev.get("name"),
         "index": dev.get("index"),
         "matched_pattern": pat,
         "is_headphones": is_hp,
         "host": host,
-        "candidates": [(d.get("name"), d.get("index")) for d in devices],
+        "candidates": [(d.get("deviceName") or d.get("name"), d.get("index")) for d in devices],
     }
 
 
@@ -180,7 +184,7 @@ def validate():
     devs = list_devices()
     print(f"\n目前可用的輸出裝置({len(devs)} 個):")
     for d in devs:
-        print(f"  index {d.get('index'):>6}  {d.get('name')!r}")
+        print(f"  index {str(d.get('index')):>6}  {d.get('deviceName') or d.get('name')!r}")
     if not devs:
         print("  (無)")
 

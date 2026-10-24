@@ -91,60 +91,18 @@ if not ROBOT:
     from psychopy import core, event, gui, sound, visual
     from psychopy.hardware import keyboard
 
-    # 偏好設定裡記的喇叭（例如 DELL 螢幕）不在時 sound.Sound() 會直接炸，先逐一試開、留下第一個能用的
-    AUDIO_DEVICE = ""                                   # 指定輸出裝置名稱的一部分（例 "Headphones"）；空字串 = 自動挑
-    AUDIO_PREFER = ["headphone", "耳機", "earphone"]     # 自動挑時優先的名字（小寫比對）
-
-    def _pick_audio_device():
-        """
-        PsychoPy 的偏好設定會記住上次用的喇叭名字（userPrefs.cfg 的 hardware/audioDevice）。
-        那台裝置拔掉或換機器之後，sound.Sound() 會丟 DeviceNotConnectedError；
-        而且「列得出來」不等於「開得起來」（例如耳機孔沒插東西，PTB 會開串流失敗）。
-        所以這裡逐一實際試開，留下第一個成功的；偏好設定裡那個仍可用就不動它。
-        """
-        from psychopy import prefs
-        try:
-            from psychopy.hardware.speaker import SpeakerDevice
-        except Exception as e:                      # 舊版 PsychoPy 沒有 SpeakerDevice：維持原設定
-            print(f"[audio] 無法列出裝置（{e}），沿用偏好設定")
-            return
-        avail = []
-        for d in SpeakerDevice.getAvailableDevices():
-            name = d.get("deviceName") if isinstance(d, dict) else getattr(d, "deviceName", None)
-            if name and name not in avail:
-                avail.append(name)
-        if not avail:
-            print("[audio] 找不到任何輸出裝置")
-            return
-        want = prefs.hardware.get("audioDevice") or []
-        if isinstance(want, str):
-            want = [want]
-        # 排序：AUDIO_DEVICE 指名的 > 名字像耳機的 > 偏好設定裡的 > 其他。受試者要戴耳機，不能落到喇叭。
-        named = [a for a in avail if AUDIO_DEVICE and AUDIO_DEVICE.lower() in a.lower()]
-        headph = [a for a in avail if any(k in a.lower() for k in AUDIO_PREFER) and a not in named]
-        rest = [a for a in avail if a not in named + headph]
-        order = named + headph + [w for w in want if w in rest] + [a for a in rest if a not in want]
-        for name in order:
-            try:
-                SpeakerDevice(name=name)      # 第一個位置參數是 index，一定要用關鍵字
-            except Exception as e:
-                print(f"[audio] {name} 開不起來（{type(e).__name__}），試下一個")
-                continue
-            if list(want) != [name]:
-                prefs.hardware["audioDevice"] = [name]
-                print(f"[audio] 改用：{name}")
-            else:
-                print(f"[audio] 使用偏好設定的裝置：{name}")
-            if not any(k in name.lower() for k in AUDIO_PREFER):
-                print(f"[audio] ⚠ 這不是耳機（{name}）。請插上耳機再跑，或在檔頭 AUDIO_DEVICE 指定裝置名稱")
-            return
-        print(f"[audio] 這些裝置都開不起來：{avail}；請插上喇叭或耳機再跑")
-    _pick_audio_device()
+    # 音訊輸出裝置：交給 audio_pick.py（列出裝置、實際試開、優先耳機）。
+    # 換到新電腦先跑 `python audio_pick.py` 看有哪些裝置；指定裝置三選一：
+    #   --audio-device "名稱"、環境變數 VAWM_AUDIO_DEVICE、或 `python audio_pick.py --set "名稱"`。
+    # --require-headphones = 自動挑時找不到耳機就停下，不退回喇叭；--list-audio = 只列裝置就結束。
+    from audio_pick import setup_from_argv
+    AUDIO = setup_from_argv(sys.argv)
 
     exp = {"participant": "", "session": "001"}
     if not gui.DlgFromDict(exp, title="VAWM simple").OK:
         core.quit()
     SUBJ = exp["participant"]
+    exp["audio_device"] = AUDIO["name"]      # 寫進每一列資料，事後可查用的是哪個裝置
     # PsychoPy 標準的三種輸出：<檔名>.csv（寬表）、.psydat（可用 psychopy.misc.fromFile 讀回）、.log
     from psychopy import data as _pdata, logging as _plog
     thisExp = _pdata.ExperimentHandler(name="SFT_WM", extraInfo=dict(exp),

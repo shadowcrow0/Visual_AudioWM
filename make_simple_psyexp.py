@@ -231,11 +231,12 @@ if blocks.thisN == N_BLOCKS - 1:        # 最後一個 block 後不休息
     continueRoutine = False
 '''
 
-import re as _re
-_src = open('VAWM_calibrate.py', encoding='utf-8').read()
-_m = _re.search(r'(AUDIO_DEVICE = .*?def _pick_audio_device\(\):.*?\n)(?=\n\n_pick_audio_device\(\))', _src, _re.S)
-assert _m, 'VAWM_calibrate.py 裡找不到 _pick_audio_device 區段'
-PICKER = "# 偏好設定裡記的喇叭不在時 Sound 元件會直接炸：先逐一試開、優先耳機\n" + _m.group(1) + "\n_pick_audio_device()\n"
+# 音訊輸出裝置交給 audio_pick.py（列裝置、實際試開、優先耳機；換新電腦先跑 python audio_pick.py）。
+# Builder 從 Coder 執行時 sys.argv 沒有參數，所以指定裝置用 `python audio_pick.py --set "名稱"` 或環境變數 VAWM_AUDIO_DEVICE。
+PICKER = ("# 音訊輸出裝置：見 audio_pick.py\n"
+          "import sys\n"
+          "from audio_pick import setup_from_argv\n"
+          "AUDIO = setup_from_argv(sys.argv)\n")
 
 # ───────────────────────────── 改 study_stage ─────────────────────────────
 st = R['study_stage']; sc = comp(st, 'StudyCode')

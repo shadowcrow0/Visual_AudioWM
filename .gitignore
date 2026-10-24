@@ -11,3 +11,6 @@ __pycache__/
 *_snr/
 *_snrpool/
 adaptivesft_path.txt
+
+# audio_pick.py --set 記下的輸出裝置名稱（每台機器不同）
+audio_device.txt

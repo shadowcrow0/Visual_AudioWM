@@ -279,7 +279,7 @@ else:
         ok("sound.Sound 開得起來")
     except Exception as e:
         bad(f"sound.Sound 失敗：{type(e).__name__}: {e}")
-        fix("檢查 PsychoPy 偏好設定的 audioDevice（VAWM_calibrate.py 的 _pick_audio_device 會自動換一個）")
+        fix("先跑 python audio_pick.py 看有哪些輸出裝置，再用 python audio_pick.py --set \"名稱\" 指定耳機")
         snd = None
     kb = keyboard.Keyboard()
     clock = core.Clock()

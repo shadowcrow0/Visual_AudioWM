@@ -69,53 +69,18 @@ if not ROBOT:
     from psychopy import core, event, gui, sound, visual
     from psychopy.hardware import keyboard
 
-    AUDIO_DEVICE = ""
-    AUDIO_PREFER = ["headphone", "耳機", "earphone"]
-
-    def _pick_audio_device():
-        """Try each output device in turn and keep the first one that actually opens, because the device saved in the PsychoPy preferences may be gone and a listed device is not necessarily openable."""
-        from psychopy import prefs
-        try:
-            from psychopy.hardware.speaker import SpeakerDevice
-        except Exception as e:
-            print(f"[audio] cannot list devices ({e}); keeping the preference setting")
-            return
-        avail = []
-        for d in SpeakerDevice.getAvailableDevices():
-            name = d.get("deviceName") if isinstance(d, dict) else getattr(d, "deviceName", None)
-            if name and name not in avail:
-                avail.append(name)
-        if not avail:
-            print("[audio] no output device found")
-            return
-        want = prefs.hardware.get("audioDevice") or []
-        if isinstance(want, str):
-            want = [want]
-        named = [a for a in avail if AUDIO_DEVICE and AUDIO_DEVICE.lower() in a.lower()]
-        headph = [a for a in avail if any(k in a.lower() for k in AUDIO_PREFER) and a not in named]
-        rest = [a for a in avail if a not in named + headph]
-        order = named + headph + [w for w in want if w in rest] + [a for a in rest if a not in want]
-        for name in order:
-            try:
-                SpeakerDevice(name=name)
-            except Exception as e:
-                print(f"[audio] {name} could not be opened ({type(e).__name__}); trying the next one")
-                continue
-            if list(want) != [name]:
-                prefs.hardware["audioDevice"] = [name]
-                print(f"[audio] switching to: {name}")
-            else:
-                print(f"[audio] using the device from the preferences: {name}")
-            if not any(k in name.lower() for k in AUDIO_PREFER):
-                print(f"[audio] ⚠ This is not a headphone ({name}). Plug in headphones and run again, or set the device name in AUDIO_DEVICE at the top of the file")
-            return
-        print(f"[audio] none of these devices could be opened: {avail}; plug in speakers or headphones and run again")
-    _pick_audio_device()
+    # Audio output device: handled by audio_pick.py (list devices, open for real, prefer headphones).
+    # On a new machine run `python audio_pick.py` first. Name the device with --audio-device "NAME",
+    # the environment variable VAWM_AUDIO_DEVICE, or `python audio_pick.py --set "NAME"`.
+    # --require-headphones stops instead of falling back to speakers; --list-audio only prints the devices.
+    from audio_pick import setup_from_argv
+    AUDIO = setup_from_argv(sys.argv)
 
     exp = {"participant": "", "session": "001"}
     if not gui.DlgFromDict(exp, title="VAWM simple").OK:
         core.quit()
     SUBJ = exp["participant"]
+    exp["audio_device"] = AUDIO["name"]      # saved in every data row
     from psychopy import data as _pdata, logging as _plog
     thisExp = _pdata.ExperimentHandler(name="SFT_WM", extraInfo=dict(exp),
                                        dataFileName=f"data/{SUBJ}_SFT_WM_{_pdata.getDateStr()}",
