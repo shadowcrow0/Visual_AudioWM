@@ -114,9 +114,24 @@ def list_output_devices():
     profiles = None
     if SpeakerDevice is not None:
         try:
-            backend = SpeakerDevice.resolveBackend()
+            backend = SpeakerDevice.resolveBackend() if hasattr(SpeakerDevice, "resolveBackend") else SpeakerDevice
             getter = getattr(backend, "_getDevicesPsychtoolbox", None) or getattr(backend, "_getDevicesSoundDevice", None)
             profiles = getter() if getter else None
+        except Exception:
+            profiles = None
+    if profiles is None:
+        # Same rule as SpeakerDevice.createStream (PsychoPy 2026.1): on Windows only WASAPI devices
+        # (device_type=13) unless the preference audioWASAPIOnly is off. Listing other host APIs would show
+        # names (MME "Microsoft Sound Mapper", WDM-KS "Headphones 1 ...") that SpeakerDevice then cannot open.
+        try:
+            import psychtoolbox.audio as ptb
+            wasapi_only = True
+            try:
+                from psychopy import prefs
+                wasapi_only = bool(prefs.hardware["audioWASAPIOnly"])
+            except Exception:
+                pass
+            profiles = ptb.get_devices(device_type=13 if sys.platform == "win32" and wasapi_only else None)
         except Exception:
             profiles = None
     if profiles is None:
@@ -128,12 +143,6 @@ def list_output_devices():
                                  "HostAudioAPIName": sd.query_hostapis(dev["hostapi"])["name"],
                                  "NrOutputChannels": dev["max_output_channels"],
                                  "DefaultSampleRate": dev["default_samplerate"]})
-        except Exception:
-            profiles = None
-    if profiles is None:
-        try:
-            import psychtoolbox.audio as ptb
-            profiles = ptb.get_devices()
         except Exception:
             profiles = None
 
@@ -159,7 +168,9 @@ def probe_device(name):
         from psychopy.hardware.speaker import SpeakerDevice
         SpeakerDevice(name=name)              # the first positional argument is index: always pass name=
         return True, "opened"
-    except Exception as e:
+    except (KeyboardInterrupt, SystemExit):
+        raise
+    except BaseException as e:                # PsychoPy's DeviceNotConnectedError derives from BaseException, not Exception
         return False, f"{type(e).__name__}: {e}"
 
 
