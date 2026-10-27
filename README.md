@@ -3,7 +3,8 @@
 Audiovisual working-memory experiments in PsychoPy, with per-participant adaptive calibration of stimulus difficulty.
 Two experiment lines live in this repository; they share stimuli and helper code but are separate experiments.
 
-**Status date: 2026-10-19.** Code is complete for both lines; the blocker is human data.
+**Status date: 2026-10-27.** Code is complete for both lines; the blocker is human data.
+Latest hand-off note for the next Claude Code session: `review/進度交接_2026-10-27.md`.
 
 ## 1. SFT / working-memory line (`SFT_WM_*`, `VAWM_*`) — being re-tested now
 
