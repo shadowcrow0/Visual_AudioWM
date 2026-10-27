@@ -80,7 +80,7 @@ quadratic 沒有上限，2.0 / 0.5 是 power scan 建議的值。所以：`LINK 
 |---|---|---|
 | 強度怎麼選 | 定值刺激法：6 層固定，各 `N_PER_LEVEL`（8）試，打散 | Psi 逐試選熵最小的 x |
 | 用到的資料 | 正確率 **+ RT**（「不同」試） | 只有正確率 |
-| 模型 | lnrm2（`adaptivesft.models.fit_lnrm`，PyMC NUTS，區塊結束時擬合 20–40 s） | 累積常態心理計量函數 |
+| 模型 | lnrm2（`adaptivesft.models_v2.fit_lnrm_v2`，似然全用 PyMC 內建 `LogNormal` 的 logp/logcdf，PyMC NUTS，區塊結束時擬合 20–40 s） | 累積常態心理計量函數 |
 | 目標 | 漂移差 `H_TARG` / `L_TARG`（z₂ − z₁；預設 2.0 / 0.5，Houpt 8.0 / 1.3） | 「答不同」機率 `P_HIGH` / `P_LOW` |
 | 反解 | `adaptivesft.salience.find_salience`（`adaptiveSFT_functions.R:229-232` 的公式，只用 α₂ < 0 的 draw） | `salience_levels` |
 | 實驗機器要什麼 | **完整 adaptivesft 套件（PyMC）** + PsychoPy 在同一個 Python ≥ 3.10 | 只要 `psi.py`（numpy + scipy） |
@@ -109,7 +109,7 @@ quadratic 沒有上限，2.0 / 0.5 是 power scan 建議的值。所以：`LINK 
 兩者差很多就代表擬合有問題。
 
 ```
-   lnrm：  6 層 × 8 試 ──► (x, correct, rt) ──► fit_lnrm(link="quadratic") ──► {μ, α, α₂, varZ, ψ}
+   lnrm：  6 層 × 8 試 ──► (x, correct, rt) ──► fit_lnrm_v2(link="quadratic") ──► {μ, α, α₂, varZ, ψ}
                                                                                     │
                                         ΔE_H, ΔE_L  ◄── 換回物理單位 ◄── 解 2·(α·u + α₂·u²) = H_TARG / L_TARG
 ```
@@ -171,7 +171,7 @@ set PYTHONUSERBASE=%APPDATA%\psychopy3\packages
 **為什麼要 nutpie**：Windows 上沒有 g++，PyTensor 會退回純 Python 執行（啟動時印 `g++ not detected`），
 PyMC 預設 NUTS 連 200/200/1 chain 的縮短擬合都要 5 分鐘，正式的 1000/1000/4 要 20 分鐘以上，受試者等不了。
 `nutpie`（Rust 版 NUTS，用 numba 編譯 logp，有 win-64 wheel）同一台機器正式設定 **69 s**，α/α₂ 回復與預設採樣器一致、
-零 divergence。`fit_lnrm(**sample_kwargs)` 會把 `nuts_sampler="nutpie"` 原樣傳給 `pm.sample`，所以只要 `FIT_KW` 加這一個鍵
+零 divergence。`fit_lnrm_v2(**sample_kwargs)` 會把 `nuts_sampler="nutpie"` 原樣傳給 `pm.sample`，所以只要 `FIT_KW` 加這一個鍵
 （`VAWM_calibrate.py` 已加）。conda-forge 路線（`conda create -n vawm -c conda-forge python=3.10 pymc` 會附編譯器）也行，
 但 Coder 就得從那個環境用 `python -m psychopy.app.psychopyApp` 啟動。
 

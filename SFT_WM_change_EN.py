@@ -315,7 +315,8 @@ def calibrate(dim, log_rows):
     else:
         print("  fitting...")
     load_full_package()
-    from adaptivesft.models import fit_lnrm, make_data
+    from adaptivesft.models import make_data
+    from adaptivesft.models_v2 import fit_lnrm_v2 as fit_lnrm   # PyMC built-in LogNormal logp/logcdf version (DECISIONS 14)
     from adaptivesft.salience import find_salience
     use = [r for r in log_rows if r["dim"] == dim and r["other"] == "T" and not r["is_match"] and r["key"] is not None
            and RT_MIN <= r["rt"] <= RT_MAX]

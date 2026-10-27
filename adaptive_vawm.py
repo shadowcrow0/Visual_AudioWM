@@ -450,7 +450,7 @@ class LNRMCalibrator:
             ...
 
     流程（adaptiveSFT_functions.R / simulateLNRM_ogival.R）：
-        (x, correct, rt) ──► fit_lnrm ──► 後驗 {μ, α, α₂, varZ, ψ} ──► 解 2·(α·u + α₂·u²) = h_targ / l_targ ──► H / L
+        (x, correct, rt) ──► fit_lnrm_v2 ──► 後驗 {μ, α, α₂, varZ, ψ} ──► 解 2·(α·u + α₂·u²) = h_targ / l_targ ──► H / L
     link="quadratic" 是 lnrm2（原檔）；link="ogival" 是 lnrm2a 的重建（½L·inv_logit，L = 10）。
     alpha2_rule="filter"：反解只用 α₂ < 0 的 draw。WM 資料常有三成 draw α₂ > 0，R 的公式在那些 draw 給負根，
     全部平均會得到 −49 之類的值；"all_draws" 才是 R 字面。
@@ -509,7 +509,8 @@ class LNRMCalibrator:
 
     def finish(self):
         load_full_package()
-        from adaptivesft.models import fit_lnrm, make_data
+        from adaptivesft.models import make_data
+        from adaptivesft.models_v2 import fit_lnrm_v2 as fit_lnrm   # PyMC 內建 LogNormal logp/logcdf 版（DECISIONS 14）
         from adaptivesft.salience import find_salience
 
         # 只用有作答、RT 在範圍內的「不同」試

@@ -146,7 +146,7 @@ ok("psi: needs only psi.py + numpy + scipy → available")
 LNRM_OK = False
 try:
     A.load_full_package()
-    from adaptivesft.models import fit_lnrm      # noqa: F401
+    from adaptivesft.models_v2 import fit_lnrm_v2      # noqa: F401
     from adaptivesft.salience import find_salience  # noqa: F401
     ok("lnrm: full adaptivesft package + PyMC present → available")
     LNRM_OK = True

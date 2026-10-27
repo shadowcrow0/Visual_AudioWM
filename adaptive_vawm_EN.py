@@ -458,7 +458,8 @@ class LNRMCalibrator:
 
     def finish(self):
         load_full_package()
-        from adaptivesft.models import fit_lnrm, make_data
+        from adaptivesft.models import make_data
+        from adaptivesft.models_v2 import fit_lnrm_v2 as fit_lnrm   # PyMC built-in LogNormal logp/logcdf version (DECISIONS 14)
         from adaptivesft.salience import find_salience
 
         rows = []

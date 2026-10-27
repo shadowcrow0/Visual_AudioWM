@@ -114,7 +114,8 @@ def nine_probes():               # 2 AA、1 HA、1 LA、1 AH、1 AL、3 個雙�
 def fit_dim(dim):                # 72 試 -> lnrm2 -> H / L（原始 adaptiveSFT）
     levels = LEVELS_COLOUR if dim == 'colour' else LEVELS_AUDIO
     load_full_package()
-    from adaptivesft.models import fit_lnrm, make_data
+    from adaptivesft.models import make_data
+    from adaptivesft.models_v2 import fit_lnrm_v2 as fit_lnrm   # PyMC 內建 LogNormal logp/logcdf 版（DECISIONS 14）
     from adaptivesft.salience import find_salience
     use = [r for r in calib_log if r['dim'] == dim and r['other'] == 'T' and not r['is_match'] and r['key'] is not None
            and RT_MIN <= r['rt'] <= RT_MAX]

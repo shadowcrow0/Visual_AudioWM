@@ -163,7 +163,7 @@ ok("psi：只要 psi.py + numpy + scipy → 可用")
 LNRM_OK = False
 try:
     A.load_full_package()
-    from adaptivesft.models import fit_lnrm      # noqa: F401
+    from adaptivesft.models_v2 import fit_lnrm_v2      # noqa: F401
     from adaptivesft.salience import find_salience  # noqa: F401
     ok("lnrm：完整 adaptivesft 套件 + PyMC 都在 → 可用")
     LNRM_OK = True

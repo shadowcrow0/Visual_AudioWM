@@ -110,6 +110,11 @@
 - **為什麼**：老闆要求。遮蔽會讓作業變難，所以加了之後之前沒遮蔽時量到的校準值不能沿用，要重校；亮度噪音遮不遮得掉色度記憶是開放問題。
 - **在哪**：`GRTv3_ada.py` 的 `MASK_*` 參數區與 `mask` routine。
 
+## 14. 擬合改走 `fit_lnrm_v2`：似然用 PyMC 內建的 `LogNormal`
+- **決定**：校準（`LNRMCalibrator.finish`、`SFT_WM_*` 的 `fit_calibration`）呼叫 `adaptivesft.models_v2.fit_lnrm_v2`，不再是 `models.fit_lnrm`。
+- **為什麼**：v1 的 lognormal 密度與存活函數是手寫的；v2 用 `pm.logp(pm.LogNormal.dist(...))` 和 `pm.logcdf(...)` 拼出賽跑似然，再包進 `pm.CustomDist`，比較好對照教科書、也比較好讓後人（和老闆）檢查。兩版 logp 差 < 1e−7，後驗與 Stan 一致（`scripts/proof_pymc_lognormal.py`）；回傳格式相同，`find_salience` 不用改。PyMC 本身沒有「lognormal race」分布，所以 race 仍然要自己組。
+- **在哪**：`adaptive_vawm.py` 的 `finish`；`SFT_WM_change.py` / `SFT_WM_nochange.py` / `make_simple_psyexp.py` 的 `fit_calibration`；模型在 `adaptiveSFT/adaptivesft/models_v2.py:36-37`。
+
 ## 還沒決定的
 - adaptiveSFT 決定 A（DDM 的 `a` 是邊界距離還是分離）：只影響 DDM 模擬與 power scan 的數字，不影響實驗程式。
 - 聲音 lnrm 的層級貼到 foil 後 u 是散的（測試裡 29 個不同值），擬合沒問題，但「層級」這個概念在聲音軸上是近似。
