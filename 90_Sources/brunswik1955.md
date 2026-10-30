@@ -1,4 +1,6 @@
 ---
+review: 不需要
+review_note: 刺激設計的依據（子音、VOT、語料庫、合成語音、色差等），review/ 決策紀錄有引用，口試前不用讀（Claude 依卡名判斷）
 tags: [literature-note, 代表性設計, 刺激取樣, 心理物理批判, 固定混淆, 方法學]
 citekey: brunswik1955
 ---

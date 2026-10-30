@@ -1,4 +1,6 @@
 ---
+review: 不需要
+review_note: 刺激設計的依據（子音、VOT、語料庫、合成語音、色差等），review/ 決策紀錄有引用，口試前不用讀（Claude 依卡名判斷）
 tags: [literature-note, 內部雜訊, 外部雜訊, 可重現噪音, 雙耳偵測]
 citekey: siegel-colburn1989
 ---

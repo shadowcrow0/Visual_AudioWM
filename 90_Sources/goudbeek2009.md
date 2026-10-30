@@ -1,4 +1,6 @@
 ---
+review: 不需要
+review_note: 刺激設計的依據（子音、VOT、語料庫、合成語音、色差等），review/ 決策紀錄有引用，口試前不用讀（Claude 依卡名判斷）
 tags: [literature-note, 類別學習, 非語音刺激, 多維度, 監督式學習, 刺激選擇理由]
 citekey: goudbeek2009
 ---

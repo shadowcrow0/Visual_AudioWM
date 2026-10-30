@@ -1,4 +1,6 @@
 ---
+review: 不需要
+review_note: 刺激設計的依據（子音、VOT、語料庫、合成語音、色差等），review/ 決策紀錄有引用，口試前不用讀（Claude 依卡名判斷）
 tags: [literature-note, frozen噪音, running噪音, 可重現噪音, 遮蔽噪音, 記憶]
 citekey: pfafflin1968
 ---

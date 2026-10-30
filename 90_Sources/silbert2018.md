@@ -1,4 +1,6 @@
 ---
+review: 暫略
+review_note: GRT 方法，口委可能問「為什麼加噪音、雜訊怎麼分」，準備問答時看卡
 tags: [literature-note, GRT, 語音知覺, 遮蔽噪音, 語者變異, 聽者變異]
 citekey: silbert2018
 ---

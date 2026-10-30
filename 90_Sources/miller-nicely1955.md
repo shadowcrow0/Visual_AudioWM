@@ -1,4 +1,6 @@
 ---
+review: 需要
+review_note: WMMain.tex 已引（2.3 子音選擇）
 tags: [literature-note, 子音混淆, transmitted-information, voicing, place, 正典來源, AVWM]
 citekey: miller-nicely1955
 ---
