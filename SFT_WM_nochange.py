@@ -4,7 +4,7 @@
 SFT_WM_nochange.py —— SFT 實驗的「看得懂」版（nochange 版）：校準（原始 adaptiveSFT，lnrm）→ 練習 → 主實驗。
 【nochange 版】校準時「另一個維度」的靶整區塊固定（校顏色時永遠同兩個聲音、校聲音時永遠同兩個顏色），
             它的探測仍每試從 T/H/L 抽；正在校的維度每試重抽靶。受試者只判斷正在校的維度。
-            姊妹版 SFT_WM_change.py：校準時另一個維度也每試重抽。
+            姊妹版 archive/SFT_WM_change.py（校準時另一個維度也每試重抽）已封存，2026-11-03 決定用 nochange。
 
 跟正式版（VAWM_calibrate.py + make_adaptive_blocks.py + VAWM_nobox.py）做的事一樣、時間軸一樣、資料欄位相容，
 只是寫法攤平：一個區塊一個區塊往下讀就是受試者會經歷的順序。數學（擬合、找顏色）照舊借用，其餘都寫在這裡。

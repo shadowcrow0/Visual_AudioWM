@@ -156,6 +156,11 @@
 - **為什麼**：2026-11-03 真人回報按了 n 卻被記成沒作答。原本探測那 1 秒不收鍵，結束後才查 `getKeys(waitRelease=False)`；PsychoPy 2026 的這個呼叫只回傳「還按著」的鍵，快按快放的在查之前已放開，就不見了。pilot（10-19）的 7 試無作答可能就是這個。
 - **在哪**：`SFT_WM_change.py` / `SFT_WM_nochange.py`（含 `_EN`）的 `resp_keys` / `probe_trial`。
 
+## 18. 用 nochange 版，change 版封存
+- **決定**：正式實驗跑 `SFT_WM_nochange.py`（`_EN`）：校準時另一個維度的靶整區塊固定。`SFT_WM_change*.py` 移到 `archive/`，打包（`make_run_bundle.py`）只放 nochange。
+- **為什麼**：2026-11-03 定案。校準要量的是「正在校的維度」的敏感度，另一維度固定可以少一個每試都在變的來源。
+- **在哪**：`archive/SFT_WM_change.py`、`archive/SFT_WM_change_EN.py`；`SFT_WM_nochange.py` 的 `OTHER_TARGETS_CHANGE = False`。
+
 ## 還沒決定的
 - adaptiveSFT 決定 A（DDM 的 `a` 是邊界距離還是分離）：只影響 DDM 模擬與 power scan 的數字，不影響實驗程式。
 - 聲音 lnrm 的層級貼到 foil 後 u 是散的（測試裡 29 個不同值），擬合沒問題，但「層級」這個概念在聲音軸上是近似。

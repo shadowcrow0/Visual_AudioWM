@@ -4,7 +4,7 @@
 
 Unzipped layout (the two folders must stay side by side: adaptive_vawm_EN.py looks for ../adaptiveSFT):
 
-    VAWM_run/      SFT_WM_change_EN.py, SFT_WM_nochange_EN.py, adaptive_vawm_EN.py, audio_pick.py,
+    VAWM_run/      SFT_WM_nochange_EN.py, adaptive_vawm_EN.py, audio_pick.py,
                    debug_adaptivesft_EN.py, generate_trials.py (consonant confusion table), setup_pymc_coder.bat,
                    stimuli/ (wav), data/ (empty; results go here), README_RUN.md
     adaptiveSFT/   the adaptivesft package + pyproject.toml, so `pip install -e ..\\adaptiveSFT` works
@@ -17,7 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SFT = os.path.join(os.path.dirname(HERE), "adaptiveSFT")
 OUT = os.path.join(HERE, "VAWM_run.zip")
 
-FILES = ["SFT_WM_change_EN.py", "SFT_WM_nochange_EN.py", "adaptive_vawm_EN.py", "audio_pick.py",
+FILES = ["SFT_WM_nochange_EN.py", "adaptive_vawm_EN.py", "audio_pick.py",
          "debug_adaptivesft_EN.py", "generate_trials.py", "setup_pymc_coder.bat"]
 README = """# VAWM_run — how to run the experiment on a new PC
 
@@ -44,7 +44,7 @@ Keep `VAWM_run/` and `adaptiveSFT/` side by side (as unzipped).
 Data land in `data/`: `<id>_simple_calib_trials.csv`, `<id>_simple_calib.json`, `<id>_simple_main.csv`,
 plus PsychoPy's `<id>_SFT_WM_<date>.csv / .psydat / .log`. Copy the whole `data/` folder back.
 
-Settings are the constants at the top of `SFT_WM_*_EN.py` (targets 8.0 / 1.3, colour levels dE 2–90,
+Settings are the constants at the top of `SFT_WM_nochange_EN.py` (targets 8.0 / 1.3, colour levels dE 2–90,
 calibration 16 warm-up + 40 fitted + 8 filler per dimension, main task 6 blocks x 14 sets x 16 probes).
 """
 
