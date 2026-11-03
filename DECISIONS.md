@@ -151,6 +151,11 @@
   前提：受試者要有作答——pilot 72 試有 7 試無作答，擬合只剩 41 試；試數少了之後無作答率要壓低（指導語強調一定要按）。
 - **在哪**：`SFT_WM_change.py` / `SFT_WM_nochange.py`（含 `_EN`）檔頭、`make_simple_psyexp.py`、`VAWM_calibrate.py`、`adaptive_vawm.py` 的 `LEVELS_*` 與 `LNRMCalibrator` 預設值；圖 1 (A)(D) 與圖說。
 
+## 17. 探測一出現就收按鍵；已放開的鍵也要收
+- **決定**：`probe_trial` 從探測出現那一幀開始每幀收 y / n（RT 從探測出現算），探測畫面仍固定 1 s；收鍵同時查 `waitRelease=False`（還按著）和 `waitRelease=True`（已放開）。
+- **為什麼**：2026-11-03 真人回報按了 n 卻被記成沒作答。原本探測那 1 秒不收鍵，結束後才查 `getKeys(waitRelease=False)`；PsychoPy 2026 的這個呼叫只回傳「還按著」的鍵，快按快放的在查之前已放開，就不見了。pilot（10-19）的 7 試無作答可能就是這個。
+- **在哪**：`SFT_WM_change.py` / `SFT_WM_nochange.py`（含 `_EN`）的 `resp_keys` / `probe_trial`。
+
 ## 還沒決定的
 - adaptiveSFT 決定 A（DDM 的 `a` 是邊界距離還是分離）：只影響 DDM 模擬與 power scan 的數字，不影響實驗程式。
 - 聲音 lnrm 的層級貼到 foil 後 u 是散的（測試裡 29 個不同值），擬合沒問題，但「層級」這個概念在聲音軸上是近似。

@@ -128,17 +128,30 @@ if not ROBOT:
         present(None, 1.0, play=s1)
         present(None, 1.0, play=s2)
 
+    def resp_keys():
+        """The y / n keys pressed since probe onset, earliest first. PsychoPy 2026's getKeys(waitRelease=False) returns only keys still held down and waitRelease=True only released ones; a quick press is released before it is polled, so both are queried (2026-11-03: presses of n were logged as no response)."""
+        keys = kb.getKeys(["y", "n"], waitRelease=False) + kb.getKeys(["y", "n"], waitRelease=True)
+        return sorted(keys, key=lambda k: k.rt)
+
     def probe_trial(probe_col, probe_snd):
-        """Probe: fixation .3 → colour+sound 1 s → wait for y/n; returns (key, reaction time)."""
+        """Probe: fixation .3 → colour+sound 1 s → wait for y/n; returns (key, reaction time). Keys are collected from probe onset (RT counts from onset); the probe always stays 1 s, and only if nothing was pressed does the wait continue to RESP_WINDOW."""
         present(fix.draw, 0.3)
         patch_c.fillColor = probe_col
         kb.clearEvents()
         clock.reset()
-        present(patch_c.draw, 1.0, play=probe_snd)
-        keys = kb.getKeys(["y", "n"], waitRelease=False)
+        snd.setSound(probe_snd, secs=1, hamming=True)
+        snd.play()
+        keys = []
+        while clock.getTime() < 1.0:
+            patch_c.draw()
+            win.flip()
+            if kb.getKeys(["escape"]):
+                core.quit()
+            keys = keys or resp_keys()
+        snd.stop()
         while not keys and clock.getTime() < RESP_WINDOW:
             win.flip()
-            keys = kb.getKeys(["y", "n"], waitRelease=False)
+            keys = resp_keys()
             if kb.getKeys(["escape"]):
                 core.quit()
         return (keys[0].name, keys[0].rt) if keys else (None, None)

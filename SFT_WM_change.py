@@ -151,17 +151,33 @@ if not ROBOT:
         present(None, 1.0, play=s1)
         present(None, 1.0, play=s2)
 
+    def resp_keys():
+        """探測開始後按過的 y / n，按最早的排前面。
+        PsychoPy 2026 的 getKeys(waitRelease=False) 只回傳「還按著」的鍵，waitRelease=True 只回傳「已放開」的；
+        快按快放的鍵在查之前就放開了，只查其中一種會漏掉（2026-11-03 真人回報：按了 n 卻記成沒作答）。兩種都查。"""
+        keys = kb.getKeys(["y", "n"], waitRelease=False) + kb.getKeys(["y", "n"], waitRelease=True)
+        return sorted(keys, key=lambda k: k.rt)
+
     def probe_trial(probe_col, probe_snd):
-        """探測：注視 .3 → 色+音 1 s → 等 y/n，回傳 (按鍵, 反應時間)。"""
+        """探測：注視 .3 → 色+音 1 s → 等 y/n，回傳 (按鍵, 反應時間)。
+        探測一出現就開始收鍵（RT 從探測出現算起）；探測畫面固定播滿 1 s，之後沒按才繼續等到 RESP_WINDOW。"""
         present(fix.draw, 0.3)
         patch_c.fillColor = probe_col
         kb.clearEvents()
         clock.reset()
-        present(patch_c.draw, 1.0, play=probe_snd)
-        keys = kb.getKeys(["y", "n"], waitRelease=False)
+        snd.setSound(probe_snd, secs=1, hamming=True)
+        snd.play()
+        keys = []
+        while clock.getTime() < 1.0:
+            patch_c.draw()
+            win.flip()
+            if kb.getKeys(["escape"]):
+                core.quit()
+            keys = keys or resp_keys()
+        snd.stop()
         while not keys and clock.getTime() < RESP_WINDOW:
             win.flip()
-            keys = kb.getKeys(["y", "n"], waitRelease=False)
+            keys = resp_keys()
             if kb.getKeys(["escape"]):
                 core.quit()
         return (keys[0].name, keys[0].rt) if keys else (None, None)
