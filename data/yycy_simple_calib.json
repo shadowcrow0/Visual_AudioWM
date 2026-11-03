@@ -1,0 +1,44 @@
+{
+  "info": {
+    "participant": "yycy",
+    "method": "lnrm",
+    "h_targ": 8.0,
+    "l_targ": 1.3
+  },
+  "colour": {
+    "dim": "colour",
+    "high": 90.0,
+    "low": 43.16353181158349,
+    "in_range": false,
+    "false_alarm": 0.2,
+    "n_used": 30,
+    "fit_seconds": 26,
+    "warnings": [
+      "alpha2_rule='filter'：只用 33.3% 的 draw（alpha2 < 0）",
+      "high: 88.7% 的 draw 無解被丟掉（R :279 的 na.rm=TRUE 不會告訴你這件事）",
+      "low: 6.2% 的 draw 無解被丟掉（R :279 的 na.rm=TRUE 不會告訴你這件事）"
+    ],
+    "extra": {
+      "method": "lnrm_quadratic"
+    }
+  },
+  "audio": {
+    "dim": "audio",
+    "high": -0.3,
+    "low": -2.6,
+    "in_range": false,
+    "false_alarm": 0.2222222222222222,
+    "n_used": 28,
+    "fit_seconds": 25,
+    "warnings": [
+      "alpha2_rule='filter'：只用 26.5% 的 draw（alpha2 < 0）",
+      "high: 99.8% 的 draw 無解被丟掉（R :279 的 na.rm=TRUE 不會告訴你這件事）",
+      "low: 96.6% 的 draw 無解被丟掉（R :279 的 na.rm=TRUE 不會告訴你這件事）"
+    ],
+    "extra": {
+      "method": "lnrm_quadratic",
+      "count_high": 0.9952623149688795,
+      "count_low": 397.1071705534973
+    }
+  }
+}
