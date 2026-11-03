@@ -91,10 +91,10 @@ ax.text(0, 0.4, "The 0.3 s fixation before the probe is where GRTv3_ada inserts 
 ax = fig.add_subplot(gs[2]); ax.set_xlim(0, 100); ax.set_ylim(0, 10); ax.axis("off")
 ax.text(0, 9.8, "C  Probe types and the 2 × 2 double-factorial design", fontsize=12, fontweight="bold", va="top")
 ax.text(0, 8.5, "Per study set (9 probes, shuffled)", fontsize=9, fontweight="bold", va="center")
-rows = [("AA", "colour and sound both match a studied item; correct answer: same", "× 2"),
+rows = [("AA", "colour and sound both match a studied item; correct answer: same", "× 1"),
         ("HA / LA", "colour differs (H = easy, L = hard), sound matches", "× 1 each"),
         ("AH / AL", "sound differs (H / L), colour matches", "× 1 each"),
-        ("HH / HL / LH / LL", "both differ: the double-factorial (DFP) cells", "× 3")]
+        ("HH / HL / LH / LL", "both differ: the double-factorial (DFP) cells", "× 1 each")]
 y = 7.5
 for code, desc, n in rows:
     ax.add_patch(Rectangle((0, y - 0.55), 14, 1.1, fc=LIGHT, ec=DARK, lw=0.8))
@@ -104,7 +104,7 @@ for code, desc, n in rows:
     y -= 1.45
 ax.text(0, 1.5, "Condition codes in the data file: AA 0–1, HA 2–3, LA 4–5, AH 6–7, HH 8–9, LH 10–11, AL 12–13, HL 14–15, LL 16–17\n"
                 "(first letter = colour, second = sound; A = same as studied).\n"
-                "Per session: 1296 probes, 432 of them DFP, about 108 per cell.",
+                "Per session: 1296 probes, 576 of them DFP, 144 per cell.",
         fontsize=7.2, color=GREY, va="center")
 gx, gy, cw, ch = 70, 2.6, 13, 2.2
 ax.text(gx + cw, gy + 2 * ch + 1.4, "Sound difference", ha="center", va="center", fontsize=8.5, fontweight="bold")

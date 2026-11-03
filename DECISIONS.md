@@ -115,6 +115,11 @@
 - **為什麼**：v1 的 lognormal 密度與存活函數是手寫的；v2 用 `pm.logp(pm.LogNormal.dist(...))` 和 `pm.logcdf(...)` 拼出賽跑似然，再包進 `pm.CustomDist`，比較好對照教科書、也比較好讓後人（和老闆）檢查。兩版 logp 差 < 1e−7，後驗與 Stan 一致（`scripts/proof_pymc_lognormal.py`）；回傳格式相同，`find_salience` 不用改。PyMC 本身沒有「lognormal race」分布，所以 race 仍然要自己組。
 - **在哪**：`adaptive_vawm.py` 的 `finish`；`SFT_WM_change.py` / `SFT_WM_nochange.py` / `make_simple_psyexp.py` 的 `fit_calibration`；模型在 `adaptiveSFT/adaptivesft/models_v2.py:36-37`。
 
+## 15. 主實驗每組 9 個探測 = 九種類型各 1（3 × 3 等率）
+- **決定**：`nine_probes()` 每組抽 AA、HA、LA、AH、AL、HH、LH、HL、LL 各 1 個（各自隨機探測目標 1 或 2），不再是 2 AA + 3 個雙通道隨機。
+- **為什麼**：Houpt, Blaha, McIntire, Havig & Townsend (2014) 的雙因子表是兩個來源各 {target, distractor} × {high, low} 完整交叉、每格等率；本實驗「相同」（A）不分 high / low，所以每個維度是 {A, H, L}，3 × 3 = 9 格各 1/9。舊配比讓雙因子每格每組只有 3/4 個探測（每場次 108），改後每格 144，而且 HH / HL / LH / LL 四格數量相等。代價：「相同」從 22% 降到 11%，受試者可能偏向一律按「不同」；AA 的錯誤率要看。
+- **在哪**：`SFT_WM_change.py` / `SFT_WM_nochange.py`（含 `_EN`）與 `make_simple_psyexp.py` 的 `nine_probes`；`VAWM_nobox.py` 的 `generate_stratified_conditions`；圖說 `figures/experiment_procedure.md` (C)。
+
 ## 還沒決定的
 - adaptiveSFT 決定 A（DDM 的 `a` 是邊界距離還是分離）：只影響 DDM 模擬與 power scan 的數字，不影響實驗程式。
 - 聲音 lnrm 的層級貼到 foil 後 u 是散的（測試裡 29 個不同值），擬合沒問題，但「層級」這個概念在聲音軸上是近似。

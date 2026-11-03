@@ -105,10 +105,9 @@ COND = {0: ("AA", "color1_target", "audio1_target_file"), 1: ("AA", "color2_targ
         14: ("HL", "color1_H", "audio1_L_file"),          15: ("HL", "color2_H", "audio2_L_file"),
         16: ("LL", "color1_L", "audio1_L_file"),          17: ("LL", "color2_L", "audio2_L_file")}
 
-def nine_probes():               # 2 AA、1 HA、1 LA、1 AH、1 AL、3 個雙通道，打散
-    c = [int(rng.choice([0, 1])) for _ in range(2)]
-    c += [int(rng.choice([2, 3])), int(rng.choice([4, 5])), int(rng.choice([6, 7])), int(rng.choice([12, 13]))]
-    c += [int(rng.choice([8, 9, 10, 11, 14, 15, 16, 17])) for _ in range(3)]
+def nine_probes():               # 九種類型各 1（Houpt et al. 2014 的 3 × 3 等率表），各自隨機探測目標 1 或 2，打散
+    pairs = ([0, 1], [2, 3], [4, 5], [6, 7], [12, 13], [8, 9], [10, 11], [14, 15], [16, 17])
+    c = [int(rng.choice(p)) for p in pairs]
     rng.shuffle(c); return c
 
 def fit_dim(dim):                # 72 試 -> lnrm2 -> H / L（原始 adaptiveSFT）

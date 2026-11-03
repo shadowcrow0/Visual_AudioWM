@@ -99,30 +99,14 @@ def get_probe_types(targetCol, targetAud, trial_data):
     return col_type, aud_type
 
 def generate_stratified_conditions():
-    """Generate 9 stratified probe conditions with guaranteed proportions.
+    """一組的 9 個探測：九種類型各 1 個（AA、HA、LA、AH、AL、HH、LH、HL、LL），各自隨機探測目標 1 或 2，打散。
 
-    Distribution:
-    - AA (conditions 0,1): 2 trials (22%)
-    - HA (conditions 2,3): 1 trial (11%)
-    - LA (conditions 4,5): 1 trial (11%)
-    - AH (conditions 6,7): 1 trial (11%)
-    - AL (conditions 12,13): 1 trial (11%)
-    - HH/LH/HL/LL (conditions 8-11, 14-17): 3 trials (33%)
+    照 Houpt, Blaha, McIntire, Havig & Townsend (2014) 的雙因子表：兩個來源各 {A, H, L} 完整交叉、每格等率 1/9。
+    舊版是 2 AA + 3 個雙通道隨機（AA 22%、雙因子每格只有 3/4 個探測 / 組）；改成每格 1 個後，
+    每場次 HH / HL / LH / LL 各 144 個。
     """
-    conditions = []
-    # AA: 2 trials (25% target)
-    conditions.extend([np.random.choice([0, 1]) for _ in range(2)])
-    # HA: 1 trial
-    conditions.append(np.random.choice([2, 3]))
-    # LA: 1 trial
-    conditions.append(np.random.choice([4, 5]))
-    # AH: 1 trial
-    conditions.append(np.random.choice([6, 7]))
-    # AL: 1 trial
-    conditions.append(np.random.choice([12, 13]))
-    # HH/LH/HL/LL: 3 trials (split among 8 conditions)
-    conditions.extend([np.random.choice([8, 9, 10, 11, 14, 15, 16, 17]) for _ in range(3)])
-    # Shuffle to randomize order
+    pairs = ([0, 1], [2, 3], [4, 5], [6, 7], [12, 13], [8, 9], [10, 11], [14, 15], [16, 17])
+    conditions = [int(np.random.choice(p)) for p in pairs]
     np.random.shuffle(conditions)
     return conditions
 

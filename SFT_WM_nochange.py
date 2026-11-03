@@ -53,7 +53,7 @@ RT_MIN, RT_MAX = 0.15, 3.0                           # 擬合只用這範圍內�
 # 主實驗
 N_BLOCKS = 6                 # 幾個 block
 SETS_PER_BLOCK = 24          # 每個 block 幾組「學習 2 色 2 音」
-PROBES_PER_SET = 9           # 每組學習後接幾個探測（固定：2 AA、1 HA、1 LA、1 AH、1 AL、3 個 HH/HL/LH/LL）
+PROBES_PER_SET = 9           # 每組學習後接幾個探測（九種類型各 1：AA、HA、LA、AH、AL、HH、LH、HL、LL；Houpt et al. 2014 的 3 × 3 等率表）
 N_PRACTICE_SETS = 2          # 練習幾組（有回饋）
 RESP_WINDOW = 3.0            # 探測後等作答幾秒
 # 校準時另一個維度的探測每試都從 T / H / L 抽（兩版相同）；兩版唯一的差別：
@@ -431,10 +431,12 @@ COND = {   # 編號: (名字, 探測色欄位, 探測音欄位)   偶數 = 探�
 
 
 def nine_probes():
-    """一組的 9 個探測：2 AA、1 HA、1 LA、1 AH、1 AL、3 個雙通道（HH/LH/HL/LL 隨機），打散。"""
-    c = [int(rng.choice([0, 1])) for _ in range(2)]
-    c += [int(rng.choice([2, 3])), int(rng.choice([4, 5])), int(rng.choice([6, 7])), int(rng.choice([12, 13]))]
-    c += [int(rng.choice([8, 9, 10, 11, 14, 15, 16, 17])) for _ in range(3)]
+    """一組的 9 個探測：九種類型各 1 個（AA、HA、LA、AH、AL、HH、LH、HL、LL），各自隨機探測第 1 或第 2 個目標，打散。
+    照 Houpt, Blaha, McIntire, Havig & Townsend (2014) 的雙因子表：兩個來源各 {A, H, L} 完整交叉、每格等率（1/9）。
+    舊版（VAWM_nobox.py 原設計）是 2 AA + 3 個雙通道隨機，雙因子每格只有 3/4 個探測；改成每格 1 個後
+    每場次 HH / HL / LH / LL 各 144 個（6 blocks × 24 組）。"""
+    pairs = ([0, 1], [2, 3], [4, 5], [6, 7], [12, 13], [8, 9], [10, 11], [14, 15], [16, 17])
+    c = [int(rng.choice(p)) for p in pairs]
     rng.shuffle(c)
     return c
 

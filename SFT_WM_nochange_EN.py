@@ -44,7 +44,7 @@ FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")
 RT_MIN, RT_MAX = 0.15, 3.0
 N_BLOCKS = 6
 SETS_PER_BLOCK = 24
-PROBES_PER_SET = 9
+PROBES_PER_SET = 9           # one probe of each of the nine types per set (Houpt et al. 2014 equal-rate 3 x 3 table)
 N_PRACTICE_SETS = 2
 RESP_WINDOW = 3.0
 OTHER_TARGETS_CHANGE = False
@@ -392,10 +392,11 @@ COND = {
 
 
 def nine_probes():
-    """The 9 probes of one set: 2 AA, 1 HA, 1 LA, 1 AH, 1 AL, 3 two-channel (HH/LH/HL/LL at random), shuffled."""
-    c = [int(rng.choice([0, 1])) for _ in range(2)]
-    c += [int(rng.choice([2, 3])), int(rng.choice([4, 5])), int(rng.choice([6, 7])), int(rng.choice([12, 13]))]
-    c += [int(rng.choice([8, 9, 10, 11, 14, 15, 16, 17])) for _ in range(3)]
+    """The 9 probes of one set: one of each type (AA, HA, LA, AH, AL, HH, LH, HL, LL), each probing target 1 or 2 at random, shuffled.
+    Follows the double-factorial table of Houpt, Blaha, McIntire, Havig & Townsend (2014): both sources take {A, H, L}, fully crossed, equal rates (1/9).
+    The old mix (2 AA + 3 random two-channel probes) gave each DFP cell only 3/4 of a probe per set; with one per cell a session has 144 HH / HL / LH / LL each."""
+    pairs = ([0, 1], [2, 3], [4, 5], [6, 7], [12, 13], [8, 9], [10, 11], [14, 15], [16, 17])
+    c = [int(rng.choice(p)) for p in pairs]
     rng.shuffle(c)
     return c
 
