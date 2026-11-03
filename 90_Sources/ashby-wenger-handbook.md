@@ -1,4 +1,6 @@
 ---
+review: 暫略
+review_note: GRT 方法，口委可能問「為什麼加噪音、雜訊怎麼分」，準備問答時看卡
 tags: [literature-note, GRT, 訊號偵測論, 可辨識性, 雜訊分解, 手冊章節]
 citekey: ashby-wenger-handbook
 ---

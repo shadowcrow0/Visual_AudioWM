@@ -1,4 +1,6 @@
 ---
+review: 暫略
+review_note: 可能在 2.3 引，或口委問「為什麼只用一段錄音」時用，寫那節或準備問答時看卡
 tags: [literature-note, 統計方法, 刺激當隨機效果, 單一刺激, 類化, 方法學]
 citekey: clark1973
 ---

@@ -1,4 +1,6 @@
 ---
+review: 暫略
+review_note: GRT 方法，口委可能問「為什麼加噪音、雜訊怎麼分」，準備問答時看卡
 tags: [literature-note, GRT, 知覺可分離性, 正交維度, 聽覺類別學習, 刺激設計]
 citekey: roark2019
 ---
