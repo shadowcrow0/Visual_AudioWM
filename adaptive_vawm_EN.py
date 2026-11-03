@@ -107,8 +107,8 @@ CSV_COLUMNS = ["trial",
                "audio2_target_file", "audio2_H_file", "audio2_L_file"]
 TALKERS = ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12"]
 
-LEVELS_COLOUR = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0]
-LEVELS_AUDIO = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3]
+LEVELS_COLOUR = [6.0, 12.0, 20.0, 30.0, 45.0]
+LEVELS_AUDIO = [-2.1, -1.6, -1.1, -0.7, -0.3]
 H_TARG_DEFAULT = 2.0
 L_TARG_DEFAULT = 0.5
 AUDIO_SHIFT = 2.7
@@ -406,7 +406,7 @@ class LNRMCalibrator:
             ...
     """
 
-    def __init__(self, dim, levels=None, n_per_level=8, p_match=1 / 3, h_targ=H_TARG_DEFAULT, l_targ=L_TARG_DEFAULT,
+    def __init__(self, dim, levels=None, n_per_level=6, p_match=1 / 4, h_targ=H_TARG_DEFAULT, l_targ=L_TARG_DEFAULT,
                  link="quadratic", seed=None, rt_min=0.15, rt_max=3.0, floor_guess=0.10, alpha2_rule="filter",
                  confusion=None, **fit_kwargs):
         if dim not in ("colour", "audio"):

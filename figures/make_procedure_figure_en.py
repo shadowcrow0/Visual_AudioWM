@@ -30,9 +30,9 @@ ax = fig.add_subplot(gs[0]); ax.set_xlim(0, 100); ax.set_ylim(0, 10); ax.axis("o
 ax.text(0, 9.6, "A. Session", fontsize=13, va="top", color=INK)
 stages = [
     (0,   7,  "Instructions",            "",                                              "#eeeeee"),
-    (9,   15, "Part 1  Color calibration", "72 trials · 6 ΔE levels × 8 + 24 match\nsound = studied sound · feedback", "#dde3f3"),
+    (9,   15, "Part 1  Color calibration", "40 trials · 5 ΔE levels × 6 + 10 match\nsound = studied sound · feedback", "#dde3f3"),
     (26,  5,  "Fit",                     "lnrm2\n20–40 s",                                "#e6e6e6"),
-    (33,  15, "Part 2  Sound calibration", "72 trials · 6 confusion levels × 8 + 24 match\ncolor = studied color · feedback", "#e8dcf0"),
+    (33,  15, "Part 2  Sound calibration", "40 trials · 5 confusion levels × 6 + 10 match\ncolor = studied color · feedback", "#e8dcf0"),
     (50,  5,  "Fit",                     "lnrm2\n20–40 s",                                "#e6e6e6"),
     (57,  11, "Practice",                "2 sets × 16 probes\nfeedback 1,000 ms",               "#f3e8d3"),
     (70,  22, "Main task",               "6 blocks × 14 sets × 16 probes = 1344\nno feedback · rest between blocks", "#dcefd9"),
@@ -196,34 +196,34 @@ for i, (lab, sub, content, dashed) in enumerate(mini):
 x_last = 8 * (mw + gap) + mw / 2
 ax.plot([x_last, x_last, mw / 2, mw / 2], [my + mh + 2, my + mh + 11, my + mh + 11, my + mh + 2], color=INK, lw=1)
 ax.add_patch(FancyArrowPatch((mw / 2, my + mh + 7), (mw / 2, my + mh + 2.5), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
-ax.text((x_last + mw / 2) / 2, my + mh + 12.5, "× 72 trials: 6 ΔE levels × 8 + 24 same, shuffled; [bi] and [pi] identical on every trial",
+ax.text((x_last + mw / 2) / 2, my + mh + 12.5, "× 40 trials: 5 ΔE levels × 6 + 10 same, shuffled; [bi] and [pi] identical on every trial",
         ha="center", va="bottom", fontsize=8.5, color=INK)
 # → lnrm2 box below the row
 ax.add_patch(FancyArrowPatch((x_last, my - 21), (x_last, my - 28), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
 ax.add_patch(FancyBboxPatch((x_last - 14, my - 46), 28, 17, boxstyle="round,pad=0,rounding_size=2", fc="#fdf2cc", ec=INK, lw=1))
 ax.text(x_last, my - 34, "lnrm2", ha="center", va="center", fontsize=10, color=INK)
 ax.text(x_last, my - 41, "fit accuracy + RT, invert for H / L", ha="center", va="center", fontsize=8, color=GREY)
-ax.text(x_last - 16, my - 37.5, "after the 72nd trial", ha="right", va="center", fontsize=8, color=GREY)
+ax.text(x_last - 16, my - 37.5, "after the 40th trial", ha="right", va="center", fontsize=8, color=GREY)
 
-# D-middle: the 72-trial sequence of ΔE levels (schematic)
+# D-middle: the 40-trial sequence of ΔE levels (schematic)
 rng = np.random.default_rng(3)
-levels = [2, 6, 12, 20, 30, 45]
-plan = [v for v in levels for _ in range(8)] + [0] * 24
+levels = [6, 12, 20, 30, 45]
+plan = [v for v in levels for _ in range(6)] + [0] * 10
 rng.shuffle(plan)
 plan = np.array(plan, float)
 ax = fig.add_subplot(gsD[1])
-tr = np.arange(1, 73)
+tr = np.arange(1, 41)
 is_same = plan == 0
 ax.scatter(tr[~is_same], plan[~is_same], s=14, color="#4b3f8f", zorder=3)
 ax.scatter(tr[is_same], plan[is_same], s=14, facecolors="white", edgecolors="#4b3f8f", zorder=3)
 for v in levels:
     ax.axhline(v, color="#cccccc", lw=0.6, zorder=1)
-ax.set_xlim(0, 73); ax.set_ylim(-3, 52)
-ax.set_xticks([1, 36, 72]); ax.set_yticks(levels)
+ax.set_xlim(0, 41); ax.set_ylim(-3, 52)
+ax.set_xticks([1, 20, 40]); ax.set_yticks(levels)
 ax.set_xlabel("trial", fontsize=9); ax.set_ylabel("probe ΔE (color 1 ± x)", fontsize=9)
 ax.tick_params(labelsize=8)
-ax.set_title("Levels presented across the 72 trials (schematic)", fontsize=9.5, color=INK)
-ax.text(72, 48, "○  same probe (ΔE = 0)", ha="right", va="top", fontsize=8, color=GREY)
+ax.set_title("Levels presented across the 40 trials (schematic)", fontsize=9.5, color=INK)
+ax.text(40, 48, "○  same probe (ΔE = 0)", ha="right", va="top", fontsize=8, color=GREY)
 for sp in ("top", "right"):
     ax.spines[sp].set_visible(False)
 

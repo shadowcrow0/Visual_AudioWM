@@ -112,7 +112,9 @@ def test_lnrm_quadratic_recovers_and_matches_r_inversion(dim):
     alpha, alpha2 = 1.0, -0.12
     cal = LNRMCalibrator(dim, n_per_level=12, seed=11, tune=400, draws=400, chains=2)
     respond = lnrm_observer(lambda u: alpha * u + alpha2 * u * u, dim)
-    assert cal.n_trials == 6 * 12 + 36
+    n_diff = len(cal.levels) * 12                                  # 預設 5 層 × 12 = 60，AA 佔 1/4 → +20
+    n_match = int(round(n_diff * cal.p_match / (1 - cal.p_match)))
+    assert cal.n_trials == n_diff + n_match
     for _ in range(cal.n_trials):
         t = cal.next_trial()
         assert {"probe_colour", "probe_sound", "is_match"} <= set(t)
@@ -120,7 +122,7 @@ def test_lnrm_quadratic_recovers_and_matches_r_inversion(dim):
     with pytest.raises(StopIteration):
         cal.next_trial()
     res = cal.finish()
-    assert res["dim"] == dim and res["extra"]["method"] == "lnrm_quadratic" and res["n_match"] == 36
+    assert res["dim"] == dim and res["extra"]["method"] == "lnrm_quadratic" and res["n_match"] == n_match
     assert abs(res["alpha"] - alpha) < 0.5 and abs(res["beta"] - alpha2) < 0.15
     assert res["extra"]["divergences"] < 20
     # 2·d(u) = targ 的較小根（adaptiveSFT_functions.R:229-232）

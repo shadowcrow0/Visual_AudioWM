@@ -36,9 +36,9 @@ from adaptive_vawm import LNRMCalibrator, PsiCalibrator, save_calibration
 
 # ───────────── 參數 ─────────────
 METHOD = "lnrm"            # "lnrm" = 原始 adaptiveSFT（LNRM，要 PyMC）；"psi" = Psi 版
-P_MATCH = 1 / 3            # AA（探測 = 目標）試的比例，用來估假警報率
+P_MATCH = 1 / 4            # AA（探測 = 目標）試的比例，用來估假警報率（DECISIONS 16）
 # lnrm
-N_PER_LEVEL = 8            # 每個強度層級的「不同」試數；6 層 × 8 + 24 AA = 72 試 / 區塊
+N_PER_LEVEL = 6            # 每個強度層級的「不同」試數；5 層 × 6 + 10 AA = 40 試 / 區塊
 H_TARG, L_TARG = 2.0, 0.5  # H / L 的漂移差目標（z2 − z1）。Houpt 原設定 8.0 / 1.3；見 adaptiveSFT/results/power_scan.csv
 LINK = "quadratic"         # "quadratic" = lnrm2（原檔，已對 Stan 驗證）；"ogival" = lnrm2a（adaptiveSFT 的重建：½L·inv_logit, L = 10）
                            # 兩者都用漂移差目標 —— decisions_for_author.md 的 B（2026-10-02 定案）
@@ -46,7 +46,7 @@ FIT_KW = dict(tune=1000, draws=1000, chains=4,   # PyMC NUTS；機器慢就 chai
               nuts_sampler="nutpie")              # 實驗機沒有 g++：PyMC 預設採樣器退回純 Python，這組設定要 20 分鐘以上；
                                                   # nutpie（pip install nutpie，numba 後端）實測 69 s，參數回復一樣。見 adaptive_vawm.md
 # psi
-N_COLOUR = 72              # 區塊 1 試次（含 1/3 的 AA 試）
+N_COLOUR = 72              # 區塊 1 試次（psi 版；含 P_MATCH 的 AA 試）
 N_AUDIO = 72               # 區塊 2 試次
 P_HIGH, P_LOW = 0.90, 0.75  # H / L 的目標「答不同」機率（yes/no 作業的正確率）
 RESP_KEYS = ["y", "n"]     # 同 VAWM_nobox.py：y = 相同、n = 不同

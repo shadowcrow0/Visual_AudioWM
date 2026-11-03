@@ -23,9 +23,9 @@ gs = fig.add_gridspec(3, 1, height_ratios=[1.05, 1.5, 1.45], hspace=0.30)
 ax = fig.add_subplot(gs[0]); ax.set_xlim(0, 100); ax.set_ylim(0, 11); ax.axis("off")
 ax.text(0, 10.9, "A  Session structure", fontsize=12, fontweight="bold", va="top")
 phases = [
-    (0,  16, "Calibration 1\nColour", "72 trials\n6 ΔE levels × 8\n+ 24 match trials\nfeedback every trial", "#cfe2f3"),
+    (0,  16, "Calibration 1\nColour", "40 trials\n5 ΔE levels × 6\n+ 10 match trials\nfeedback every trial", "#cfe2f3"),
     (16, 4,  "fit", "lnrm2\n20–40 s", "#dddddd"),
-    (20, 16, "Calibration 2\nSound", "72 trials\n6 confusion levels × 8\n+ 24 match trials\nfeedback every trial", "#cfe2f3"),
+    (20, 16, "Calibration 2\nSound", "40 trials\n5 confusion levels × 6\n+ 10 match trials\nfeedback every trial", "#cfe2f3"),
     (36, 4,  "fit", "lnrm2\n20–40 s", "#dddddd"),
     (40, 13, "Practice", "2 study sets\n× 16 probes\nfeedback 1 s", "#fde9c9"),
     (53, 47, "Main task", "6 blocks × 14 study sets × 16 probes = 1344 probes\nno feedback; self-paced rest between blocks", "#d9ead3"),

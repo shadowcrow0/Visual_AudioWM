@@ -27,9 +27,9 @@ AUDIO = setup_from_argv(sys.argv)
 from adaptive_vawm_EN import LNRMCalibrator, PsiCalibrator, save_calibration
 
 METHOD = "lnrm"
-P_MATCH = 1 / 3
+P_MATCH = 1 / 4
 # lnrm
-N_PER_LEVEL = 8
+N_PER_LEVEL = 6
 H_TARG, L_TARG = 2.0, 0.5
 LINK = "quadratic"
 FIT_KW = dict(tune=1000, draws=1000, chains=4,

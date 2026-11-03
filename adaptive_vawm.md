@@ -84,11 +84,11 @@ quadratic 沒有上限，2.0 / 0.5 是 power scan 建議的值。所以：`LINK 
 | 目標 | 漂移差 `H_TARG` / `L_TARG`（z₂ − z₁；預設 2.0 / 0.5，Houpt 8.0 / 1.3） | 「答不同」機率 `P_HIGH` / `P_LOW` |
 | 反解 | `adaptivesft.salience.find_salience`（`adaptiveSFT_functions.R:229-232` 的公式，只用 α₂ < 0 的 draw） | `salience_levels` |
 | 實驗機器要什麼 | **完整 adaptivesft 套件（PyMC）** + PsychoPy 在同一個 Python ≥ 3.10 | 只要 `psi.py`（numpy + scipy） |
-| 每區塊試次 | 6 × 8 + 24 AA = 72 | 72（含 1/3 AA） |
+| 每區塊試次 | 5 × 6 + 10 AA = 40（另加 4 暖機 + 8 填充，不進擬合） | 72（含 1/4 AA） |
 
 逐列解釋：
 
-- **強度怎麼選**：lnrm 版像「定值刺激法」——事先訂好 6 個差距，每個差距出 8 題，順序打散。Psi 版則每一題
+- **強度怎麼選**：lnrm 版像「定值刺激法」——事先訂好 5 個差距，每個差距出 6 題，順序打散。Psi 版則每一題
   都臨時決定出哪個差距（挑「熵最小」= 最能減少不確定性的那個）。
 - **用到的資料**：lnrm 版同時看「答對沒」和「花了幾秒」；Psi 版只看答對沒。
 - **模型**：lnrm 版在區塊結束時用 PyMC 跑一次擬合，要等 20–40 秒。Psi 版用的是一條 S 形的心理計量函數
@@ -97,7 +97,7 @@ quadratic 沒有上限，2.0 / 0.5 是 power scan 建議的值。所以：`LINK 
 - **反解**：擬合完得到參數，再反過來問「要多大的差距，速度差才會剛好是目標值」。lnrm 版用 Houpt 的 R 公式，
   而且只用後驗裡 α₂ < 0 的 draw（理由見 `DECISIONS.md` 第 5 條）。
 - **實驗機器要什麼**：lnrm 版要在跑實驗的電腦上裝完整的 adaptiveSFT（含 PyMC）；Psi 版只要一個檔案。
-- **每區塊試次**：兩種都是 72 試。
+- **每區塊試次**：lnrm 版 40 試進擬合（+12 試不進）；Psi 版 72 試。
 
 兩者共用同一個試次產生器（`make_colour_trial` / `make_audio_trial`），差別只在強度怎麼來、結束時怎麼算。
 類別只有兩個：`LNRMCalibrator(dim, …)` 與 `PsiCalibrator(dim, …)`，`dim` 是 `"colour"` 或 `"audio"`；結果是普通 dict。json 的 `colour.p_high` / `p_low` 在 lnrm 下放的是 `H_TARG` / `L_TARG`；`extra.method` 標明方法，
@@ -203,7 +203,7 @@ H = 高 salience = 容易分：顏色 ΔE 大、子音混淆次數少（同 csv 
   次數越多就越像。取 −log10(次數 + 1) 讓「次數少 = 數字大 = 好分」。
 - **每試**：一題就是主實驗的一題——先記兩個顏色、兩個聲音，再看一個探測，答「相同／不同」。顏色區塊只動顏色
   （探測色 = 某個目標色往外推 x），聲音照播原本的；聲音區塊只動聲音（換成 foil，同一個說話者），顏色照原本的。
-- **AA 試**：每三題有一題探測跟目標完全一樣。這些題不用來擬合，只用來算假警報率。
+- **AA 試**：每四題有一題探測跟目標完全一樣。這些題不用來擬合，只用來算假警報率。
 - **模型**（Psi 版）：答「不同」的機率從底線 FA 一路升到接近 1，中間是一條 S 形曲線；α 是曲線的中點，β 是
   它有多陡。
 - **輸出**：顏色區塊給兩個 ΔE，聲音區塊給兩個混淆次數。
@@ -211,8 +211,8 @@ H = 高 salience = 容易分：顏色 ΔE 大、子音混淆次數少（同 csv 
 
 ## 參數（`VAWM_calibrate.py` 最上面）
 
-`METHOD`；lnrm：`N_PER_LEVEL`（8）、`H_TARG` / `L_TARG`（2.0 / 0.5）、`FIT_KW`（NUTS 1000/1000/4 鏈）、層級
-`LEVELS_COLOUR`（ΔE 2–45）/ `LEVELS_AUDIO` 在 `adaptive_vawm.py`；psi：`N_COLOUR` / `N_AUDIO`（72）、
+`METHOD`；lnrm：`N_PER_LEVEL`（6）、`H_TARG` / `L_TARG`（2.0 / 0.5）、`FIT_KW`（NUTS 1000/1000/4 鏈）、層級
+`LEVELS_COLOUR`（ΔE 6–45）/ `LEVELS_AUDIO` 在 `adaptive_vawm.py`；psi：`N_COLOUR` / `N_AUDIO`（72）、
 `P_HIGH` / `P_LOW`（.90 / .75）、Psi 網格在 `PsiCalibrator.__init__`；共用 `P_MATCH`（1/3）。
 漂移差目標怎麼選見 `adaptiveSFT/results/power_scan.csv` 與 `p6_results.md`：8.0 / 1.3 在 a = 3、v = 2 下 H 超出
 範圍，2.0 / 0.5 在範圍內且 SIC 判對率最好。

@@ -129,6 +129,14 @@
   `vawm_to_dfp_rows` 已照這樣做：HH / HL / LH / LL 的 correct = 按 n；AA 的 correct = 按 y。
 - **在哪**：`SFT_WM_change.py` / `SFT_WM_nochange.py`（含 `_EN`）與 `make_simple_psyexp.py` 的 `nine_probes`；`VAWM_nobox.py` 的 `generate_stratified_conditions`；圖說 `figures/experiment_procedure.md` (C)；分析 `adaptive_vawm.py` 的 `vawm_to_dfp_rows`。
 
+## 16. 校準縮短：每個維度 52 試（約 7–8 分鐘），兩個維度約 15 分鐘
+- **決定**：`N_WARMUP` 8 → 4、`N_PER_LEVEL` 8 → 6、`P_MATCH` 1/3 → 1/4、`N_FILLER` 24 → 8、層級 6 → 5（顏色拿掉 ΔE 2，聲音拿掉最像的 −2.6）。
+  每個維度：4 暖機 + 30「不同」+ 10 AA + 8 填充 = 52 試，其中 40 試進擬合。原本是 8 + 48 + 24 + 24 = 104 試（約 15 分鐘 / 維度）。
+- **為什麼**：每試約 8.5 s，大半是 4.3 s 的學習段（校準要在 WM 負荷下量，不能砍），只能砍試數。暖機、AA、填充不進擬合，砍了不影響 H / L；
+  每層 8 → 6 讓 α / α₂ 的後驗區間寬約 15–20%；ΔE 2 在 pilot（2026-10-19）的正確率 .38 ≈ 猜，幾乎不提供資訊。
+  前提：受試者要有作答——pilot 72 試有 7 試無作答，擬合只剩 41 試；試數少了之後無作答率要壓低（指導語強調一定要按）。
+- **在哪**：`SFT_WM_change.py` / `SFT_WM_nochange.py`（含 `_EN`）檔頭、`make_simple_psyexp.py`、`VAWM_calibrate.py`、`adaptive_vawm.py` 的 `LEVELS_*` 與 `LNRMCalibrator` 預設值；圖 1 (A)(D) 與圖說。
+
 ## 還沒決定的
 - adaptiveSFT 決定 A（DDM 的 `a` 是邊界距離還是分離）：只影響 DDM 模擬與 power scan 的數字，不影響實驗程式。
 - 聲音 lnrm 的層級貼到 foil 後 u 是散的（測試裡 29 個不同值），擬合沒問題，但「層級」這個概念在聲音軸上是近似。
