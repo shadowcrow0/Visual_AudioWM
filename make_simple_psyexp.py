@@ -27,9 +27,9 @@ BE = r'''
 import os, sys, json, time
 import numpy as np
 os.chdir(_thisDir)                                   # 刺激檔是相對路徑 stimuli/...
-LEVELS_COLOUR = [6.0, 12.0, 20.0, 30.0, 45.0]        # 校準用的顏色距離 dE（ΔE 2 拿掉，DECISIONS 16）
-LEVELS_AUDIO  = [-2.1, -1.6, -1.1, -0.7, -0.3]       # 校準用的子音不相似度 = -log10(混淆次數+1)
-N_PER_LEVEL = 6                                      # 每個強度幾試 -> 30 試「不同」
+LEVELS_COLOUR = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0]   # 校準用的顏色距離 dE
+LEVELS_AUDIO  = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3] # 校準用的子音不相似度 = -log10(混淆次數+1)
+N_PER_LEVEL = 5                                      # 每個強度幾試 -> 6×5 = 30 試「不同」
 P_MATCH = 1 / 4                                      # 再加 1/4「相同」試 -> 共 40 試
 N_WARMUP = 4                                         # 校準前的暖機試次，有回饋、不進擬合
 H_TARG, L_TARG = 2.0, 0.5                            # 漂移差目標：容易 H / 困難 L

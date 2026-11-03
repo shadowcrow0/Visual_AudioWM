@@ -31,9 +31,9 @@ ax = fig.add_subplot(gs[0]); ax.set_xlim(0, 100); ax.set_ylim(0, 10); ax.axis("o
 ax.text(0, 9.6, "A. 整場流程（VAWM_calibrate.py → make_adaptive_blocks.py → VAWM_nobox.py）", fontsize=12, va="top", color=INK)
 stages = [
     (0,   7,  "說明",          "Intro + 指導語",                                   "#eeeeee"),
-    (9,   15, "Part 1 顏色校準", "40 試 · 5 個 ΔE 層級 × 6 + 10 試 AA\n聲音 = 目標音 · 有回饋",  "#dde3f3"),
+    (9,   15, "Part 1 顏色校準", "40 試 · 6 個 ΔE 層級 × 5 + 10 試 AA\n聲音 = 目標音 · 有回饋",  "#dde3f3"),
     (26,  5,  "擬合",          "lnrm2\n20–40 s",                                   "#e6e6e6"),
-    (33,  15, "Part 2 聲音校準", "40 試 · 5 個混淆層級 × 6 + 10 試 AA\n顏色 = 目標色 · 有回饋", "#e8dcf0"),
+    (33,  15, "Part 2 聲音校準", "40 試 · 6 個混淆層級 × 5 + 10 試 AA\n顏色 = 目標色 · 有回饋", "#e8dcf0"),
     (50,  5,  "擬合",          "lnrm2\n20–40 s",                                   "#e6e6e6"),
     (57,  11, "練習",          "2 組 × 16 探測\n有回饋 1 s",                         "#f3e8d3"),
     (70,  22, "主實驗",        "6 blocks × 14 組 × 16 探測 = 1344\n無回饋 · block 間休息", "#dcefd9"),

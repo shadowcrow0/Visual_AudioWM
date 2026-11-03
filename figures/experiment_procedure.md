@@ -8,7 +8,7 @@
 
 ## 圖說（中文）
 
-**圖 1.** 實驗流程。**(A)** 單一場次的結構。受試者先完成兩個校準區塊（各 40 試：5 個強度層級 × 6 試「不同」探測，加 10 試
+**圖 1.** 實驗流程。**(A)** 單一場次的結構。受試者先完成兩個校準區塊（各 40 試：6 個強度層級 × 5 試「不同」探測，加 10 試
 「相同」探測；每試後給回饋；另有 4 試暖機與 8 試填充，不進擬合）。每個區塊結束時以 lnrm2 模型擬合正確率與反應時間（20–40 s），反解出該受試者的
 高 / 低顯著度（H / L）層級：顏色為 CIELAB 距離 ΔE_H / ΔE_L，聲音為子音混淆次數 count_H / count_L。接著是練習
 （2 組 study × 16 個探測，回饋 1 s）與主作業（6 個 block × 14 組 study × 16 個探測 = 1344 個探測，無回饋，block 之間
@@ -26,7 +26,7 @@ HH / HL / LH / LL（兩者都不同）各 1 個。即 Houpt et al. (2014) Table 
 ## Caption (English)
 
 **Figure 1.** Experimental procedure. **(A)** Structure of one session. Participants first complete two calibration
-blocks (40 trials each: 5 intensity levels × 6 "different" probes plus 10 "same" probes; feedback after every
+blocks (40 trials each: 6 intensity levels × 5 "different" probes plus 10 "same" probes; feedback after every
 trial; 4 warm-up and 8 filler trials per block are not fitted). At the end of each block the lnrm2 model is fitted to accuracy and response time (20–40 s) and inverted to
 obtain that participant's high- and low-salience levels (H / L): for colour the CIELAB distances ΔE_H / ΔE_L, for
 sound the consonant-confusion counts count_H / count_L. Practice (2 study sets × 16 probes, 1 s feedback) and the
@@ -72,7 +72,7 @@ APA 7（§7.22–7.36）的規定：圖的四個部分是 **圖號**（Figure 1�
 
 *Note.* Panel A shows the order of phases in one session. In the two calibration parts, each trial varied only the
 dimension being calibrated (color in Part 1, sound in Part 2); the other dimension was identical to the studied
-item. Each calibration part comprised 40 fitted trials: 5 intensity levels × 6 "different" probes plus 10 "same" probes,
+item. Each calibration part comprised 40 fitted trials: 6 intensity levels × 5 "different" probes plus 10 "same" probes,
 with feedback after every trial. At the end of each part the lognormal race model (lnrm2) was fitted to accuracy and
 response time and inverted to obtain the participant's high- and low-salience levels (color: CIELAB ΔE; sound:
 consonant-confusion count). Practice (2 study sets × 16 probes, feedback 1 s) and the main task (6 blocks × 14 study

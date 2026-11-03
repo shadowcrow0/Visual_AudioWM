@@ -139,8 +139,8 @@ CSV_COLUMNS = ["trial",
 TALKERS = ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12"]
 
 # lnrm 的預設層級與目標
-LEVELS_COLOUR = [6.0, 12.0, 20.0, 30.0, 45.0]           # ΔE（ΔE 2 拿掉：pilot 正確率 ≈ 猜，DECISIONS 16）；現有 csv 的 L 在 20–30、H 在 25–50
-LEVELS_AUDIO = [-2.1, -1.6, -1.1, -0.7, -0.3]           # −log10(count + 1)，每試貼到目標子音可用的 foil
+LEVELS_COLOUR = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0]      # ΔE；現有 csv 的 L 在 20–30、H 在 25–50
+LEVELS_AUDIO = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3]     # −log10(count + 1)，每試貼到目標子音可用的 foil
 H_TARG_DEFAULT = 2.0                                     # 漂移差目標。Houpt 原設定 8.0 / 1.3；
 L_TARG_DEFAULT = 0.5                                     # 2.0 / 0.5 是 adaptiveSFT/results/power_scan.csv 的建議（配 quadratic）
 AUDIO_SHIFT = 2.7                                        # 聲音 x 在 −2.66…−0.3，進模型前平移到 ≥ 0
@@ -456,7 +456,7 @@ class LNRMCalibrator:
     全部平均會得到 −49 之類的值；"all_draws" 才是 R 字面。
     """
 
-    def __init__(self, dim, levels=None, n_per_level=6, p_match=1 / 4, h_targ=H_TARG_DEFAULT, l_targ=L_TARG_DEFAULT,
+    def __init__(self, dim, levels=None, n_per_level=5, p_match=1 / 4, h_targ=H_TARG_DEFAULT, l_targ=L_TARG_DEFAULT,
                  link="quadratic", seed=None, rt_min=0.15, rt_max=3.0, floor_guess=0.10, alpha2_rule="filter",
                  confusion=None, **fit_kwargs):
         if dim not in ("colour", "audio"):

@@ -38,7 +38,7 @@ from adaptive_vawm import LNRMCalibrator, PsiCalibrator, save_calibration
 METHOD = "lnrm"            # "lnrm" = 原始 adaptiveSFT（LNRM，要 PyMC）；"psi" = Psi 版
 P_MATCH = 1 / 4            # AA（探測 = 目標）試的比例，用來估假警報率（DECISIONS 16）
 # lnrm
-N_PER_LEVEL = 6            # 每個強度層級的「不同」試數；5 層 × 6 + 10 AA = 40 試 / 區塊
+N_PER_LEVEL = 5            # 每個強度層級的「不同」試數；6 層 × 5 + 10 AA = 40 試 / 區塊
 H_TARG, L_TARG = 2.0, 0.5  # H / L 的漂移差目標（z2 − z1）。Houpt 原設定 8.0 / 1.3；見 adaptiveSFT/results/power_scan.csv
 LINK = "quadratic"         # "quadratic" = lnrm2（原檔，已對 Stan 驗證）；"ogival" = lnrm2a（adaptiveSFT 的重建：½L·inv_logit, L = 10）
                            # 兩者都用漂移差目標 —— decisions_for_author.md 的 B（2026-10-02 定案）

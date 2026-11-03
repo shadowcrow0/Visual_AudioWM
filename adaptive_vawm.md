@@ -84,11 +84,11 @@ quadratic 沒有上限，2.0 / 0.5 是 power scan 建議的值。所以：`LINK 
 | 目標 | 漂移差 `H_TARG` / `L_TARG`（z₂ − z₁；預設 2.0 / 0.5，Houpt 8.0 / 1.3） | 「答不同」機率 `P_HIGH` / `P_LOW` |
 | 反解 | `adaptivesft.salience.find_salience`（`adaptiveSFT_functions.R:229-232` 的公式，只用 α₂ < 0 的 draw） | `salience_levels` |
 | 實驗機器要什麼 | **完整 adaptivesft 套件（PyMC）** + PsychoPy 在同一個 Python ≥ 3.10 | 只要 `psi.py`（numpy + scipy） |
-| 每區塊試次 | 5 × 6 + 10 AA = 40（另加 4 暖機 + 8 填充，不進擬合） | 72（含 1/4 AA） |
+| 每區塊試次 | 6 × 5 + 10 AA = 40（另加 4 暖機 + 8 填充，不進擬合） | 72（含 1/4 AA） |
 
 逐列解釋：
 
-- **強度怎麼選**：lnrm 版像「定值刺激法」——事先訂好 5 個差距，每個差距出 6 題，順序打散。Psi 版則每一題
+- **強度怎麼選**：lnrm 版像「定值刺激法」——事先訂好 6 個差距，每個差距出 5 題，順序打散。Psi 版則每一題
   都臨時決定出哪個差距（挑「熵最小」= 最能減少不確定性的那個）。
 - **用到的資料**：lnrm 版同時看「答對沒」和「花了幾秒」；Psi 版只看答對沒。
 - **模型**：lnrm 版在區塊結束時用 PyMC 跑一次擬合，要等 20–40 秒。Psi 版用的是一條 S 形的心理計量函數
@@ -211,8 +211,8 @@ H = 高 salience = 容易分：顏色 ΔE 大、子音混淆次數少（同 csv 
 
 ## 參數（`VAWM_calibrate.py` 最上面）
 
-`METHOD`；lnrm：`N_PER_LEVEL`（6）、`H_TARG` / `L_TARG`（2.0 / 0.5）、`FIT_KW`（NUTS 1000/1000/4 鏈）、層級
-`LEVELS_COLOUR`（ΔE 6–45）/ `LEVELS_AUDIO` 在 `adaptive_vawm.py`；psi：`N_COLOUR` / `N_AUDIO`（72）、
+`METHOD`；lnrm：`N_PER_LEVEL`（5）、`H_TARG` / `L_TARG`（2.0 / 0.5）、`FIT_KW`（NUTS 1000/1000/4 鏈）、層級
+`LEVELS_COLOUR`（ΔE 2–45）/ `LEVELS_AUDIO` 在 `adaptive_vawm.py`；psi：`N_COLOUR` / `N_AUDIO`（72）、
 `P_HIGH` / `P_LOW`（.90 / .75）、Psi 網格在 `PsiCalibrator.__init__`；共用 `P_MATCH`（1/3）。
 漂移差目標怎麼選見 `adaptiveSFT/results/power_scan.csv` 與 `p6_results.md`：8.0 / 1.3 在 a = 3、v = 2 下 H 超出
 範圍，2.0 / 0.5 在範圍內且 SIC 判對率最好。

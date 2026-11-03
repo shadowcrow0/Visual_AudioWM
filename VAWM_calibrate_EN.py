@@ -29,7 +29,7 @@ from adaptive_vawm_EN import LNRMCalibrator, PsiCalibrator, save_calibration
 METHOD = "lnrm"
 P_MATCH = 1 / 4
 # lnrm
-N_PER_LEVEL = 6
+N_PER_LEVEL = 5
 H_TARG, L_TARG = 2.0, 0.5
 LINK = "quadratic"
 FIT_KW = dict(tune=1000, draws=1000, chains=4,

@@ -30,9 +30,9 @@ ax = fig.add_subplot(gs[0]); ax.set_xlim(0, 100); ax.set_ylim(0, 10); ax.axis("o
 ax.text(0, 9.6, "A. Session", fontsize=13, va="top", color=INK)
 stages = [
     (0,   7,  "Instructions",            "",                                              "#eeeeee"),
-    (9,   15, "Part 1  Color calibration", "40 trials · 5 ΔE levels × 6 + 10 match\nsound = studied sound · feedback", "#dde3f3"),
+    (9,   15, "Part 1  Color calibration", "40 trials · 6 ΔE levels × 5 + 10 match\nsound = studied sound · feedback", "#dde3f3"),
     (26,  5,  "Fit",                     "lnrm2\n20–40 s",                                "#e6e6e6"),
-    (33,  15, "Part 2  Sound calibration", "40 trials · 5 confusion levels × 6 + 10 match\ncolor = studied color · feedback", "#e8dcf0"),
+    (33,  15, "Part 2  Sound calibration", "40 trials · 6 confusion levels × 5 + 10 match\ncolor = studied color · feedback", "#e8dcf0"),
     (50,  5,  "Fit",                     "lnrm2\n20–40 s",                                "#e6e6e6"),
     (57,  11, "Practice",                "2 sets × 16 probes\nfeedback 1,000 ms",               "#f3e8d3"),
     (70,  22, "Main task",               "6 blocks × 14 sets × 16 probes = 1344\nno feedback · rest between blocks", "#dcefd9"),
@@ -196,7 +196,7 @@ for i, (lab, sub, content, dashed) in enumerate(mini):
 x_last = 8 * (mw + gap) + mw / 2
 ax.plot([x_last, x_last, mw / 2, mw / 2], [my + mh + 2, my + mh + 11, my + mh + 11, my + mh + 2], color=INK, lw=1)
 ax.add_patch(FancyArrowPatch((mw / 2, my + mh + 7), (mw / 2, my + mh + 2.5), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
-ax.text((x_last + mw / 2) / 2, my + mh + 12.5, "× 40 trials: 5 ΔE levels × 6 + 10 same, shuffled; [bi] and [pi] identical on every trial",
+ax.text((x_last + mw / 2) / 2, my + mh + 12.5, "× 40 trials: 6 ΔE levels × 5 + 10 same, shuffled; [bi] and [pi] identical on every trial",
         ha="center", va="bottom", fontsize=8.5, color=INK)
 # → lnrm2 box below the row
 ax.add_patch(FancyArrowPatch((x_last, my - 21), (x_last, my - 28), arrowstyle="-|>", mutation_scale=10, color=INK, lw=1))
@@ -207,8 +207,8 @@ ax.text(x_last - 16, my - 37.5, "after the 40th trial", ha="right", va="center",
 
 # D-middle: the 40-trial sequence of ΔE levels (schematic)
 rng = np.random.default_rng(3)
-levels = [6, 12, 20, 30, 45]
-plan = [v for v in levels for _ in range(6)] + [0] * 10
+levels = [2, 6, 12, 20, 30, 45]
+plan = [v for v in levels for _ in range(5)] + [0] * 10
 rng.shuffle(plan)
 plan = np.array(plan, float)
 ax = fig.add_subplot(gsD[1])
