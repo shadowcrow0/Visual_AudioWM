@@ -1,6 +1,7 @@
-"""Pack the files needed to run the SFT experiment on a lab PC into VAWM_run.zip.
+"""Pack the files needed to run the SFT experiment on a lab PC into VAWM_run.zip, or refresh the public run repo.
 
-    python make_run_bundle.py            # writes VAWM_run.zip next to this file
+    python make_run_bundle.py                          # writes VAWM_run.zip next to this file
+    python make_run_bundle.py --repo ../vawm_run       # refresh a checkout of github.com/shadowcrow0/VAWM_run
 
 Unzipped layout (the two folders must stay side by side: adaptive_vawm_EN.py looks for ../adaptiveSFT):
 
@@ -53,23 +54,47 @@ calibration 16 warm-up + 40 fitted + 8 filler per dimension, main task 6 blocks 
 """
 
 
-def main():
-    stage = os.path.join(HERE, "_bundle")
-    shutil.rmtree(stage, ignore_errors=True)
-    run = os.path.join(stage, "VAWM_run")
-    os.makedirs(os.path.join(run, "data"))
+def write_tree(stage, run_name="VAWM_run"):
+    """Write the run folder (run_name/) and adaptiveSFT/ side by side under stage."""
+    run = os.path.join(stage, run_name)
+    os.makedirs(os.path.join(run, "data"), exist_ok=True)
     for f in FILES:
         shutil.copy2(os.path.join(HERE, f), run)
+    shutil.rmtree(os.path.join(run, "stimuli"), ignore_errors=True)
     shutil.copytree(os.path.join(HERE, "stimuli"), os.path.join(run, "stimuli"))
     open(os.path.join(run, "data", ".keep"), "w").close()
     open(os.path.join(run, "README_RUN.md"), "w", encoding="utf-8").write(README)
     pkg = os.path.join(stage, "adaptiveSFT")
+    shutil.rmtree(pkg, ignore_errors=True)
     os.makedirs(pkg)
     for f in ["pyproject.toml", "README.md", "requirements.txt", "LICENSE"]:
         if os.path.isfile(os.path.join(SFT, f)):
             shutil.copy2(os.path.join(SFT, f), pkg)
     shutil.copytree(os.path.join(SFT, "adaptivesft"), os.path.join(pkg, "adaptivesft"),
                     ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+
+
+def main():
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--repo", metavar="DIR", help="instead of a zip, refresh a checkout of github.com/shadowcrow0/VAWM_run "
+                                                 "(writes DIR/Visual_AudioWM and DIR/adaptiveSFT; the .bat files and README there are kept)")
+    a = ap.parse_args()
+    if a.repo:
+        # the public repo keeps the run folder under the name Visual_AudioWM (the .bat files cd into it)
+        run = os.path.join(a.repo, "Visual_AudioWM")
+        keep_data = os.path.join(run, "data")
+        for name in os.listdir(run) if os.path.isdir(run) else []:
+            if name != "data":
+                p = os.path.join(run, name)
+                shutil.rmtree(p) if os.path.isdir(p) else os.remove(p)
+        write_tree(a.repo, run_name="Visual_AudioWM")
+        os.remove(os.path.join(run, "README_RUN.md"))          # the repo has its own README at the top level
+        print("refreshed", a.repo)
+        return
+    stage = os.path.join(HERE, "_bundle")
+    shutil.rmtree(stage, ignore_errors=True)
+    write_tree(stage)
     if os.path.exists(OUT):
         os.remove(OUT)
     with zipfile.ZipFile(OUT, "w", zipfile.ZIP_DEFLATED) as z:
