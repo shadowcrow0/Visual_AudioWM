@@ -118,7 +118,13 @@
 ## 15. 主實驗每組 9 個探測 = 九種類型各 1（3 × 3 等率）
 - **決定**：`nine_probes()` 每組抽 AA、HA、LA、AH、AL、HH、LH、HL、LL 各 1 個（各自隨機探測目標 1 或 2），不再是 2 AA + 3 個雙通道隨機。
 - **為什麼**：Houpt, Blaha, McIntire, Havig & Townsend (2014) 的雙因子表是兩個來源各 {target, distractor} × {high, low} 完整交叉、每格等率；本實驗「相同」（A）不分 high / low，所以每個維度是 {A, H, L}，3 × 3 = 9 格各 1/9。舊配比讓雙因子每格每組只有 3/4 個探測（每場次 108），改後每格 144，而且 HH / HL / LH / LL 四格數量相等。代價：「相同」從 22% 降到 11%，受試者可能偏向一律按「不同」；AA 的錯誤率要看。
-- **在哪**：`SFT_WM_change.py` / `SFT_WM_nochange.py`（含 `_EN`）與 `make_simple_psyexp.py` 的 `nine_probes`；`VAWM_nobox.py` 的 `generate_stratified_conditions`；圖說 `figures/experiment_procedure.md` (C)。
+- **怎麼對到 Houpt et al. (2014) 的術語**（p. 322：target / distractor 由實驗者指定，對 redundant target 做 AND 決定 = 對 redundant distractor 做 OR 決定）：
+  target = 與學習項目相同（A），**只有一個水準**（刻意把 target 的難易度拿掉）；distractor = 不同，H（差很多，快）/ L（差一點，慢）。
+  作業是「兩個都 match 才按 y」（AND on matches）；SIC / MIC 用 H/L × H/L 四格（redundant distractors）**按 n 的 RT**，
+  那是對 mismatch 的 first-terminating 決定，所以 SIC 形狀要用 **OR 規則**的預測解讀（parallel-OR 全正、serial-OR 平、coactive 先負後正），
+  不是 AND 的。target 側（A × A 只有一格）沒有顯著度因子，算不出 target 側的 SIC——這是只留一個 target 水準的代價。
+  `vawm_to_dfp_rows` 已照這樣做：HH / HL / LH / LL 的 correct = 按 n；AA 的 correct = 按 y。
+- **在哪**：`SFT_WM_change.py` / `SFT_WM_nochange.py`（含 `_EN`）與 `make_simple_psyexp.py` 的 `nine_probes`；`VAWM_nobox.py` 的 `generate_stratified_conditions`；圖說 `figures/experiment_procedure.md` (C)；分析 `adaptive_vawm.py` 的 `vawm_to_dfp_rows`。
 
 ## 還沒決定的
 - adaptiveSFT 決定 A（DDM 的 `a` 是邊界距離還是分離）：只影響 DDM 模擬與 power scan 的數字，不影響實驗程式。

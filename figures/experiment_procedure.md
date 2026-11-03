@@ -18,7 +18,8 @@
 畫面（1000 ms；校準為 800 ms）。校準試次的作答窗最長 3 s。**(C)** 每組 9 個探測的組成（隨機排列）：九種類型各 1 個 —— AA（顏色與聲音
 都與某個 study 項目相同）；HA / LA（只有顏色不同，H = 容易、L = 困難）；AH / AL（只有聲音不同）；
 HH / HL / LH / LL（兩者都不同）。兩個維度各取 {相同, H, L} 完整交叉、每格等率 1/9（Houpt et al., 2014）。最後四類構成
-2 × 2 雙因子設計（double-factorial paradigm），其反應時間用於計算 SIC 與 MIC，以推論顏色與聲音的處理架構。
+2 × 2 雙因子設計（double-factorial paradigm），以其「不同」反應的反應時間計算 SIC 與 MIC，以推論顏色與聲音的處理架構
+（作業為「兩者皆相同才答 y」；「不同」是對差異的 first-terminating 決定，SIC 依 OR 規則的預測解讀）。
 每場次共 576 個雙因子探測，每格 144 個。
 
 ## Caption (English)
@@ -37,8 +38,9 @@ screen (1000 ms; 800 ms in calibration), and calibration trials allow up to 3 s 
 the nine probes per study set (shuffled): one of each type: AA (colour and sound both match a studied item); HA / LA
 (only colour differs; H = easy, L = hard); AH / AL (only sound differs); HH / HL / LH / LL (both differ). The two
 dimensions each take {same, H, L}, fully crossed at equal rates of 1/9 (Houpt et al., 2014). The last four types form
-the 2 × 2 double-factorial paradigm whose response times yield the SIC and MIC used to infer the processing
-architecture of colour and sound; 576 double-factorial probes per session, 144 per cell.
+the 2 × 2 double-factorial paradigm; the response times of their "different" responses yield the SIC and MIC used to
+infer the processing architecture of colour and sound (the task is "y only if both match"; "different" is a
+first-terminating decision on the mismatches, so the SIC is read against the OR-rule predictions); 576 double-factorial probes per session, 144 per cell.
 
 ## 要注意的一件事 / One caveat
 
