@@ -30,7 +30,7 @@ METHOD = "lnrm"
 P_MATCH = 1 / 4
 # lnrm
 N_PER_LEVEL = 5
-H_TARG, L_TARG = 2.0, 0.5
+H_TARG, L_TARG = 8.0, 1.3
 LINK = "quadratic"
 FIT_KW = dict(tune=1000, draws=1000, chains=4,
               nuts_sampler="nutpie")

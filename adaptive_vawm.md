@@ -70,18 +70,17 @@ ogival 模型照 adaptiveSFT 的重建（½L·inv_logit、L = 10 固定、Normal
 
 **`LINK` 和 `H_TARG` / `L_TARG` 是綁在一起的。** ogival 的分離上限是 L = 10，目標是「L 的幾分之幾」：Houpt 的
 8.0 / 1.3 = 80% / 13%，合理；2.0 / 0.5 = 20% / 5% 落在曲線底部，L 會反解到層級範圍外（測試裡量到 ΔE −19）。
-quadratic 沒有上限，2.0 / 0.5 是 power scan 建議的值。所以：`LINK = "quadratic"` 配 2.0 / 0.5，
-`LINK = "ogival"` 配 8.0 / 1.3（或自己從 L 的比例算）。
+quadratic 沒有上限。現在兩種 link 都配 8.0 / 1.3（`DECISIONS.md` 第 3 條：coactive 的檢定力靠這個）。
 
 為什麼綁在一起：S 形曲線有天花板（最高 10）。目標 2.0 只是天花板的 20%，落在曲線最平的底部；在那裡反推
-「要多大的顏色差」會得到荒謬的答案（負的 ΔE）。二次式沒有天花板，所以 2.0 / 0.5 才合理。換曲線就要換目標值。
+「要多大的顏色差」會得到荒謬的答案（負的 ΔE）。二次式沒有天花板。換曲線要重看目標值是不是還在曲線的合理段。
 
 | | `METHOD = "lnrm"`（**原始 adaptiveSFT**，預設） | `METHOD = "psi"` |
 |---|---|---|
 | 強度怎麼選 | 定值刺激法：6 層固定，各 `N_PER_LEVEL`（8）試，打散 | Psi 逐試選熵最小的 x |
 | 用到的資料 | 正確率 **+ RT**（「不同」試） | 只有正確率 |
 | 模型 | lnrm2（`adaptivesft.models_v2.fit_lnrm_v2`，似然全用 PyMC 內建 `LogNormal` 的 logp/logcdf，PyMC NUTS，區塊結束時擬合 20–40 s） | 累積常態心理計量函數 |
-| 目標 | 漂移差 `H_TARG` / `L_TARG`（z₂ − z₁；預設 2.0 / 0.5，Houpt 8.0 / 1.3） | 「答不同」機率 `P_HIGH` / `P_LOW` |
+| 目標 | 漂移差 `H_TARG` / `L_TARG`（z₂ − z₁；預設 8.0 / 1.3，同 Houpt） | 「答不同」機率 `P_HIGH` / `P_LOW` |
 | 反解 | `adaptivesft.salience.find_salience`（`adaptiveSFT_functions.R:229-232` 的公式，只用 α₂ < 0 的 draw） | `salience_levels` |
 | 實驗機器要什麼 | **完整 adaptivesft 套件（PyMC）** + PsychoPy 在同一個 Python ≥ 3.10 | 只要 `psi.py`（numpy + scipy） |
 | 每區塊試次 | 6 × 5 + 10 AA = 40（另加 4 暖機 + 8 填充，不進擬合） | 72（含 1/4 AA） |
@@ -211,16 +210,15 @@ H = 高 salience = 容易分：顏色 ΔE 大、子音混淆次數少（同 csv 
 
 ## 參數（`VAWM_calibrate.py` 最上面）
 
-`METHOD`；lnrm：`N_PER_LEVEL`（5）、`H_TARG` / `L_TARG`（2.0 / 0.5）、`FIT_KW`（NUTS 1000/1000/4 鏈）、層級
-`LEVELS_COLOUR`（ΔE 2–45）/ `LEVELS_AUDIO` 在 `adaptive_vawm.py`；psi：`N_COLOUR` / `N_AUDIO`（72）、
+`METHOD`；lnrm：`N_PER_LEVEL`（5）、`H_TARG` / `L_TARG`（8.0 / 1.3）、`FIT_KW`（NUTS 1000/1000/4 鏈）、層級
+`LEVELS_COLOUR`（ΔE 2–90）/ `LEVELS_AUDIO` 在 `adaptive_vawm.py`；psi：`N_COLOUR` / `N_AUDIO`（72）、
 `P_HIGH` / `P_LOW`（.90 / .75）、Psi 網格在 `PsiCalibrator.__init__`；共用 `P_MATCH`（1/3）。
-漂移差目標怎麼選見 `adaptiveSFT/results/power_scan.csv` 與 `p6_results.md`：8.0 / 1.3 在 a = 3、v = 2 下 H 超出
-範圍，2.0 / 0.5 在範圍內且 SIC 判對率最好。
+漂移差目標怎麼選見 `adaptiveSFT/results/power_scan_fine.txt`：8.0 / 1.3 的 coactive 判對率在 100 試/格 0.72、150 試 0.86；
+2.0 / 0.5 要 250 試才 0.56。
 
 白話：所有可以調的數字都在 `VAWM_calibrate.py` 開頭那一小段，改那裡就好，不用進到程式深處。`FIT_KW` 的
 「1000/1000/4 鏈」是 PyMC 抽樣的設定：先暖身 1000 步、再正式抽 1000 筆、四條鏈平行跑；電腦慢可以改成 2 條鏈。
-目標值 2.0 / 0.5 不是拍腦袋：用模擬受試者掃過一遍（power scan），Houpt 的 8.0 會要求「超出我們能出的最大顏色差」，
-2.0 / 0.5 做得到，而且事後 SIC 判斷架構的正確率最高。
+目標值 8.0 / 1.3 是用模擬受試者掃過一遍（power scan）定的：H 和 L 差得夠開，coactive 才判得出來；顏色差做得到（色域可到 ΔE 100）。
 
 ## 驗證
 

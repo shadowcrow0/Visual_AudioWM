@@ -110,7 +110,9 @@ def test_lnrm_quadratic_recovers_and_matches_r_inversion(dim):
     pytest.importorskip("pymc")
     rng = np.random.default_rng(11)
     alpha, alpha2 = 1.0, -0.12
-    cal = LNRMCalibrator(dim, n_per_level=12, seed=11, tune=400, draws=400, chains=2)
+    # 這個模擬觀察者（α = 1, α₂ = −0.12）的漂移差最高 4.2，到不了預設目標 8.0，所以明確用 2.0 / 0.5 和舊層級
+    levels = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0] if dim == "colour" else None
+    cal = LNRMCalibrator(dim, levels=levels, n_per_level=12, h_targ=2.0, l_targ=0.5, seed=11, tune=400, draws=400, chains=2)
     respond = lnrm_observer(lambda u: alpha * u + alpha2 * u * u, dim)
     n_diff = len(cal.levels) * 12                                  # 預設 6 層 × 12 = 72，AA 佔 1/4 → +24
     n_match = int(round(n_diff * cal.p_match / (1 - cal.p_match)))
@@ -139,7 +141,7 @@ def test_lnrm_ogival_link_decision_b():
     pytest.importorskip("pymc")
     rng = np.random.default_rng(6)
     slope, mid, L = 2.0, 1.5, 10.0
-    cal = LNRMCalibrator("colour", n_per_level=12, seed=6, link="ogival", h_targ=8.0, l_targ=1.3,
+    cal = LNRMCalibrator("colour", levels=[2.0, 6.0, 12.0, 20.0, 30.0, 45.0], n_per_level=12, seed=6, link="ogival", h_targ=8.0, l_targ=1.3,
                          tune=400, draws=400, chains=2)
     respond = lnrm_observer(lambda u: 0.5 * L / (1 + np.exp(-slope * (u - mid))), "colour")
     for _ in range(cal.n_trials):

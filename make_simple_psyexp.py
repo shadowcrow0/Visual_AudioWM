@@ -27,12 +27,12 @@ BE = r'''
 import os, sys, json, time
 import numpy as np
 os.chdir(_thisDir)                                   # 刺激檔是相對路徑 stimuli/...
-LEVELS_COLOUR = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0]   # 校準用的顏色距離 dE
+LEVELS_COLOUR = [2.0, 6.0, 12.0, 25.0, 50.0, 90.0]   # 校準用的顏色距離 dE（目標 8.0 的 H 很大，開到 90）
 LEVELS_AUDIO  = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3] # 校準用的子音不相似度 = -log10(混淆次數+1)
 N_PER_LEVEL = 5                                      # 每個強度幾試 -> 6×5 = 30 試「不同」
 P_MATCH = 1 / 4                                      # 再加 1/4「相同」試 -> 共 40 試
 N_WARMUP = 4                                         # 校準前的暖機試次，有回饋、不進擬合
-H_TARG, L_TARG = 2.0, 0.5                            # 漂移差目標：容易 H / 困難 L
+H_TARG, L_TARG = 8.0, 1.3                            # 漂移差目標：容易 H / 困難 L（Houpt 原設定，DECISIONS 3）
 FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")
 RT_MIN, RT_MAX = 0.15, 3.0
 N_BLOCKS, SETS_PER_BLOCK, N_PRACTICE_SETS = 6, 14, 2

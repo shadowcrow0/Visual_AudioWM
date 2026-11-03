@@ -139,10 +139,10 @@ CSV_COLUMNS = ["trial",
 TALKERS = ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12"]
 
 # lnrm 的預設層級與目標
-LEVELS_COLOUR = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0]      # ΔE；現有 csv 的 L 在 20–30、H 在 25–50
+LEVELS_COLOUR = [2.0, 6.0, 12.0, 25.0, 50.0, 90.0]      # ΔE（色域可到 100，目標 8.0 的 H 很大）；現有 csv 的 L 在 20–30、H 在 25–50
 LEVELS_AUDIO = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3]     # −log10(count + 1)，每試貼到目標子音可用的 foil
-H_TARG_DEFAULT = 2.0                                     # 漂移差目標。Houpt 原設定 8.0 / 1.3；
-L_TARG_DEFAULT = 0.5                                     # 2.0 / 0.5 是 adaptiveSFT/results/power_scan.csv 的建議（配 quadratic）
+H_TARG_DEFAULT = 8.0                                     # 漂移差目標，Houpt 原設定。2.0 / 0.5 曾用過：coactive 判對率只有 0.2–0.6，
+L_TARG_DEFAULT = 1.3                                     # 8.0 / 1.3 在 100 試/格就 0.7、150 試 0.86（adaptiveSFT/results/power_scan_fine.txt）
 AUDIO_SHIFT = 2.7                                        # 聲音 x 在 −2.66…−0.3，進模型前平移到 ≥ 0
 
 

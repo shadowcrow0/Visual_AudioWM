@@ -40,13 +40,24 @@
   漂移差直接對應 RT。老闆 2026-10-02 選 B。
 - **在哪**：`VAWM_calibrate.py:77`；反解公式 `adaptiveSFT/adaptivesft/salience.py:84`（`adaptiveSFT_functions.R:229-232` 逐字）。
 
-## 3. 目標值 2.0 / 0.5，不是 Houpt 的 8.0 / 1.3
-- **決定**：`H_TARG, L_TARG = 2.0, 0.5`（配 `LINK = "quadratic"`）。
-- **為什麼**：用 Houpt 的 8.0，模擬受試者需要的顏色差會超出我們能呈現的最大值——校準會告訴你「做不到」。
-  `adaptiveSFT/results/power_scan.csv`（a = 3, v = 2 的 DDM 受試者）：8.0 時 H 落在刺激範圍外 10/10；
-  2.0 / 0.5 在範圍內，250 試/格時 PAR-OR 9/10、PAR-AND 8/10、COA 7/10。ogival 的 L = 10 上限下 2.0 / 0.5 只是
-  曲線的 20% / 5%，反解會掉到範圍外，所以 **換 `LINK = "ogival"` 就要換回 8.0 / 1.3**。
-- **在哪**：`VAWM_calibrate.py:77-78`；預設值 `adaptive_vawm.py:99-100`。
+## 3. 目標值 8.0 / 1.3（Houpt 原設定）；2026-11-03 從 2.0 / 0.5 改回
+- **決定**：`H_TARG, L_TARG = 8.0, 1.3`（配 `LINK = "quadratic"`），顏色層級同時開到 ΔE 90（決定 7）。
+- **為什麼**：研究目標是 coactive，它要 D+、D−、MIC 三個檢定同時顯著，H 和 L 的差距越大越容易。
+  `adaptiveSFT/results/power_scan_fine.txt`（Arc，每目標 50 位 DDM 模擬受試者，a = 3, v = 2）的 coactive 判對率：
+
+  ```
+     每格 n          84     100    150    250
+     2.0 / 0.5      0.18   0.28   0.36   0.56
+     8.0 / 1.3      0.60   0.72   0.86   0.88
+  ```
+
+  2.0 / 0.5 是 2026-10 的決定，理由是「8.0 的 H 會超出顏色能呈現的範圍」——那是以 `LEVELS_COLOUR` 的上限 45 當範圍。
+  2026-11-03 實際算過：隨機目標色往任何方向推到 ΔE 100 仍在 sRGB 色域內（150 個目標 100% 可達），
+  所以範圍是層級表自己設的，不是刺激的限制。改回 8.0 / 1.3，層級開到 90。
+  仍要注意：(1) 聲音軸的上限是混淆表最不像的那一對（x = −0.3），8.0 的 H 可能超出，校準的 `in_range` 會告訴你；
+  (2) 真人的 α（pilot ≈ 0.2）比模擬受試者鈍很多，H 要多大 ΔE 得等校準資料。
+  ogival 的 L = 10 上限下 8.0 / 1.3 = 80% / 13%，所以 `LINK = "ogival"` 也配這組。
+- **在哪**：`SFT_WM_change.py` / `SFT_WM_nochange.py`（含 `_EN`）、`make_simple_psyexp.py`、`VAWM_calibrate.py` 檔頭；預設值 `adaptive_vawm.py` 的 `H_TARG_DEFAULT` / `L_TARG_DEFAULT`。
 
 ## 4. 模型用 lnrm2（quadratic），ogival 是備案
 - **決定**：`LINK = "quadratic"`。
@@ -70,7 +81,7 @@
 - **在哪**：`adaptive_vawm.py:101`、`to_model_units` `adaptive_vawm.py:301`。
 
 ## 7. 強度層級
-- **決定**：顏色 ΔE [2, 6, 12, 20, 30, 45]；聲音 x [−2.6, −2.1, −1.6, −1.1, −0.7, −0.3]。
+- **決定**：顏色 ΔE [2, 6, 12, 25, 50, 90]（2026-11-03 從上限 45 開到 90，配目標 8.0，決定 3）；聲音 x [−2.6, −2.1, −1.6, −1.1, −0.7, −0.3]。
 - **為什麼**：層級要蓋住受試者可能落的範圍，否則校出來的 H 或 L 會掉在我們沒測過的地方。現有手工 csv 的 L 在 ΔE 20–30、H 在 25–50，層級要蓋住它們；最低 2 是因為模擬受試者的 L 反解到 3。
   聲音層級是整個混淆表的範圍，每試貼到目標子音實際有的 foil（`foil_for`）。
 - **在哪**：`adaptive_vawm.py:97-98`、`adaptive_vawm.py:212`。

@@ -107,10 +107,10 @@ CSV_COLUMNS = ["trial",
                "audio2_target_file", "audio2_H_file", "audio2_L_file"]
 TALKERS = ["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09", "T10", "T11", "T12"]
 
-LEVELS_COLOUR = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0]
+LEVELS_COLOUR = [2.0, 6.0, 12.0, 25.0, 50.0, 90.0]
 LEVELS_AUDIO = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3]
-H_TARG_DEFAULT = 2.0
-L_TARG_DEFAULT = 0.5
+H_TARG_DEFAULT = 8.0
+L_TARG_DEFAULT = 1.3
 AUDIO_SHIFT = 2.7
 
 

@@ -33,13 +33,13 @@ QUICK = "--quick" in sys.argv
 
 # ════════════════════════════════════════════════════════════════════════════════
 # ════════════════════════════════════════════════════════════════════════════════
-LEVELS_COLOUR = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0]
+LEVELS_COLOUR = [2.0, 6.0, 12.0, 25.0, 50.0, 90.0]
 LEVELS_AUDIO = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3]
 N_PER_LEVEL = 5
 P_MATCH = 1 / 4
 N_WARMUP = 4
 N_FILLER = 8
-H_TARG, L_TARG = 2.0, 0.5
+H_TARG, L_TARG = 8.0, 1.3
 FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")
 RT_MIN, RT_MAX = 0.15, 3.0
 N_BLOCKS = 6

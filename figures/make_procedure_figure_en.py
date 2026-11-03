@@ -207,7 +207,7 @@ ax.text(x_last - 16, my - 37.5, "after the 40th trial", ha="right", va="center",
 
 # D-middle: the 40-trial sequence of ΔE levels (schematic)
 rng = np.random.default_rng(3)
-levels = [2, 6, 12, 20, 30, 45]
+levels = [2, 6, 12, 25, 50, 90]
 plan = [v for v in levels for _ in range(5)] + [0] * 10
 rng.shuffle(plan)
 plan = np.array(plan, float)
@@ -218,18 +218,18 @@ ax.scatter(tr[~is_same], plan[~is_same], s=14, color="#4b3f8f", zorder=3)
 ax.scatter(tr[is_same], plan[is_same], s=14, facecolors="white", edgecolors="#4b3f8f", zorder=3)
 for v in levels:
     ax.axhline(v, color="#cccccc", lw=0.6, zorder=1)
-ax.set_xlim(0, 41); ax.set_ylim(-3, 52)
+ax.set_xlim(0, 41); ax.set_ylim(-5, 100)
 ax.set_xticks([1, 20, 40]); ax.set_yticks(levels)
 ax.set_xlabel("trial", fontsize=9); ax.set_ylabel("probe ΔE (color 1 ± x)", fontsize=9)
 ax.tick_params(labelsize=8)
 ax.set_title("Levels presented across the 40 trials (schematic)", fontsize=9.5, color=INK)
-ax.text(40, 48, "○  same probe (ΔE = 0)", ha="right", va="top", fontsize=8, color=GREY)
+ax.text(40, 96, "○  same probe (ΔE = 0)", ha="right", va="top", fontsize=8, color=GREY)
 for sp in ("top", "right"):
     ax.spines[sp].set_visible(False)
 
 # D-right: fitted drift separation 2·d(ΔE) and the inversion to H / L
-alpha, alpha2, h_targ, l_targ = 1.0, -0.12, 2.0, 0.5          # schematic observer, units of ΔE / 10
-x = np.linspace(0, 45, 300); u = x / 10
+alpha, alpha2, h_targ, l_targ = 1.0, -0.05, 8.0, 1.3          # schematic observer, units of ΔE / 10
+x = np.linspace(0, 90, 300); u = x / 10
 sep = 2 * (alpha * u + alpha2 * u ** 2)
 def invert(t): return 10 * (-alpha / alpha2 - np.sqrt((alpha / alpha2) ** 2 + 2 / alpha2 * t)) / 2
 xH, xL = invert(h_targ), invert(l_targ)
@@ -239,15 +239,15 @@ for t, xv, lab in ((h_targ, xH, "H"), (l_targ, xL, "L")):
     ax.plot([0, xv], [t, t], color="#7b68ee", lw=1, ls="--")
     ax.plot([xv, xv], [0, t], color="#7b68ee", lw=1, ls="--")
     ax.text(xv + 0.6, 0.12, f"ΔE_{lab}", ha="left", va="bottom", fontsize=8.5, color=INK)
-    ax.text(45, t + 0.08, f"target {lab} = {t}", ha="right", va="bottom", fontsize=8, color=INK)
+    ax.text(90, t + 0.15, f"target {lab} = {t}", ha="right", va="bottom", fontsize=8, color=INK)
 for v in levels:
     ax.plot(v, 2 * (alpha * v / 10 + alpha2 * (v / 10) ** 2), "o", ms=4, color="#4b3f8f")
-ax.set_xlim(0, 45); ax.set_ylim(0, 4.6)
-ax.set_xticks([0, 10, 20, 30, 40]); ax.set_yticks([0, 1, 2, 3, 4])
+ax.set_xlim(0, 90); ax.set_ylim(0, 11)
+ax.set_xticks([0, 20, 40, 60, 80]); ax.set_yticks([0, 2, 4, 6, 8, 10])
 ax.set_xlabel("probe ΔE", fontsize=9); ax.set_ylabel("drift separation  2·d(ΔE)", fontsize=9)
 ax.tick_params(labelsize=8)
 ax.set_title("Fitted lnrm2 curve and inversion to H / L (schematic)", fontsize=9.5, color=INK)
-ax.text(1, 4.45, "ΔE_H and ΔE_L are then used in practice and the main task", ha="left", va="top", fontsize=8, color=GREY)
+ax.text(1, 10.7, "ΔE_H and ΔE_L are then used in practice and the main task", ha="left", va="top", fontsize=8, color=GREY)
 for sp in ("top", "right"):
     ax.spines[sp].set_visible(False)
 

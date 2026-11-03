@@ -11,7 +11,7 @@ Latest hand-off note for the next Claude Code session: `review/進度交接_2026
 Task: remember two colours and two spoken consonants, then judge whether a probe (one colour + one sound) matches.
 Each dimension has three probe levels — **T** (target), **H** (easy foil), **L** (hard foil) — and the H/L distances
 are calibrated per participant with the original adaptiveSFT method (constant stimuli → lnrm2 fit → drift-separation
-targets 2.0 / 0.5; see `DECISIONS.md`).
+targets 8.0 / 1.3; see `DECISIONS.md`).
 
 | File | Role |
 |---|---|

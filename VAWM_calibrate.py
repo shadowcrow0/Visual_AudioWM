@@ -39,7 +39,7 @@ METHOD = "lnrm"            # "lnrm" = 原始 adaptiveSFT（LNRM，要 PyMC）；
 P_MATCH = 1 / 4            # AA（探測 = 目標）試的比例，用來估假警報率（DECISIONS 16）
 # lnrm
 N_PER_LEVEL = 5            # 每個強度層級的「不同」試數；6 層 × 5 + 10 AA = 40 試 / 區塊
-H_TARG, L_TARG = 2.0, 0.5  # H / L 的漂移差目標（z2 − z1）。Houpt 原設定 8.0 / 1.3；見 adaptiveSFT/results/power_scan.csv
+H_TARG, L_TARG = 8.0, 1.3  # H / L 的漂移差目標（z2 − z1），Houpt 原設定；見 adaptiveSFT/results/power_scan_fine.txt（DECISIONS 3）
 LINK = "quadratic"         # "quadratic" = lnrm2（原檔，已對 Stan 驗證）；"ogival" = lnrm2a（adaptiveSFT 的重建：½L·inv_logit, L = 10）
                            # 兩者都用漂移差目標 —— decisions_for_author.md 的 B（2026-10-02 定案）
 FIT_KW = dict(tune=1000, draws=1000, chains=4,   # PyMC NUTS；機器慢就 chains=2
