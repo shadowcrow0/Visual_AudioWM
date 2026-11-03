@@ -220,8 +220,11 @@ else:
         from adaptivesft.race import lnrm_random
         dim = "colour"
         rng = np.random.default_rng(SIM_SEED)
-        cal = A.LNRMCalibrator(dim, n_per_level=6, seed=SIM_SEED, **LNRM_FIT_KW)
-        print(f"  planned {cal.n_trials} trials (6 levels × 6 + AA)")
+        # the simulated observer below (α ≈ 1) cannot reach the experiment's target 8.0 within the stimulus range, so this
+        # self-test uses 2.0 / 0.5 and the old levels: it checks that the pipeline runs, not the experiment's settings
+        levels = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0] if dim == "colour" else None
+        cal = A.LNRMCalibrator(dim, levels=levels, n_per_level=6, h_targ=2.0, l_targ=0.5, seed=SIM_SEED, **LNRM_FIT_KW)
+        print(f"  planned {cal.n_trials} trials (6 levels × 6 + AA; self-test targets 2.0 / 0.5)")
 
         def respond(trial):
             if trial["is_match"]:
