@@ -34,8 +34,8 @@ stages = [
     (26,  5,  "Fit",                     "lnrm2\n20–40 s",                                "#e6e6e6"),
     (33,  15, "Part 2  Sound calibration", "72 trials · 6 confusion levels × 8 + 24 match\ncolor = studied color · feedback", "#e8dcf0"),
     (50,  5,  "Fit",                     "lnrm2\n20–40 s",                                "#e6e6e6"),
-    (57,  11, "Practice",                "5 sets × 9 probes\nfeedback 1,000 ms",               "#f3e8d3"),
-    (70,  22, "Main task",               "6 blocks × 24 sets × 9 probes = 1296\nno feedback · rest between blocks", "#dcefd9"),
+    (57,  11, "Practice",                "2 sets × 16 probes\nfeedback 1,000 ms",               "#f3e8d3"),
+    (70,  22, "Main task",               "6 blocks × 14 sets × 16 probes = 1344\nno feedback · rest between blocks", "#dcefd9"),
     (94,  6,  "End",                     "",                                              "#eeeeee"),
 ]
 for x, w, t, s, c in stages:
@@ -125,7 +125,7 @@ ax.text((x1_ + x4_ + W) / 2, y1_ + 2.3, "Study, 4,300 ms", ha="center", va="bott
 x5, y5 = pos[5]; x8, y8 = pos[8]
 ax.plot([x5, x8 + W], [y5 + 1.5, y5 + 1.5], color=INK, lw=1)
 ax.plot([x5, x5], [y5 + 1.5, y5 + 0.5], color=INK, lw=1); ax.plot([x8 + W, x8 + W], [y5 + 1.5, y5 + 0.5], color=INK, lw=1)
-ax.text((x5 + x8 + W) / 2, y5 + 2.3, "Probe, 3,300 ms  (× 1 in calibration, × 9 in the main task)", ha="center", va="bottom", fontsize=9.5, color=INK)
+ax.text((x5 + x8 + W) / 2, y5 + 2.3, "Probe, 3,300 ms  (× 1 in calibration, × 16 in the main task)", ha="center", va="bottom", fontsize=9.5, color=INK)
 x2_, y2_ = pos[2]
 ax.add_patch(FancyArrowPatch((x2_, y2_ - H - 18.5), (x8 + W + 1, y8 - H - 18.5), arrowstyle="-|>", mutation_scale=14, color="#999999", lw=1))
 ax.text(x8 + W + 1.5, y8 - H - 19.3, "time", ha="left", va="top", fontsize=9, color=GREY, style="italic")

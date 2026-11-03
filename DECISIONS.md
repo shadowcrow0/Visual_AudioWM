@@ -115,9 +115,11 @@
 - **為什麼**：v1 的 lognormal 密度與存活函數是手寫的；v2 用 `pm.logp(pm.LogNormal.dist(...))` 和 `pm.logcdf(...)` 拼出賽跑似然，再包進 `pm.CustomDist`，比較好對照教科書、也比較好讓後人（和老闆）檢查。兩版 logp 差 < 1e−7，後驗與 Stan 一致（`scripts/proof_pymc_lognormal.py`）；回傳格式相同，`find_salience` 不用改。PyMC 本身沒有「lognormal race」分布，所以 race 仍然要自己組。
 - **在哪**：`adaptive_vawm.py` 的 `finish`；`SFT_WM_change.py` / `SFT_WM_nochange.py` / `make_simple_psyexp.py` 的 `fit_calibration`；模型在 `adaptiveSFT/adaptivesft/models_v2.py:36-37`。
 
-## 15. 主實驗每組 9 個探測 = 九種類型各 1（3 × 3 等率）
-- **決定**：`nine_probes()` 每組抽 AA、HA、LA、AH、AL、HH、LH、HL、LL 各 1 個（各自隨機探測目標 1 或 2），不再是 2 AA + 3 個雙通道隨機。
-- **為什麼**：Houpt, Blaha, McIntire, Havig & Townsend (2014) 的雙因子表是兩個來源各 {target, distractor} × {high, low} 完整交叉、每格等率；本實驗「相同」（A）不分 high / low，所以每個維度是 {A, H, L}，3 × 3 = 9 格各 1/9。舊配比讓雙因子每格每組只有 3/4 個探測（每場次 108），改後每格 144，而且 HH / HL / LH / LL 四格數量相等。代價：「相同」從 22% 降到 11%，受試者可能偏向一律按「不同」；AA 的錯誤率要看。
+## 15. 主實驗每組 16 個探測 = Houpt Table 3 的 1/16 配比，target 併成一個水準
+- **決定**：`set_probes()` 每組抽 AA ×4、HA / LA / AH / AL 各 ×2、HH / LH / HL / LL 各 ×1（各自隨機探測目標 1 或 2），打散；`SETS_PER_BLOCK` 24 → 14，6 × 14 × 16 = 1344 個探測（與舊的 1296 相當）。
+- **為什麼**：Houpt, Blaha, McIntire, Havig & Townsend (2014) Table 3 是兩個來源各 {H target, L target, H distractor, L distractor}，16 格各 1/16。本實驗 target（相同）只有一個水準，把 target 的兩列兩欄併起來：A×A = 4/16、單 distractor 各 2/16、雙 distractor 各 1/16，分母是 16。這等於論文 Table 2 的 AND 欄（等反應類別率）：「相同」佔 25%，NRC = −1/4。
+  曾短暫改成 3 × 3 各 1/9（Table 2 的 OR 欄，等刺激率）：SIC 每格較多（144 / 場次）但「相同」只剩 11%，反應偏誤大；作業是「兩個都 match 才按 y」（AND），所以照論文走 AND 欄。
+  代價：雙因子四格只拿到 1/4 的探測，每場次每格 84（power scan 建議 250，約需 4000 個探測）。更早的原版是 2 AA + 3 個雙通道隨機（每格 108）。
 - **怎麼對到 Houpt et al. (2014) 的術語**（p. 322：target / distractor 由實驗者指定，對 redundant target 做 AND 決定 = 對 redundant distractor 做 OR 決定）：
   target = 與學習項目相同（A），**只有一個水準**（刻意把 target 的難易度拿掉）；distractor = 不同，H（差很多，快）/ L（差一點，慢）。
   作業是「兩個都 match 才按 y」（AND on matches）；SIC / MIC 用 H/L × H/L 四格（redundant distractors）**按 n 的 RT**，

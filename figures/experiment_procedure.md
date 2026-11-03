@@ -11,16 +11,17 @@
 **圖 1.** 實驗流程。**(A)** 單一場次的結構。受試者先完成兩個校準區塊（各 72 試：6 個強度層級 × 8 試「不同」探測，加 24 試
 「相同」探測；每試後給回饋）。每個區塊結束時以 lnrm2 模型擬合正確率與反應時間（20–40 s），反解出該受試者的
 高 / 低顯著度（H / L）層級：顏色為 CIELAB 距離 ΔE_H / ΔE_L，聲音為子音混淆次數 count_H / count_L。接著是練習
-（5 組 study × 9 個探測，回饋 1 s）與主作業（6 個 block × 24 組 study × 9 個探測 = 1296 個探測，無回饋，block 之間
+（2 組 study × 16 個探測，回饋 1 s）與主作業（6 個 block × 14 組 study × 16 個探測 = 1344 個探測，無回饋，block 之間
 自行決定休息長度）。**(B)** 單一試次。Study 階段（4.3 s）：注視點 300 ms，左側顏色 1000 ms，右側顏色 1000 ms，
-子音 1 1000 ms，子音 2 1000 ms。每組 study 之後連續出現 9 個探測（各 3.3 s）：注視點 300 ms，顏色方塊與子音同時
+子音 1 1000 ms，子音 2 1000 ms。每組 study 之後連續出現 16 個探測（各 3.3 s）：注視點 300 ms，顏色方塊與子音同時
 出現 1000 ms，作答窗從探測出現後 500 ms 開始、持續 2000 ms（y = 與記住的相同，n = 不同）。練習與校準試次另有回饋
-畫面（1000 ms；校準為 800 ms）。校準試次的作答窗最長 3 s。**(C)** 每組 9 個探測的組成（隨機排列）：九種類型各 1 個 —— AA（顏色與聲音
-都與某個 study 項目相同）；HA / LA（只有顏色不同，H = 容易、L = 困難）；AH / AL（只有聲音不同）；
-HH / HL / LH / LL（兩者都不同）。兩個維度各取 {相同, H, L} 完整交叉、每格等率 1/9（Houpt et al., 2014）。最後四類構成
+畫面（1000 ms；校準為 800 ms）。校準試次的作答窗最長 3 s。**(C)** 每組 16 個探測的組成（隨機排列）：AA（顏色與聲音
+都與某個 study 項目相同）4 個；HA / LA（只有顏色不同，H = 容易、L = 困難）各 2 個；AH / AL（只有聲音不同）各 2 個；
+HH / HL / LH / LL（兩者都不同）各 1 個。即 Houpt et al. (2014) Table 3 的 16 格各 1/16，把 target（相同）併成一個水準：
+4/16、2/16 × 4、1/16 × 4。最後四類構成
 2 × 2 雙因子設計（double-factorial paradigm），以其「不同」反應的反應時間計算 SIC 與 MIC，以推論顏色與聲音的處理架構
 （作業為「兩者皆相同才答 y」；「不同」是對差異的 first-terminating 決定，SIC 依 OR 規則的預測解讀）。
-每場次共 576 個雙因子探測，每格 144 個。
+每場次共 336 個雙因子探測，每格 84 個。
 
 ## Caption (English)
 
@@ -28,27 +29,31 @@ HH / HL / LH / LL（兩者都不同）。兩個維度各取 {相同, H, L} 完�
 blocks (72 trials each: 6 intensity levels × 8 "different" probes plus 24 "same" probes; feedback after every
 trial). At the end of each block the lnrm2 model is fitted to accuracy and response time (20–40 s) and inverted to
 obtain that participant's high- and low-salience levels (H / L): for colour the CIELAB distances ΔE_H / ΔE_L, for
-sound the consonant-confusion counts count_H / count_L. Practice (5 study sets × 9 probes, 1 s feedback) and the
-main task (6 blocks × 24 study sets × 9 probes = 1296 probes, no feedback, self-paced rest between blocks) follow.
+sound the consonant-confusion counts count_H / count_L. Practice (2 study sets × 16 probes, 1 s feedback) and the
+main task (6 blocks × 14 study sets × 16 probes = 1344 probes, no feedback, self-paced rest between blocks) follow.
 **(B)** One trial. Study (4.3 s): fixation 300 ms, colour 1 on the left 1000 ms, colour 2 on the right 1000 ms,
-consonant 1 1000 ms, consonant 2 1000 ms. Each study set is followed by nine probes (3.3 s each): fixation 300 ms,
+consonant 1 1000 ms, consonant 2 1000 ms. Each study set is followed by sixteen probes (3.3 s each): fixation 300 ms,
 a colour patch and a consonant presented together for 1000 ms, and a response window opening 500 ms after probe
 onset and lasting 2000 ms (y = same as studied, n = different). Practice and calibration trials add a feedback
 screen (1000 ms; 800 ms in calibration), and calibration trials allow up to 3 s to respond. **(C)** Composition of
-the nine probes per study set (shuffled): one of each type: AA (colour and sound both match a studied item); HA / LA
-(only colour differs; H = easy, L = hard); AH / AL (only sound differs); HH / HL / LH / LL (both differ). The two
-dimensions each take {same, H, L}, fully crossed at equal rates of 1/9 (Houpt et al., 2014). The last four types form
+the sixteen probes per study set (shuffled): AA (colour and sound both match a studied item) × 4; HA / LA (only
+colour differs; H = easy, L = hard) × 2 each; AH / AL (only sound differs) × 2 each; HH / HL / LH / LL (both differ)
+× 1 each. This is Table 3 of Houpt et al. (2014), 16 cells at 1/16 each, with the target (same) collapsed to one
+level: 4/16, 2/16 × 4, 1/16 × 4. The last four types form
 the 2 × 2 double-factorial paradigm; the response times of their "different" responses yield the SIC and MIC used to
 infer the processing architecture of colour and sound (the task is "y only if both match"; "different" is a
-first-terminating decision on the mismatches, so the SIC is read against the OR-rule predictions); 576 double-factorial probes per session, 144 per cell.
+first-terminating decision on the mismatches, so the SIC is read against the OR-rule predictions); 336 double-factorial probes per session, 84 per cell.
 
 ## 要注意的一件事 / One caveat
 
-每格 144 個探測，仍低於 `adaptiveSFT/results/power_scan.csv` 建議的 250。要提高 SIC 的檢定力，增加 block 數或每
-block 的組數（`N_BLOCKS` / `SETS_PER_BLOCK`），或跑兩個場次。
+每格 84 個探測，低於 `adaptiveSFT/results/power_scan.csv` 建議的 250（Table 3 的配比只有 1/4 的探測進雙因子格，
+這是換取「相同」佔 25%、反應偏誤較小的代價）。要提高 SIC 的檢定力，增加 block 數或每 block 的組數
+（`N_BLOCKS` / `SETS_PER_BLOCK`），或跑多個場次：250 / 格約需 4000 個探測。
 
-144 probes per DFP cell is still below the 250 per cell recommended by `adaptiveSFT/results/power_scan.csv`.
-Add blocks or sets per block (`N_BLOCKS` / `SETS_PER_BLOCK`), or run two sessions, to increase SIC power.
+84 probes per DFP cell is below the 250 per cell recommended by `adaptiveSFT/results/power_scan.csv` (with Table 3
+rates only a quarter of the probes fall in the double-factorial cells; the price of keeping "same" at 25 % and the
+response bias small). Add blocks or sets per block (`N_BLOCKS` / `SETS_PER_BLOCK`), or run several sessions:
+250 per cell needs about 4,000 probes.
 
 ## APA 7 格式的圖說（給 `experiment_procedure_en`）
 
@@ -70,14 +75,14 @@ dimension being calibrated (color in Part 1, sound in Part 2); the other dimensi
 item. Each calibration part comprised 72 trials: 6 intensity levels × 8 "different" probes plus 24 "same" probes,
 with feedback after every trial. At the end of each part the lognormal race model (lnrm2) was fitted to accuracy and
 response time and inverted to obtain the participant's high- and low-salience levels (color: CIELAB ΔE; sound:
-consonant-confusion count). Practice (5 study sets × 9 probes, feedback 1 s) and the main task (6 blocks × 24 study
-sets × 9 probes = 1,296 probes, no feedback, self-paced rest between blocks) followed. Panel B shows one
+consonant-confusion count). Practice (2 study sets × 16 probes, feedback 1 s) and the main task (6 blocks × 14 study
+sets × 16 probes = 1,344 probes, no feedback, self-paced rest between blocks) followed. Panel B shows one
 color-calibration trial. Study: fixation 300 ms, color 1 on the left for 1,000 ms, color 2 on the right for
 1,000 ms, the syllable [bi] for 1,000 ms, the syllable [pi] for 1,000 ms (screen blank during sounds). Probe: fixation 300 ms,
 then a color patch and a syllable presented together for 1,000 ms; here the color is color 1 shifted by x ΔE
 and the syllable is [bi], unchanged. The response window opened 500 ms after probe onset and lasted 2,000 ms
 (up to 3,000 ms in calibration); participants pressed y for "same as studied" or n for "different." Feedback
 (800 ms in calibration, 1,000 ms in practice) was shown only in calibration and practice. In the main task the
-probe sequence (fixation, probe, response) repeated nine times after each study set, with one of nine probe types
+probe sequence (fixation, probe, response) repeated sixteen times after each study set, with one of nine probe types
 on each repetition. Panel C shows the same trial on a single time axis. Panel D shows the calibration loop for Part 1: the 72 trials present six ΔE levels (2, 6, 12, 20, 30, 45) eight times each plus 24 same probes in shuffled order (middle, schematic); after the last trial the lnrm2 model is fitted to accuracy and response time, and the drift-separation curve 2·d(ΔE) is inverted at the targets H = 2.0 and L = 0.5 to give ΔE_H and ΔE_L (right, schematic observer), which are then used in practice and the main task. The calibration trial is identical to the trial in Panel B; only the probe color varies, and the sounds are the studied sounds on every trial. Part 2 follows the same loop with the consonant-confusion level in place of ΔE and the colors unchanged.
 

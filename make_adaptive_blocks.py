@@ -17,7 +17,7 @@ def main(argv=None):
     ap.add_argument("calib_json")
     ap.add_argument("--out", default="stimuli")
     ap.add_argument("--blocks", type=int, default=6)
-    ap.add_argument("--trials", type=int, default=24, help="每個 block 的 study 組數（每組 9 個探測，同 VAWM_nobox）")
+    ap.add_argument("--trials", type=int, default=14, help="每個 block 的 study 組數（每組 16 個探測，同 VAWM_nobox）")
     ap.add_argument("--seed", type=int, default=None)
     args = ap.parse_args(argv)
 

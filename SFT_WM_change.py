@@ -52,8 +52,8 @@ FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")   # 擬合
 RT_MIN, RT_MAX = 0.15, 3.0                           # 擬合只用這範圍內的反應時間
 # 主實驗
 N_BLOCKS = 6                 # 幾個 block
-SETS_PER_BLOCK = 24          # 每個 block 幾組「學習 2 色 2 音」
-PROBES_PER_SET = 9           # 每組學習後接幾個探測（九種類型各 1：AA、HA、LA、AH、AL、HH、LH、HL、LL；Houpt et al. 2014 的 3 × 3 等率表）
+SETS_PER_BLOCK = 14          # 每個 block 幾組「學習 2 色 2 音」（6 × 14 × 16 = 1344 個探測，與舊的 6 × 24 × 9 = 1296 相當）
+PROBES_PER_SET = 16          # 每組學習後接幾個探測：AA ×4、單 distractor 各 ×2、雙 distractor 各 ×1（Houpt et al. 2014 Table 3，target 併成一個水準）
 N_PRACTICE_SETS = 2          # 練習幾組（有回饋）
 RESP_WINDOW = 3.0            # 探測後等作答幾秒
 # 校準時另一個維度的探測每試都從 T / H / L 抽（兩版相同）；兩版唯一的差別：
@@ -85,7 +85,7 @@ rng = np.random.default_rng()
 # ════════════════════════════════════════════════════════════════════════════════
 # 2. 畫面與一試的流程（跟 VAWM_nobox.py 的時間軸一樣）
 #    學習：注視 .3 → 左色 1 s → 右色 1 s → 音 1（1 s）→ 音 2（1 s）；探測：注視 .3 → 色+音 1 s → 等按 y / n
-#    校準每試 = 學習 + 1 探測；主實驗每組 = 學習 1 次 + 連續 9 個探測（同 VAWM_nobox.py）
+#    校準每試 = 學習 + 1 探測；主實驗每組 = 學習 1 次 + 連續 16 個探測（同 VAWM_nobox.py）
 # ════════════════════════════════════════════════════════════════════════════════
 if not ROBOT:
     from psychopy import core, event, gui, sound, visual
@@ -142,7 +142,7 @@ if not ROBOT:
             snd.stop()
 
     def study(c1, c2, s1, s2):
-        """學習階段：注視 .3 → 左色 1 s → 右色 1 s → 音 1 → 音 2（主實驗每組只做一次，之後接 9 個探測）"""
+        """學習階段：注視 .3 → 左色 1 s → 右色 1 s → 音 1 → 音 2（主實驗每組只做一次，之後接 16 個探測）"""
         present(fix.draw, 0.3)
         patch_l.fillColor = c1
         present(patch_l.draw, 1.0)
@@ -412,7 +412,7 @@ def make_study_set(calib):
     )
 
 # ════════════════════════════════════════════════════════════════════════════════
-# 5. 主實驗：每組學習後 9 個探測。條件編碼與名字都跟 VAWM_nobox.py 一樣（分析程式認這些數字）
+# 5. 主實驗：每組學習後 16 個探測。條件編碼與名字都跟 VAWM_nobox.py 一樣（分析程式認這些數字）
 #    A = 跟目標相同、H = 容易分、L = 難分。⚠ 名字裡字母的順序在原版就不一致：
 #    雙維度 HH/LH/HL/LL 是（顏色, 聲音）；單維度卻是 HA/LA = 顏色同、聲音 H/L，AH/AL = 顏色 H/L、聲音同。
 #    判斷對錯只看是不是 AA，所以不影響計分；要知道哪個維度不同，看下面表裡的欄位名，不要看名字。
@@ -430,13 +430,13 @@ COND = {   # 編號: (名字, 探測色欄位, 探測音欄位)   偶數 = 探�
 }
 
 
-def nine_probes():
-    """一組的 9 個探測：九種類型各 1 個（AA、HA、LA、AH、AL、HH、LH、HL、LL），各自隨機探測第 1 或第 2 個目標，打散。
-    照 Houpt, Blaha, McIntire, Havig & Townsend (2014) 的雙因子表：兩個來源各 {A, H, L} 完整交叉、每格等率（1/9）。
-    舊版（VAWM_nobox.py 原設計）是 2 AA + 3 個雙通道隨機，雙因子每格只有 3/4 個探測；改成每格 1 個後
-    每場次 HH / HL / LH / LL 各 144 個（6 blocks × 24 組）。"""
-    pairs = ([0, 1], [2, 3], [4, 5], [6, 7], [12, 13], [8, 9], [10, 11], [14, 15], [16, 17])
-    c = [int(rng.choice(p)) for p in pairs]
+def set_probes():
+    """一組的 16 個探測：AA ×4、HA / LA / AH / AL 各 ×2、HH / LH / HL / LL 各 ×1，各自隨機探測第 1 或第 2 個目標，打散。
+    = Houpt, Blaha, McIntire, Havig & Townsend (2014) Table 3（16 格各 1/16）把 target 併成一個水準：
+    A×A 4/16、單 distractor 各 2/16、雙 distractor 各 1/16（論文 Table 2 的 AND 欄）。
+    SIC / MIC 用雙 distractor 四格「按 n」的 RT；每場次 6 blocks × 14 組 = 84 個 / 格。"""
+    plan = [(0, 1)] * 4 + [(2, 3), (4, 5), (6, 7), (12, 13)] * 2 + [(8, 9), (10, 11), (14, 15), (16, 17)]
+    c = [int(rng.choice(p)) for p in plan]
     rng.shuffle(c)
     return c
 
@@ -445,7 +445,7 @@ def run_sets(n_sets, block, calib, rows, with_feedback):
     for s in range(1, n_sets + 1):
         st = make_study_set(calib)
         study(st["color1_target"], st["color2_target"], st["audio1_target_file"], st["audio2_target_file"])  # 一組只學一次
-        for p, cond in enumerate(nine_probes(), 1):                                                         # 然後連續 9 個探測
+        for p, cond in enumerate(set_probes(), 1):                                                         # 然後連續 16 個探測
             name, col_key, snd_key = COND[cond]
             probe_col, probe_snd = st[col_key], st[snd_key]
             key, rt = (probe_trial(probe_col, probe_snd, _info=("colour", 20.0 if name != "AA" else 0.0, name == "AA", "T"))
@@ -475,7 +475,7 @@ with open(f"data/{SUBJ}_simple_calib.json", "w", encoding="utf-8") as f:
 main_rows = []
 show("Part 3 of 3: the main task. First, a short practice.\n\n"
      "Each round starts the same way: two colours and two sounds to remember. "
-     "Then you will answer nine questions in a row, one colour-and-sound pair at a time.\n\n"
+     "Then you will answer sixteen questions in a row, one colour-and-sound pair at a time.\n\n"
      "Both the same as before: press Y.   Anything different: press N.\n\n"
      "Feedback is shown during practice only.\n\nPress the space bar to begin.")
 run_sets(N_PRACTICE_SETS, 0, calib, main_rows, with_feedback=True)

@@ -43,8 +43,8 @@ H_TARG, L_TARG = 2.0, 0.5
 FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")
 RT_MIN, RT_MAX = 0.15, 3.0
 N_BLOCKS = 6
-SETS_PER_BLOCK = 24
-PROBES_PER_SET = 9           # one probe of each of the nine types per set (Houpt et al. 2014 equal-rate 3 x 3 table)
+SETS_PER_BLOCK = 14
+PROBES_PER_SET = 16          # per set: AA x4, single distractor x2 each, double distractor x1 each (Houpt et al. 2014 Table 3, target collapsed to one level)
 N_PRACTICE_SETS = 2
 RESP_WINDOW = 3.0
 OTHER_TARGETS_CHANGE = True
@@ -391,12 +391,13 @@ COND = {
 }
 
 
-def nine_probes():
-    """The 9 probes of one set: one of each type (AA, HA, LA, AH, AL, HH, LH, HL, LL), each probing target 1 or 2 at random, shuffled.
-    Follows the double-factorial table of Houpt, Blaha, McIntire, Havig & Townsend (2014): both sources take {A, H, L}, fully crossed, equal rates (1/9).
-    The old mix (2 AA + 3 random two-channel probes) gave each DFP cell only 3/4 of a probe per set; with one per cell a session has 144 HH / HL / LH / LL each."""
-    pairs = ([0, 1], [2, 3], [4, 5], [6, 7], [12, 13], [8, 9], [10, 11], [14, 15], [16, 17])
-    c = [int(rng.choice(p)) for p in pairs]
+def set_probes():
+    """The 16 probes of one set: AA x4, HA / LA / AH / AL x2 each, HH / LH / HL / LL x1 each, each probing target 1 or 2 at random, shuffled.
+    = Table 3 of Houpt, Blaha, McIntire, Havig & Townsend (2014) (16 cells at 1/16) with the target collapsed to one level:
+    AxA 4/16, single distractor 2/16 each, double distractor 1/16 each (the AND column of the paper's Table 2).
+    SIC / MIC use the "n" RTs of the four double-distractor cells; a session of 6 blocks x 14 sets gives 84 per cell."""
+    plan = [(0, 1)] * 4 + [(2, 3), (4, 5), (6, 7), (12, 13)] * 2 + [(8, 9), (10, 11), (14, 15), (16, 17)]
+    c = [int(rng.choice(p)) for p in plan]
     rng.shuffle(c)
     return c
 
@@ -405,7 +406,7 @@ def run_sets(n_sets, block, calib, rows, with_feedback):
     for s in range(1, n_sets + 1):
         st = make_study_set(calib)
         study(st["color1_target"], st["color2_target"], st["audio1_target_file"], st["audio2_target_file"])
-        for p, cond in enumerate(nine_probes(), 1):
+        for p, cond in enumerate(set_probes(), 1):
             name, col_key, snd_key = COND[cond]
             probe_col, probe_snd = st[col_key], st[snd_key]
             key, rt = (probe_trial(probe_col, probe_snd, _info=("colour", 20.0 if name != "AA" else 0.0, name == "AA", "T"))
@@ -434,7 +435,7 @@ with open(f"data/{SUBJ}_simple_calib.json", "w", encoding="utf-8") as f:
 main_rows = []
 show("Part 3 of 3: the main task. First, a short practice.\n\n"
      "Each round starts the same way: two colours and two sounds to remember. "
-     "Then you will answer nine questions in a row, one colour-and-sound pair at a time.\n\n"
+     "Then you will answer sixteen questions in a row, one colour-and-sound pair at a time.\n\n"
      "Both the same as before: press Y.   Anything different: press N.\n\n"
      "Feedback is shown during practice only.\n\nPress the space bar to begin.")
 run_sets(N_PRACTICE_SETS, 0, calib, main_rows, with_feedback=True)

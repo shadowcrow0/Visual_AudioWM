@@ -1,6 +1,6 @@
 """
 中文版 Figure 1（照 GRTv3_ada 流程圖的版式）：A 整場流程、B 單一試次斜階梯螢幕序列、C 時間軸。
-數字來自 VAWM_nobox.py（study 4.3 s、探測 3.3 s、作答窗 0.5–2.5 s、每組 9 個探測、6 blocks × 24 組）
+數字來自 VAWM_nobox.py（study 4.3 s、探測 3.3 s、作答窗 0.5–2.5 s、每組 16 個探測、6 blocks × 14 組）
 與 VAWM_calibrate.py（72 試 / 區塊、作答最長 3 s、回饋 0.8 s）。
 
     python figures/make_procedure_figure_zh.py     # → figures/experiment_procedure_zh.svg / .png
@@ -35,8 +35,8 @@ stages = [
     (26,  5,  "擬合",          "lnrm2\n20–40 s",                                   "#e6e6e6"),
     (33,  15, "Part 2 聲音校準", "72 試 · 6 個混淆層級 × 8 + 24 試 AA\n顏色 = 目標色 · 有回饋", "#e8dcf0"),
     (50,  5,  "擬合",          "lnrm2\n20–40 s",                                   "#e6e6e6"),
-    (57,  11, "練習",          "5 組 × 9 探測\n有回饋 1 s",                         "#f3e8d3"),
-    (70,  22, "主實驗",        "6 blocks × 24 組 × 9 探測 = 1296\n無回饋 · block 間休息", "#dcefd9"),
+    (57,  11, "練習",          "2 組 × 16 探測\n有回饋 1 s",                         "#f3e8d3"),
+    (70,  22, "主實驗",        "6 blocks × 14 組 × 16 探測 = 1344\n無回饋 · block 間休息", "#dcefd9"),
     (94,  6,  "結束",          "存檔",                                             "#eeeeee"),
 ]
 for x, w, t, s, c in stages:
@@ -49,7 +49,7 @@ for i in range(len(stages) - 1):
     if stages[i + 1][2] in ("練習", "主實驗") or stages[i][2].startswith("Part"):
         ax.text((x0 + x1) / 2, 6.5, "rest", ha="center", va="bottom", fontsize=6.5, color=GREY)
 ax.text(0, 1.6, "每個階段的每一試都是同一套流程 (B)。校準試次只有 1 個探測、只變被校的那一維（Part 1 變顏色、Part 2 變聲音），"
-                "另一維與目標相同；主實驗每組 study 後連續 9 個探測。回饋只在校準與練習。", fontsize=8.5, color=INK, va="center")
+                "另一維與目標相同；主實驗每組 study 後連續 16 個探測。回饋只在校準與練習。", fontsize=8.5, color=INK, va="center")
 
 # ───────────────────────────── B. 單一試次（斜階梯） ─────────────────────────────
 ax = fig.add_subplot(gs[1]); ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
@@ -128,7 +128,7 @@ ax.text((x1_ + x4_ + W) / 2, y1_ + 2.3, "學習期 4.3 s：兩個顏色（左、
 x5, y5 = pos[5]; x8, y8 = pos[8]
 ax.plot([x5, x8 + W], [y5 + 1.5, y5 + 1.5], color=INK, lw=1)
 ax.plot([x5, x5], [y5 + 1.5, y5 + 0.5], color=INK, lw=1); ax.plot([x8 + W, x8 + W], [y5 + 1.5, y5 + 0.5], color=INK, lw=1)
-ax.text((x5 + x8 + W) / 2, y5 + 2.3, "探測段 3.3 s：主實驗每組重複 9 次（每次換一種探測類型，順序打散）；校準只做 1 次",
+ax.text((x5 + x8 + W) / 2, y5 + 2.3, "探測段 3.3 s：主實驗每組重複 16 次（每次換一種探測類型，順序打散）；校準只做 1 次",
         ha="center", va="bottom", fontsize=8, color=INK)
 # 細節說明：放在階梯左下方的空白
 notes = [
@@ -152,7 +152,7 @@ ax.text(x8 + W + 1.5, y8 - H - 12.8, "時間 →", ha="left", va="top", fontsize
 # 下一試
 ax.add_patch(FancyArrowPatch((x8 + W + 0.5, y8 - H / 2), (x8 + W + 3.5, y8 - H / 2), arrowstyle="-|>", mutation_scale=12, color=INK, lw=1.2))
 ax.text(x8 + W + 4, y8 - H / 2 + 0.8, "下一個探測 / 下一組", ha="left", va="bottom", fontsize=8, color=INK)
-ax.text(x8 + W + 4, y8 - H / 2 - 0.8, "（9 個探測後換下一組 study；\nblock 結束則休息）", ha="left", va="top", fontsize=7, color=GREY)
+ax.text(x8 + W + 4, y8 - H / 2 - 0.8, "（16 個探測後換下一組 study；\nblock 結束則休息）", ha="left", va="top", fontsize=7, color=GREY)
 
 # ───────────────────────────── C. 時間軸 ─────────────────────────────
 ax = fig.add_subplot(gs[2]); ax.set_xlim(0, 100); ax.set_ylim(0, 10); ax.axis("off")

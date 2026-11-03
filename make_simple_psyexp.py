@@ -35,7 +35,7 @@ N_WARMUP = 8                                         # 校準前的暖機試次�
 H_TARG, L_TARG = 2.0, 0.5                            # 漂移差目標：容易 H / 困難 L
 FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")
 RT_MIN, RT_MAX = 0.15, 3.0
-N_BLOCKS, SETS_PER_BLOCK, N_PRACTICE_SETS = 6, 24, 2
+N_BLOCKS, SETS_PER_BLOCK, N_PRACTICE_SETS = 6, 14, 2
 N_CALIB = int(len(LEVELS_COLOUR) * N_PER_LEVEL * (1 + P_MATCH / (1 - P_MATCH)) + 0.5)   # = 72（另一維度 = T，進擬合）
 N_FILLER = 24             # 另一維度 H/L 的填充試（答案一定 N、不進擬合）
 N_CALIB_TOTAL = N_CALIB + N_FILLER
@@ -105,9 +105,9 @@ COND = {0: ("AA", "color1_target", "audio1_target_file"), 1: ("AA", "color2_targ
         14: ("HL", "color1_H", "audio1_L_file"),          15: ("HL", "color2_H", "audio2_L_file"),
         16: ("LL", "color1_L", "audio1_L_file"),          17: ("LL", "color2_L", "audio2_L_file")}
 
-def nine_probes():               # 九種類型各 1（Houpt et al. 2014 的 3 × 3 等率表），各自隨機探測目標 1 或 2，打散
-    pairs = ([0, 1], [2, 3], [4, 5], [6, 7], [12, 13], [8, 9], [10, 11], [14, 15], [16, 17])
-    c = [int(rng.choice(p)) for p in pairs]
+def set_probes():                # 16 個：AA ×4、單 distractor 各 ×2、雙 distractor 各 ×1（Houpt et al. 2014 Table 3，target 併成一個水準），打散
+    plan = [(0, 1)] * 4 + [(2, 3), (4, 5), (6, 7), (12, 13)] * 2 + [(8, 9), (10, 11), (14, 15), (16, 17)]
+    c = [int(rng.choice(p)) for p in plan]
     rng.shuffle(c); return c
 
 def fit_dim(dim):                # 72 試 -> lnrm2 -> H / L（原始 adaptiveSFT）
@@ -185,13 +185,13 @@ if PHASE in ('calib_colour', 'calib_audio', 'warm_colour', 'warm_audio'):
     color1_target, color2_target = lab_to_hex(t1), lab_to_hex(t2)
     audio1_target_file, audio2_target_file = sound_file(k1, s1), sound_file(k2, s2)
     condition, cond_name = -1, 'AA' if is_match else ('warm' if is_warmup else 'calib')
-else:                                                    # practice / main：一組 2 色 2 音 + 9 個探測
+else:                                                    # practice / main：一組 2 色 2 音 + 16 個探測
     st = make_study_set()
     color1_target, color1_H, color1_L = st['color1_target'], st['color1_H'], st['color1_L']
     color2_target, color2_H, color2_L = st['color2_target'], st['color2_H'], st['color2_L']
     audio1_target_file, audio1_H_file, audio1_L_file = st['audio1_target_file'], st['audio1_H_file'], st['audio1_L_file']
     audio2_target_file, audio2_H_file, audio2_L_file = st['audio2_target_file'], st['audio2_H_file'], st['audio2_L_file']
-    probe_plan = nine_probes()
+    probe_plan = set_probes()
 '''
 
 PROBE_BR = r'''
@@ -320,8 +320,8 @@ def rnode(n): e = ET.Element('Routine'); e.set('name', n); return e
 for e in list(flow): flow.remove(e)
 cC, cCt = loop_pair('calibC', 'N_CALIB_TOTAL', True); cA, cAt = loop_pair('calibA', 'N_CALIB_TOTAL', True)
 cCw, cCwt = loop_pair('calibCw', 'N_WARMUP', True); cAw, cAwt = loop_pair('calibAw', 'N_WARMUP', True)
-pr_, prt = loop_pair('practice', 'N_PRACTICE_SETS', False); pin, pint = loop_pair('pinner', '9', True)
-bl, blt = loop_pair('blocks', 'N_BLOCKS', False); se, set_ = loop_pair('sets', 'SETS_PER_BLOCK', False); inn, innt = loop_pair('inner', '9', True)
+pr_, prt = loop_pair('practice', 'N_PRACTICE_SETS', False); pin, pint = loop_pair('pinner', '16', True)
+bl, blt = loop_pair('blocks', 'N_BLOCKS', False); se, set_ = loop_pair('sets', 'SETS_PER_BLOCK', False); inn, innt = loop_pair('inner', '16', True)
 for e in [rnode('studyintro'),
           rnode('calibC_intro'), cCw, rnode('study_stage'), rnode('probe'), rnode('feedback'), cCwt, rnode('calibCw_done'),
           cC, rnode('study_stage'), rnode('probe'), cCt, rnode('fit_msg'), rnode('fit'),

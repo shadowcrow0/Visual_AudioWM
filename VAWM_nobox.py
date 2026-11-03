@@ -99,14 +99,13 @@ def get_probe_types(targetCol, targetAud, trial_data):
     return col_type, aud_type
 
 def generate_stratified_conditions():
-    """一組的 9 個探測：九種類型各 1 個（AA、HA、LA、AH、AL、HH、LH、HL、LL），各自隨機探測目標 1 或 2，打散。
+    """一組的 16 個探測：AA ×4、HA / LA / AH / AL 各 ×2、HH / LH / HL / LL 各 ×1，各自隨機探測目標 1 或 2，打散。
 
-    照 Houpt, Blaha, McIntire, Havig & Townsend (2014) 的雙因子表：兩個來源各 {A, H, L} 完整交叉、每格等率 1/9。
-    舊版是 2 AA + 3 個雙通道隨機（AA 22%、雙因子每格只有 3/4 個探測 / 組）；改成每格 1 個後，
-    每場次 HH / HL / LH / LL 各 144 個。
+    = Houpt, Blaha, McIntire, Havig & Townsend (2014) Table 3（16 格各 1/16）把 target 併成一個水準：
+    A×A 4/16、單 distractor 各 2/16、雙 distractor 各 1/16。SIC / MIC 用雙 distractor 四格「按 n」的 RT。
     """
-    pairs = ([0, 1], [2, 3], [4, 5], [6, 7], [12, 13], [8, 9], [10, 11], [14, 15], [16, 17])
-    conditions = [int(np.random.choice(p)) for p in pairs]
+    plan = [(0, 1)] * 4 + [(2, 3), (4, 5), (6, 7), (12, 13)] * 2 + [(8, 9), (10, 11), (14, 15), (16, 17)]
+    conditions = [int(np.random.choice(p)) for p in plan]
     np.random.shuffle(conditions)
     return conditions
 
@@ -1692,14 +1691,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         else:
             routineTimer.addTime(-4.300000)
 
-        # Generate stratified conditions for 9 probe trials
+        # Generate stratified conditions for the 16 probe trials
         probe_conditions = generate_stratified_conditions()
         probe_idx = 0
 
         # set up handler to look after randomisation of conditions etc
         inner = data.TrialHandler2(
             name='inner',
-            nReps=9,
+            nReps=16,
             method='random',
             extraInfo=expInfo,
             originPath=-1,
@@ -2702,14 +2701,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         else:
             routineTimer.addTime(-4.300000)
 
-        # Generate stratified conditions for 9 probe trials
+        # Generate stratified conditions for the 16 probe trials
         probe_conditions = generate_stratified_conditions()
         probe_idx = 0
 
         # set up handler to look after randomisation of conditions etc
         SFT1 = data.TrialHandler2(
             name='SFT1',
-            nReps=9,
+            nReps=16,
             method='random',
             extraInfo=expInfo,
             originPath=-1,
@@ -3553,14 +3552,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         else:
             routineTimer.addTime(-4.300000)
 
-        # Generate stratified conditions for 9 probe trials
+        # Generate stratified conditions for the 16 probe trials
         probe_conditions = generate_stratified_conditions()
         probe_idx = 0
 
         # set up handler to look after randomisation of conditions etc
         SFT_2 = data.TrialHandler2(
             name='SFT_2',
-            nReps=9,
+            nReps=16,
             method='random',
             extraInfo=expInfo,
             originPath=-1,
@@ -4405,14 +4404,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         else:
             routineTimer.addTime(-4.300000)
 
-        # Generate stratified conditions for 9 probe trials
+        # Generate stratified conditions for the 16 probe trials
         probe_conditions = generate_stratified_conditions()
         probe_idx = 0
 
         # set up handler to look after randomisation of conditions etc
         SFT_3 = data.TrialHandler2(
             name='SFT_3',
-            nReps=9,
+            nReps=16,
             method='random',
             extraInfo=expInfo,
             originPath=-1,
@@ -5116,7 +5115,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # set up handler to look after randomisation of conditions etc
         SFT_4 = data.TrialHandler2(
             name='SFT_4',
-            nReps=9,
+            nReps=16,
             method='random',
             extraInfo=expInfo,
             originPath=-1,
@@ -5968,7 +5967,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # set up handler to look after randomisation of conditions etc
         SFT_5 = data.TrialHandler2(
             name='SFT_5',
-            nReps=9,
+            nReps=16,
             method='random',
             extraInfo=expInfo,
             originPath=-1,
@@ -6820,7 +6819,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # set up handler to look after randomisation of conditions etc
         SFT_6 = data.TrialHandler2(
             name='SFT_6',
-            nReps=9,
+            nReps=16,
             method='random',
             extraInfo=expInfo,
             originPath=-1,

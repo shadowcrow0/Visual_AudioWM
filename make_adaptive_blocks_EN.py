@@ -14,7 +14,7 @@ def main(argv=None):
     ap.add_argument("calib_json")
     ap.add_argument("--out", default="stimuli")
     ap.add_argument("--blocks", type=int, default=6)
-    ap.add_argument("--trials", type=int, default=24, help="study sets per block (each set has 9 probes, as in VAWM_nobox)")
+    ap.add_argument("--trials", type=int, default=14, help="study sets per block (each set has 16 probes, as in VAWM_nobox)")
     ap.add_argument("--seed", type=int, default=None)
     args = ap.parse_args(argv)
 
