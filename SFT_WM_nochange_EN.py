@@ -37,7 +37,7 @@ LEVELS_COLOUR = [2.0, 6.0, 12.0, 25.0, 50.0, 90.0]
 LEVELS_AUDIO = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3]
 N_PER_LEVEL = 5
 P_MATCH = 1 / 4
-N_WARMUP = 4
+N_WARMUP = 16
 N_FILLER = 8
 H_TARG, L_TARG = 8.0, 1.3
 FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")
@@ -285,6 +285,8 @@ def calibrate(dim, log_rows):
          "Did this colour AND this sound both appear a moment ago?\n"
          "   Y = yes, both of them did.      N = no, at least one of them is different.\n\n"
          f"First, {N_WARMUP} practice trials with feedback. Then {n_total} trials without feedback.\n\n"
+         "Please press Y or N on EVERY trial, even when you are not sure. "
+         "A trial without a response cannot be used.\n\n"
          "Press the space bar to begin.")
     fixed = two_targets()
     fixed_cols = {}
