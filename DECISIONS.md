@@ -117,14 +117,15 @@
 
 ## 15. 主實驗每組 16 個探測 = Houpt Table 3 的 1/16 配比，target 併成一個水準
 - **決定**：`set_probes()` 每組抽 AA ×4、HA / LA / AH / AL 各 ×2、HH / LH / HL / LL 各 ×1（各自隨機探測目標 1 或 2），打散；`SETS_PER_BLOCK` 24 → 14，6 × 14 × 16 = 1344 個探測（與舊的 1296 相當）。
-- **為什麼**：Houpt, Blaha, McIntire, Havig & Townsend (2014) Table 3 是兩個來源各 {H target, L target, H distractor, L distractor}，16 格各 1/16。本實驗 target（相同）只有一個水準，把 target 的兩列兩欄併起來：A×A = 4/16、單 distractor 各 2/16、雙 distractor 各 1/16，分母是 16。這等於論文 Table 2 的 AND 欄（等反應類別率）：「相同」佔 25%，NRC = −1/4。
-  曾短暫改成 3 × 3 各 1/9（Table 2 的 OR 欄，等刺激率）：SIC 每格較多（144 / 場次）但「相同」只剩 11%，反應偏誤大；作業是「兩個都 match 才按 y」（AND），所以照論文走 AND 欄。
+- **為什麼**：Houpt, Blaha, McIntire, Havig & Townsend (2014) Table 3 是兩個來源各 {H target, L target, H distractor, L distractor}，16 格各 1/16。本實驗 target（相同）只有一個水準，把 target 的兩列兩欄併起來：A×A = 4/16、單 distractor 各 2/16、雙 distractor 各 1/16，分母是 16；「相同」佔 25%。
+  曾短暫改成 3 × 3 各 1/9（等刺激率）：SIC 每格較多（144 / 場次）但「相同」只剩 11%，反應偏誤大，而且不是 Table 3 的配比，改回。
   代價：雙因子四格只拿到 1/4 的探測，每場次每格 84（power scan 建議 250，約需 4000 個探測）。更早的原版是 2 AA + 3 個雙通道隨機（每格 108）。
 - **怎麼對到 Houpt et al. (2014) 的術語**（p. 322：target / distractor 由實驗者指定，對 redundant target 做 AND 決定 = 對 redundant distractor 做 OR 決定）：
   target = 與學習項目相同（A），**只有一個水準**（刻意把 target 的難易度拿掉）；distractor = 不同，H（差很多，快）/ L（差一點，慢）。
-  作業是「兩個都 match 才按 y」（AND on matches）；SIC / MIC 用 H/L × H/L 四格（redundant distractors）**按 n 的 RT**，
-  那是對 mismatch 的 first-terminating 決定，所以 SIC 形狀要用 **OR 規則**的預測解讀（parallel-OR 全正、serial-OR 平、coactive 先負後正），
-  不是 AND 的。target 側（A × A 只有一格）沒有顯著度因子，算不出 target 側的 SIC——這是只留一個 target 水準的代價。
+  作業是「兩個都 match 才按 y」（AND 作業：規則由反應對應定義，p. 321-322）；SIC / MIC 用 H/L × H/L 四格（redundant distractors）**按 n 的 RT**。
+  邏輯上一個 mismatch 就足以按 n，但受試者實際是第一個就停還是兩個都看完才按，是 SIC 要診斷的事：`sicGroup` 在
+  parallel-OR / parallel-AND / serial-OR / serial-AND / coactive 五類裡判，**不要事先限定成 AND 或 OR 的預測**。
+  target 側（A × A 只有一格）沒有顯著度因子，算不出 target 側的 SIC——這是只留一個 target 水準的代價。
   `vawm_to_dfp_rows` 已照這樣做：HH / HL / LH / LL 的 correct = 按 n；AA 的 correct = 按 y。
 - **在哪**：`SFT_WM_change.py` / `SFT_WM_nochange.py`（含 `_EN`）與 `make_simple_psyexp.py` 的 `nine_probes`；`VAWM_nobox.py` 的 `generate_stratified_conditions`；圖說 `figures/experiment_procedure.md` (C)；分析 `adaptive_vawm.py` 的 `vawm_to_dfp_rows`。
 

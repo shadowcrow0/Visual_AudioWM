@@ -20,7 +20,7 @@
 HH / HL / LH / LL（兩者都不同）各 1 個。即 Houpt et al. (2014) Table 3 的 16 格各 1/16，把 target（相同）併成一個水準：
 4/16、2/16 × 4、1/16 × 4。最後四類構成
 2 × 2 雙因子設計（double-factorial paradigm），以其「不同」反應的反應時間計算 SIC 與 MIC，以推論顏色與聲音的處理架構
-（作業為「兩者皆相同才答 y」；「不同」是對差異的 first-terminating 決定，SIC 依 OR 規則的預測解讀）。
+（作業為「兩者皆相同才答 y」，即 AND 作業；處理架構與停止規則由 SIC 的形狀判定，不預設）。
 每場次共 336 個雙因子探測，每格 84 個。
 
 ## Caption (English)
@@ -41,8 +41,8 @@ colour differs; H = easy, L = hard) × 2 each; AH / AL (only sound differs) × 2
 × 1 each. This is Table 3 of Houpt et al. (2014), 16 cells at 1/16 each, with the target (same) collapsed to one
 level: 4/16, 2/16 × 4, 1/16 × 4. The last four types form
 the 2 × 2 double-factorial paradigm; the response times of their "different" responses yield the SIC and MIC used to
-infer the processing architecture of colour and sound (the task is "y only if both match"; "different" is a
-first-terminating decision on the mismatches, so the SIC is read against the OR-rule predictions); 336 double-factorial probes per session, 84 per cell.
+infer the processing architecture of colour and sound (the task is "y only if both match", an AND task; the
+architecture and stopping rule are inferred from the shape of the SIC, not assumed); 336 double-factorial probes per session, 84 per cell.
 
 ## 要注意的一件事 / One caveat
 
