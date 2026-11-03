@@ -4,7 +4,7 @@
 
 Unzipped layout (the two folders must stay side by side: adaptive_vawm_EN.py looks for ../adaptiveSFT):
 
-    VAWM_run/      SFT_WM_nochange_EN.py, adaptive_vawm_EN.py, audio_pick.py,
+    VAWM_run/      SFT_WM_nochange_EN.py, sound_perception_EN.py, adaptive_vawm_EN.py, audio_pick.py,
                    debug_adaptivesft_EN.py, generate_trials.py (consonant confusion table), setup_pymc_coder.bat,
                    stimuli/ (wav), data/ (empty; results go here), README_RUN.md
     adaptiveSFT/   the adaptivesft package + pyproject.toml, so `pip install -e ..\\adaptiveSFT` works
@@ -17,7 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SFT = os.path.join(os.path.dirname(HERE), "adaptiveSFT")
 OUT = os.path.join(HERE, "VAWM_run.zip")
 
-FILES = ["SFT_WM_nochange_EN.py", "adaptive_vawm_EN.py", "audio_pick.py",
+FILES = ["SFT_WM_nochange_EN.py", "sound_perception_EN.py", "adaptive_vawm_EN.py", "audio_pick.py",
          "debug_adaptivesft_EN.py", "generate_trials.py", "setup_pymc_coder.bat"]
 README = """# VAWM_run — how to run the experiment on a new PC
 
@@ -36,7 +36,11 @@ Keep `VAWM_run/` and `adaptiveSFT/` side by side (as unzipped).
 
        python debug_adaptivesft_EN.py
 
-4. Run (PsychoPy Coder: open the file and press Run; or from a terminal):
+4. Pure perception test of the consonants (no memory load, ~6 min; run this before the experiment):
+
+       python sound_perception_EN.py
+
+5. Run (PsychoPy Coder: open the file and press Run; or from a terminal):
 
        python SFT_WM_nochange_EN.py
        python SFT_WM_nochange_EN.py --robot --quick    <- simulated participant, no window, a few minutes
