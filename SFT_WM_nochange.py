@@ -45,7 +45,7 @@ LEVELS_COLOUR = [2.0, 6.0, 12.0, 25.0, 50.0, 90.0]   # 探測色與目標色的�
 LEVELS_AUDIO = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3]  # 子音不相似度 = −log10(混淆次數+1)（越大越好分）
 N_PER_LEVEL = 5                                      # 每個強度幾試 → 6×5 = 30 試「不同」（DECISIONS 16）
 P_MATCH = 1 / 4                                      # 再加 1/4 的「相同」試（探測 = 目標）→ 30 + 10 = 40 試進擬合段
-N_WARMUP = 16                                        # 校準前的暖機試次，有回饋、不進擬合；16 題讓第一次做的人先學會規則再進正式試（DECISIONS 16）
+N_WARMUP = 10                                        # 校準前的暖機試次，有回饋、不進擬合；16 太長（11-03 受試者回報），改 10（DECISIONS 16）
 N_FILLER = 8                                         # 校準時另一維度是 H/L 的填充試（答案一定是 N、不進擬合），H/L 各半
 H_TARG, L_TARG = 8.0, 1.3                            # 要找的兩個難度：漂移差 8.0（容易 H）/ 1.3（困難 L），Houpt 原設定；coactive 的檢定力靠這個（DECISIONS 3）
 FIT_KW = dict(tune=1000, draws=1000, chains=4, nuts_sampler="nutpie")   # 擬合設定；nutpie 約 70 s
