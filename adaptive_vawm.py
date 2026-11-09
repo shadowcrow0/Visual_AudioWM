@@ -261,6 +261,27 @@ def foil_for(confusion, cons, x):
     return cands[int(np.argmin(dist))]
 
 
+# Miller & Nicely (1955) 的五個構音特徵：voicing、nasality、affrication、duration、place（0 前 1 中 2 後）。
+# generate_trials.py 的混淆次數是「噪音裡」的混淆，噪音蓋不掉 voicing，所以只差 voicing 的對（p-b、k-g）
+# 會落在那條軸「最不像」的一端；在記憶裡和對非母語者它們反而最難。特徵距離是備選的聲音軸（2026-11-09）。
+MN_FEATURES = {"p": (0, 0, 0, 0, 0), "t": (0, 0, 0, 0, 1), "k": (0, 0, 0, 0, 2), "f": (0, 0, 1, 0, 0),
+               "theta": (0, 0, 1, 0, 1), "s": (0, 0, 1, 1, 1), "sh": (0, 0, 1, 1, 2),
+               "b": (1, 0, 0, 0, 0), "d": (1, 0, 0, 0, 1), "g": (1, 0, 0, 0, 2), "v": (1, 0, 1, 0, 0),
+               "eth": (1, 0, 1, 0, 1), "z": (1, 0, 1, 1, 1), "zh": (1, 0, 1, 1, 2),
+               "m": (1, 1, 0, 0, 0), "n": (1, 1, 0, 0, 1)}
+
+
+def feature_distance(a, b):
+    """Number of Miller-Nicely features (0-5) on which consonants a and b differ."""
+    fa, fb = MN_FEATURES[a], MN_FEATURES[b]
+    return sum(int(x != y) for x, y in zip(fa, fb))
+
+
+def foils_at_distance(cons, d):
+    """All consonants that differ from cons on exactly d features."""
+    return [c for c in MN_FEATURES if c != cons and feature_distance(cons, c) == d]
+
+
 # ============================================================================================
 # 一試的刺激
 # ============================================================================================

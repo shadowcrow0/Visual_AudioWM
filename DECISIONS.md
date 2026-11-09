@@ -160,6 +160,14 @@
 - **為什麼**：2026-11-03 定案。校準要量的是「正在校的維度」的敏感度，另一維度固定可以少一個每試都在變的來源。
 - **在哪**：`archive/SFT_WM_change.py`、`archive/SFT_WM_change_EN.py`；`SFT_WM_nochange.py` 的 `OTHER_TARGETS_CHANGE = False`。
 
+## 19. 聲音軸的候選：Miller & Nicely 的特徵距離，不是噪音混淆次數（2026-11-09，待純知覺測試驗證）
+- **發現**：`generate_trials.py` 的混淆次數是 M&N 在三個 SNR 的噪音混淆加總。噪音蓋不掉 voicing，所以 p–b、k–g 這種只差 voicing 的對次數 = 1，被當成「最不像」；
+  現在校準「最不像」那層（x = −0.3）的配對平均只差 2.4 個特徵，最像那層 1.1 個，整條軸只從 1.1 走到 2.4。在記憶裡（Wickelgren 1966）和對非母語者，只差 voicing 的對反而最難。
+  而且表只收每個子音 6 個 foil（96 對），差 4–5 個特徵的對（s–m、ʃ–m、ʃ–n、f–n、θ–m…）大多沒用上。
+- **候選做法**：以「差幾個 M&N 特徵」（1–5）當不相似度，用全部 120 對。`adaptive_vawm.py` 已加 `MN_FEATURES` / `feature_distance` / `foils_at_distance`；
+  `sound_perception_EN.py --axis features` 先在純知覺下驗證差 5 個特徵的 d′ 是否明顯高於差 1 個。驗證過了再換實驗裡的聲音軸（`audio_x` / `foil_for` / `LEVELS_AUDIO` / 模型單位）。
+- **在哪**：`adaptive_vawm.py`（特徵表）、`sound_perception_EN.py`（`--axis features`）。
+
 ## 還沒決定的
 - **受試者的母語**：11-03 的 pilot 受試者英語非母語，自述聽不出子音差異；聲音維度在 WM 作業裡落在猜的水準可能有一部分是這個。正式受試者是否限定英語母語者、或改用對非母語者也分得出的聲音刺激，要定。`sound_perception_EN.py` 的結果可以分開「分不出」和「記不住」。
 - adaptiveSFT 決定 A（DDM 的 `a` 是邊界距離還是分離）：只影響 DDM 模擬與 power scan 的數字，不影響實驗程式。
