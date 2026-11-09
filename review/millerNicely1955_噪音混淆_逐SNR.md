@@ -71,3 +71,29 @@
 - 要「清楚分得開」的聲音對：從 §3 的名單挑（跨 voicing / nasality / manner 的對，例如 m–s、n–ʃ、f–n、θ–m、p–z、k–z、b–s）。
 - 要「容易混」的對：§2 的 f–θ、v–ð、d–g、p–k、t–k、p–t、z–ʒ、m–n、s–ʃ。
 - 只差 voicing 的對（p–b、k–g…）在噪音裡算「分得開」，但 11-03 的純知覺測試裡它們就在「最不像」那層，d′ 只有 2.3；非母語者對 voicing 對比不敏感（中文沒有這個對比，只有送氣）。噪音資料不能直接當記憶／非母語的相似度，要用 `sound_perception_EN.py --axis features` 或直接拿 §3 的名單再測一次。
+
+## 6. 來源（2026-11-09 子代理查核；網路只能用搜尋，除 M&N 外都只到摘要／書目層級）
+
+**讀過原文、可引用**
+
+- Miller, G. A., & Nicely, P. E. (1955). An analysis of perceptual confusions among some English consonants. *JASA, 27*(2), 338–352. doi:10.1121/1.1907526
+  - p. 349：「voicing and nasality are much less affected by a random masking noise than are the other features. … Voicing and nasality are discriminable at signal-to-noise ratios as poor as −12 db whereas the place of articulation is hard to distinguish at ratios less than 6 db, a difference of some 18 db in efficiency.」
+  - p. 348：「the features were perceived almost independently of one another.」
+  - p. 352：「there are really just five distinguishable phonemes left: |ptk|, |fθsʃ|, |bdg|, |vðzʒ|, and |mn|.」
+  - 注意：M&N 沒有逐字說「差的特徵越多越不會混」；他們說的是五個特徵近乎獨立的通道（p. 348–349），「距離越大越不混」是從這裡推出來的。
+
+**只確認到書目／摘要**
+
+- Wickelgren, W. A. (1966). Distinctive features and errors in short-term memory for English consonants. *JASA, 39*(2), 388–398. doi:10.1121/1.1909900 — STM 的那一半：子音在短期記憶裡「不是一個單位，而是一組可各自遺忘的特徵」（voicing、nasality、manner、place）。
+- Wickelgren, W. A. (1965). Similarity and intrusions in short-term memory for consonant-vowel digrams. *QJEP, 17*, 241–246. doi:10.1080/17470216508416437 — 侵入錯誤的頻率是「與呈現項目相似度的單調遞增函數」。
+- Conrad, R. (1964). Acoustic confusions in immediate memory. *Brit. J. Psychol., 55*, 75–84 — 記憶錯誤循聲音相似，但用的不是構音特徵。
+- Wang, M. D., & Bilger, R. C. (1973). Consonant confusions in noise: A study of perceptual features. *JASA, 54*, 1248–1266 — 噪音與安靜、CV 與 VC；結論部分反對「固定的一組知覺特徵」，引用要小心。
+- Shepard, R. N. (1972). Psychological representation of speech sounds. In David & Denes (Eds.), *Human Communication: A Unified View*. McGraw-Hill — 對 M&N 矩陣做 MDS，主軸是 voicing 與 nasality（頁碼未核）。
+- Soli, S. D., & Arabie, P. (1979). Auditory versus phonetic accounts of observed confusions between consonant phonemes. *JASA, 66*, 46–59 — 重新分析 M&N，主張聲學屬性比音韻特徵更能解釋混淆。
+- Phatak & Allen (2007) *JASA, 121*, 2312–2326；Phatak, Lovitt & Allen (2008) *JASA, 124*, 1220–1233 — 現代方法重做 M&N；子音依耐噪度分三群，不完全照 M&N 的特徵。
+- **Cutler, Weber, Smits & Cooper (2004).** Patterns of English phoneme confusions by native and non-native listeners. *JASA, 116*, 3668–3678. doi:10.1121/1.1810292 — 荷蘭 vs 美國聽者。摘要片段：對非母語者 manner 傳得最好，**voicing 傳得最差**。這和本文 §3「voicing 在噪音裡最耐」相反，但和 11-03 非母語受試者的結果一致。引用前要讀全文。
+- Flege (1989) *JASA, 86*, 1684–1697 — 中文母語者對英語詞尾 /t/–/d/ 的辨識。
+
+**未確認**：中文母語者英語子音噪音混淆的逐特徵分析（只搜到 ICPhS 2023 的 Sheng et al. 與一張海報）；Shepard 1972 頁碼；Wang & Bilger、Soli & Arabie 的 DOI。
+
+**結論**：「voicing / nasality 耐噪、place 先丟、塌成五群」直接出自 M&N p. 348–352；「差幾個特徵」這個量化是從 M&N 的獨立通道加 Wickelgren（1965, 1966）推出來的，沒有一篇原文逐字這樣說；對非母語者 Cutler et al. (2004) 指出 voicing 反而最弱。
