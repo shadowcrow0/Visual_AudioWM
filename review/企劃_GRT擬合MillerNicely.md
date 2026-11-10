@@ -68,6 +68,31 @@
 
 依賴：numpy、scipy（已在 venv；PsychoPy 的 Python 不需要跑這個）。可以借 `adaptiveSFT` 的 Arc 流程跑多起點。
 
+## 4b. B 路線：切成特徵對的子設計，用現成套件
+
+`mdsdt`（Silbert & Hawkins 2016）的 `fit.grt` 處理**兩個知覺維度、每維 N 個水準**的設計：標準 2×2 之外，可用 `xtabs`（刺激 × N×N 反應）餵 3×3（內建 `thomas15a/b` 範例）。它假設 decisional separability，檢定 perceptual separability 與 independence。它**不能**直接吃 16×16：模型是二維常態，而 16 個子音是五條軸（2×2×2×2×3）。`grtools`（Soto et al. 2017）只有 2×2。（以上依 2026-11-10 搜尋到的說明頁片段；rdrr.io 與 CRAN 在雲端 session 被擋，原始碼未核對——`?fit.grt`、`str(thomas15a)` 在筆電上一看即知；2×3 這種兩軸水準數不同的設計能不能跑，未核實。）
+
+用法：固定其他特徵，切出兩個特徵的子矩陣，各跑一次：
+
+```
+   voicing × place（塞音）        {p t k b d g}          6×6   2×3
+   voicing × place（擦音，長）    {s ʃ z ʒ}              4×4   2×2
+   voicing × place（擦音，短）    {f θ v ð}              4×4   2×2
+   voicing × affrication（前）    {p b f v}              4×4   2×2
+   voicing × affrication（中）    {t d θ ð}              4×4   2×2
+   nasality × place              {b d m n}              4×4   2×2
+   duration × place（有聲擦音）   {v ð z ʒ}              4×4   2×2
+   …（每對特徵在每個可切出的子集各一次，每個 SNR 各一次）
+```
+
+子矩陣的列和是原列和的一部分（只保留落在子集內的反應），要在報告裡說明是「條件化在子集上」的分析。
+
+```
+   A 路線  自己寫五維 likelihood（第 4 節）            完整；要寫積分、確認參數可辨識
+   B 路線  特徵對子矩陣 + mdsdt / grtools              現成、一天內有結果、每對特徵一個結論；看不到三個以上特徵的交互
+   順序    先 B；B 指出哪幾對特徵不可分，A 只針對那幾個特徵做
+```
+
 ## 5. 驗證與對照
 
 1. **內部**：M0 的 d′_f 應和 M&N 的資訊傳遞量單調對應（Table XXI）；用模擬資料回收。
