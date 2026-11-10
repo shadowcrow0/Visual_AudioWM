@@ -91,7 +91,7 @@
 - Shepard, R. N. (1972). Psychological representation of speech sounds. In David & Denes (Eds.), *Human Communication: A Unified View*. McGraw-Hill — 對 M&N 矩陣做 MDS，主軸是 voicing 與 nasality（頁碼未核）。
 - Soli, S. D., & Arabie, P. (1979). Auditory versus phonetic accounts of observed confusions between consonant phonemes. *JASA, 66*, 46–59 — 重新分析 M&N，主張聲學屬性比音韻特徵更能解釋混淆。
 - Phatak & Allen (2007) *JASA, 121*, 2312–2326；Phatak, Lovitt & Allen (2008) *JASA, 124*, 1220–1233 — 現代方法重做 M&N；子音依耐噪度分三群，不完全照 M&N 的特徵。
-- **Cutler, Weber, Smits & Cooper (2004).** Patterns of English phoneme confusions by native and non-native listeners. *JASA, 116*, 3668–3678. doi:10.1121/1.1810292 — 荷蘭 vs 美國聽者。摘要片段：對非母語者 manner 傳得最好，**voicing 傳得最差**。這和本文 §3「voicing 在噪音裡最耐」相反，但和 11-03 非母語受試者的結果一致。引用前要讀全文。
+- **Cutler, Weber, Smits & Cooper (2004).** Patterns of English phoneme confusions by native and non-native listeners. *JASA, 116*, 3668–3678. doi:10.1121/1.1810292 — 荷蘭 vs 美國聽者，babble 0/8/16 dB。全文已讀（2026-11-10，`Cutler2004_全文查核.md`）：母語者 manner ≈ voicing > place；荷蘭聽者 manner > place > voicing（p. 3674），voicing 的流失集中在詞尾（荷語詞尾無濁音對比，p. 3671, 3675）；非母語 ≈ 母語的 80%，差距不隨 SNR 變。
 - Flege (1989) *JASA, 86*, 1684–1697 — 中文母語者對英語詞尾 /t/–/d/ 的辨識。
 
 **未確認**：中文母語者英語子音噪音混淆的逐特徵分析（只搜到 ICPhS 2023 的 Sheng et al. 與一張海報）；Shepard 1972 頁碼；Wang & Bilger、Soli & Arabie 的 DOI。
@@ -114,7 +114,7 @@
 - 所以「噪音裡分得開 ≠ 記憶裡分得開」是我的推論，文獻傾向兩者相似。撤回。
 
 **(3) 「非母語者（尤其中文母語）voicing 最弱」— 只有對比特定的證據，也有相反的。**
-- Cutler et al. (2004) 的摘要沒有提 voicing；本地筆記引 p. 3672 是母語者的結果（manner、voicing 都顯著優於 place）。「荷蘭聽者 voicing 最差」未核實。
+- Cutler et al. (2004) 全文（11-10 補讀）：「荷蘭聽者 voicing 最差」**屬實**（p. 3674），但由詞尾位置驅動（荷語詞尾無濁音對比）；p. 3674 同段也給母語者結果 manner ≈ voicing > place。
 - Flege (1989) https://doi.org/10.1121/1.398599：中文母語者對詞尾 /t/–/d/ 未剪接的刺激辨識「接近母語者」，拿掉除阻爆發才變差——是線索特定的缺損，不是整體 voicing 缺損。
 - Yang, Y., Yang, F., Porter, D. A., & Zhu, J. (2026). *Phonetica, 83*(1), 19–46. https://doi.org/10.1515/phon-2025-0029：中文母語者對 /s–z/、/θ–ð/（voicing）的區辨**優於** /s–θ/、/z–ð/（place）。與「voicing 最弱」相反。
 - de Jong & Hao (2018) *J. Phonetics, 66*, 15–27 https://doi.org/10.1016/j.wocn.2017.09.002：台灣國語學習者的 voicing 正確率跨位置相關，詞尾例外。
@@ -124,14 +124,14 @@
 
 ## 8. 修正後的敘述（2026-11-10，第三次查核後由子代理依三份查核結果寫成；只用查過的證據）
 
-p–b、t–d、k–g 這些只差 voicing 的對，在噪音裡確實分得開：Miller & Nicely (1955, p. 349) 明言 voicing 與 nasality 在 −12 dB 仍可辨、place 在 6 dB 以下即難分；我們轉錄其 Table I–VI，三對的對稱混淆自 −12 dB 起皆 ≤ 1.2%，−6 dB 最混的 f–θ、p–k、t–k、d–g 全是只差 place 的對。但「混淆隨差異特徵數下降」不是 M&N 原話，而是從「特徵近乎獨立知覺」(p. 348) 推出的推論；Woods et al. (2010) 更指出低 SNR 時以多特徵錯誤為主——決定混淆的是「哪個特徵」，非特徵數。記憶層面：Wickelgren (1966) 顯示子音在短期記憶中以特徵集合編碼、各特徵半獨立遺忘；Klatt (1968) 重分析得出的特徵含 voiced 而無 place；Conrad (1964) 的聽覺／回憶相關只到字母層級。沒有研究把記憶混淆矩陣與 M&N 數值對照，「記憶裡的混淆結構等於知覺裡的」是推論。非母語：Cutler et al. (2004) 摘要未提 voicing，「voicing 是非母語者最弱特徵」未經查證；華語母語者在 Flege (1989) 與 Yang et al. (2026) 中反而 voicing 辨識近母語、優於 place，只在特定線索被移除時崩潰。因此 11-03 單一受試者純知覺 d′ ≤ 2.3、虛報 .28，不能歸因於「非母語者 voicing 弱」；該軸「最不像」層平均僅差 2.4 個 M&N 特徵且混入 p–b、k–g 與 p–k 類對，軸的定義更可能是主因。WM 內降至猜測水準只表示此對比在目前負荷下量不到，不表示記憶未保留 voicing。
+p–b、t–d、k–g 這些只差 voicing 的對，在噪音裡確實分得開：Miller & Nicely (1955, p. 349) 明言 voicing 與 nasality 在 −12 dB 仍可辨、place 在 6 dB 以下即難分；我們轉錄其 Table I–VI，三對的對稱混淆自 −12 dB 起皆 ≤ 1.2%，−6 dB 最混的 f–θ、p–k、t–k、d–g 全是只差 place 的對。但「混淆隨差異特徵數下降」不是 M&N 原話，而是從「特徵近乎獨立知覺」(p. 348) 推出的推論；Woods et al. (2010) 更指出低 SNR 時以多特徵錯誤為主——決定混淆的是「哪個特徵」，非特徵數。記憶層面：Wickelgren (1966) 顯示子音在短期記憶中以特徵集合編碼、各特徵半獨立遺忘；Klatt (1968) 重分析得出的特徵含 voiced 而無 place；Conrad (1964) 的聽覺／回憶相關只到字母層級。沒有研究把記憶混淆矩陣與 M&N 數值對照，「記憶裡的混淆結構等於知覺裡的」是推論。非母語：Cutler et al. (2004) 全文顯示荷蘭聽者 voicing 確實傳得最差 (p. 3674)，但那是荷語詞尾無濁音對比造成、集中在詞尾 (p. 3671, 3675)，不是非母語者的通性；華語母語者在 Flege (1989) 與 Yang et al. (2026) 中反而 voicing 辨識近母語、優於 place，只在特定線索被移除時崩潰。因此 11-03 單一受試者純知覺 d′ ≤ 2.3、虛報 .28，不能直接歸因於「非母語者 voicing 弱」（華語聽者的 voicing 缺口是推論，未測）；該軸「最不像」層平均僅差 2.4 個 M&N 特徵且混入 p–b、k–g 與 p–k 類對，軸的定義更可能是主因。WM 內降至猜測水準只表示此對比在目前負荷下量不到，不表示記憶未保留 voicing。
 
 | 論述 | 證據等級 | 來源 | 一句話證據 |
 |---|---|---|---|
 | (a) 噪音中 voicing／nasality 耐噪，place 最先丟 | **已確立** | M&N 1955 (read)；Wang & Bilger 1973 (snippet)；Phatak et al. 2008 (abstract)；Woods et al. 2010 (abstract) | M&N p. 349；Table XXI −12 dB 相對資訊 voicing 52%、nasality 49%、place 4%。限制：CV + /ɑ/、白噪音、無安靜條件；Phatak：摩擦音 voicing 混淆不對稱。 |
 | (b) 「差幾個特徵」決定混淆 | **推論**；「哪個特徵」才是已確立 | M&N (read)；Woods et al. 2010 (abstract) | M&N 只說特徵「幾乎獨立」；Woods：高 SNR 以單一 place 錯誤為主、低 SNR 以多特徵錯誤為主。 |
 | (c) 記憶混淆結構＝知覺混淆結構 | **部分支持 + 推論**；無數值比較；**Schweppe 2011 全文同向、Roodenrys 2025 全文反向** | Wickelgren 1966、Klatt 1968、Conrad 1964、Hintzman 1967（abstract）；Schweppe et al. 2011 與 Roodenrys et al. 2025（全文，見 `Schweppe2011_全文查核.md`、`Roodenrys2025_全文查核.md`） | 子音在 STM 以特徵集合編碼、半獨立遺忘；Klatt 的特徵表含 voiced 無 place；Conrad 的相關只在字母層級；沒有記憶中特徵遺失的排序。Schweppe 2011 p. 266：只差 place 的 pa-ta-ka（M&N 最混的一簇）在任何呈現／回憶模式都傷回憶，差 manner 的 da-la-za 只口說時傷——與知覺結構同向，但作者歸因於特徵樹層級而非聲學混淆，並反對「數特徵」(p. 262, 264)。Roodenrys 2025 p. 254：干擾在視覺呈現下同樣出現，且依 Wang & Bilger 1973 只有約一半 minimal pair 聲學可混——作者明言效應來自構音特徵相似而非聲學相似。 |
-| (d) 非母語者 voicing 最弱 | **未經查證**；華語 L1 證據方向相反 | Cutler et al. 2004、Flege 1989、Yang et al. 2026、de Jong & Hao 2018（皆 abstract） | Cutler 摘要未提 voicing；Flege：華語系聽者對未剪輯的詞尾 /t–d/ 近母語；Yang：華語聽者 /s–z/、/θ–ð/ 優於 /s–θ/、/z–ð/。 |
+| (d) 非母語者 voicing 最弱 | **荷蘭聽者屬實（全文）；對華語聽者仍是推論**，且 abstract 級證據方向相反 | Cutler et al. 2004（全文，`Cutler2004_全文查核.md`）；Flege 1989、Yang et al. 2026、de Jong & Hao 2018（abstract） | Cutler p. 3674：荷蘭聽者 voicing 傳遞最差、顯著低於 place；機制是 L1 詞尾無濁音對比（p. 3671, 3675），詞首劣勢小。華語任何位置都無英語式 voicing，預測詞首也弱——但 Flege：華語系聽者詞尾 /t–d/ 近母語；Yang：/s–z/、/θ–ð/ 優於 /s–θ/、/z–ð/。 |
 | (e) 11-03 資料 | **一位受試者的描述性資料**；歸因是推論 | 本研究 | 可說：純知覺各層 .50–1.00、d′ 0.6–2.3、虛報 .28；WM 內 .40–.67、虛報 .22。不可說：非母語者 voicing 弱、記憶不保留 voicing。 |
 
 補充書目（§6 未列者）：Klatt, D. H. (1968). Structure of confusions in short-term memory between English consonants. *JASA, 44*(2), 401–407. https://doi.org/10.1121/1.1911094 [abstract]；Hintzman, D. L. (1967). Articulatory coding in short-term memory. *JVLVB, 6*(3), 312–316 [abstract]；Roodenrys, S., Miller, L. M., Guitard, D., & Neath, I. (2025). Similar phonemes create interference in the serial recall task. *Memory, 33*(2), 248–258. https://doi.org/10.1080/09658211.2024.2433049 [全文已讀 2026-11-10；相似＝差 1 個構音特徵（voice/place/manner），36/60 對為 voicing]；Pisoni, D. B. (1973). Auditory and phonetic memory codes in the discrimination of consonants and vowels. *Perception & Psychophysics, 13*(2), 253–260. https://doi.org/10.3758/BF03214136 [abstract；只測 /ba–pa/ 一條 voicing 連續體]。Yang et al. (2026) 的篇名未核對，引用前要補。

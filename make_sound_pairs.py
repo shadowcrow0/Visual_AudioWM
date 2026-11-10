@@ -16,7 +16,11 @@ Design of the table:
   * talker: the 12 talkers are assigned round-robin over the 80 rows, so every talker is used 6-7 times
     and no (target, level) shares a talker with its neighbours; target and foil use the SAME talker
   * columns: level, x (luce distance), target, foil, talker, snd_target, snd_foil, feature_distance,
-    features_differing, snapped
+    features_differing, snapped, dprime, dprime_mdsdt
+  * dprime = x in d' units: on the 28 single-feature pairs the mdsdt GRT fits of Miller & Nicely at -6 dB give
+    d' = 0.911 * luce (Pearson .98, review/GRT擬合MN_B路線_D2.md §8); dprime_mdsdt is that directly fitted value
+    where one exists (review/data/grt_subdesigns/pair_dprime_mdsdt.csv), blank otherwise. Re-cutting the levels in
+    d' units reproduces the same table (monotone transform), so the pairs are unchanged.
 """
 import csv
 import os
@@ -28,6 +32,8 @@ from adaptive_vawm_EN import MN_FEATURES, TALKERS, feature_distance, sound_file
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "stimuli", "sound_pairs.csv")
+MDSDT_PAIRS = os.path.join(HERE, "review", "data", "grt_subdesigns", "pair_dprime_mdsdt.csv")
+LUCE_TO_DPRIME = 0.911   # slope of mdsdt d' (-6 dB) on luce distance, 28 single-feature pairs, intercept 0.003
 N_LEVELS = 5
 FEATURE_NAMES = ["voicing", "nasality", "affrication", "duration", "place"]
 
@@ -36,8 +42,21 @@ def differing(a, b):
     return "+".join(n for n, x, y in zip(FEATURE_NAMES, MN_FEATURES[a], MN_FEATURES[b]) if x != y)
 
 
+def mdsdt_dprime(snr=-6):
+    """{frozenset({a, b}): mean fitted d'} from the mdsdt 2x2 fits at the given SNR; {} if the file is missing."""
+    out = {}
+    if not os.path.exists(MDSDT_PAIRS):
+        return out
+    with open(MDSDT_PAIRS, encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            if int(float(r["snr"])) == snr:
+                out.setdefault(frozenset((r["c1"], r["c2"])), []).append(float(r["dprime"]))
+    return {k: sum(v) / len(v) for k, v in out.items()}
+
+
 def main():
     M = cd.matrix("luce")
+    direct = mdsdt_dprime()
     C = cd.CONSONANTS
     bins = cd.propose_bins(M, N_LEVELS)
     edges = bins["edges"]
@@ -60,15 +79,16 @@ def main():
             rows.append(dict(level=level, x=round(float(x), 3), target=target, foil=foil, talker=talker,
                              snd_target=sound_file(talker, target), snd_foil=sound_file(talker, foil),
                              feature_distance=feature_distance(target, foil), features_differing=differing(target, foil),
-                             snapped=snapped))
+                             snapped=snapped, dprime=round(LUCE_TO_DPRIME * float(x), 2),
+                             dprime_mdsdt=round(direct[frozenset((target, foil))], 2) if frozenset((target, foil)) in direct else ""))
     with open(OUT, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
         w.writerows(rows)
     print("level edges (luce):", " | ".join(f"{e:.2f}" for e in edges))
-    print(f"{'level':>5} {'target':>6} {'foil':>6} {'x':>5} {'feat':>4}  features differing          talker  snapped")
+    print(f"{'level':>5} {'target':>6} {'foil':>6} {'x':>5} {'dprime':>6} {'mdsdt':>5} {'feat':>4}  features differing          talker  snapped")
     for r in rows:
-        print(f"{r['level']:>5} {cd.IPA[r['target']]:>6} {cd.IPA[r['foil']]:>6} {r['x']:>5.2f} {r['feature_distance']:>4}  "
+        print(f"{r['level']:>5} {cd.IPA[r['target']]:>6} {cd.IPA[r['foil']]:>6} {r['x']:>5.2f} {r['dprime']:>5.2f} {str(r['dprime_mdsdt']):>5} {r['feature_distance']:>4}  "
               f"{r['features_differing']:<26} {r['talker']:>6}  {'*' if r['snapped'] else ''}")
     print(f"wrote {OUT}: {len(rows)} pairs, {sum(r['snapped'] for r in rows)} snapped")
 
