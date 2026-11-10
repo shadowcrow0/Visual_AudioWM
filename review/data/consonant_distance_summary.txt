@@ -1,0 +1,228 @@
+consonant_distance.py — summary (Miller & Nicely 1955, Tables I-VI, 200-6500 cps)
+
+1. Relative information transmitted per feature, T_rel = T/H (recomputed from the matrices)
+   paper Table XXI in brackets (bits; T_rel = bits / max possible)
+   SNR                    voicing              nasality           affrication              duration                 place       all (16x16)
+    -18 dB        0.013 [0.021]         0.015 [0.015]         0.000 [0.000]         0.001 [0.001]         0.001 [0.001]      0.015 [0.015]
+    -12 dB        0.519 [0.522]         0.504 [0.485]         0.069 [0.069]         0.108 [0.107]         0.038 [0.038]      0.240 [0.240]
+     -6 dB        0.802 [0.806]         0.751 [0.730]         0.279 [0.279]         0.313 [0.307]         0.160 [0.161]      0.457 [0.459]
+      0 dB        0.949 [0.954]         0.961 [0.910]         0.631 [0.620]         0.529 [0.596]         0.389 [0.374]      0.701 [0.699]
+      6 dB        0.964 [0.962]         0.989 [0.998]         0.782 [0.782]         0.807 [0.784]         0.557 [0.554]      0.808 [0.806]
+     12 dB        0.965 [0.967]         0.986 [1.020]         0.853 [0.853]         0.943 [0.926]         0.706 [0.705]      0.887 [0.886]
+   H(feature) bits: voicing 0.994, nasality 0.515, affrication 0.997, duration 0.785, place 1.559
+
+   default weights = mean T_rel over (-12, -6, 0, 6) dB:
+   voicing 0.809  nasality 0.801  affrication 0.440  duration 0.439  place 0.286
+   max weighted distance (all five differ) = 2.775; a voicing-only pair = 0.809, a place-only pair = 0.286
+
+2. Spearman correlations between metrics over the 120 pairs (cur_axis: the 71 pairs in CONFUSION_DATA)
+               hamming weighted     conf conf_m12  conf_m6   conf_0   conf_6     mds2     mds3     mds4     luce  luce_cf luce_m12  luce_m6   luce_0   luce_6  current
+   hamming        1.00     0.89     0.54     0.55     0.51     0.36     0.42     0.56     0.57     0.56     0.57     0.58     0.58     0.54     0.43     0.48     0.49
+   weighted       0.89     1.00     0.71     0.74     0.68     0.48     0.54     0.74     0.74     0.73     0.73     0.75     0.76     0.69     0.52     0.57     0.75
+   conf           0.54     0.71     1.00     0.94     0.95     0.75     0.67     0.91     0.94     0.94     0.96     0.96     0.93     0.93     0.72     0.62     0.87
+   conf_m12       0.55     0.74     0.94     1.00     0.87     0.66     0.68     0.90     0.94     0.94     0.92     0.93     0.97     0.84     0.63     0.63     0.83
+   conf_m6        0.51     0.68     0.95     0.87     1.00     0.66     0.62     0.87     0.90     0.91     0.93     0.92     0.87     0.98     0.63     0.57     0.88
+   conf_0         0.36     0.48     0.75     0.66     0.66     1.00     0.65     0.61     0.65     0.64     0.71     0.70     0.64     0.65     0.83     0.57     0.76
+   conf_6         0.42     0.54     0.67     0.68     0.62     0.65     1.00     0.59     0.64     0.64     0.67     0.67     0.68     0.62     0.62     0.86     0.70
+   mds2           0.56     0.74     0.91     0.90     0.87     0.61     0.59     1.00     0.94     0.93     0.89     0.89     0.88     0.86     0.60     0.60     0.83
+   mds3           0.57     0.74     0.94     0.94     0.90     0.65     0.64     0.94     1.00     0.98     0.94     0.94     0.95     0.89     0.67     0.62     0.84
+   mds4           0.56     0.73     0.94     0.94     0.91     0.64     0.64     0.93     0.98     1.00     0.96     0.96     0.95     0.91     0.67     0.64     0.85
+   luce           0.57     0.73     0.96     0.92     0.93     0.71     0.67     0.89     0.94     0.96     1.00     0.99     0.95     0.95     0.79     0.70     0.84
+   luce_cf        0.58     0.75     0.96     0.93     0.92     0.70     0.67     0.89     0.94     0.96     0.99     1.00     0.96     0.94     0.76     0.69     0.85
+   luce_m12       0.58     0.76     0.93     0.97     0.87     0.64     0.68     0.88     0.95     0.95     0.95     0.96     1.00     0.87     0.68     0.68     0.82
+   luce_m6        0.54     0.69     0.93     0.84     0.98     0.65     0.62     0.86     0.89     0.91     0.95     0.94     0.87     1.00     0.69     0.63     0.85
+   luce_0         0.43     0.52     0.72     0.63     0.63     0.83     0.62     0.60     0.67     0.67     0.79     0.76     0.68     0.69     1.00     0.72     0.67
+   luce_6         0.48     0.57     0.62     0.63     0.57     0.57     0.86     0.60     0.62     0.64     0.70     0.69     0.68     0.63     0.72     1.00     0.66
+   current        0.49     0.75     0.87     0.83     0.88     0.76     0.70     0.83     0.84     0.85     0.84     0.85     0.82     0.85     0.67     0.66     1.00
+
+3. Ten most distant / ten least distant pairs per metric
+   hamming    far : s-m 5.00, ʃ-m 5.00, ʃ-n 5.00, p-z 4.00, p-ʒ 4.00, t-ʒ 4.00, k-z 4.00, f-n 4.00, θ-m 4.00, s-b 4.00
+   hamming    near: m-n 1.00, z-ʒ 1.00, ð-z 1.00, v-ð 1.00, d-n 1.00, d-ð 1.00, d-g 1.00, b-m 1.00, b-v 1.00, b-g 1.00
+   weighted   far : s-m 2.78, ʃ-m 2.78, ʃ-n 2.78, s-n 2.49, f-n 2.34, θ-m 2.34, f-m 2.05, θ-n 2.05, p-z 1.97, p-ʒ 1.97
+   weighted   near: m-n 0.29, z-ʒ 0.29, v-ð 0.29, d-g 0.29, b-g 0.29, b-d 0.29, s-ʃ 0.29, f-θ 0.29, t-k 0.29, p-k 0.29
+   confusion  far : f-ʒ 6.53, ʃ-b 6.45, s-m 6.45, k-g 6.41, t-g 6.40, θ-n 6.40, k-v 6.39, t-v 6.39, ʃ-ð 6.38, k-d 6.38
+   confusion  near: p-k 1.34, f-θ 1.45, d-g 1.60, t-k 1.62, p-t 1.68, v-ð 1.93, b-v 1.94, ð-z 1.99, z-ʒ 2.04, m-n 2.09
+   mds3       far : f-ʒ 6.64, s-m 6.40, k-ʒ 6.22, ʃ-m 6.16, s-n 6.10, f-n 5.93, t-ʒ 5.86, k-g 5.75, ʃ-n 5.70, f-g 5.57
+   mds3       near: d-z 0.51, t-k 0.60, v-ð 0.63, b-ð 0.69, d-g 0.70, p-t 0.72, g-z 0.83, b-v 0.95, p-k 1.14, f-θ 1.39
+   luce       far : f-ʒ 5.44, s-m 5.40, ʃ-b 5.39, ʃ-m 5.33, ʃ-n 5.31, k-ʒ 5.14, ʒ-m 5.13, t-v 5.11, θ-n 5.08, k-v 5.08
+   luce       near: p-k 0.29, d-g 0.46, f-θ 0.50, t-k 0.64, p-t 0.66, ð-z 0.70, v-ð 0.82, θ-s 1.11, g-z 1.11, b-ð 1.17
+   cur_axis   far : p-ʃ -0.30, p-b -0.30, p-d -0.30, p-v -0.30, p-z -0.30, p-m -0.30, t-g -0.30, t-ð -0.30, t-z -0.30, k-g -0.30
+   cur_axis   near: z-ʒ -2.52, ð-z -2.31, p-k -2.30, f-θ -2.30, g-v -2.30, v-ð -2.25, d-g -2.10, t-k -2.05, p-t -2.00, d-v -1.91
+
+4. Classical MDS on −ln s_ab, counts pooled over (-12, -6, 0) dB
+   2 dims: r(fit, input) = 0.890, stress-1 = 0.205, variance of first 2 eigenvalues = 65.5%
+   3 dims: r(fit, input) = 0.948, stress-1 = 0.140, variance of first 3 eigenvalues = 81.8%
+   4 dims: r(fit, input) = 0.952, stress-1 = 0.170, variance of first 4 eigenvalues = 89.0%
+   |corr(dimension, feature)| for the 4-dim solution:
+   dim        voicing    nasality affrication    duration       place
+   1             0.98        0.33        0.04        0.00        0.03
+   2             0.10        0.63        0.48        0.74        0.58
+   3             0.01        0.46        0.40        0.23        0.44
+   4             0.04        0.25        0.11        0.05        0.10
+   coordinates (3-dim solution):
+       p  p    -2.25   -0.47    1.16
+       t  t    -2.94   -0.64    1.10
+       k  k    -3.14   -0.86    0.57
+       f  f    -2.40   -1.05   -1.93
+   theta  θ    -1.81    0.09   -1.39
+       s  s    -1.91    2.05   -0.65
+      sh  ʃ    -2.11    1.98    1.29
+       b  b     1.36   -1.05   -1.76
+       d  d     1.81    1.08   -0.32
+       g  g     2.19    1.26    0.24
+       v  v     1.87   -0.26   -1.62
+     eth  ð     1.65   -0.71   -1.23
+       z  z     1.66    1.57   -0.31
+      zh  ʒ     2.36    1.77    1.75
+       m  m     1.51   -3.00    1.29
+       n  n     2.15   -1.77    1.82
+
+4b. Similarity-choice model per SNR (+0.5 smoothing; ML fit by gradient ascent from the closed-form start)
+    SNR  zero off-diag cells  converged  LL(model)   LL(saturated)   G²(df=105)   median −ln η  max −ln η   corr(ML, closed form)  bias range
+    -18                    0       True    -11258.7       -11203.4        110.6          0.23       1.00                  0.988  0.68-1.67
+    -12                   21       True     -8924.8        -8852.0        145.6          2.26       4.73                  0.996  0.60-2.03
+     -6                   88       True     -6633.9        -6578.5        110.7          4.09       5.93                  0.996  0.69-1.75
+      0                  163       True     -4063.6        -4016.3         94.6          5.73       6.84                  0.993  0.52-2.32
+      6                  175       True     -2918.8        -2885.8         65.9          5.98       6.32                  0.994  0.82-1.49
+     12                  199       True     -2068.3        -2051.3         34.0          6.14       6.28                  0.994  0.60-1.37
+    Usable: -12, -6, 0 dB (few empty cells, η spans a wide range). -18 dB: responses nearly uniform, all η≈1.
+    +6/+12 dB: most off-diagonals are 0, so −ln η there is mostly the smoothing constant (ceiling).
+    Default 'luce' = mean of −ln η over (-12, -6, 0) dB.
+
+5. Binning proposals (cut points chosen to maximise the minimum partners per consonant per level)
+   weighted metric, 5 levels: edges 0.29 | 0.73 | 0.88 | 1.14 | 1.53 | 2.78
+      pairs per level [17, 23, 18, 24, 38] ; min partners of any consonant in any level = 1
+      partners per consonant per level:
+            p  p   3  2  2  3  5
+            t  t   3  2  3  2  5
+            k  k   2  3  3  1  6
+            f  f   2  5  1  3  4
+        theta  θ   3  4  1  3  4
+            s  s   2  2  2  4  5
+           sh  ʃ   1  3  2  4  5
+            b  b   3  3  3  3  3
+            d  d   3  3  4  2  3
+            g  g   2  3  5  1  4
+            v  v   2  5  1  5  2
+          eth  ð   3  4  1  5  2
+            z  z   2  2  2  4  5
+           zh  ʒ   1  3  2  4  5
+            m  m   1  1  2  2  9
+            n  n   1  1  2  2  9
+   weighted metric, 6 levels: edges 0.29 | 0.73 | 0.88 | 1.14 | 1.53 | 1.90 | 2.78
+      pairs per level [17, 23, 18, 18, 21, 23] ; min partners of any consonant in any level = 0
+      partners per consonant per level:
+            p  p   3  2  2  3  2  3
+            t  t   3  2  3  2  3  2
+            k  k   2  3  3  1  3  3
+            f  f   2  5  1  1  4  2
+        theta  θ   3  4  1  2  3  2
+            s  s   2  2  2  3  2  4
+           sh  ʃ   1  3  2  2  3  4
+            b  b   3  3  3  3  1  2
+            d  d   3  3  4  2  2  1
+            g  g   2  3  5  1  3  1
+            v  v   2  5  1  3  4  0  <-- lacks a partner in level(s) [6]
+          eth  ð   3  4  1  4  3  0  <-- lacks a partner in level(s) [6]
+            z  z   2  2  2  3  3  3
+           zh  ʒ   1  3  2  2  3  4
+            m  m   1  1  2  2  1  8
+            n  n   1  1  2  2  2  7
+   confusion metric, 5 levels: edges 1.34 | 3.23 | 4.70 | 5.70 | 6.11 | 6.53
+      pairs per level [24, 26, 27, 23, 20] ; min partners of any consonant in any level = 1
+      partners per consonant per level:
+            p  p   4  1  2  7  1
+            t  t   2  4  1  4  4
+            k  k   3  3  1  2  6
+            f  f   4  3  3  2  3
+        theta  θ   3  5  4  1  2
+            s  s   3  4  5  2  1
+           sh  ʃ   1  3  4  4  3
+            b  b   2  6  3  2  2
+            d  d   4  2  6  1  2
+            g  g   4  3  3  1  4
+            v  v   3  6  2  2  2
+          eth  ð   5  3  3  3  1
+            z  z   5  1  5  2  2
+           zh  ʒ   3  3  2  3  4
+            m  m   1  3  5  4  2
+            n  n   1  2  5  6  1
+   confusion metric, 6 levels: edges 1.34 | 3.02 | 4.27 | 4.94 | 5.70 | 6.11 | 6.53
+      pairs per level [20, 19, 19, 19, 23, 20] ; min partners of any consonant in any level = 0
+      partners per consonant per level:
+            p  p   4  0  2  1  7  1  <-- lacks a partner in level(s) [2]
+            t  t   2  4  0  1  4  4  <-- lacks a partner in level(s) [3]
+            k  k   2  4  0  1  2  6  <-- lacks a partner in level(s) [3]
+            f  f   3  3  3  1  2  3
+        theta  θ   3  4  2  3  1  2
+            s  s   3  2  3  4  2  1
+           sh  ʃ   1  2  4  1  4  3
+            b  b   2  5  1  3  2  2
+            d  d   3  2  3  4  1  2
+            g  g   3  2  2  3  1  4
+            v  v   2  3  5  1  2  2
+          eth  ð   3  3  4  1  3  1
+            z  z   4  2  1  4  2  2
+           zh  ʒ   3  1  2  2  3  4
+            m  m   1  1  2  5  4  2
+            n  n   1  0  4  3  6  1  <-- lacks a partner in level(s) [2]
+   luce metric, 4 levels: edges 0.29 | 3.04 | 4.09 | 4.68 | 5.44
+      pairs per level [31, 31, 27, 31] ; min partners of any consonant in any level = 1
+      partners per consonant per level:
+            p  p   4  2  7  2
+            t  t   5  1  4  5
+            k  k   4  2  1  8
+            f  f   5  3  2  5
+        theta  θ   5  7  1  2
+            s  s   3  6  4  2
+           sh  ʃ   2  4  3  6
+            b  b   3  6  4  2
+            d  d   5  4  4  2
+            g  g   5  4  3  3
+            v  v   4  6  2  3
+          eth  ð   6  4  4  1
+            z  z   5  3  5  2
+           zh  ʒ   4  2  2  7
+            m  m   1  3  6  5
+            n  n   1  5  2  7
+   luce metric, 5 levels: edges 0.29 | 2.28 | 3.53 | 4.29 | 4.84 | 5.44
+      pairs per level [24, 23, 23, 26, 24] ; min partners of any consonant in any level = 0
+      partners per consonant per level:
+            p  p   4  1  3  6  1
+            t  t   3  3  0  6  3  <-- lacks a partner in level(s) [3]
+            k  k   3  3  1  3  5
+            f  f   2  5  2  2  4
+        theta  θ   5  4  3  1  2
+            s  s   2  5  5  1  2
+           sh  ʃ   1  3  3  2  6
+            b  b   2  5  2  4  2
+            d  d   4  2  4  4  1
+            g  g   4  3  2  5  1
+            v  v   3  3  5  1  3
+          eth  ð   5  5  3  1  1
+            z  z   5  1  3  6  0  <-- lacks a partner in level(s) [5]
+           zh  ʒ   3  1  2  3  6
+            m  m   1  1  3  6  4
+            n  n   1  1  5  1  7
+   luce metric, 6 levels: edges 0.29 | 1.99 | 3.23 | 3.92 | 4.45 | 4.89 | 5.44
+      pairs per level [20, 19, 19, 19, 23, 20] ; min partners of any consonant in any level = 0
+      partners per consonant per level:
+            p  p   3  1  2  4  5  0  <-- lacks a partner in level(s) [6]
+            t  t   2  4  0  1  5  3  <-- lacks a partner in level(s) [3]
+            k  k   2  4  0  1  4  4  <-- lacks a partner in level(s) [3]
+            f  f   1  5  2  2  2  3
+        theta  θ   3  5  4  0  1  2  <-- lacks a partner in level(s) [4]
+            s  s   2  3  4  3  1  2
+           sh  ʃ   1  2  3  2  2  5
+            b  b   2  4  3  1  4  1
+            d  d   4  1  4  3  2  1
+            g  g   4  1  3  2  5  0  <-- lacks a partner in level(s) [6]
+            v  v   2  3  3  3  1  3
+          eth  ð   5  2  3  4  1  0  <-- lacks a partner in level(s) [6]
+            z  z   4  2  2  3  4  0  <-- lacks a partner in level(s) [6]
+           zh  ʒ   3  1  0  2  3  6  <-- lacks a partner in level(s) [3]
+            m  m   1  0  3  2  5  4  <-- lacks a partner in level(s) [2]
+            n  n   1  0  2  5  1  6  <-- lacks a partner in level(s) [2]
+
+   The weighted metric takes only 27 distinct values (0.29, 0.44, 0.44, 0.73, 0.73, 0.80, 0.81, 0.88, 1.09, 1.09, 1.17, 1.24, 1.25, 1.25, 1.53, 1.53, 1.53, 1.61, 1.68, 1.69, 1.90, 1.97, 1.97, 2.05, 2.34, 2.49, 2.78), so its natural levels are those values;
+   the confusion metric is continuous (120 distinct values) and bins freely.
