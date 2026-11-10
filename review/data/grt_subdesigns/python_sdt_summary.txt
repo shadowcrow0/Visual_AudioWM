@@ -1,0 +1,1052 @@
+Miller & Nicely (1955) 噪音混淆矩陣 → 全因子子設計 → 簡單 SDT 摘要（grt_mn_subdesigns.py）
+d′ = z(H) − z(FA)，log-linear 校正（每格 +0.5，列和 +1）；三水準軸給兩個相鄰水準 d′（判準 0|1、1|2）。
+「at」= 另一軸的刺激水準；overall = 折疊另一軸。分水準 d′ 不同 = 知覺可分性的初步跡象。
+MRI χ²：固定本軸刺激水準，本軸反應分布（折疊另一軸反應）對另一軸刺激水準的獨立性檢定（Pearson, 無連續校正）。
+所有數字都是條件化在子集內的反應上（retained = 落在子集內的反應比例）。
+
+=== 子設計清單 ===
+voicing_x_manner__nasality0_place0__voicing01_manner01 2x2  voicing × manner | nasality=oral, place=front               {p b f v}
+voicing_x_manner__nasality0_place1__voicing01_manner012 2x3  voicing × manner | nasality=oral, place=middle              {t d θ ð s z}
+voicing_x_manner__nasality0_place2__voicing01_manner02 2x2  voicing × manner | nasality=oral, place=back                {k g ʃ ʒ}
+voicing_x_place__nasality0_manner0__voicing01_place012 2x3  voicing × place | nasality=oral, manner=stop/nasal         {p b t d k g}
+voicing_x_place__nasality0_manner1__voicing01_place01 2x2  voicing × place | nasality=oral, manner=short-fric         {f v θ ð}
+voicing_x_place__nasality0_manner2__voicing01_place12 2x2  voicing × place | nasality=oral, manner=sibilant           {s z ʃ ʒ}
+nasality_x_place__voicing1_manner0__nasality01_place01 2x2  nasality × place | voicing=voiced, manner=stop/nasal        {b m d n}
+manner_x_place__voicing0_nasality0__manner01_place01 2x2  manner × place | voicing=voiceless, nasality=oral         {p f t θ}
+manner_x_place__voicing0_nasality0__manner02_place12 2x2  manner × place | voicing=voiceless, nasality=oral         {t s k ʃ}
+manner_x_place__voicing1_nasality0__manner01_place01 2x2  manner × place | voicing=voiced, nasality=oral            {b v d ð}
+manner_x_place__voicing1_nasality0__manner02_place12 2x2  manner × place | voicing=voiced, nasality=oral            {d z g ʒ}
+
+====================================================================================================
+voicing_x_manner__nasality0_place0__voicing01_manner01   2x2   voicing × manner | nasality=oral, place=front   {p b f v}   順序 = p b f v
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.449   per stimulus: p 0.30  b 0.49  f 0.50  v 0.51
+counts (row = spoken, col = heard):
+             p     b     f     v
+     p      51     2    22     3
+     b       4    60    18    44
+     f      31     3    85     8
+     v       0    37    12    71
+  voicing marginal d'    [d'(0|1)]
+      at overall          2.49
+      at manner=0         2.40
+      at manner=1         2.60
+  MRI voicing resp ~ other stim | voicing=0    chi2=   0.34 df=1 p=0.5596
+  MRI voicing resp ~ other stim | voicing=1    chi2=   2.87 df=1 p=0.0901
+  MRI voicing resp ~ other stim | pooled       chi2=   3.21 df=2 p=0.2007
+  manner marginal d'    [d'(0|1)]
+      at overall          0.74
+      at voicing=0        1.07
+      at voicing=1        0.52
+  MRI manner resp ~ other stim | manner=0     chi2=   5.80 df=1 p=0.0161
+  MRI manner resp ~ other stim | manner=1     chi2=   0.50 df=1 p=0.4808
+  MRI manner resp ~ other stim | pooled       chi2=   6.29 df=2 p=0.0430
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.660   per stimulus: p 0.43  b 0.76  f 0.70  v 0.73
+counts (row = spoken, col = heard):
+             p     b     f     v
+     p      80     1    17     1
+     b       0   136     5    47
+     f      18     7   175     2
+     v       0    48     2   145
+  voicing marginal d'    [d'(0|1)]
+      at overall          3.84
+      at manner=0         3.85
+      at manner=1         3.91
+  MRI voicing resp ~ other stim | voicing=0    chi2=   1.12 df=1 p=0.2901
+  MRI voicing resp ~ other stim | voicing=1    chi2=   1.42 df=1 p=0.2327
+  MRI voicing resp ~ other stim | pooled       chi2=   2.54 df=2 p=0.2804
+  manner marginal d'    [d'(0|1)]
+      at overall          1.59
+      at voicing=0        2.04
+      at voicing=1        1.27
+  MRI manner resp ~ other stim | manner=0     chi2=   3.16 df=1 p=0.0755
+  MRI manner resp ~ other stim | manner=1     chi2=   9.90 df=1 p=0.0016
+  MRI manner resp ~ other stim | pooled       chi2=  13.06 df=2 p=0.0015
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.755   per stimulus: p 0.53  b 0.88  f 0.77  v 0.84
+counts (row = spoken, col = heard):
+             p     b     f     v
+     p     150     0     7     0
+     b       0   235     7    34
+     f       4     1   199     0
+     v       0    19     3   177
+  voicing marginal d'    [d'(0|1)]
+      at overall          4.65
+      at manner=0         4.66
+      at manner=1         4.55
+  MRI voicing resp ~ other stim | voicing=0    chi2=   0.77 df=1 p=0.3797
+  MRI voicing resp ~ other stim | voicing=1    chi2=   0.59 df=1 p=0.4410
+  MRI voicing resp ~ other stim | pooled       chi2=   1.37 df=2 p=0.5052
+  manner marginal d'    [d'(0|1)]
+      at overall          2.77
+      at voicing=0        3.60
+      at voicing=1        2.33
+  MRI manner resp ~ other stim | manner=0     chi2=  10.97 df=1 p=0.0009
+  MRI manner resp ~ other stim | manner=1     chi2=   9.06 df=1 p=0.0026
+  MRI manner resp ~ other stim | pooled       chi2=  20.03 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.816   per stimulus: p 0.71  b 0.95  f 0.78  v 0.82
+counts (row = spoken, col = heard):
+             p     b     f     v
+     p     162     0     5     0
+     b       0   214     1    31
+     f       5     3   207     1
+     v       0    14     1   205
+  voicing marginal d'    [d'(0|1)]
+      at overall          4.82
+      at manner=0         5.26
+      at manner=1         4.51
+  MRI voicing resp ~ other stim | voicing=0    chi2=   3.13 df=1 p=0.0771
+  MRI voicing resp ~ other stim | voicing=1    chi2=   0.01 df=1 p=0.9369
+  MRI voicing resp ~ other stim | pooled       chi2=   3.13 df=2 p=0.2089
+  manner marginal d'    [d'(0|1)]
+      at overall          2.97
+      at voicing=0        3.60
+      at voicing=1        2.63
+  MRI manner resp ~ other stim | manner=0     chi2=  12.23 df=1 p=0.0005
+  MRI manner resp ~ other stim | manner=1     chi2=   1.61 df=1 p=0.2046
+  MRI manner resp ~ other stim | pooled       chi2=  13.84 df=2 p=0.0010
+
+====================================================================================================
+voicing_x_manner__nasality0_place1__voicing01_manner012   2x3   voicing × manner | nasality=oral, place=middle   {t d θ ð s z}   順序 = t d theta eth s z
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.417   per stimulus: t 0.37  d 0.47  θ 0.42  ð 0.35  s 0.45  z 0.46
+counts (row = spoken, col = heard):
+             t     d     θ     ð     s     z
+     t      57     3    24     2    22     1
+     d       0    48     7    24     4    26
+     θ      22     9    45     9    27     3
+     ð       1    31     2    33     3    23
+     s      15     5    24     1    53     6
+     z       1    29     6    19    14    40
+  voicing marginal d'    [d'(0|1)]
+      at overall          2.33
+      at manner=0         2.82
+      at manner=1         2.38
+      at manner=2         2.04
+  MRI voicing resp ~ other stim | voicing=0    chi2=   8.71 df=2 p=0.0128
+  MRI voicing resp ~ other stim | voicing=1    chi2=   8.39 df=2 p=0.0151
+  MRI voicing resp ~ other stim | pooled       chi2=  17.10 df=4 p=0.0018
+  manner marginal d'    [d'(0|1)  d'(1|2)]
+      at overall          0.50    0.69
+      at voicing=0        0.73    0.80
+      at voicing=1        0.25    0.57
+  MRI manner resp ~ other stim | manner=0     chi2=   2.70 df=2 p=0.2597
+  MRI manner resp ~ other stim | manner=1     chi2=   2.05 df=2 p=0.3581
+  MRI manner resp ~ other stim | manner=2     chi2=   2.11 df=2 p=0.3491
+  MRI manner resp ~ other stim | pooled       chi2=   6.86 df=6 p=0.3344
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.498   per stimulus: t 0.41  d 0.55  θ 0.44  ð 0.38  s 0.63  z 0.60
+counts (row = spoken, col = heard):
+             t     d     θ     ð     s     z
+     t      84     0     9     1     3     2
+     d       0    80     0    20     0    20
+     θ      17     4    64     4    32     5
+     ð       0     6     6    58     0    21
+     s       5     2    39     1   107     3
+     z       0    20     1    28     1    94
+  voicing marginal d'    [d'(0|1)]
+      at overall          3.54
+      at manner=0         4.45
+      at manner=1         2.72
+      at manner=2         3.85
+  MRI voicing resp ~ other stim | voicing=0    chi2=   7.27 df=2 p=0.0264
+  MRI voicing resp ~ other stim | voicing=1    chi2=  11.04 df=2 p=0.0040
+  MRI voicing resp ~ other stim | pooled       chi2=  18.30 df=4 p=0.0011
+  manner marginal d'    [d'(0|1)  d'(1|2)]
+      at overall          1.81    1.09
+      at voicing=0        1.97    1.06
+      at voicing=1        1.90    1.14
+  MRI manner resp ~ other stim | manner=0     chi2=  10.51 df=2 p=0.0052
+  MRI manner resp ~ other stim | manner=1     chi2=   7.42 df=2 p=0.0245
+  MRI manner resp ~ other stim | manner=2     chi2=   8.56 df=2 p=0.0138
+  MRI manner resp ~ other stim | pooled       chi2=  26.49 df=6 p=0.0002
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.767   per stimulus: t 0.77  d 0.77  θ 0.56  ð 0.83  s 0.92  z 0.76
+counts (row = spoken, col = heard):
+             t     d     θ     ð     s     z
+     t     193     0     0     0     0     0
+     d       0   189     0     4     0     8
+     θ       6     0   114     0    10     0
+     ð       0     0     0    64     0   105
+     s       2     0    38     0   170     0
+     z       0    17     0    22     0   132
+  voicing marginal d'    [d'(0|1)]
+      at overall          6.22
+      at manner=0         5.61
+      at manner=1         5.42
+      at manner=2         5.58
+  MRI voicing resp ~ other stim | voicing=0    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | voicing=1    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | pooled       chi2=    nan df=0 p=nan
+  manner marginal d'    [d'(0|1)  d'(1|2)]
+      at overall          3.88    1.11
+      at voicing=0        4.45    2.27
+      at voicing=1        4.29    0.43
+  MRI manner resp ~ other stim | manner=0     chi2=  11.88 df=2 p=0.0026
+  MRI manner resp ~ other stim | manner=1     chi2=  95.05 df=2 p=0.0000
+  MRI manner resp ~ other stim | manner=2     chi2=  17.08 df=2 p=0.0002
+  MRI manner resp ~ other stim | pooled       chi2= 124.01 df=6 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.866   per stimulus: t 0.92  d 0.93  θ 0.65  ð 0.76  s 0.98  z 0.94
+counts (row = spoken, col = heard):
+             t     d     θ     ð     s     z
+     t     270     0     0     0     0     0
+     d       0   206     0     9     0     1
+     θ       1     0   142     2     3     0
+     ð       0     0     0   179     0    22
+     s       1     0     7     0   232     0
+     z       0     3     0    20     0   198
+  voicing marginal d'    [d'(0|1)]
+      at overall          5.83
+      at manner=0         5.74
+      at manner=1         4.94
+      at manner=2         5.71
+  MRI voicing resp ~ other stim | voicing=0    chi2=   6.91 df=2 p=0.0315
+  MRI voicing resp ~ other stim | voicing=1    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | pooled       chi2=   6.91 df=2 p=0.0315
+  manner marginal d'    [d'(0|1)  d'(1|2)]
+      at overall          4.65    2.94
+      at voicing=0        5.23    3.79
+      at voicing=1        4.47    2.47
+  MRI manner resp ~ other stim | manner=0     chi2=  12.76 df=2 p=0.0017
+  MRI manner resp ~ other stim | manner=1     chi2=  11.45 df=2 p=0.0033
+  MRI manner resp ~ other stim | manner=2     chi2=   9.18 df=2 p=0.0102
+  MRI manner resp ~ other stim | pooled       chi2=  33.39 df=6 p=0.0000
+
+====================================================================================================
+voicing_x_manner__nasality0_place2__voicing01_manner02   2x2   voicing × manner | nasality=oral, place=back   {k g ʃ ʒ}   順序 = k g sh zh
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.404   per stimulus: k 0.31  g 0.31  ʃ 0.50  ʒ 0.47
+counts (row = spoken, col = heard):
+             k     g     ʃ     ʒ
+     k      62     1    11     0
+     g       1    29     7    38
+     ʃ      20     5   115     3
+     ʒ       2    23     7    77
+  voicing marginal d'    [d'(0|1)]
+      at overall          3.02
+      at manner=0         3.27
+      at manner=2         2.93
+  MRI voicing resp ~ other stim | voicing=0    chi2=   2.21 df=1 p=0.1373
+  MRI voicing resp ~ other stim | voicing=1    chi2=   0.31 df=1 p=0.5791
+  MRI voicing resp ~ other stim | pooled       chi2=   2.52 df=2 p=0.2842
+  manner marginal d'    [d'(0|2)]
+      at overall          1.16
+      at voicing=0        1.95
+      at voicing=1        0.48
+  MRI manner resp ~ other stim | manner=0     chi2=  32.35 df=1 p=0.0000
+  MRI manner resp ~ other stim | manner=2     chi2=   1.16 df=1 p=0.2822
+  MRI manner resp ~ other stim | pooled       chi2=  33.50 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.569   per stimulus: k 0.39  g 0.48  ʃ 0.80  ʒ 0.63
+counts (row = spoken, col = heard):
+             k     g     ʃ     ʒ
+     k     107     0     4     0
+     g       0    66     0    56
+     ʃ       3     0   195     0
+     ʒ       0    18     0   129
+  voicing marginal d'    [d'(0|1)]
+      at overall          5.85
+      at manner=0         5.26
+      at manner=2         5.51
+  MRI voicing resp ~ other stim | voicing=0    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | voicing=1    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | pooled       chi2=    nan df=0 p=nan
+  manner marginal d'    [d'(0|2)]
+      at overall          2.18
+      at voicing=0        3.85
+      at voicing=1        1.25
+  MRI manner resp ~ other stim | manner=0     chi2=  54.39 df=1 p=0.0000
+  MRI manner resp ~ other stim | manner=2     chi2=  16.99 df=1 p=0.0000
+  MRI manner resp ~ other stim | pooled       chi2=  71.38 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.765   per stimulus: k 0.50  g 0.68  ʃ 0.98  ʒ 0.93
+counts (row = spoken, col = heard):
+             k     g     ʃ     ʒ
+     k     138     0     1     0
+     g       0   161     0    25
+     ʃ       3     0   267     0
+     ʒ       0     3     0   191
+  voicing marginal d'    [d'(0|1)]
+      at overall          6.04
+      at manner=0         5.48
+      at manner=2         5.70
+  MRI voicing resp ~ other stim | voicing=0    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | voicing=1    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | pooled       chi2=    nan df=0 p=nan
+  manner marginal d'    [d'(0|2)]
+      at overall          3.59
+      at voicing=0        4.53
+      at voicing=1        3.19
+  MRI manner resp ~ other stim | manner=0     chi2=  17.49 df=1 p=0.0000
+  MRI manner resp ~ other stim | manner=2     chi2=   0.17 df=1 p=0.6823
+  MRI manner resp ~ other stim | pooled       chi2=  17.66 df=2 p=0.0001
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.862   per stimulus: k 0.79  g 0.71  ʃ 1.00  ʒ 0.98
+counts (row = spoken, col = heard):
+             k     g     ʃ     ʒ
+     k     171     0     0     0
+     g       0   194     0     1
+     ʃ       0     0   239     0
+     ʒ       0     4     0   215
+  voicing marginal d'    [d'(0|1)]
+      at overall          6.07
+      at manner=0         5.56
+      at manner=2         5.70
+  MRI voicing resp ~ other stim | voicing=0    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | voicing=1    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | pooled       chi2=    nan df=0 p=nan
+  manner marginal d'    [d'(0|2)]
+      at overall          4.98
+      at voicing=0        5.62
+      at voicing=1        4.47
+  MRI manner resp ~ other stim | manner=0     chi2=   0.88 df=1 p=0.3484
+  MRI manner resp ~ other stim | manner=2     chi2=   4.40 df=1 p=0.0359
+  MRI manner resp ~ other stim | pooled       chi2=   5.28 df=2 p=0.0713
+
+====================================================================================================
+voicing_x_place__nasality0_manner0__voicing01_place012   2x3   voicing × place | nasality=oral, manner=stop/nasal   {p b t d k g}   順序 = p b t d k g
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.552   per stimulus: p 0.68  b 0.41  t 0.69  d 0.45  k 0.68  g 0.38
+counts (row = spoken, col = heard):
+             p     b     t     d     k     g
+     p      51     2    53     0    65     2
+     b       4    60     2    18     2    18
+     t      64     2    57     3    74     1
+     d       3    18     0    48     1    35
+     k      50     4    42     1    62     1
+     g       3    20     1    38     1    29
+  voicing marginal d'    [d'(0|1)]
+      at overall          3.44
+      at place=0          3.34
+      at place=1          3.57
+      at place=2          3.31
+  MRI voicing resp ~ other stim | voicing=0    chi2=   0.59 df=2 p=0.7440
+  MRI voicing resp ~ other stim | voicing=1    chi2=   1.49 df=2 p=0.4749
+  MRI voicing resp ~ other stim | pooled       chi2=   2.08 df=4 p=0.7209
+  place marginal d'    [d'(0|1)  d'(1|2)]
+      at overall          0.37    0.02
+      at voicing=0       -0.06    0.05
+      at voicing=1        1.12   -0.04
+  MRI place resp ~ other stim | place=0      chi2=  25.75 df=2 p=0.0000
+  MRI place resp ~ other stim | place=1      chi2=   9.09 df=2 p=0.0106
+  MRI place resp ~ other stim | place=2      chi2=   6.51 df=2 p=0.0386
+  MRI place resp ~ other stim | pooled       chi2=  41.35 df=6 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.721   per stimulus: p 0.81  b 0.63  t 0.86  d 0.59  k 0.88  g 0.52
+counts (row = spoken, col = heard):
+             p     b     t     d     k     g
+     p      80     1    43     1    64     0
+     b       0   136     1    10     0     9
+     t      71     1    84     0    55     0
+     d       0     5     0    80     0    45
+     k      66     0    76     0   107     0
+     g       0     3     0    63     0    66
+  voicing marginal d'    [d'(0|1)]
+      at overall          5.24
+      at place=0          4.56
+      at place=1          5.12
+      at place=2          5.55
+  MRI voicing resp ~ other stim | voicing=0    chi2=   2.62 df=2 p=0.2704
+  MRI voicing resp ~ other stim | voicing=1    chi2=   1.68 df=2 p=0.4310
+  MRI voicing resp ~ other stim | pooled       chi2=   4.30 df=4 p=0.3670
+  place marginal d'    [d'(0|1)  d'(1|2)]
+      at overall          1.08    0.43
+      at voicing=0        0.23    0.46
+      at voicing=1        2.85    0.39
+  MRI place resp ~ other stim | place=0      chi2=  72.69 df=2 p=0.0000
+  MRI place resp ~ other stim | place=1      chi2=  42.56 df=2 p=0.0000
+  MRI place resp ~ other stim | place=2      chi2=  35.91 df=2 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2= 151.16 df=6 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.903   per stimulus: p 0.93  b 0.77  t 1.00  d 0.91  k 0.97  g 0.86
+counts (row = spoken, col = heard):
+             p     b     t     d     k     g
+     p     150     0    38     0    88     0
+     b       0   235     0     4     0     0
+     t      30     0   193     0    28     0
+     d       0     0     0   189     0    48
+     k      86     0    45     0   138     0
+     g       0     0     0    74     0   161
+  voicing marginal d'    [d'(0|1)]
+      at overall          6.42
+      at place=0          5.78
+      at place=1          5.74
+      at place=2          5.76
+  MRI voicing resp ~ other stim | voicing=0    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | voicing=1    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | pooled       chi2=    nan df=0 p=nan
+  place marginal d'    [d'(0|1)  d'(1|2)]
+      at overall          2.20    1.24
+      at voicing=0        1.28    1.24
+      at voicing=1        4.94    1.31
+  MRI place resp ~ other stim | place=0      chi2= 132.31 df=2 p=0.0000
+  MRI place resp ~ other stim | place=1      chi2=  34.93 df=2 p=0.0000
+  MRI place resp ~ other stim | place=2      chi2=  92.97 df=2 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2= 260.21 df=6 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.950   per stimulus: p 0.96  b 0.82  t 1.00  d 0.95  k 1.00  g 0.97
+counts (row = spoken, col = heard):
+             p     b     t     d     k     g
+     p     162     0    10     0    55     0
+     b       0   214     0     0     0     0
+     t       8     0   270     0    14     0
+     d       0     0     0   206     0    14
+     k      38     0     6     0   171     0
+     g       0    11     0    64     0   194
+  voicing marginal d'    [d'(0|1)]
+      at overall          6.39
+      at place=0          5.68
+      at place=1          5.77
+      at place=2          5.73
+  MRI voicing resp ~ other stim | voicing=0    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | voicing=1    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | pooled       chi2=    nan df=0 p=nan
+  place marginal d'    [d'(0|1)  d'(1|2)]
+      at overall          3.17    2.28
+      at voicing=0        2.46    2.47
+      at voicing=1        5.67    2.09
+  MRI place resp ~ other stim | place=0      chi2=  71.87 df=2 p=0.0000
+  MRI place resp ~ other stim | place=1      chi2=   6.61 df=2 p=0.0367
+  MRI place resp ~ other stim | place=2      chi2=  59.09 df=2 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2= 137.58 df=6 p=0.0000
+
+====================================================================================================
+voicing_x_place__nasality0_manner1__voicing01_place01   2x2   voicing × place | nasality=oral, manner=short-fric   {f v θ ð}   順序 = f v theta eth
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.454   per stimulus: f 0.53  v 0.44  θ 0.47  ð 0.38
+counts (row = spoken, col = heard):
+             f     v     θ     ð
+     f      85     8    34     8
+     v      12    71     5    16
+     θ      63    11    45     9
+     ð      17    50     2    33
+  voicing marginal d'    [d'(0|1)]
+      at overall          2.02
+      at place=0          2.14
+      at place=1          1.88
+  MRI voicing resp ~ other stim | voicing=0    chi2=   0.79 df=1 p=0.3736
+  MRI voicing resp ~ other stim | voicing=1    chi2=   0.19 df=1 p=0.6664
+  MRI voicing resp ~ other stim | pooled       chi2=   0.98 df=2 p=0.6134
+  place marginal d'    [d'(0|1)]
+      at overall          0.34
+      at voicing=0        0.29
+      at voicing=1        0.42
+  MRI place resp ~ other stim | place=0      chi2=   3.61 df=1 p=0.0575
+  MRI place resp ~ other stim | place=1      chi2=   1.48 df=1 p=0.2232
+  MRI place resp ~ other stim | pooled       chi2=   5.09 df=2 p=0.0784
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.689   per stimulus: f 0.79  v 0.72  θ 0.62  ð 0.62
+counts (row = spoken, col = heard):
+             f     v     θ     ð
+     f     175     2    48     2
+     v       2   145     0    45
+     θ     104     6    64     4
+     ð       0    86     6    58
+  voicing marginal d'    [d'(0|1)]
+      at overall          3.77
+      at place=0          4.29
+      at place=1          3.28
+  MRI voicing resp ~ other stim | voicing=0    chi2=   4.44 df=1 p=0.0350
+  MRI voicing resp ~ other stim | voicing=1    chi2=   3.23 df=1 p=0.0725
+  MRI voicing resp ~ other stim | pooled       chi2=   7.67 df=2 p=0.0216
+  place marginal d'    [d'(0|1)]
+      at overall          0.50
+      at voicing=0        0.47
+      at voicing=1        0.54
+  MRI place resp ~ other stim | place=0      chi2=   0.12 df=1 p=0.7311
+  MRI place resp ~ other stim | place=1      chi2=   0.67 df=1 p=0.4114
+  MRI place resp ~ other stim | pooled       chi2=   0.79 df=2 p=0.6727
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.781   per stimulus: f 0.93  v 0.89  θ 0.87  ð 0.36
+counts (row = spoken, col = heard):
+             f     v     θ     ð
+     f     199     0    46     1
+     v       3   177     1    29
+     θ      85     2   114     0
+     ð       0    10     0    64
+  voicing marginal d'    [d'(0|1)]
+      at overall          4.57
+      at place=0          4.53
+      at place=1          4.72
+  MRI voicing resp ~ other stim | voicing=0    chi2=   0.57 df=1 p=0.4484
+  MRI voicing resp ~ other stim | voicing=1    chi2=   1.43 df=1 p=0.2318
+  MRI voicing resp ~ other stim | pooled       chi2=   2.00 df=2 p=0.3671
+  place marginal d'    [d'(0|1)]
+      at overall          1.33
+      at voicing=0        1.04
+      at voicing=1        2.14
+  MRI place resp ~ other stim | place=0      chi2=   1.88 df=1 p=0.1709
+  MRI place resp ~ other stim | place=1      chi2=  21.00 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2=  22.87 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.929   per stimulus: f 0.96  v 0.92  θ 0.95  ð 0.89
+counts (row = spoken, col = heard):
+             f     v     θ     ð
+     f     207     1    57     0
+     v       1   205     1    39
+     θ      71     2   142     2
+     ð       0    55     0   179
+  voicing marginal d'    [d'(0|1)]
+      at overall          4.84
+      at place=0          4.86
+      at place=1          4.90
+  MRI voicing resp ~ other stim | voicing=0    chi2=   2.50 df=1 p=0.1140
+  MRI voicing resp ~ other stim | voicing=1    chi2=   1.91 df=1 p=0.1669
+  MRI voicing resp ~ other stim | pooled       chi2=   4.41 df=2 p=0.1104
+  place marginal d'    [d'(0|1)]
+      at overall          1.45
+      at voicing=0        1.21
+      at voicing=1        1.70
+  MRI place resp ~ other stim | place=0      chi2=   2.29 df=1 p=0.1306
+  MRI place resp ~ other stim | place=1      chi2=   5.69 df=1 p=0.0171
+  MRI place resp ~ other stim | pooled       chi2=   7.98 df=2 p=0.0185
+
+====================================================================================================
+voicing_x_place__nasality0_manner2__voicing01_place12   2x2   voicing × place | nasality=oral, manner=sibilant   {s z ʃ ʒ}   順序 = s z sh zh
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.483   per stimulus: s 0.47  z 0.37  ʃ 0.52  ʒ 0.56
+counts (row = spoken, col = heard):
+             s     z     ʃ     ʒ
+     s      53     6    48     2
+     z      14    40     8    26
+     ʃ      25     6   115     3
+     ʒ       6    39     7    77
+  voicing marginal d'    [d'(0|1)]
+      at overall          2.48
+      at place=1          2.09
+      at place=2          2.79
+  MRI voicing resp ~ other stim | voicing=0    chi2=   0.17 df=1 p=0.6778
+  MRI voicing resp ~ other stim | voicing=1    chi2=   8.61 df=1 p=0.0033
+  MRI voicing resp ~ other stim | pooled       chi2=   8.78 df=2 p=0.0124
+  place marginal d'    [d'(1|2)]
+      at overall          0.78
+      at voicing=0        0.91
+      at voicing=1        0.67
+  MRI place resp ~ other stim | place=1      chi2=   1.04 df=1 p=0.3073
+  MRI place resp ~ other stim | place=2      chi2=   6.90 df=1 p=0.0086
+  MRI place resp ~ other stim | pooled       chi2=   7.94 df=2 p=0.0189
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.718   per stimulus: s 0.63  z 0.58  ʃ 0.90  ʒ 0.75
+counts (row = spoken, col = heard):
+             s     z     ʃ     ʒ
+     s     107     3    45     2
+     z       1    94     1    44
+     ʃ      29     0   195     0
+     ʒ       0    45     0   129
+  voicing marginal d'    [d'(0|1)]
+      at overall          4.60
+      at place=1          3.92
+      at place=2          5.61
+  MRI voicing resp ~ other stim | voicing=0    chi2=   7.23 df=1 p=0.0072
+  MRI voicing resp ~ other stim | voicing=1    chi2=   2.50 df=1 p=0.1137
+  MRI voicing resp ~ other stim | pooled       chi2=   9.73 df=2 p=0.0077
+  place marginal d'    [d'(1|2)]
+      at overall          1.38
+      at voicing=0        1.64
+      at voicing=1        1.10
+  MRI place resp ~ other stim | place=1      chi2=   0.17 df=1 p=0.6814
+  MRI place resp ~ other stim | place=2      chi2=  10.79 df=1 p=0.0010
+  MRI place resp ~ other stim | pooled       chi2=  10.96 df=2 p=0.0042
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.863   per stimulus: s 0.79  z 0.71  ʃ 0.98  ʒ 0.96
+counts (row = spoken, col = heard):
+             s     z     ʃ     ʒ
+     s     170     0    10     0
+     z       0   132     0    26
+     ʃ       3     0   267     0
+     ʒ       0     9     0   191
+  voicing marginal d'    [d'(0|1)]
+      at overall          6.05
+      at place=1          5.51
+      at place=2          5.71
+  MRI voicing resp ~ other stim | voicing=0    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | voicing=1    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | pooled       chi2=    nan df=0 p=nan
+  place marginal d'    [d'(1|2)]
+      at overall          3.17
+      at voicing=0        3.80
+      at voicing=1        2.64
+  MRI place resp ~ other stim | place=1      chi2=  10.51 df=1 p=0.0012
+  MRI place resp ~ other stim | place=2      chi2=   5.30 df=1 p=0.0213
+  MRI place resp ~ other stim | pooled       chi2=  15.81 df=2 p=0.0004
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.945   per stimulus: s 0.96  z 0.85  ʃ 1.00  ʒ 0.97
+counts (row = spoken, col = heard):
+             s     z     ʃ     ʒ
+     s     232     0     2     0
+     z       0   198     0     3
+     ʃ       1     0   239     0
+     ʒ       0     2     0   215
+  voicing marginal d'    [d'(0|1)]
+      at overall          6.11
+      at place=1          5.67
+      at place=2          5.70
+  MRI voicing resp ~ other stim | voicing=0    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | voicing=1    chi2=    nan df=0 p=nan
+  MRI voicing resp ~ other stim | pooled       chi2=    nan df=0 p=nan
+  place marginal d'    [d'(1|2)]
+      at overall          4.66
+      at voicing=0        4.80
+      at voicing=1        4.39
+  MRI place resp ~ other stim | place=1      chi2=   0.39 df=1 p=0.5338
+  MRI place resp ~ other stim | place=2      chi2=   0.45 df=1 p=0.5044
+  MRI place resp ~ other stim | pooled       chi2=   0.83 df=2 p=0.6594
+
+====================================================================================================
+nasality_x_place__voicing1_manner0__nasality01_place01   2x2   nasality × place | voicing=voiced, manner=stop/nasal   {b m d n}   順序 = b m d n
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.636   per stimulus: b 0.42  m 0.86  d 0.38  n 0.90
+counts (row = spoken, col = heard):
+             b     m     d     n
+     b      60    20    18    10
+     m      11   109     3    60
+     d      18     9    48    12
+     n       2    84     2   145
+  nasality marginal d'    [d'(0|1)]
+      at overall          2.34
+      at place=0          2.00
+      at place=1          2.76
+  MRI nasality resp ~ other stim | nasality=0   chi2=   0.33 df=1 p=0.5653
+  MRI nasality resp ~ other stim | nasality=1   chi2=   8.72 df=1 p=0.0032
+  MRI nasality resp ~ other stim | pooled       chi2=   9.05 df=2 p=0.0108
+  place marginal d'    [d'(0|1)]
+      at overall          0.86
+      at nasality=0       1.13
+      at nasality=1       0.73
+  MRI place resp ~ other stim | place=0      chi2=   2.28 df=1 p=0.1308
+  MRI place resp ~ other stim | place=1      chi2=   0.96 df=1 p=0.3279
+  MRI place resp ~ other stim | pooled       chi2=   3.24 df=2 p=0.1978
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.732   per stimulus: b 0.62  m 0.96  d 0.41  n 0.92
+counts (row = spoken, col = heard):
+             b     m     d     n
+     b     136     5    10     4
+     m       4   177     0    46
+     d       5     1    80     4
+     n       1    47     5   163
+  nasality marginal d'    [d'(0|1)]
+      at overall          3.55
+      at place=0          3.61
+      at place=1          3.43
+  MRI nasality resp ~ other stim | nasality=0   chi2=   0.01 df=1 p=0.9350
+  MRI nasality resp ~ other stim | nasality=1   chi2=   0.52 df=1 p=0.4719
+  MRI nasality resp ~ other stim | pooled       chi2=   0.52 df=2 p=0.7695
+  place marginal d'    [d'(0|1)]
+      at overall          1.93
+      at nasality=0       2.79
+      at nasality=1       1.59
+  MRI place resp ~ other stim | place=0      chi2=   8.78 df=1 p=0.0031
+  MRI place resp ~ other stim | place=1      chi2=  10.58 df=1 p=0.0011
+  MRI place resp ~ other stim | pooled       chi2=  19.35 df=2 p=0.0001
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.857   per stimulus: b 0.77  m 1.00  d 0.73  n 0.98
+counts (row = spoken, col = heard):
+             b     m     d     n
+     b     235     0     4     0
+     m       1   201     0     6
+     d       0     0   189     0
+     n       0     8     0   240
+  nasality marginal d'    [d'(0|1)]
+      at overall          5.76
+      at place=0          5.31
+      at place=1          5.67
+  MRI nasality resp ~ other stim | nasality=0   chi2=    nan df=0 p=nan
+  MRI nasality resp ~ other stim | nasality=1   chi2=   1.19 df=1 p=0.2743
+  MRI nasality resp ~ other stim | pooled       chi2=   1.19 df=1 p=0.2743
+  place marginal d'    [d'(0|1)]
+      at overall          4.05
+      at nasality=0       4.87
+      at nasality=1       3.69
+  MRI place resp ~ other stim | place=0      chi2=   0.75 df=1 p=0.3878
+  MRI place resp ~ other stim | place=1      chi2=   6.21 df=1 p=0.0127
+  MRI place resp ~ other stim | pooled       chi2=   6.96 df=2 p=0.0309
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.928   per stimulus: b 0.82  m 1.00  d 0.89  n 1.00
+counts (row = spoken, col = heard):
+             b     m     d     n
+     b     214     0     0     0
+     m       0   217     0     3
+     d       0     0   206     0
+     n       0     2     1   285
+  nasality marginal d'    [d'(0|1)]
+      at overall          5.79
+      at place=0          5.67
+      at place=1          5.38
+  MRI nasality resp ~ other stim | nasality=0   chi2=    nan df=0 p=nan
+  MRI nasality resp ~ other stim | nasality=1   chi2=   0.77 df=1 p=0.3816
+  MRI nasality resp ~ other stim | pooled       chi2=   0.77 df=1 p=0.3816
+  place marginal d'    [d'(0|1)]
+      at overall          4.98
+      at nasality=0       5.65
+      at nasality=1       4.53
+  MRI place resp ~ other stim | place=0      chi2=   2.94 df=1 p=0.0865
+  MRI place resp ~ other stim | place=1      chi2=   1.44 df=1 p=0.2307
+  MRI place resp ~ other stim | pooled       chi2=   4.37 df=2 p=0.1122
+
+====================================================================================================
+manner_x_place__voicing0_nasality0__manner01_place01   2x2   manner × place | voicing=voiceless, nasality=oral   {p f t θ}   順序 = p f t theta
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.593   per stimulus: p 0.57  f 0.67  t 0.57  θ 0.57
+counts (row = spoken, col = heard):
+             p     f     t     θ
+     p      51    22    53    19
+     f      31    85    22    34
+     t      64    20    57    24
+     θ      26    63    22    45
+  manner marginal d'    [d'(0|1)]
+      at overall          1.10
+      at place=0          1.07
+      at place=1          1.12
+  MRI manner resp ~ other stim | manner=0     chi2=   0.10 df=1 p=0.7513
+  MRI manner resp ~ other stim | manner=1     chi2=   0.00 df=1 p=0.9930
+  MRI manner resp ~ other stim | pooled       chi2=   0.10 df=2 p=0.9510
+  place marginal d'    [d'(0|1)]
+      at overall          0.15
+      at manner=0        -0.01
+      at manner=1         0.27
+  MRI place resp ~ other stim | place=0      chi2=   9.55 df=1 p=0.0020
+  MRI place resp ~ other stim | place=1      chi2=   1.22 df=1 p=0.2699
+  MRI place resp ~ other stim | pooled       chi2=  10.77 df=2 p=0.0046
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.741   per stimulus: p 0.66  f 0.88  t 0.69  θ 0.71
+counts (row = spoken, col = heard):
+             p     f     t     θ
+     p      80    17    43    14
+     f      18   175    12    48
+     t      71     5    84     9
+     θ      19   104    17    64
+  manner marginal d'    [d'(0|1)]
+      at overall          2.14
+      at place=0          2.00
+      at place=1          2.29
+  MRI manner resp ~ other stim | manner=0     chi2=   9.43 df=1 p=0.0021
+  MRI manner resp ~ other stim | manner=1     chi2=   3.06 df=1 p=0.0801
+  MRI manner resp ~ other stim | pooled       chi2=  12.49 df=2 p=0.0019
+  place marginal d'    [d'(0|1)]
+      at overall          0.48
+      at manner=0         0.45
+      at manner=1         0.45
+  MRI place resp ~ other stim | place=0      chi2=   8.26 df=1 p=0.0040
+  MRI place resp ~ other stim | place=1      chi2=   8.72 df=1 p=0.0031
+  MRI place resp ~ other stim | pooled       chi2=  16.98 df=2 p=0.0002
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.862   per stimulus: p 0.70  f 0.95  t 0.89  θ 0.93
+counts (row = spoken, col = heard):
+             p     f     t     θ
+     p     150     7    38    13
+     f       4   199     3    46
+     t      30     1   193     0
+     θ      11    85     6   114
+  manner marginal d'    [d'(0|1)]
+      at overall          3.27
+      at place=0          3.18
+      at place=1          3.88
+  MRI manner resp ~ other stim | manner=0     chi2=  19.61 df=1 p=0.0000
+  MRI manner resp ~ other stim | manner=1     chi2=   6.20 df=1 p=0.0128
+  MRI manner resp ~ other stim | pooled       chi2=  25.81 df=2 p=0.0000
+  place marginal d'    [d'(0|1)]
+      at overall          1.33
+      at manner=0         1.77
+      at manner=1         1.00
+  MRI place resp ~ other stim | place=0      chi2=   1.72 df=1 p=0.1891
+  MRI place resp ~ other stim | place=1      chi2=  50.16 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2=  51.89 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.918   per stimulus: p 0.76  f 0.98  t 0.95  θ 0.96
+counts (row = spoken, col = heard):
+             p     f     t     θ
+     p     162     5    10     3
+     f       5   207     1    57
+     t       8     0   270     0
+     θ       5    71     1   142
+  manner marginal d'    [d'(0|1)]
+      at overall          4.04
+      at place=0          3.65
+      at place=1          4.80
+  MRI manner resp ~ other stim | manner=0     chi2=  12.58 df=1 p=0.0004
+  MRI manner resp ~ other stim | manner=1     chi2=   0.14 df=1 p=0.7130
+  MRI manner resp ~ other stim | pooled       chi2=  12.71 df=2 p=0.0017
+  place marginal d'    [d'(0|1)]
+      at overall          1.96
+      at manner=0         3.32
+      at manner=1         1.18
+  MRI place resp ~ other stim | place=0      chi2=  16.53 df=1 p=0.0000
+  MRI place resp ~ other stim | place=1      chi2=  88.34 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2= 104.87 df=2 p=0.0000
+
+====================================================================================================
+manner_x_place__voicing0_nasality0__manner02_place12   2x2   manner × place | voicing=voiceless, nasality=oral   {t s k ʃ}   順序 = t s k sh
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.596   per stimulus: t 0.57  s 0.57  k 0.56  ʃ 0.68
+counts (row = spoken, col = heard):
+             t     s     k     ʃ
+     t      57    22    74    14
+     s      15    53    16    48
+     k      42    16    62    11
+     ʃ      32    25    20   115
+  manner marginal d'    [d'(0|2)]
+      at overall          1.45
+      at place=1          1.50
+      at place=2          1.42
+  MRI manner resp ~ other stim | manner=0     chi2=   0.04 df=1 p=0.8426
+  MRI manner resp ~ other stim | manner=2     chi2=   0.53 df=1 p=0.4659
+  MRI manner resp ~ other stim | pooled       chi2=   0.57 df=2 p=0.7516
+  place marginal d'    [d'(1|2)]
+      at overall          0.35
+      at manner=0         0.08
+      at manner=2         0.57
+  MRI place resp ~ other stim | place=1      chi2=   0.52 df=1 p=0.4697
+  MRI place resp ~ other stim | place=2      chi2=   7.23 df=1 p=0.0072
+  MRI place resp ~ other stim | pooled       chi2=   7.75 df=2 p=0.0208
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.723   per stimulus: t 0.61  s 0.65  k 0.69  ʃ 0.94
+counts (row = spoken, col = heard):
+             t     s     k     ʃ
+     t      84     3    55     8
+     s       5   107     4    45
+     k      76     9   107     4
+     ʃ       6    29     3   195
+  manner marginal d'    [d'(0|2)]
+      at overall          3.15
+      at place=1          3.00
+      at place=2          3.23
+  MRI manner resp ~ other stim | manner=0     chi2=   0.06 df=1 p=0.7993
+  MRI manner resp ~ other stim | manner=2     chi2=   0.65 df=1 p=0.4195
+  MRI manner resp ~ other stim | pooled       chi2=   0.72 df=2 p=0.6990
+  place marginal d'    [d'(1|2)]
+      at overall          0.94
+      at manner=0         0.37
+      at manner=2         1.54
+  MRI place resp ~ other stim | place=1      chi2=   4.51 df=1 p=0.0338
+  MRI place resp ~ other stim | place=2      chi2=  42.45 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2=  46.96 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.837   per stimulus: t 0.88  s 0.80  k 0.67  ʃ 1.00
+counts (row = spoken, col = heard):
+             t     s     k     ʃ
+     t     193     0    28     0
+     s       2   170     1    10
+     k      45     0   138     1
+     ʃ       3     3     3   267
+  manner marginal d'    [d'(0|2)]
+      at overall          4.72
+      at place=1          4.91
+      at place=2          4.39
+  MRI manner resp ~ other stim | manner=0     chi2=   1.20 df=1 p=0.2725
+  MRI manner resp ~ other stim | manner=2     chi2=   0.16 df=1 p=0.6859
+  MRI manner resp ~ other stim | pooled       chi2=   1.37 df=2 p=0.5047
+  place marginal d'    [d'(1|2)]
+      at overall          2.51
+      at manner=0         1.82
+      at manner=2         3.52
+  MRI place resp ~ other stim | place=1      chi2=   5.09 df=1 p=0.0241
+  MRI place resp ~ other stim | place=2      chi2=  55.61 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2=  60.70 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.944   per stimulus: t 0.97  s 0.96  k 0.82  ʃ 1.00
+counts (row = spoken, col = heard):
+             t     s     k     ʃ
+     t     270     0    14     0
+     s       1   232     0     2
+     k       6     0   171     0
+     ʃ       0     1     0   239
+  manner marginal d'    [d'(0|2)]
+      at overall          5.80
+      at place=1          5.41
+      at place=2          5.64
+  MRI manner resp ~ other stim | manner=0     chi2=    nan df=0 p=nan
+  MRI manner resp ~ other stim | manner=2     chi2=   1.02 df=1 p=0.3117
+  MRI manner resp ~ other stim | pooled       chi2=   1.02 df=1 p=0.3117
+  place marginal d'    [d'(1|2)]
+      at overall          3.95
+      at manner=0         3.43
+      at manner=2         4.80
+  MRI place resp ~ other stim | place=1      chi2=   7.16 df=1 p=0.0075
+  MRI place resp ~ other stim | place=2      chi2=   5.46 df=1 p=0.0195
+  MRI place resp ~ other stim | pooled       chi2=  12.62 df=2 p=0.0018
+
+====================================================================================================
+manner_x_place__voicing1_nasality0__manner01_place01   2x2   manner × place | voicing=voiced, nasality=oral   {b v d ð}   順序 = b v d eth
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.569   per stimulus: b 0.57  v 0.61  d 0.46  ð 0.62
+counts (row = spoken, col = heard):
+             b     v     d     ð
+     b      60    44    18    25
+     v      37    71    20    16
+     d      18    16    48    24
+     ð      53    50    31    33
+  manner marginal d'    [d'(0|1)]
+      at overall          0.29
+      at place=0          0.34
+      at place=1          0.30
+  MRI manner resp ~ other stim | manner=0     chi2=   2.13 df=1 p=0.1447
+  MRI manner resp ~ other stim | manner=1     chi2=   3.58 df=1 p=0.0584
+  MRI manner resp ~ other stim | pooled       chi2=   5.71 df=2 p=0.0576
+  place marginal d'    [d'(0|1)]
+      at overall          0.60
+      at manner=0         1.00
+      at manner=1         0.37
+  MRI place resp ~ other stim | place=0      chi2=   0.66 df=1 p=0.4148
+  MRI place resp ~ other stim | place=1      chi2=  22.73 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2=  23.39 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.767   per stimulus: b 0.84  v 0.91  d 0.53  ð 0.75
+counts (row = spoken, col = heard):
+             b     v     d     ð
+     b     136    47    10    16
+     v      48   145     5    45
+     d       5    11    80    20
+     ð      31    86     6    58
+  manner marginal d'    [d'(0|1)]
+      at overall          1.35
+      at place=0          1.29
+      at place=1          1.44
+  MRI manner resp ~ other stim | manner=0     chi2=   0.42 df=1 p=0.5148
+  MRI manner resp ~ other stim | manner=1     chi2=   0.12 df=1 p=0.7332
+  MRI manner resp ~ other stim | pooled       chi2=   0.54 df=2 p=0.7632
+  place marginal d'    [d'(0|1)]
+      at overall          1.09
+      at manner=0         2.22
+      at manner=1         0.44
+  MRI place resp ~ other stim | place=0      chi2=   5.32 df=1 p=0.0211
+  MRI place resp ~ other stim | place=1      chi2=  73.92 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2=  79.23 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.790   per stimulus: b 0.96  v 0.95  d 0.74  ð 0.40
+counts (row = spoken, col = heard):
+             b     v     d     ð
+     b     235    34     4    27
+     v      19   177     0    29
+     d       0     0   189     4
+     ð       7    10     0    64
+  manner marginal d'    [d'(0|1)]
+      at overall          2.48
+      at place=0          2.19
+      at place=1          3.32
+  MRI manner resp ~ other stim | manner=0     chi2=  34.21 df=1 p=0.0000
+  MRI manner resp ~ other stim | manner=1     chi2=   0.00 df=1 p=0.9564
+  MRI manner resp ~ other stim | pooled       chi2=  34.22 df=2 p=0.0000
+  place marginal d'    [d'(0|1)]
+      at overall          2.73
+      at manner=0         4.05
+      at manner=1         1.92
+  MRI place resp ~ other stim | place=0      chi2=   0.83 df=1 p=0.3624
+  MRI place resp ~ other stim | place=1      chi2=  43.19 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2=  44.02 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.943   per stimulus: b 0.99  v 0.96  d 0.93  ð 0.89
+counts (row = spoken, col = heard):
+             b     v     d     ð
+     b     214    31     0    12
+     v      14   205     0    39
+     d       0     0   206     9
+     ð       2    55     0   179
+  manner marginal d'    [d'(0|1)]
+      at overall          3.06
+      at place=0          2.55
+      at place=1          4.01
+  MRI manner resp ~ other stim | manner=0     chi2=  18.79 df=1 p=0.0000
+  MRI manner resp ~ other stim | manner=1     chi2=   8.25 df=1 p=0.0041
+  MRI manner resp ~ other stim | pooled       chi2=  27.04 df=2 p=0.0000
+  place marginal d'    [d'(0|1)]
+      at overall          2.42
+      at manner=0         4.49
+      at manner=1         1.72
+  MRI place resp ~ other stim | place=0      chi2=  15.75 df=1 p=0.0001
+  MRI place resp ~ other stim | place=1      chi2=  59.44 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2=  75.19 df=2 p=0.0000
+
+====================================================================================================
+manner_x_place__voicing1_nasality0__manner02_place12   2x2   manner × place | voicing=voiced, nasality=oral   {d z g ʒ}   順序 = d z g zh
+----------------------------------------------------------------------------------------------------
+SNR -12 dB   retained overall 0.583   per stimulus: d 0.53  z 0.52  g 0.56  ʒ 0.73
+counts (row = spoken, col = heard):
+             d     z     g     ʒ
+     d      48    26    35    14
+     z      29    40    27    26
+     g      38    29    29    38
+     ʒ      30    39    23    77
+  manner marginal d'    [d'(0|2)]
+      at overall          0.53
+      at place=1          0.55
+      at place=2          0.48
+  MRI manner resp ~ other stim | manner=0     chi2=   8.06 df=1 p=0.0045
+  MRI manner resp ~ other stim | manner=2     chi2=   6.39 df=1 p=0.0114
+  MRI manner resp ~ other stim | pooled       chi2=  14.46 df=2 p=0.0007
+  place marginal d'    [d'(1|2)]
+      at overall          0.34
+      at manner=0         0.26
+      at manner=2         0.39
+  MRI place resp ~ other stim | place=1      chi2=   0.33 df=1 p=0.5671
+  MRI place resp ~ other stim | place=2      chi2=   2.54 df=1 p=0.1109
+  MRI place resp ~ other stim | pooled       chi2=   2.87 df=2 p=0.2382
+----------------------------------------------------------------------------------------------------
+SNR  -6 dB   retained overall 0.843   per stimulus: d 0.78  z 0.77  g 0.88  ʒ 0.94
+counts (row = spoken, col = heard):
+             d     z     g     ʒ
+     d      80    20    45    26
+     z      20    94    27    44
+     g      63    37    66    56
+     ʒ      26    45    18   129
+  manner marginal d'    [d'(0|2)]
+      at overall          1.12
+      at place=1          1.27
+      at place=2          1.03
+  MRI manner resp ~ other stim | manner=0     chi2=   9.50 df=1 p=0.0021
+  MRI manner resp ~ other stim | manner=2     chi2=   1.56 df=1 p=0.2115
+  MRI manner resp ~ other stim | pooled       chi2=  11.06 df=2 p=0.0040
+  place marginal d'    [d'(1|2)]
+      at overall          0.54
+      at manner=0         0.34
+      at manner=2         0.74
+  MRI place resp ~ other stim | place=1      chi2=   0.37 df=1 p=0.5453
+  MRI place resp ~ other stim | place=2      chi2=   7.21 df=1 p=0.0073
+  MRI place resp ~ other stim | pooled       chi2=   7.57 df=2 p=0.0227
+----------------------------------------------------------------------------------------------------
+SNR   0 dB   retained overall 0.962   per stimulus: d 0.98  z 0.88  g 0.99  ʒ 0.99
+counts (row = spoken, col = heard):
+             d     z     g     ʒ
+     d     189     8    48    11
+     z      17   132    23    26
+     g      74     8   161    25
+     ʒ       2     9     3   191
+  manner marginal d'    [d'(0|2)]
+      at overall          2.49
+      at place=1          2.26
+      at place=2          3.08
+  MRI manner resp ~ other stim | manner=0     chi2=   3.50 df=1 p=0.0612
+  MRI manner resp ~ other stim | manner=2     chi2=  32.04 df=1 p=0.0000
+  MRI manner resp ~ other stim | pooled       chi2=  35.54 df=2 p=0.0000
+  place marginal d'    [d'(1|2)]
+      at overall          1.56
+      at manner=0         1.24
+      at manner=2         2.27
+  MRI place resp ~ other stim | place=1      chi2=   0.18 df=1 p=0.6730
+  MRI place resp ~ other stim | place=2      chi2=  46.81 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2=  46.99 df=2 p=0.0000
+----------------------------------------------------------------------------------------------------
+SNR   6 dB   retained overall 0.952   per stimulus: d 0.96  z 0.91  g 0.95  ʒ 1.00
+counts (row = spoken, col = heard):
+             d     z     g     ʒ
+     d     206     1    14     2
+     z       3   198    10     3
+     g      64     2   194     1
+     ʒ       3     2     4   215
+  manner marginal d'    [d'(0|2)]
+      at overall          3.89
+      at place=1          3.69
+      at place=2          4.05
+  MRI manner resp ~ other stim | manner=0     chi2=   0.04 df=1 p=0.8461
+  MRI manner resp ~ other stim | manner=2     chi2=   2.19 df=1 p=0.1393
+  MRI manner resp ~ other stim | pooled       chi2=   2.22 df=2 p=0.3291
+  place marginal d'    [d'(1|2)]
+      at overall          2.54
+      at manner=0         2.11
+      at manner=2         3.50
+  MRI place resp ~ other stim | place=1      chi2=   0.21 df=1 p=0.6442
+  MRI place resp ~ other stim | place=2      chi2=  51.28 df=1 p=0.0000
+  MRI place resp ~ other stim | pooled       chi2=  51.49 df=2 p=0.0000
+

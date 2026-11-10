@@ -1,0 +1,17 @@
+stim_f,stim_g,resp_f,resp_g,count,stim_cons,resp_cons,stim
+0,0,0,0,162,p,p,f0g0
+0,0,1,0,5,p,f,f0g0
+0,0,0,1,10,p,t,f0g0
+0,0,1,1,3,p,theta,f0g0
+1,0,0,0,5,f,p,f1g0
+1,0,1,0,207,f,f,f1g0
+1,0,0,1,1,f,t,f1g0
+1,0,1,1,57,f,theta,f1g0
+0,1,0,0,8,t,p,f0g1
+0,1,1,0,0,t,f,f0g1
+0,1,0,1,270,t,t,f0g1
+0,1,1,1,0,t,theta,f0g1
+1,1,0,0,5,theta,p,f1g1
+1,1,1,0,71,theta,f,f1g1
+1,1,0,1,1,theta,t,f1g1
+1,1,1,1,142,theta,theta,f1g1

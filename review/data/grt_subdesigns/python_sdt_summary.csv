@@ -1,0 +1,569 @@
+design,snr,axis,at,criterion,dprime,chi2,df,p
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,voicing,overall,0|1,2.4862,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,voicing,manner=0,0|1,2.4048,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,voicing,manner=1,0|1,2.6047,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,voicing,MRI voicing=0,,,0.34,1,0.55965
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,voicing,MRI voicing=1,,,2.872,1,0.09013
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,voicing,MRI pooled,,,3.212,2,0.20066
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,manner,overall,0|1,0.7428,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,manner,voicing=0,0|1,1.0742,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,manner,voicing=1,0|1,0.5158,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,manner,MRI manner=0,,,5.797,1,0.01606
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,manner,MRI manner=1,,,0.497,1,0.48084
+voicing_x_manner__nasality0_place0__voicing01_manner01,-12,manner,MRI pooled,,,6.294,2,0.04299
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,voicing,overall,0|1,3.8369,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,voicing,manner=0,0|1,3.8541,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,voicing,manner=1,0|1,3.9103,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,voicing,MRI voicing=0,,,1.119,1,0.29012
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,voicing,MRI voicing=1,,,1.424,1,0.23271
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,voicing,MRI pooled,,,2.543,2,0.28038
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,manner,overall,0|1,1.5887,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,manner,voicing=0,0|1,2.0438,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,manner,voicing=1,0|1,1.272,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,manner,MRI manner=0,,,3.159,1,0.07552
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,manner,MRI manner=1,,,9.904,1,0.00165
+voicing_x_manner__nasality0_place0__voicing01_manner01,-6,manner,MRI pooled,,,13.063,2,0.00146
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,voicing,overall,0|1,4.6531,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,voicing,manner=0,0|1,4.6558,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,voicing,manner=1,0|1,4.5497,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,voicing,MRI voicing=0,,,0.772,1,0.37968
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,voicing,MRI voicing=1,,,0.594,1,0.44099
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,voicing,MRI pooled,,,1.365,2,0.50524
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,manner,overall,0|1,2.7667,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,manner,voicing=0,0|1,3.5995,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,manner,voicing=1,0|1,2.3331,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,manner,MRI manner=0,,,10.974,1,0.00092
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,manner,MRI manner=1,,,9.059,1,0.00261
+voicing_x_manner__nasality0_place0__voicing01_manner01,0,manner,MRI pooled,,,20.033,2,4e-05
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,voicing,overall,0|1,4.8184,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,voicing,manner=0,0|1,5.2583,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,voicing,manner=1,0|1,4.5071,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,voicing,MRI voicing=0,,,3.125,1,0.07709
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,voicing,MRI voicing=1,,,0.006,1,0.93688
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,voicing,MRI pooled,,,3.132,2,0.20893
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,manner,overall,0|1,2.9678,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,manner,voicing=0,0|1,3.6024,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,manner,voicing=1,0|1,2.6283,,,
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,manner,MRI manner=0,,,12.23,1,0.00047
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,manner,MRI manner=1,,,1.609,1,0.20457
+voicing_x_manner__nasality0_place0__voicing01_manner01,6,manner,MRI pooled,,,13.84,2,0.00099
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,voicing,overall,0|1,2.3329,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,voicing,manner=0,0|1,2.8185,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,voicing,manner=1,0|1,2.3773,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,voicing,manner=2,0|1,2.0377,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,voicing,MRI voicing=0,,,8.71,2,0.01284
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,voicing,MRI voicing=1,,,8.391,2,0.01506
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,voicing,MRI pooled,,,17.101,4,0.00185
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,manner,overall,0|1,0.502,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,manner,overall,1|2,0.688,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,manner,voicing=0,0|1,0.7338,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,manner,voicing=0,1|2,0.8022,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,manner,voicing=1,0|1,0.2482,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,manner,voicing=1,1|2,0.5658,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,manner,MRI manner=0,,,2.696,2,0.2597
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,manner,MRI manner=1,,,2.054,2,0.35811
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,manner,MRI manner=2,,,2.105,2,0.34906
+voicing_x_manner__nasality0_place1__voicing01_manner012,-12,manner,MRI pooled,,,6.855,6,0.33444
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,voicing,overall,0|1,3.5449,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,voicing,manner=0,0|1,4.453,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,voicing,manner=1,0|1,2.7174,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,voicing,manner=2,0|1,3.852,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,voicing,MRI voicing=0,,,7.268,2,0.02641
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,voicing,MRI voicing=1,,,11.036,2,0.00401
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,voicing,MRI pooled,,,18.304,4,0.00108
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,manner,overall,0|1,1.8122,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,manner,overall,1|2,1.0868,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,manner,voicing=0,0|1,1.9722,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,manner,voicing=0,1|2,1.0606,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,manner,voicing=1,0|1,1.8979,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,manner,voicing=1,1|2,1.1354,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,manner,MRI manner=0,,,10.514,2,0.00521
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,manner,MRI manner=1,,,7.416,2,0.02453
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,manner,MRI manner=2,,,8.565,2,0.01381
+voicing_x_manner__nasality0_place1__voicing01_manner012,-6,manner,MRI pooled,,,26.495,6,0.00018
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,voicing,overall,0|1,6.2238,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,voicing,manner=0,0|1,5.6074,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,voicing,manner=1,0|1,5.4221,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,voicing,manner=2,0|1,5.5823,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,voicing,MRI voicing=0,,,nan,0,nan
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,voicing,MRI voicing=1,,,nan,0,nan
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,voicing,MRI pooled,,,nan,0,nan
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,manner,overall,0|1,3.8776,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,manner,overall,1|2,1.1054,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,manner,voicing=0,0|1,4.4458,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,manner,voicing=0,1|2,2.2748,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,manner,voicing=1,0|1,4.2934,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,manner,voicing=1,1|2,0.433,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,manner,MRI manner=0,,,11.884,2,0.00263
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,manner,MRI manner=1,,,95.053,2,0.0
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,manner,MRI manner=2,,,17.077,2,0.0002
+voicing_x_manner__nasality0_place1__voicing01_manner012,0,manner,MRI pooled,,,124.015,6,0.0
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,voicing,overall,0|1,5.8323,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,voicing,manner=0,0|1,5.7367,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,voicing,manner=1,0|1,4.9356,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,voicing,manner=2,0|1,5.7071,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,voicing,MRI voicing=0,,,6.913,2,0.03154
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,voicing,MRI voicing=1,,,nan,0,nan
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,voicing,MRI pooled,,,6.913,2,0.03154
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,manner,overall,0|1,4.6512,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,manner,overall,1|2,2.9443,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,manner,voicing=0,0|1,5.2273,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,manner,voicing=0,1|2,3.7949,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,manner,voicing=1,0|1,4.4709,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,manner,voicing=1,1|2,2.4681,,,
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,manner,MRI manner=0,,,12.763,2,0.00169
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,manner,MRI manner=1,,,11.448,2,0.00327
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,manner,MRI manner=2,,,9.18,2,0.01015
+voicing_x_manner__nasality0_place1__voicing01_manner012,6,manner,MRI pooled,,,33.391,6,1e-05
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,voicing,overall,0|1,3.0236,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,voicing,manner=0,0|1,3.2705,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,voicing,manner=2,0|1,2.9265,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,voicing,MRI voicing=0,,,2.208,1,0.13726
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,voicing,MRI voicing=1,,,0.308,1,0.57911
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,voicing,MRI pooled,,,2.516,2,0.28421
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,manner,overall,0|2,1.1573,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,manner,voicing=0,0|2,1.9488,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,manner,voicing=1,0|2,0.4829,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,manner,MRI manner=0,,,32.347,1,0.0
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,manner,MRI manner=2,,,1.157,1,0.28219
+voicing_x_manner__nasality0_place2__voicing01_manner02,-12,manner,MRI pooled,,,33.504,2,0.0
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,voicing,overall,0|1,5.8477,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,voicing,manner=0,0|1,5.2614,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,voicing,manner=2,0|1,5.514,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,voicing,MRI voicing=0,,,nan,0,nan
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,voicing,MRI voicing=1,,,nan,0,nan
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,voicing,MRI pooled,,,nan,0,nan
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,manner,overall,0|2,2.1849,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,manner,voicing=0,0|2,3.8549,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,manner,voicing=1,0|2,1.2524,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,manner,MRI manner=0,,,54.385,1,0.0
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,manner,MRI manner=2,,,16.991,1,4e-05
+voicing_x_manner__nasality0_place2__voicing01_manner02,-6,manner,MRI pooled,,,71.376,2,0.0
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,voicing,overall,0|1,6.0394,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,voicing,manner=0,0|1,5.4754,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,voicing,manner=2,0|1,5.7024,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,voicing,MRI voicing=0,,,nan,0,nan
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,voicing,MRI voicing=1,,,nan,0,nan
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,voicing,MRI pooled,,,nan,0,nan
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,manner,overall,0|2,3.5943,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,manner,voicing=0,0|2,4.5291,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,manner,voicing=1,0|2,3.1949,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,manner,MRI manner=0,,,17.492,1,3e-05
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,manner,MRI manner=2,,,0.168,1,0.68228
+voicing_x_manner__nasality0_place2__voicing01_manner02,0,manner,MRI pooled,,,17.66,2,0.00015
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,voicing,overall,0|1,6.066,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,voicing,manner=0,0|1,5.5586,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,voicing,manner=2,0|1,5.7029,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,voicing,MRI voicing=0,,,nan,0,nan
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,voicing,MRI voicing=1,,,nan,0,nan
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,voicing,MRI pooled,,,nan,0,nan
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,manner,overall,0|2,4.9785,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,manner,voicing=0,0|2,5.6234,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,manner,voicing=1,0|2,4.4695,,,
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,manner,MRI manner=0,,,0.879,1,0.34839
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,manner,MRI manner=2,,,4.404,1,0.03586
+voicing_x_manner__nasality0_place2__voicing01_manner02,6,manner,MRI pooled,,,5.283,2,0.07125
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,voicing,overall,0|1,3.4408,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,voicing,place=0,0|1,3.3441,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,voicing,place=1,0|1,3.5726,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,voicing,place=2,0|1,3.3084,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,voicing,MRI voicing=0,,,0.591,2,0.74401
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,voicing,MRI voicing=1,,,1.489,2,0.47486
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,voicing,MRI pooled,,,2.081,4,0.72089
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,place,overall,0|1,0.3729,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,place,overall,1|2,0.0169,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,place,voicing=0,0|1,-0.0609,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,place,voicing=0,1|2,0.0541,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,place,voicing=1,0|1,1.1221,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,place,voicing=1,1|2,-0.0449,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,place,MRI place=0,,,25.753,2,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,place,MRI place=1,,,9.089,2,0.01063
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,place,MRI place=2,,,6.51,2,0.03858
+voicing_x_place__nasality0_manner0__voicing01_place012,-12,place,MRI pooled,,,41.352,6,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,voicing,overall,0|1,5.2394,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,voicing,place=0,0|1,4.5649,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,voicing,place=1,0|1,5.1213,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,voicing,place=2,0|1,5.5511,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,voicing,MRI voicing=0,,,2.616,2,0.27038
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,voicing,MRI voicing=1,,,1.684,2,0.43095
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,voicing,MRI pooled,,,4.299,4,0.367
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,place,overall,0|1,1.0782,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,place,overall,1|2,0.4271,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,place,voicing=0,0|1,0.228,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,place,voicing=0,1|2,0.4615,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,place,voicing=1,0|1,2.8518,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,place,voicing=1,1|2,0.3925,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,place,MRI place=0,,,72.687,2,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,place,MRI place=1,,,42.557,2,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,place,MRI place=2,,,35.912,2,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,-6,place,MRI pooled,,,151.156,6,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,0,voicing,overall,0|1,6.4199,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,0,voicing,place=0,0|1,5.7756,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,0,voicing,place=1,0|1,5.7433,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,0,voicing,place=2,0|1,5.7623,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,0,voicing,MRI voicing=0,,,nan,0,nan
+voicing_x_place__nasality0_manner0__voicing01_place012,0,voicing,MRI voicing=1,,,nan,0,nan
+voicing_x_place__nasality0_manner0__voicing01_place012,0,voicing,MRI pooled,,,nan,0,nan
+voicing_x_place__nasality0_manner0__voicing01_place012,0,place,overall,0|1,2.2005,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,0,place,overall,1|2,1.2446,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,0,place,voicing=0,0|1,1.2786,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,0,place,voicing=0,1|2,1.2427,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,0,place,voicing=1,0|1,4.9429,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,0,place,voicing=1,1|2,1.308,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,0,place,MRI place=0,,,132.315,2,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,0,place,MRI place=1,,,34.932,2,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,0,place,MRI place=2,,,92.966,2,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,0,place,MRI pooled,,,260.213,6,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,6,voicing,overall,0|1,6.3934,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,6,voicing,place=0,0|1,5.6792,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,6,voicing,place=1,0|1,5.7669,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,6,voicing,place=2,0|1,5.7341,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,6,voicing,MRI voicing=0,,,nan,0,nan
+voicing_x_place__nasality0_manner0__voicing01_place012,6,voicing,MRI voicing=1,,,nan,0,nan
+voicing_x_place__nasality0_manner0__voicing01_place012,6,voicing,MRI pooled,,,nan,0,nan
+voicing_x_place__nasality0_manner0__voicing01_place012,6,place,overall,0|1,3.1746,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,6,place,overall,1|2,2.2791,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,6,place,voicing=0,0|1,2.4569,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,6,place,voicing=0,1|2,2.4702,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,6,place,voicing=1,0|1,5.6693,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,6,place,voicing=1,1|2,2.0932,,,
+voicing_x_place__nasality0_manner0__voicing01_place012,6,place,MRI place=0,,,71.871,2,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,6,place,MRI place=1,,,6.611,2,0.03669
+voicing_x_place__nasality0_manner0__voicing01_place012,6,place,MRI place=2,,,59.095,2,0.0
+voicing_x_place__nasality0_manner0__voicing01_place012,6,place,MRI pooled,,,137.576,6,0.0
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,voicing,overall,0|1,2.0176,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,voicing,place=0,0|1,2.1358,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,voicing,place=1,0|1,1.8793,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,voicing,MRI voicing=0,,,0.792,1,0.37358
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,voicing,MRI voicing=1,,,0.186,1,0.66641
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,voicing,MRI pooled,,,0.978,2,0.61337
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,place,overall,0|1,0.3433,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,place,voicing=0,0|1,0.2932,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,place,voicing=1,0|1,0.425,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,place,MRI place=0,,,3.608,1,0.0575
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,place,MRI place=1,,,1.484,1,0.22322
+voicing_x_place__nasality0_manner1__voicing01_place01,-12,place,MRI pooled,,,5.091,2,0.07841
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,voicing,overall,0|1,3.7665,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,voicing,place=0,0|1,4.2868,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,voicing,place=1,0|1,3.2825,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,voicing,MRI voicing=0,,,4.445,1,0.03501
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,voicing,MRI voicing=1,,,3.226,1,0.07247
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,voicing,MRI pooled,,,7.671,2,0.02159
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,place,overall,0|1,0.5012,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,place,voicing=0,0|1,0.4687,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,place,voicing=1,0|1,0.5364,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,place,MRI place=0,,,0.118,1,0.73107
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,place,MRI place=1,,,0.675,1,0.41143
+voicing_x_place__nasality0_manner1__voicing01_place01,-6,place,MRI pooled,,,0.793,2,0.67274
+voicing_x_place__nasality0_manner1__voicing01_place01,0,voicing,overall,0|1,4.5673,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,0,voicing,place=0,0|1,4.535,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,0,voicing,place=1,0|1,4.72,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,0,voicing,MRI voicing=0,,,0.575,1,0.44839
+voicing_x_place__nasality0_manner1__voicing01_place01,0,voicing,MRI voicing=1,,,1.43,1,0.23182
+voicing_x_place__nasality0_manner1__voicing01_place01,0,voicing,MRI pooled,,,2.004,2,0.36707
+voicing_x_place__nasality0_manner1__voicing01_place01,0,place,overall,0|1,1.3323,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,0,place,voicing=0,0|1,1.0377,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,0,place,voicing=1,0|1,2.1404,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,0,place,MRI place=0,,,1.875,1,0.17087
+voicing_x_place__nasality0_manner1__voicing01_place01,0,place,MRI place=1,,,20.996,1,0.0
+voicing_x_place__nasality0_manner1__voicing01_place01,0,place,MRI pooled,,,22.871,2,1e-05
+voicing_x_place__nasality0_manner1__voicing01_place01,6,voicing,overall,0|1,4.8396,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,6,voicing,place=0,0|1,4.8558,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,6,voicing,place=1,0|1,4.8992,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,6,voicing,MRI voicing=0,,,2.498,1,0.11403
+voicing_x_place__nasality0_manner1__voicing01_place01,6,voicing,MRI voicing=1,,,1.91,1,0.16692
+voicing_x_place__nasality0_manner1__voicing01_place01,6,voicing,MRI pooled,,,4.408,2,0.11037
+voicing_x_place__nasality0_manner1__voicing01_place01,6,place,overall,0|1,1.4465,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,6,place,voicing=0,0|1,1.2054,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,6,place,voicing=1,0|1,1.697,,,
+voicing_x_place__nasality0_manner1__voicing01_place01,6,place,MRI place=0,,,2.286,1,0.13057
+voicing_x_place__nasality0_manner1__voicing01_place01,6,place,MRI place=1,,,5.691,1,0.01705
+voicing_x_place__nasality0_manner1__voicing01_place01,6,place,MRI pooled,,,7.977,2,0.01853
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,voicing,overall,0|1,2.477,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,voicing,place=1,0|1,2.0893,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,voicing,place=2,0|1,2.7873,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,voicing,MRI voicing=0,,,0.173,1,0.67779
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,voicing,MRI voicing=1,,,8.611,1,0.00334
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,voicing,MRI pooled,,,8.784,2,0.01238
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,place,overall,1|2,0.7848,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,place,voicing=0,1|2,0.9091,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,place,voicing=1,1|2,0.6708,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,place,MRI place=1,,,1.042,1,0.30733
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,place,MRI place=2,,,6.899,1,0.00863
+voicing_x_place__nasality0_manner2__voicing01_place12,-12,place,MRI pooled,,,7.941,2,0.01887
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,voicing,overall,0|1,4.5981,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,voicing,place=1,0|1,3.9174,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,voicing,place=2,0|1,5.6085,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,voicing,MRI voicing=0,,,7.229,1,0.00718
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,voicing,MRI voicing=1,,,2.502,1,0.11373
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,voicing,MRI pooled,,,9.73,2,0.00771
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,place,overall,1|2,1.3848,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,place,voicing=0,1|2,1.6437,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,place,voicing=1,1|2,1.1035,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,place,MRI place=1,,,0.169,1,0.68142
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,place,MRI place=2,,,10.793,1,0.00102
+voicing_x_place__nasality0_manner2__voicing01_place12,-6,place,MRI pooled,,,10.961,2,0.00417
+voicing_x_place__nasality0_manner2__voicing01_place12,0,voicing,overall,0|1,6.0499,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,0,voicing,place=1,0|1,5.507,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,0,voicing,place=2,0|1,5.7122,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,0,voicing,MRI voicing=0,,,nan,0,nan
+voicing_x_place__nasality0_manner2__voicing01_place12,0,voicing,MRI voicing=1,,,nan,0,nan
+voicing_x_place__nasality0_manner2__voicing01_place12,0,voicing,MRI pooled,,,nan,0,nan
+voicing_x_place__nasality0_manner2__voicing01_place12,0,place,overall,1|2,3.1733,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,0,place,voicing=0,1|2,3.8004,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,0,place,voicing=1,1|2,2.6394,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,0,place,MRI place=1,,,10.505,1,0.00119
+voicing_x_place__nasality0_manner2__voicing01_place12,0,place,MRI place=2,,,5.303,1,0.02128
+voicing_x_place__nasality0_manner2__voicing01_place12,0,place,MRI pooled,,,15.809,2,0.00037
+voicing_x_place__nasality0_manner2__voicing01_place12,6,voicing,overall,0|1,6.1123,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,6,voicing,place=1,0|1,5.6688,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,6,voicing,place=2,0|1,5.7013,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,6,voicing,MRI voicing=0,,,nan,0,nan
+voicing_x_place__nasality0_manner2__voicing01_place12,6,voicing,MRI voicing=1,,,nan,0,nan
+voicing_x_place__nasality0_manner2__voicing01_place12,6,voicing,MRI pooled,,,nan,0,nan
+voicing_x_place__nasality0_manner2__voicing01_place12,6,place,overall,1|2,4.6635,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,6,place,voicing=0,1|2,4.8022,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,6,place,voicing=1,1|2,4.3869,,,
+voicing_x_place__nasality0_manner2__voicing01_place12,6,place,MRI place=1,,,0.387,1,0.5338
+voicing_x_place__nasality0_manner2__voicing01_place12,6,place,MRI place=2,,,0.446,1,0.50441
+voicing_x_place__nasality0_manner2__voicing01_place12,6,place,MRI pooled,,,0.833,2,0.65942
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,nasality,overall,0|1,2.337,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,nasality,place=0,0|1,1.9965,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,nasality,place=1,0|1,2.7624,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,nasality,MRI nasality=0,,,0.331,1,0.56535
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,nasality,MRI nasality=1,,,8.717,1,0.00315
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,nasality,MRI pooled,,,9.048,2,0.01085
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,place,overall,0|1,0.862,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,place,nasality=0,0|1,1.1276,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,place,nasality=1,0|1,0.7313,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,place,MRI place=0,,,2.283,1,0.13077
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,place,MRI place=1,,,0.957,1,0.32787
+nasality_x_place__voicing1_manner0__nasality01_place01,-12,place,MRI pooled,,,3.241,2,0.19784
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,nasality,overall,0|1,3.5473,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,nasality,place=0,0|1,3.6065,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,nasality,place=1,0|1,3.4326,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,nasality,MRI nasality=0,,,0.007,1,0.93499
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,nasality,MRI nasality=1,,,0.517,1,0.47192
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,nasality,MRI pooled,,,0.524,2,0.76946
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,place,overall,0|1,1.9277,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,place,nasality=0,0|1,2.788,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,place,nasality=1,0|1,1.588,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,place,MRI place=0,,,8.777,1,0.00305
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,place,MRI place=1,,,10.578,1,0.00114
+nasality_x_place__voicing1_manner0__nasality01_place01,-6,place,MRI pooled,,,19.355,2,6e-05
+nasality_x_place__voicing1_manner0__nasality01_place01,0,nasality,overall,0|1,5.7626,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,0,nasality,place=0,0|1,5.3135,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,0,nasality,place=1,0|1,5.6674,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,0,nasality,MRI nasality=0,,,nan,0,nan
+nasality_x_place__voicing1_manner0__nasality01_place01,0,nasality,MRI nasality=1,,,1.195,1,0.27434
+nasality_x_place__voicing1_manner0__nasality01_place01,0,nasality,MRI pooled,,,1.195,1,0.27434
+nasality_x_place__voicing1_manner0__nasality01_place01,0,place,overall,0|1,4.0536,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,0,place,nasality=0,0|1,4.8707,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,0,place,nasality=1,0|1,3.6881,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,0,place,MRI place=0,,,0.746,1,0.38784
+nasality_x_place__voicing1_manner0__nasality01_place01,0,place,MRI place=1,,,6.21,1,0.0127
+nasality_x_place__voicing1_manner0__nasality01_place01,0,place,MRI pooled,,,6.956,2,0.03087
+nasality_x_place__voicing1_manner0__nasality01_place01,6,nasality,overall,0|1,5.7924,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,6,nasality,place=0,0|1,5.6693,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,6,nasality,place=1,0|1,5.381,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,6,nasality,MRI nasality=0,,,nan,0,nan
+nasality_x_place__voicing1_manner0__nasality01_place01,6,nasality,MRI nasality=1,,,0.765,1,0.38165
+nasality_x_place__voicing1_manner0__nasality01_place01,6,nasality,MRI pooled,,,0.765,1,0.38165
+nasality_x_place__voicing1_manner0__nasality01_place01,6,place,overall,0|1,4.9792,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,6,place,nasality=0,0|1,5.6483,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,6,place,nasality=1,0|1,4.5287,,,
+nasality_x_place__voicing1_manner0__nasality01_place01,6,place,MRI place=0,,,2.938,1,0.08649
+nasality_x_place__voicing1_manner0__nasality01_place01,6,place,MRI place=1,,,1.436,1,0.23073
+nasality_x_place__voicing1_manner0__nasality01_place01,6,place,MRI pooled,,,4.375,2,0.1122
+manner_x_place__voicing0_nasality0__manner01_place01,-12,manner,overall,0|1,1.0981,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-12,manner,place=0,0|1,1.0683,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-12,manner,place=1,0|1,1.1176,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-12,manner,MRI manner=0,,,0.1,1,0.75132
+manner_x_place__voicing0_nasality0__manner01_place01,-12,manner,MRI manner=1,,,0.0,1,0.99301
+manner_x_place__voicing0_nasality0__manner01_place01,-12,manner,MRI pooled,,,0.1,2,0.95099
+manner_x_place__voicing0_nasality0__manner01_place01,-12,place,overall,0|1,0.1453,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-12,place,manner=0,0|1,-0.0141,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-12,place,manner=1,0|1,0.2728,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-12,place,MRI place=0,,,9.553,1,0.002
+manner_x_place__voicing0_nasality0__manner01_place01,-12,place,MRI place=1,,,1.217,1,0.26986
+manner_x_place__voicing0_nasality0__manner01_place01,-12,place,MRI pooled,,,10.77,2,0.00458
+manner_x_place__voicing0_nasality0__manner01_place01,-6,manner,overall,0|1,2.1356,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-6,manner,place=0,0|1,2.0047,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-6,manner,place=1,0|1,2.2931,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-6,manner,MRI manner=0,,,9.429,1,0.00214
+manner_x_place__voicing0_nasality0__manner01_place01,-6,manner,MRI manner=1,,,3.063,1,0.08007
+manner_x_place__voicing0_nasality0__manner01_place01,-6,manner,MRI pooled,,,12.493,2,0.00194
+manner_x_place__voicing0_nasality0__manner01_place01,-6,place,overall,0|1,0.4754,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-6,place,manner=0,0|1,0.455,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-6,place,manner=1,0|1,0.4525,,,
+manner_x_place__voicing0_nasality0__manner01_place01,-6,place,MRI place=0,,,8.264,1,0.00404
+manner_x_place__voicing0_nasality0__manner01_place01,-6,place,MRI place=1,,,8.721,1,0.00315
+manner_x_place__voicing0_nasality0__manner01_place01,-6,place,MRI pooled,,,16.985,2,0.00021
+manner_x_place__voicing0_nasality0__manner01_place01,0,manner,overall,0|1,3.2717,,,
+manner_x_place__voicing0_nasality0__manner01_place01,0,manner,place=0,0|1,3.1786,,,
+manner_x_place__voicing0_nasality0__manner01_place01,0,manner,place=1,0|1,3.8755,,,
+manner_x_place__voicing0_nasality0__manner01_place01,0,manner,MRI manner=0,,,19.605,1,1e-05
+manner_x_place__voicing0_nasality0__manner01_place01,0,manner,MRI manner=1,,,6.2,1,0.01278
+manner_x_place__voicing0_nasality0__manner01_place01,0,manner,MRI pooled,,,25.805,2,0.0
+manner_x_place__voicing0_nasality0__manner01_place01,0,place,overall,0|1,1.3349,,,
+manner_x_place__voicing0_nasality0__manner01_place01,0,place,manner=0,0|1,1.7661,,,
+manner_x_place__voicing0_nasality0__manner01_place01,0,place,manner=1,0|1,0.9963,,,
+manner_x_place__voicing0_nasality0__manner01_place01,0,place,MRI place=0,,,1.725,1,0.18907
+manner_x_place__voicing0_nasality0__manner01_place01,0,place,MRI place=1,,,50.164,1,0.0
+manner_x_place__voicing0_nasality0__manner01_place01,0,place,MRI pooled,,,51.889,2,0.0
+manner_x_place__voicing0_nasality0__manner01_place01,6,manner,overall,0|1,4.0367,,,
+manner_x_place__voicing0_nasality0__manner01_place01,6,manner,place=0,0|1,3.6527,,,
+manner_x_place__voicing0_nasality0__manner01_place01,6,manner,place=1,0|1,4.8001,,,
+manner_x_place__voicing0_nasality0__manner01_place01,6,manner,MRI manner=0,,,12.575,1,0.00039
+manner_x_place__voicing0_nasality0__manner01_place01,6,manner,MRI manner=1,,,0.135,1,0.71302
+manner_x_place__voicing0_nasality0__manner01_place01,6,manner,MRI pooled,,,12.71,2,0.00174
+manner_x_place__voicing0_nasality0__manner01_place01,6,place,overall,0|1,1.9559,,,
+manner_x_place__voicing0_nasality0__manner01_place01,6,place,manner=0,0|1,3.3165,,,
+manner_x_place__voicing0_nasality0__manner01_place01,6,place,manner=1,0|1,1.1777,,,
+manner_x_place__voicing0_nasality0__manner01_place01,6,place,MRI place=0,,,16.525,1,5e-05
+manner_x_place__voicing0_nasality0__manner01_place01,6,place,MRI place=1,,,88.342,1,0.0
+manner_x_place__voicing0_nasality0__manner01_place01,6,place,MRI pooled,,,104.867,2,0.0
+manner_x_place__voicing0_nasality0__manner02_place12,-12,manner,overall,0|2,1.4511,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-12,manner,place=1,0|2,1.498,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-12,manner,place=2,0|2,1.4189,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-12,manner,MRI manner=0,,,0.039,1,0.84261
+manner_x_place__voicing0_nasality0__manner02_place12,-12,manner,MRI manner=2,,,0.532,1,0.46595
+manner_x_place__voicing0_nasality0__manner02_place12,-12,manner,MRI pooled,,,0.571,2,0.75164
+manner_x_place__voicing0_nasality0__manner02_place12,-12,place,overall,1|2,0.347,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-12,place,manner=0,1|2,0.0757,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-12,place,manner=2,1|2,0.5681,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-12,place,MRI place=1,,,0.523,1,0.46966
+manner_x_place__voicing0_nasality0__manner02_place12,-12,place,MRI place=2,,,7.227,1,0.00718
+manner_x_place__voicing0_nasality0__manner02_place12,-12,place,MRI pooled,,,7.75,2,0.02076
+manner_x_place__voicing0_nasality0__manner02_place12,-6,manner,overall,0|2,3.1476,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-6,manner,place=1,0|2,2.9977,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-6,manner,place=2,0|2,3.2306,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-6,manner,MRI manner=0,,,0.065,1,0.79933
+manner_x_place__voicing0_nasality0__manner02_place12,-6,manner,MRI manner=2,,,0.652,1,0.41953
+manner_x_place__voicing0_nasality0__manner02_place12,-6,manner,MRI pooled,,,0.716,2,0.69898
+manner_x_place__voicing0_nasality0__manner02_place12,-6,place,overall,1|2,0.9391,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-6,place,manner=0,1|2,0.3667,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-6,place,manner=2,1|2,1.5376,,,
+manner_x_place__voicing0_nasality0__manner02_place12,-6,place,MRI place=1,,,4.507,1,0.03375
+manner_x_place__voicing0_nasality0__manner02_place12,-6,place,MRI place=2,,,42.453,1,0.0
+manner_x_place__voicing0_nasality0__manner02_place12,-6,place,MRI pooled,,,46.96,2,0.0
+manner_x_place__voicing0_nasality0__manner02_place12,0,manner,overall,0|2,4.7192,,,
+manner_x_place__voicing0_nasality0__manner02_place12,0,manner,place=1,0|2,4.9149,,,
+manner_x_place__voicing0_nasality0__manner02_place12,0,manner,place=2,0|2,4.3909,,,
+manner_x_place__voicing0_nasality0__manner02_place12,0,manner,MRI manner=0,,,1.204,1,0.27251
+manner_x_place__voicing0_nasality0__manner02_place12,0,manner,MRI manner=2,,,0.164,1,0.68588
+manner_x_place__voicing0_nasality0__manner02_place12,0,manner,MRI pooled,,,1.368,2,0.50469
+manner_x_place__voicing0_nasality0__manner02_place12,0,place,overall,1|2,2.5132,,,
+manner_x_place__voicing0_nasality0__manner02_place12,0,place,manner=0,1|2,1.8214,,,
+manner_x_place__voicing0_nasality0__manner02_place12,0,place,manner=2,1|2,3.521,,,
+manner_x_place__voicing0_nasality0__manner02_place12,0,place,MRI place=1,,,5.089,1,0.02407
+manner_x_place__voicing0_nasality0__manner02_place12,0,place,MRI place=2,,,55.606,1,0.0
+manner_x_place__voicing0_nasality0__manner02_place12,0,place,MRI pooled,,,60.695,2,0.0
+manner_x_place__voicing0_nasality0__manner02_place12,6,manner,overall,0|2,5.7983,,,
+manner_x_place__voicing0_nasality0__manner02_place12,6,manner,place=1,0|2,5.411,,,
+manner_x_place__voicing0_nasality0__manner02_place12,6,manner,place=2,0|2,5.6359,,,
+manner_x_place__voicing0_nasality0__manner02_place12,6,manner,MRI manner=0,,,nan,0,nan
+manner_x_place__voicing0_nasality0__manner02_place12,6,manner,MRI manner=2,,,1.023,1,0.31171
+manner_x_place__voicing0_nasality0__manner02_place12,6,manner,MRI pooled,,,1.023,1,0.31171
+manner_x_place__voicing0_nasality0__manner02_place12,6,place,overall,1|2,3.9542,,,
+manner_x_place__voicing0_nasality0__manner02_place12,6,place,manner=0,1|2,3.429,,,
+manner_x_place__voicing0_nasality0__manner02_place12,6,place,manner=2,1|2,4.8038,,,
+manner_x_place__voicing0_nasality0__manner02_place12,6,place,MRI place=1,,,7.159,1,0.00746
+manner_x_place__voicing0_nasality0__manner02_place12,6,place,MRI place=2,,,5.456,1,0.0195
+manner_x_place__voicing0_nasality0__manner02_place12,6,place,MRI pooled,,,12.615,2,0.00182
+manner_x_place__voicing1_nasality0__manner01_place01,-12,manner,overall,0|1,0.2903,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-12,manner,place=0,0|1,0.3386,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-12,manner,place=1,0|1,0.302,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-12,manner,MRI manner=0,,,2.127,1,0.14471
+manner_x_place__voicing1_nasality0__manner01_place01,-12,manner,MRI manner=1,,,3.583,1,0.05837
+manner_x_place__voicing1_nasality0__manner01_place01,-12,manner,MRI pooled,,,5.71,2,0.05755
+manner_x_place__voicing1_nasality0__manner01_place01,-12,place,overall,0|1,0.6014,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-12,place,manner=0,0|1,1.0029,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-12,place,manner=1,0|1,0.3739,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-12,place,MRI place=0,,,0.665,1,0.41485
+manner_x_place__voicing1_nasality0__manner01_place01,-12,place,MRI place=1,,,22.727,1,0.0
+manner_x_place__voicing1_nasality0__manner01_place01,-12,place,MRI pooled,,,23.392,2,1e-05
+manner_x_place__voicing1_nasality0__manner01_place01,-6,manner,overall,0|1,1.35,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-6,manner,place=0,0|1,1.2923,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-6,manner,place=1,0|1,1.4354,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-6,manner,MRI manner=0,,,0.424,1,0.51481
+manner_x_place__voicing1_nasality0__manner01_place01,-6,manner,MRI manner=1,,,0.116,1,0.73317
+manner_x_place__voicing1_nasality0__manner01_place01,-6,manner,MRI pooled,,,0.54,2,0.76319
+manner_x_place__voicing1_nasality0__manner01_place01,-6,place,overall,0|1,1.0894,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-6,place,manner=0,0|1,2.2203,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-6,place,manner=1,0|1,0.4435,,,
+manner_x_place__voicing1_nasality0__manner01_place01,-6,place,MRI place=0,,,5.317,1,0.02111
+manner_x_place__voicing1_nasality0__manner01_place01,-6,place,MRI place=1,,,73.917,1,0.0
+manner_x_place__voicing1_nasality0__manner01_place01,-6,place,MRI pooled,,,79.234,2,0.0
+manner_x_place__voicing1_nasality0__manner01_place01,0,manner,overall,0|1,2.478,,,
+manner_x_place__voicing1_nasality0__manner01_place01,0,manner,place=0,0|1,2.1903,,,
+manner_x_place__voicing1_nasality0__manner01_place01,0,manner,place=1,0|1,3.3236,,,
+manner_x_place__voicing1_nasality0__manner01_place01,0,manner,MRI manner=0,,,34.214,1,0.0
+manner_x_place__voicing1_nasality0__manner01_place01,0,manner,MRI manner=1,,,0.003,1,0.9564
+manner_x_place__voicing1_nasality0__manner01_place01,0,manner,MRI pooled,,,34.217,2,0.0
+manner_x_place__voicing1_nasality0__manner01_place01,0,place,overall,0|1,2.7252,,,
+manner_x_place__voicing1_nasality0__manner01_place01,0,place,manner=0,0|1,4.0527,,,
+manner_x_place__voicing1_nasality0__manner01_place01,0,place,manner=1,0|1,1.9185,,,
+manner_x_place__voicing1_nasality0__manner01_place01,0,place,MRI place=0,,,0.83,1,0.36241
+manner_x_place__voicing1_nasality0__manner01_place01,0,place,MRI place=1,,,43.186,1,0.0
+manner_x_place__voicing1_nasality0__manner01_place01,0,place,MRI pooled,,,44.015,2,0.0
+manner_x_place__voicing1_nasality0__manner01_place01,6,manner,overall,0|1,3.0552,,,
+manner_x_place__voicing1_nasality0__manner01_place01,6,manner,place=0,0|1,2.5491,,,
+manner_x_place__voicing1_nasality0__manner01_place01,6,manner,place=1,0|1,4.0125,,,
+manner_x_place__voicing1_nasality0__manner01_place01,6,manner,MRI manner=0,,,18.795,1,1e-05
+manner_x_place__voicing1_nasality0__manner01_place01,6,manner,MRI manner=1,,,8.246,1,0.00408
+manner_x_place__voicing1_nasality0__manner01_place01,6,manner,MRI pooled,,,27.04,2,0.0
+manner_x_place__voicing1_nasality0__manner01_place01,6,place,overall,0|1,2.4223,,,
+manner_x_place__voicing1_nasality0__manner01_place01,6,place,manner=0,0|1,4.4918,,,
+manner_x_place__voicing1_nasality0__manner01_place01,6,place,manner=1,0|1,1.7236,,,
+manner_x_place__voicing1_nasality0__manner01_place01,6,place,MRI place=0,,,15.749,1,7e-05
+manner_x_place__voicing1_nasality0__manner01_place01,6,place,MRI place=1,,,59.44,1,0.0
+manner_x_place__voicing1_nasality0__manner01_place01,6,place,MRI pooled,,,75.19,2,0.0
+manner_x_place__voicing1_nasality0__manner02_place12,-12,manner,overall,0|2,0.5291,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-12,manner,place=1,0|2,0.5514,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-12,manner,place=2,0|2,0.4826,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-12,manner,MRI manner=0,,,8.064,1,0.00452
+manner_x_place__voicing1_nasality0__manner02_place12,-12,manner,MRI manner=2,,,6.395,1,0.01145
+manner_x_place__voicing1_nasality0__manner02_place12,-12,manner,MRI pooled,,,14.458,2,0.00073
+manner_x_place__voicing1_nasality0__manner02_place12,-12,place,overall,1|2,0.3386,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-12,place,manner=0,1|2,0.2554,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-12,place,manner=2,1|2,0.3943,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-12,place,MRI place=1,,,0.328,1,0.56707
+manner_x_place__voicing1_nasality0__manner02_place12,-12,place,MRI place=2,,,2.541,1,0.1109
+manner_x_place__voicing1_nasality0__manner02_place12,-12,place,MRI pooled,,,2.869,2,0.23824
+manner_x_place__voicing1_nasality0__manner02_place12,-6,manner,overall,0|2,1.1249,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-6,manner,place=1,0|2,1.2694,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-6,manner,place=2,0|2,1.034,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-6,manner,MRI manner=0,,,9.497,1,0.00206
+manner_x_place__voicing1_nasality0__manner02_place12,-6,manner,MRI manner=2,,,1.561,1,0.21152
+manner_x_place__voicing1_nasality0__manner02_place12,-6,manner,MRI pooled,,,11.058,2,0.00397
+manner_x_place__voicing1_nasality0__manner02_place12,-6,place,overall,1|2,0.5377,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-6,place,manner=0,1|2,0.3369,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-6,place,manner=2,1|2,0.7436,,,
+manner_x_place__voicing1_nasality0__manner02_place12,-6,place,MRI place=1,,,0.366,1,0.54525
+manner_x_place__voicing1_nasality0__manner02_place12,-6,place,MRI place=2,,,7.206,1,0.00727
+manner_x_place__voicing1_nasality0__manner02_place12,-6,place,MRI pooled,,,7.572,2,0.02269
+manner_x_place__voicing1_nasality0__manner02_place12,0,manner,overall,0|2,2.4942,,,
+manner_x_place__voicing1_nasality0__manner02_place12,0,manner,place=1,0|2,2.2625,,,
+manner_x_place__voicing1_nasality0__manner02_place12,0,manner,place=2,0|2,3.0843,,,
+manner_x_place__voicing1_nasality0__manner02_place12,0,manner,MRI manner=0,,,3.505,1,0.06119
+manner_x_place__voicing1_nasality0__manner02_place12,0,manner,MRI manner=2,,,32.038,1,0.0
+manner_x_place__voicing1_nasality0__manner02_place12,0,manner,MRI pooled,,,35.542,2,0.0
+manner_x_place__voicing1_nasality0__manner02_place12,0,place,overall,1|2,1.5627,,,
+manner_x_place__voicing1_nasality0__manner02_place12,0,place,manner=0,1|2,1.2391,,,
+manner_x_place__voicing1_nasality0__manner02_place12,0,place,manner=2,1|2,2.2693,,,
+manner_x_place__voicing1_nasality0__manner02_place12,0,place,MRI place=1,,,0.178,1,0.67301
+manner_x_place__voicing1_nasality0__manner02_place12,0,place,MRI place=2,,,46.812,1,0.0
+manner_x_place__voicing1_nasality0__manner02_place12,0,place,MRI pooled,,,46.99,2,0.0
+manner_x_place__voicing1_nasality0__manner02_place12,6,manner,overall,0|2,3.8921,,,
+manner_x_place__voicing1_nasality0__manner02_place12,6,manner,place=1,0|2,3.6856,,,
+manner_x_place__voicing1_nasality0__manner02_place12,6,manner,place=2,0|2,4.0495,,,
+manner_x_place__voicing1_nasality0__manner02_place12,6,manner,MRI manner=0,,,0.038,1,0.84608
+manner_x_place__voicing1_nasality0__manner02_place12,6,manner,MRI manner=2,,,2.185,1,0.13934
+manner_x_place__voicing1_nasality0__manner02_place12,6,manner,MRI pooled,,,2.223,2,0.32907
+manner_x_place__voicing1_nasality0__manner02_place12,6,place,overall,1|2,2.5447,,,
+manner_x_place__voicing1_nasality0__manner02_place12,6,place,manner=0,1|2,2.1116,,,
+manner_x_place__voicing1_nasality0__manner02_place12,6,place,manner=2,1|2,3.5013,,,
+manner_x_place__voicing1_nasality0__manner02_place12,6,place,MRI place=1,,,0.213,1,0.64418
+manner_x_place__voicing1_nasality0__manner02_place12,6,place,MRI place=2,,,51.275,1,0.0
+manner_x_place__voicing1_nasality0__manner02_place12,6,place,MRI pooled,,,51.489,2,0.0
