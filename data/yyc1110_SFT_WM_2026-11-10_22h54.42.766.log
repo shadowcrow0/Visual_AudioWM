@@ -1,0 +1,2205 @@
+844.9161 	WARNING 	Monitor specification not found. Creating a temporary one...
+845.0122 	WARNING 	User requested fullscreen with size [800 600], but screen is actually [1920, 1080]. Using actual size
+848.5981 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, backendConf=UNKNOWN, backgroundFit=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001D4423C0A60>, backgroundImage=<method-wrapper '__getattribute__' of attributeSetter object at 0x000001D4423C0B20>, bitsMode=UNKNOWN, blendMode='avg', bpc=(8, 8, 8), color=array([-1, -1, -1]), colorSpace='rgb', depthBits=8, fullscr=True, gamma=None, gammaErrorPolicy='raise', infoMsg=UNKNOWN, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x000001D4427D53F0>, multiSample=False, name='window1', numSamples=2, pos=(0, 0), screen=0, size=array([1920, 1080]), stencilBits=0, stereo=False, title='PsychoPy', units='pix', useFBO=False, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+848.5982 	EXP 	window1: backgroundImage = None
+848.5982 	EXP 	window1: backgroundFit = 'cover'
+848.9647 	EXP 	Created unnamed TextStim = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='center', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0, draggable=False, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=np.float64(40.0), italic=False, languageStyle='LTR', name='unnamed TextStim', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='+', units='pix', win=Window(...), wrapWidth=500)
+848.9657 	EXP 	Created unnamed TextStim = TextStim(__class__=<class 'psychopy.visual.text.TextStim'>, alignHoriz=method-wrapper(...), alignText='left', alignVert=method-wrapper(...), anchorHoriz='center', anchorVert='center', antialias=True, autoDraw=False, autoLog=True, bold=False, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0, draggable=False, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=28, italic=False, languageStyle='LTR', name='unnamed TextStim', opacity=1.0, ori=0.0, pos=array([0., 0.]), rgb=UNKNOWN, text='', units='pix', win=Window(...), wrapWidth=1000)
+848.9669 	EXP 	Created unnamed Rect = Rect(__class__=<class 'psychopy.visual.rect.Rect'>, anchor=('center', 'center'), autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='hex', contrast=None, depth=0, draggable=False, fillColor='#ffffff', fillColorSpace='hex', fillRGB=array([1, 1, 1]), interpolate=True, lineColor='#808080', lineColorSpace='hex', lineRGB=array([0.00392157, 0.00392157, 0.00392157]), lineWidth=1.5, name='unnamed Rect', opacity=1, ori=0.0, pos=array([-200.,    0.]), size=array([100., 100.]), units='pix', vertices=ndarray(...), win=Window(...))
+848.9681 	EXP 	Created unnamed Rect = Rect(__class__=<class 'psychopy.visual.rect.Rect'>, anchor=('center', 'center'), autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='hex', contrast=None, depth=0, draggable=False, fillColor='#ffffff', fillColorSpace='hex', fillRGB=array([1, 1, 1]), interpolate=True, lineColor='#808080', lineColorSpace='hex', lineRGB=array([0.00392157, 0.00392157, 0.00392157]), lineWidth=1.5, name='unnamed Rect', opacity=1, ori=0.0, pos=array([200.,   0.]), size=array([100., 100.]), units='pix', vertices=ndarray(...), win=Window(...))
+848.9694 	EXP 	Created unnamed Rect = Rect(__class__=<class 'psychopy.visual.rect.Rect'>, anchor=('center', 'center'), autoDraw=False, autoLog=True, closeShape=True, color=method-wrapper(...), colorSpace='hex', contrast=None, depth=0, draggable=False, fillColor='#ffffff', fillColorSpace='hex', fillRGB=array([1, 1, 1]), interpolate=True, lineColor='#808080', lineColorSpace='hex', lineRGB=array([0.00392157, 0.00392157, 0.00392157]), lineWidth=1.5, name='unnamed Rect', opacity=1, ori=0.0, pos=array([0., 0.]), size=array([100., 100.]), units='pix', vertices=ndarray(...), win=Window(...))
+849.5652 	EXP 	: sampleRate = 48000
+849.5653 	EXP 	: channels = None
+851.2853 	EXP 	unnamed TextStim: height = np.float64(28.0)
+851.2853 	EXP 	unnamed TextStim: height = np.float64(28.0)
+851.2853 	EXP 	unnamed TextStim: height = np.float64(28.0)
+851.2853 	EXP 	unnamed TextStim: text = 'Part 1 of 3: colour calibration (48 trials)\n\nOn each trial you will first see two coloured squares and hear two speech sounds. Try to remember them. Then one colour will appear together with one sound.\n\nDid this colour AND this sound both appear a moment ago?\n   Y = yes, both of them did.      N = no, at least one of them is different.\n\nFirst, 10 practice trials with feedback. Then 48 trials without feedback.\n\nPlease press Y or N on EVERY trial, even when you are not sure. A trial without a response cannot be used.\n\nPress the space bar to begin.'
+864.7795 	DATA 	Keypress: space
+864.8769 	EXP 	Device response: <KeyPress from None: t=864.7776670999997, value=space, duration=None>
+864.9806 	EXP 	Device response: <KeyPress from None: t=864.7776670999997, value=space, duration=0.20178949999990436>
+865.1139 	EXP 	unnamed Rect: fillColor = '#BA306D'
+866.1301 	EXP 	unnamed Rect: fillColor = '#239F4F'
+867.1643 	EXP 	: sampleRate = 15500
+867.1753 	EXP 	Sound  reached end of file
+867.1754 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+868.1805 	EXP 	Sound  stopped
+868.2005 	EXP 	: sampleRate = 16000
+868.2035 	EXP 	Sound  reached end of file
+868.2035 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+869.2141 	EXP 	Sound  stopped
+869.5328 	EXP 	: sampleRate = 15500
+869.5371 	EXP 	Sound  reached end of file
+869.5371 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+869.5470 	EXP 	unnamed Rect: fillColor = '#BA306D'
+870.5477 	EXP 	Sound  stopped
+870.7474 	EXP 	Device response: <KeyPress from None: t=870.7436454999997, value=y, duration=None>
+870.7717 	DATA 	KeyPress: y
+870.7731 	EXP 	unnamed TextStim: height = np.float64(28.0)
+870.7731 	EXP 	unnamed TextStim: height = np.float64(28.0)
+870.7731 	EXP 	unnamed TextStim: height = np.float64(28.0)
+870.7731 	EXP 	unnamed TextStim: text = 'Correct'
+870.9636 	EXP 	Device response: <KeyPress from None: t=870.7436454999997, value=y, duration=0.2195998000001964>
+871.8969 	EXP 	unnamed Rect: fillColor = '#AA7A2D'
+872.9134 	EXP 	unnamed Rect: fillColor = '#B54982'
+873.9147 	EXP 	: sampleRate = 15500
+873.9310 	EXP 	Sound  reached end of file
+873.9310 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+874.9499 	EXP 	Sound  stopped
+874.9514 	EXP 	: sampleRate = 16000
+874.9538 	EXP 	Sound  reached end of file
+874.9538 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+875.9637 	EXP 	Sound  stopped
+876.2818 	EXP 	: sampleRate = 16000
+876.2834 	EXP 	Sound  reached end of file
+876.2835 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+876.2966 	EXP 	unnamed Rect: fillColor = '#77913C'
+876.8803 	EXP 	Device response: <KeyPress from None: t=876.8670792999997, value=n, duration=None>
+876.8953 	DATA 	KeyPress: n
+877.1304 	EXP 	Device response: <KeyPress from None: t=876.8670792999997, value=n, duration=0.2526244000000588>
+877.2968 	EXP 	Sound  stopped
+877.3134 	EXP 	unnamed TextStim: text = 'Correct'
+878.4466 	EXP 	unnamed Rect: fillColor = '#167B23'
+879.4633 	EXP 	unnamed Rect: fillColor = '#2284C3'
+880.4657 	EXP 	: sampleRate = 15500
+880.4739 	EXP 	Sound  reached end of file
+880.4740 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+881.4801 	EXP 	Sound  stopped
+881.4807 	EXP 	: sampleRate = 16000
+881.4814 	EXP 	Sound  reached end of file
+881.4814 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+882.4968 	EXP 	Sound  stopped
+882.8143 	EXP 	: sampleRate = 15500
+882.8176 	EXP 	Sound  reached end of file
+882.8177 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+882.8297 	EXP 	unnamed Rect: fillColor = '#167B23'
+883.8139 	EXP 	Sound  stopped
+883.9471 	EXP 	Device response: <KeyPress from None: t=883.9428506999998, value=y, duration=None>
+883.9681 	DATA 	KeyPress: y
+883.9695 	EXP 	unnamed TextStim: text = 'Correct'
+884.2139 	EXP 	Device response: <KeyPress from None: t=883.9428506999998, value=y, duration=0.2548416999998153>
+885.0964 	EXP 	unnamed Rect: fillColor = '#6877BE'
+886.1132 	EXP 	unnamed Rect: fillColor = '#D75E66'
+887.1138 	EXP 	: sampleRate = 15500
+887.1197 	EXP 	Sound  reached end of file
+887.1198 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+888.1298 	EXP 	Sound  stopped
+888.1307 	EXP 	: sampleRate = 16000
+888.1323 	EXP 	Sound  reached end of file
+888.1326 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+889.1466 	EXP 	Sound  stopped
+889.4486 	EXP 	: sampleRate = 15500
+889.4550 	EXP 	Sound  reached end of file
+889.4550 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+889.4633 	EXP 	unnamed Rect: fillColor = '#467927'
+890.4633 	EXP 	Sound  stopped
+890.9301 	EXP 	Device response: <KeyPress from None: t=890.9180410999998, value=n, duration=None>
+890.9433 	DATA 	KeyPress: n
+890.9460 	EXP 	unnamed TextStim: text = 'Correct'
+891.1966 	EXP 	Device response: <KeyPress from None: t=890.9180410999998, value=n, duration=0.2617924999999559>
+892.0795 	EXP 	unnamed Rect: fillColor = '#E7608A'
+893.0962 	EXP 	unnamed Rect: fillColor = '#B65246'
+894.0975 	EXP 	: sampleRate = 15500
+894.1034 	EXP 	Sound  reached end of file
+894.1035 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+895.1133 	EXP 	Sound  stopped
+895.1143 	EXP 	: sampleRate = 16000
+895.1159 	EXP 	Sound  reached end of file
+895.1160 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+896.1297 	EXP 	Sound  stopped
+896.4476 	EXP 	: sampleRate = 16000
+896.4492 	EXP 	Sound  reached end of file
+896.4492 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+896.4628 	EXP 	unnamed Rect: fillColor = '#B65246'
+897.4628 	EXP 	Sound  stopped
+897.5962 	EXP 	Device response: <KeyPress from None: t=897.5805740999999, value=y, duration=None>
+897.6097 	DATA 	KeyPress: y
+897.6126 	EXP 	unnamed TextStim: text = 'Correct'
+897.8464 	EXP 	Device response: <KeyPress from None: t=897.5805740999999, value=y, duration=0.2585724000000482>
+898.7462 	EXP 	unnamed Rect: fillColor = '#9A7100'
+899.7629 	EXP 	unnamed Rect: fillColor = '#628524'
+900.7486 	EXP 	: sampleRate = 15500
+900.7549 	EXP 	Sound  reached end of file
+900.7549 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+901.7629 	EXP 	Sound  stopped
+901.7639 	EXP 	: sampleRate = 16000
+901.7654 	EXP 	Sound  reached end of file
+901.7654 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+902.7796 	EXP 	Sound  stopped
+903.0988 	EXP 	: sampleRate = 15500
+903.1041 	EXP 	Sound  reached end of file
+903.1041 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+903.1129 	EXP 	unnamed Rect: fillColor = '#AA2F80'
+904.1129 	EXP 	Sound  stopped
+904.1603 	DATA 	KeyPress: n
+904.1629 	EXP 	Device response: <KeyPress from None: t=904.1467742999998, value=n, duration=None>
+904.1797 	EXP 	unnamed TextStim: text = 'Correct'
+904.3963 	EXP 	Device response: <KeyPress from None: t=904.1467742999998, value=n, duration=0.23508589999983087>
+905.3127 	EXP 	unnamed Rect: fillColor = '#DF6D6A'
+906.3292 	EXP 	unnamed Rect: fillColor = '#566E23'
+907.3303 	EXP 	: sampleRate = 15500
+907.3346 	EXP 	Sound  reached end of file
+907.3347 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+908.3461 	EXP 	Sound  stopped
+908.3467 	EXP 	: sampleRate = 16000
+908.3475 	EXP 	Sound  reached end of file
+908.3475 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+909.3627 	EXP 	Sound  stopped
+909.6640 	EXP 	: sampleRate = 16000
+909.6654 	EXP 	Sound  reached end of file
+909.6655 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+909.6790 	EXP 	unnamed Rect: fillColor = '#566E23'
+910.6794 	EXP 	Sound  stopped
+911.0292 	EXP 	Device response: <KeyPress from None: t=911.0135181999999, value=y, duration=None>
+911.0447 	DATA 	KeyPress: y
+911.0460 	EXP 	unnamed TextStim: text = 'Correct'
+911.2629 	EXP 	Device response: <KeyPress from None: t=911.0135181999999, value=y, duration=0.23275209999974322>
+912.1789 	EXP 	unnamed Rect: fillColor = '#AB6328'
+913.1958 	EXP 	unnamed Rect: fillColor = '#816FBC'
+914.1959 	EXP 	: sampleRate = 15500
+914.1977 	EXP 	Sound  reached end of file
+914.1977 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+915.2124 	EXP 	Sound  stopped
+915.2137 	EXP 	: sampleRate = 16000
+915.2156 	EXP 	Sound  reached end of file
+915.2157 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+916.2293 	EXP 	Sound  stopped
+916.5479 	EXP 	: sampleRate = 15500
+916.5539 	EXP 	Sound  reached end of file
+916.5539 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+916.5620 	EXP 	unnamed Rect: fillColor = '#383481'
+917.4961 	EXP 	Device response: <KeyPress from None: t=917.4944486999998, value=n, duration=None>
+917.5254 	DATA 	KeyPress: n
+917.5628 	EXP 	Sound  stopped
+917.5790 	EXP 	unnamed TextStim: text = 'Correct'
+917.7296 	EXP 	Device response: <KeyPress from None: t=917.4944486999998, value=n, duration=0.23066729999982272>
+918.7126 	EXP 	unnamed Rect: fillColor = '#BD6245'
+919.7288 	EXP 	unnamed Rect: fillColor = '#BB6EAB'
+920.7150 	EXP 	: sampleRate = 15500
+920.7236 	EXP 	Sound  reached end of file
+920.7236 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+921.7290 	EXP 	Sound  stopped
+921.7302 	EXP 	: sampleRate = 16000
+921.7321 	EXP 	Sound  reached end of file
+921.7322 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+922.7458 	EXP 	Sound  stopped
+923.0644 	EXP 	: sampleRate = 16000
+923.0663 	EXP 	Sound  reached end of file
+923.0663 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+923.0785 	EXP 	unnamed Rect: fillColor = '#BB6EAB'
+924.0788 	EXP 	Sound  stopped
+924.2458 	EXP 	Device response: <KeyPress from None: t=924.2313551999996, value=n, duration=None>
+924.2685 	DATA 	KeyPress: n
+924.2692 	EXP 	unnamed TextStim: height = np.float64(28.0)
+924.2692 	EXP 	unnamed TextStim: height = np.float64(28.0)
+924.2692 	EXP 	unnamed TextStim: height = np.float64(28.0)
+924.2692 	EXP 	unnamed TextStim: text = 'Wrong'
+924.4789 	EXP 	Device response: <KeyPress from None: t=924.2313551999996, value=n, duration=0.23878170000034515>
+925.3958 	EXP 	unnamed Rect: fillColor = '#DE6189'
+926.3953 	EXP 	unnamed Rect: fillColor = '#AB5FA8'
+927.3963 	EXP 	: sampleRate = 15500
+927.4006 	EXP 	Sound  reached end of file
+927.4007 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+928.4131 	EXP 	Sound  stopped
+928.4141 	EXP 	: sampleRate = 16000
+928.4156 	EXP 	Sound  reached end of file
+928.4156 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+929.4295 	EXP 	Sound  stopped
+929.7467 	EXP 	: sampleRate = 15500
+929.7512 	EXP 	Sound  reached end of file
+929.7513 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+929.7617 	EXP 	unnamed Rect: fillColor = '#90A02F'
+930.4120 	EXP 	Device response: <KeyPress from None: t=930.4067112999996, value=n, duration=None>
+930.4265 	DATA 	KeyPress: n
+930.6626 	EXP 	Device response: <KeyPress from None: t=930.4067112999996, value=n, duration=0.24029689999997572>
+930.7619 	EXP 	Sound  stopped
+930.7784 	EXP 	unnamed TextStim: height = np.float64(28.0)
+930.7784 	EXP 	unnamed TextStim: height = np.float64(28.0)
+930.7784 	EXP 	unnamed TextStim: height = np.float64(28.0)
+930.7784 	EXP 	unnamed TextStim: text = 'Correct'
+931.5953 	EXP 	unnamed TextStim: height = np.float64(28.0)
+931.5953 	EXP 	unnamed TextStim: height = np.float64(28.0)
+931.5953 	EXP 	unnamed TextStim: height = np.float64(28.0)
+931.5953 	EXP 	unnamed TextStim: text = 'Practice done. From now on there is no feedback.\n\nPress the space bar to continue.'
+932.9338 	DATA 	Keypress: space
+932.9368 	EXP 	Device response: <KeyPress from None: t=932.9331944999999, value=space, duration=None>
+933.1120 	EXP 	Device response: <KeyPress from None: t=932.9331944999999, value=space, duration=0.16843549999975949>
+933.2620 	EXP 	unnamed Rect: fillColor = '#448CDD'
+934.2785 	EXP 	unnamed Rect: fillColor = '#9C5097'
+935.2793 	EXP 	: sampleRate = 15500
+935.2842 	EXP 	Sound  reached end of file
+935.2842 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+936.2954 	EXP 	Sound  stopped
+936.2965 	EXP 	: sampleRate = 16000
+936.2984 	EXP 	Sound  reached end of file
+936.2984 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+937.3119 	EXP 	Sound  stopped
+937.6340 	EXP 	: sampleRate = 16000
+937.6355 	EXP 	Sound  reached end of file
+937.6355 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+937.6369 	EXP 	unnamed Rect: fillColor = '#AC60A4'
+938.6118 	EXP 	Device response: <KeyPress from None: t=938.6087884999997, value=n, duration=None>
+938.6226 	DATA 	KeyPress: n
+938.6284 	EXP 	Sound  stopped
+938.8452 	EXP 	Device response: <KeyPress from None: t=938.6087884999997, value=n, duration=0.2332856000002721>
+938.9617 	EXP 	unnamed Rect: fillColor = '#B33557'
+939.9782 	EXP 	unnamed Rect: fillColor = '#AE7228'
+940.9794 	EXP 	: sampleRate = 15500
+940.9840 	EXP 	Sound  reached end of file
+940.9841 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+941.9950 	EXP 	Sound  stopped
+941.9959 	EXP 	: sampleRate = 16000
+941.9978 	EXP 	Sound  reached end of file
+941.9978 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+943.0118 	EXP 	Sound  stopped
+943.3170 	EXP 	: sampleRate = 16000
+943.3232 	EXP 	Sound  reached end of file
+943.3233 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+943.3291 	EXP 	unnamed Rect: fillColor = '#B3772B'
+944.1117 	EXP 	Device response: <KeyPress from None: t=944.0977921999997, value=y, duration=None>
+944.1249 	DATA 	KeyPress: y
+944.3280 	EXP 	Sound  stopped
+944.3455 	EXP 	Device response: <KeyPress from None: t=944.0977921999997, value=y, duration=0.2346399000002748>
+944.6614 	EXP 	unnamed Rect: fillColor = '#D36553'
+945.6780 	EXP 	unnamed Rect: fillColor = '#A65FA9'
+946.6786 	EXP 	: sampleRate = 15500
+946.6836 	EXP 	Sound  reached end of file
+946.6837 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+947.6947 	EXP 	Sound  stopped
+947.6960 	EXP 	: sampleRate = 16000
+947.6980 	EXP 	Sound  reached end of file
+947.6981 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+948.7119 	EXP 	Sound  stopped
+949.0302 	EXP 	: sampleRate = 16000
+949.0327 	EXP 	Sound  reached end of file
+949.0327 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+949.0445 	EXP 	unnamed Rect: fillColor = '#B37DC4'
+949.8614 	EXP 	Device response: <KeyPress from None: t=949.8532435999996, value=y, duration=None>
+949.8858 	DATA 	KeyPress: y
+950.0448 	EXP 	Sound  stopped
+950.1117 	EXP 	Device response: <KeyPress from None: t=949.8532435999996, value=y, duration=0.24361160000034943>
+950.3782 	EXP 	unnamed Rect: fillColor = '#726ECC'
+951.3944 	EXP 	unnamed Rect: fillColor = '#BC5E2A'
+952.3958 	EXP 	: sampleRate = 15500
+952.4007 	EXP 	Sound  reached end of file
+952.4007 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+953.4113 	EXP 	Sound  stopped
+953.4123 	EXP 	: sampleRate = 16000
+953.4138 	EXP 	Sound  reached end of file
+953.4139 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+954.4275 	EXP 	Sound  stopped
+954.7285 	EXP 	: sampleRate = 15500
+954.7338 	EXP 	Sound  reached end of file
+954.7338 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+954.7441 	EXP 	unnamed Rect: fillColor = '#776FC9'
+955.7283 	EXP 	Device response: <KeyPress from None: t=955.7135645999997, value=y, duration=None>
+955.7284 	EXP 	Sound  stopped
+955.7556 	DATA 	KeyPress: y
+955.9776 	EXP 	Device response: <KeyPress from None: t=955.7135645999997, value=y, duration=0.26278320000028543>
+956.0609 	EXP 	unnamed Rect: fillColor = '#298351'
+957.0617 	EXP 	unnamed Rect: fillColor = '#4F85E2'
+958.0622 	EXP 	: sampleRate = 15500
+958.0668 	EXP 	Sound  reached end of file
+958.0668 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+959.0776 	EXP 	Sound  stopped
+959.0783 	EXP 	: sampleRate = 16000
+959.0792 	EXP 	Sound  reached end of file
+959.0792 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+960.0943 	EXP 	Sound  stopped
+960.3960 	EXP 	: sampleRate = 16000
+960.3979 	EXP 	Sound  reached end of file
+960.3980 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+960.4109 	EXP 	unnamed Rect: fillColor = '#357EC9'
+961.4120 	EXP 	Sound  stopped
+962.3112 	EXP 	Device response: <KeyPress from None: t=962.3081315999998, value=y, duration=None>
+962.3274 	DATA 	KeyPress: y
+962.5277 	EXP 	Device response: <KeyPress from None: t=962.3081315999998, value=y, duration=0.20379599999978382>
+962.6444 	EXP 	unnamed Rect: fillColor = '#C76D66'
+963.6606 	EXP 	unnamed Rect: fillColor = '#D85C7F'
+964.6449 	EXP 	: sampleRate = 15500
+964.6476 	EXP 	Sound  reached end of file
+964.6476 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+965.6609 	EXP 	Sound  stopped
+965.6623 	EXP 	: sampleRate = 16000
+965.6645 	EXP 	Sound  reached end of file
+965.6646 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+966.6778 	EXP 	Sound  stopped
+966.9947 	EXP 	: sampleRate = 15500
+966.9970 	EXP 	Sound  reached end of file
+966.9970 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+967.0104 	EXP 	unnamed Rect: fillColor = '#B32C40'
+967.8440 	EXP 	Device response: <KeyPress from None: t=967.8430291, value=n, duration=None>
+967.8596 	DATA 	KeyPress: n
+967.9944 	EXP 	Sound  stopped
+968.0610 	EXP 	Device response: <KeyPress from None: t=967.8430291, value=n, duration=0.21549740000000384>
+968.3272 	EXP 	unnamed Rect: fillColor = '#3A76BD'
+969.3438 	EXP 	unnamed Rect: fillColor = '#A376D5'
+970.3448 	EXP 	: sampleRate = 15500
+970.3508 	EXP 	Sound  reached end of file
+970.3508 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+971.3610 	EXP 	Sound  stopped
+971.3616 	EXP 	: sampleRate = 16000
+971.3624 	EXP 	Sound  reached end of file
+971.3624 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+972.3779 	EXP 	Sound  stopped
+972.6956 	EXP 	: sampleRate = 16000
+972.6979 	EXP 	Sound  reached end of file
+972.6979 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+972.7105 	EXP 	unnamed Rect: fillColor = '#A376D5'
+973.7107 	EXP 	Sound  stopped
+974.2271 	EXP 	Device response: <KeyPress from None: t=974.2262810999996, value=y, duration=None>
+974.2370 	DATA 	KeyPress: y
+974.3608 	EXP 	Device response: <KeyPress from None: t=974.2262810999996, value=y, duration=0.12761920000002647>
+974.5606 	EXP 	unnamed Rect: fillColor = '#838707'
+975.5773 	EXP 	unnamed Rect: fillColor = '#2F6E25'
+976.5802 	EXP 	: sampleRate = 15500
+976.5880 	EXP 	Sound  reached end of file
+976.5881 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+977.5947 	EXP 	Sound  stopped
+977.5962 	EXP 	: sampleRate = 16000
+977.5991 	EXP 	Sound  reached end of file
+977.5992 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+978.6106 	EXP 	Sound  stopped
+978.9279 	EXP 	: sampleRate = 15500
+978.9313 	EXP 	Sound  reached end of file
+978.9314 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+978.9437 	EXP 	unnamed Rect: fillColor = '#BFAE97'
+979.9438 	EXP 	Sound  stopped
+980.0942 	EXP 	Device response: <KeyPress from None: t=980.0856104999998, value=n, duration=None>
+980.1128 	DATA 	KeyPress: n
+980.3442 	EXP 	Device response: <KeyPress from None: t=980.0856104999998, value=n, duration=0.2482810999999856>
+980.4270 	EXP 	unnamed Rect: fillColor = '#6F53AB'
+981.4435 	EXP 	unnamed Rect: fillColor = '#AE3E4E'
+982.4281 	EXP 	: sampleRate = 15500
+982.4342 	EXP 	Sound  reached end of file
+982.4343 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+983.4439 	EXP 	Sound  stopped
+983.4444 	EXP 	: sampleRate = 16000
+983.4451 	EXP 	Sound  reached end of file
+983.4452 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+984.4604 	EXP 	Sound  stopped
+984.7620 	EXP 	: sampleRate = 16000
+984.7637 	EXP 	Sound  reached end of file
+984.7638 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+984.7768 	EXP 	unnamed Rect: fillColor = '#4D2A62'
+985.7771 	EXP 	Sound  stopped
+985.7938 	EXP 	Device response: <KeyPress from None: t=985.7830746999998, value=n, duration=None>
+985.8200 	DATA 	KeyPress: n
+985.9769 	EXP 	Device response: <KeyPress from None: t=985.7830746999998, value=n, duration=0.18726209999977073>
+986.1269 	EXP 	unnamed Rect: fillColor = '#C472B6'
+987.1433 	EXP 	unnamed Rect: fillColor = '#764AA7'
+988.1446 	EXP 	: sampleRate = 15500
+988.1480 	EXP 	Sound  reached end of file
+988.1480 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+989.1608 	EXP 	Sound  stopped
+989.1622 	EXP 	: sampleRate = 16000
+989.1653 	EXP 	Sound  reached end of file
+989.1654 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+990.1771 	EXP 	Sound  stopped
+990.4952 	EXP 	: sampleRate = 16000
+990.4974 	EXP 	Sound  reached end of file
+990.4974 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+990.5098 	EXP 	unnamed Rect: fillColor = '#764AA7'
+991.5099 	EXP 	Sound  stopped
+991.8435 	EXP 	Device response: <KeyPress from None: t=991.8389576999998, value=y, duration=None>
+991.8648 	DATA 	KeyPress: y
+992.0771 	EXP 	Device response: <KeyPress from None: t=991.8389576999998, value=y, duration=0.2333966999999575>
+992.1763 	EXP 	unnamed Rect: fillColor = '#A3538E'
+993.1934 	EXP 	unnamed Rect: fillColor = '#BC6F47'
+994.1942 	EXP 	: sampleRate = 15500
+994.1985 	EXP 	Sound  reached end of file
+994.1985 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+995.2101 	EXP 	Sound  stopped
+995.2108 	EXP 	: sampleRate = 16000
+995.2118 	EXP 	Sound  reached end of file
+995.2118 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+996.2267 	EXP 	Sound  stopped
+996.5446 	EXP 	: sampleRate = 16000
+996.5465 	EXP 	Sound  reached end of file
+996.5465 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+996.5601 	EXP 	unnamed Rect: fillColor = '#BC6F47'
+997.4518 	DATA 	KeyPress: y
+997.4599 	EXP 	Device response: <KeyPress from None: t=997.4439009999996, value=y, duration=None>
+997.5603 	EXP 	Sound  stopped
+997.7106 	EXP 	Device response: <KeyPress from None: t=997.4439009999996, value=y, duration=0.25689409999995405>
+997.8947 	EXP 	unnamed Rect: fillColor = '#8F71D3'
+998.9099 	EXP 	unnamed Rect: fillColor = '#B4664B'
+999.9109 	EXP 	: sampleRate = 15500
+999.9162 	EXP 	Sound  reached end of file
+999.9163 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1000.9266 	EXP 	Sound  stopped
+1000.9273 	EXP 	: sampleRate = 16000
+1000.9286 	EXP 	Sound  reached end of file
+1000.9287 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1001.9430 	EXP 	Sound  stopped
+1002.2622 	EXP 	: sampleRate = 15500
+1002.2668 	EXP 	Sound  reached end of file
+1002.2672 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1002.2760 	EXP 	unnamed Rect: fillColor = '#B83023'
+1003.2264 	EXP 	Device response: <KeyPress from None: t=1003.2221032999996, value=n, duration=None>
+1003.2331 	DATA 	KeyPress: n
+1003.2763 	EXP 	Sound  stopped
+1003.4768 	EXP 	Device response: <KeyPress from None: t=1003.2221032999996, value=n, duration=0.24222450000024764>
+1003.6095 	EXP 	unnamed Rect: fillColor = '#2561B4'
+1004.6259 	EXP 	unnamed Rect: fillColor = '#9C405F'
+1005.6268 	EXP 	: sampleRate = 15500
+1005.6297 	EXP 	Sound  reached end of file
+1005.6298 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1006.6427 	EXP 	Sound  stopped
+1006.6432 	EXP 	: sampleRate = 16000
+1006.6440 	EXP 	Sound  reached end of file
+1006.6440 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1007.6595 	EXP 	Sound  stopped
+1007.9769 	EXP 	: sampleRate = 15500
+1007.9861 	EXP 	Sound  reached end of file
+1007.9862 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1007.9928 	EXP 	unnamed Rect: fillColor = '#102877'
+1008.7429 	EXP 	Device response: <KeyPress from None: t=1008.7346579999999, value=n, duration=None>
+1008.7544 	DATA 	KeyPress: n
+1008.9766 	EXP 	Sound  stopped
+1008.9932 	EXP 	Device response: <KeyPress from None: t=1008.7346579999999, value=n, duration=0.2482826999998906>
+1009.3096 	EXP 	unnamed Rect: fillColor = '#A3489B'
+1010.3259 	EXP 	unnamed Rect: fillColor = '#A87F10'
+1011.3120 	EXP 	: sampleRate = 15500
+1011.3207 	EXP 	Sound  reached end of file
+1011.3208 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1012.3259 	EXP 	Sound  stopped
+1012.3265 	EXP 	: sampleRate = 16000
+1012.3273 	EXP 	Sound  reached end of file
+1012.3273 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1013.3427 	EXP 	Sound  stopped
+1013.6453 	EXP 	: sampleRate = 16000
+1013.6473 	EXP 	Sound  reached end of file
+1013.6474 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1013.6593 	EXP 	unnamed Rect: fillColor = '#A87F10'
+1014.6591 	EXP 	Sound  stopped
+1014.7091 	EXP 	Device response: <KeyPress from None: t=1014.7033614999996, value=y, duration=None>
+1014.8047 	DATA 	KeyPress: y
+1014.9592 	EXP 	Device response: <KeyPress from None: t=1014.7033614999996, value=y, duration=0.2536936000001333>
+1015.1090 	EXP 	unnamed Rect: fillColor = '#B55374'
+1016.1256 	EXP 	unnamed Rect: fillColor = '#9A5D98'
+1017.1262 	EXP 	: sampleRate = 15500
+1017.1281 	EXP 	Sound  reached end of file
+1017.1281 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1018.1430 	EXP 	Sound  stopped
+1018.1448 	EXP 	: sampleRate = 16000
+1018.1466 	EXP 	Sound  reached end of file
+1018.1466 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1019.1590 	EXP 	Sound  stopped
+1019.4616 	EXP 	: sampleRate = 16000
+1019.4645 	EXP 	Sound  reached end of file
+1019.4645 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1019.4758 	EXP 	unnamed Rect: fillColor = '#9A5D98'
+1020.3596 	EXP 	Device response: <KeyPress from None: t=1020.3503354, value=y, duration=None>
+1020.3764 	DATA 	KeyPress: y
+1020.4760 	EXP 	Sound  stopped
+1020.6093 	EXP 	Device response: <KeyPress from None: t=1020.3503354, value=y, duration=0.25292450000006284>
+1020.8092 	EXP 	unnamed Rect: fillColor = '#845D21'
+1021.8094 	EXP 	unnamed Rect: fillColor = '#538DE0'
+1022.8102 	EXP 	: sampleRate = 15500
+1022.8159 	EXP 	Sound  reached end of file
+1022.8160 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1023.8269 	EXP 	Sound  stopped
+1023.8275 	EXP 	: sampleRate = 16000
+1023.8293 	EXP 	Sound  reached end of file
+1023.8293 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1024.8430 	EXP 	Sound  stopped
+1025.1834 	EXP 	: sampleRate = 16000
+1025.1855 	EXP 	Sound  reached end of file
+1025.1856 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1025.1880 	EXP 	unnamed Rect: fillColor = '#4A8CE2'
+1026.0924 	EXP 	Device response: <KeyPress from None: t=1026.0887190999997, value=n, duration=None>
+1026.1039 	DATA 	KeyPress: n
+1026.1760 	EXP 	Sound  stopped
+1026.3596 	EXP 	Device response: <KeyPress from None: t=1026.0887190999997, value=n, duration=0.26776360000030763>
+1026.5090 	EXP 	unnamed Rect: fillColor = '#159663'
+1027.5092 	EXP 	unnamed Rect: fillColor = '#577834'
+1028.5108 	EXP 	: sampleRate = 15500
+1028.5155 	EXP 	Sound  reached end of file
+1028.5155 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1029.5258 	EXP 	Sound  stopped
+1029.5267 	EXP 	: sampleRate = 16000
+1029.5283 	EXP 	Sound  reached end of file
+1029.5284 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1030.5426 	EXP 	Sound  stopped
+1030.8781 	EXP 	: sampleRate = 15500
+1030.8848 	EXP 	Sound  reached end of file
+1030.8849 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1030.8872 	EXP 	unnamed Rect: fillColor = '#222E03'
+1031.7928 	EXP 	Device response: <KeyPress from None: t=1031.7848243999997, value=n, duration=None>
+1031.8079 	DATA 	KeyPress: n
+1031.8760 	EXP 	Sound  stopped
+1032.0425 	EXP 	Device response: <KeyPress from None: t=1031.7848243999997, value=n, duration=0.25517500000023574>
+1032.2088 	EXP 	unnamed Rect: fillColor = '#BC6D31'
+1033.2254 	EXP 	unnamed Rect: fillColor = '#7D72BC'
+1034.2258 	EXP 	: sampleRate = 15500
+1034.2292 	EXP 	Sound  reached end of file
+1034.2292 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1035.2426 	EXP 	Sound  stopped
+1035.2437 	EXP 	: sampleRate = 16000
+1035.2448 	EXP 	Sound  reached end of file
+1035.2448 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1036.2593 	EXP 	Sound  stopped
+1036.5614 	EXP 	: sampleRate = 15500
+1036.5683 	EXP 	Sound  reached end of file
+1036.5684 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1036.5754 	EXP 	unnamed Rect: fillColor = '#AE4D71'
+1037.5757 	EXP 	Sound  stopped
+1037.6099 	EXP 	Device response: <KeyPress from None: t=1037.6021676999999, value=n, duration=None>
+1037.6319 	DATA 	KeyPress: n
+1037.7925 	EXP 	Device response: <KeyPress from None: t=1037.6021676999999, value=n, duration=0.18464510000012524>
+1037.9421 	EXP 	unnamed Rect: fillColor = '#D16C63'
+1038.9588 	EXP 	unnamed Rect: fillColor = '#AC8340'
+1039.9596 	EXP 	: sampleRate = 15500
+1039.9620 	EXP 	Sound  reached end of file
+1039.9621 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1040.9751 	EXP 	Sound  stopped
+1040.9756 	EXP 	: sampleRate = 16000
+1040.9763 	EXP 	Sound  reached end of file
+1040.9763 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1041.9925 	EXP 	Sound  stopped
+1042.2953 	EXP 	: sampleRate = 15500
+1042.3020 	EXP 	Sound  reached end of file
+1042.3020 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1042.3084 	EXP 	unnamed Rect: fillColor = '#4D65E1'
+1043.0754 	EXP 	Device response: <KeyPress from None: t=1043.0637653, value=n, duration=None>
+1043.0900 	DATA 	KeyPress: n
+1043.3093 	EXP 	Sound  stopped
+1043.3423 	EXP 	Device response: <KeyPress from None: t=1043.0637653, value=n, duration=0.26561069999979736>
+1043.6418 	EXP 	unnamed Rect: fillColor = '#B57D43'
+1044.6585 	EXP 	unnamed Rect: fillColor = '#C76EC2'
+1045.6599 	EXP 	: sampleRate = 15500
+1045.6621 	EXP 	Sound  reached end of file
+1045.6624 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1046.6750 	EXP 	Sound  stopped
+1046.6762 	EXP 	: sampleRate = 16000
+1046.6778 	EXP 	Sound  reached end of file
+1046.6778 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1047.6921 	EXP 	Sound  stopped
+1047.9957 	EXP 	: sampleRate = 16000
+1047.9974 	EXP 	Sound  reached end of file
+1047.9974 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1048.0082 	EXP 	unnamed Rect: fillColor = '#A9B46C'
+1048.6421 	EXP 	Device response: <KeyPress from None: t=1048.6350484999998, value=n, duration=None>
+1048.6567 	DATA 	KeyPress: n
+1048.9085 	EXP 	Device response: <KeyPress from None: t=1048.6350484999998, value=n, duration=0.26125980000006166>
+1049.0088 	EXP 	Sound  stopped
+1049.3418 	EXP 	unnamed Rect: fillColor = '#874494'
+1050.3584 	EXP 	unnamed Rect: fillColor = '#577111'
+1051.3592 	EXP 	: sampleRate = 15500
+1051.3638 	EXP 	Sound  reached end of file
+1051.3639 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1052.3753 	EXP 	Sound  stopped
+1052.3762 	EXP 	: sampleRate = 16000
+1052.3777 	EXP 	Sound  reached end of file
+1052.3778 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1053.3920 	EXP 	Sound  stopped
+1053.7100 	EXP 	: sampleRate = 16000
+1053.7117 	EXP 	Sound  reached end of file
+1053.7117 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1053.7250 	EXP 	unnamed Rect: fillColor = '#50701E'
+1054.7249 	EXP 	Sound  stopped
+1054.9252 	EXP 	Device response: <KeyPress from None: t=1054.9206809999996, value=n, duration=None>
+1054.9459 	DATA 	KeyPress: n
+1055.1751 	EXP 	Device response: <KeyPress from None: t=1054.9206809999996, value=n, duration=0.23847120000027644>
+1055.2583 	EXP 	unnamed Rect: fillColor = '#CF6E52'
+1056.2748 	EXP 	unnamed Rect: fillColor = '#6D8732'
+1057.2758 	EXP 	: sampleRate = 15500
+1057.2791 	EXP 	Sound  reached end of file
+1057.2792 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1058.2915 	EXP 	Sound  stopped
+1058.2926 	EXP 	: sampleRate = 16000
+1058.2942 	EXP 	Sound  reached end of file
+1058.2942 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1059.3083 	EXP 	Sound  stopped
+1059.6259 	EXP 	: sampleRate = 15500
+1059.6300 	EXP 	Sound  reached end of file
+1059.6300 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1059.6415 	EXP 	unnamed Rect: fillColor = '#CF6E52'
+1060.5917 	EXP 	Device response: <KeyPress from None: t=1060.5894311999996, value=y, duration=None>
+1060.6062 	DATA 	KeyPress: y
+1060.6418 	EXP 	Sound  stopped
+1060.8417 	EXP 	Device response: <KeyPress from None: t=1060.5894311999996, value=y, duration=0.2396889999999985>
+1060.9746 	EXP 	unnamed Rect: fillColor = '#BB6234'
+1061.9914 	EXP 	unnamed Rect: fillColor = '#78721C'
+1062.9929 	EXP 	: sampleRate = 15500
+1062.9982 	EXP 	Sound  reached end of file
+1062.9983 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1064.0079 	EXP 	Sound  stopped
+1064.0089 	EXP 	: sampleRate = 16000
+1064.0103 	EXP 	Sound  reached end of file
+1064.0104 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1065.0245 	EXP 	Sound  stopped
+1065.3264 	EXP 	: sampleRate = 16000
+1065.3282 	EXP 	Sound  reached end of file
+1065.3282 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1065.3412 	EXP 	unnamed Rect: fillColor = '#8A8D29'
+1066.3427 	EXP 	Sound  stopped
+1066.4413 	EXP 	Device response: <KeyPress from None: t=1066.4271683999996, value=y, duration=None>
+1066.4593 	DATA 	KeyPress: y
+1066.6746 	EXP 	Device response: <KeyPress from None: t=1066.4271683999996, value=y, duration=0.24618450000025405>
+1066.7748 	EXP 	unnamed Rect: fillColor = '#7B7425'
+1067.7910 	EXP 	unnamed Rect: fillColor = '#D365A0'
+1068.7926 	EXP 	: sampleRate = 15500
+1068.7976 	EXP 	Sound  reached end of file
+1068.7977 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1069.8079 	EXP 	Sound  stopped
+1069.8090 	EXP 	: sampleRate = 16000
+1069.8107 	EXP 	Sound  reached end of file
+1069.8108 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1070.8245 	EXP 	Sound  stopped
+1071.1426 	EXP 	: sampleRate = 16000
+1071.1441 	EXP 	Sound  reached end of file
+1071.1441 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1071.1578 	EXP 	unnamed Rect: fillColor = '#D36AA2'
+1072.1419 	EXP 	Sound  stopped
+1072.2247 	EXP 	Device response: <KeyPress from None: t=1072.210509, value=n, duration=None>
+1072.2462 	DATA 	KeyPress: n
+1072.4411 	EXP 	Device response: <KeyPress from None: t=1072.210509, value=n, duration=0.21376099999997678>
+1072.5578 	EXP 	unnamed Rect: fillColor = '#DA616E'
+1073.5745 	EXP 	unnamed Rect: fillColor = '#C361B0'
+1074.5749 	EXP 	: sampleRate = 15500
+1074.5774 	EXP 	Sound  reached end of file
+1074.5774 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1075.5910 	EXP 	Sound  stopped
+1075.5922 	EXP 	: sampleRate = 16000
+1075.5936 	EXP 	Sound  reached end of file
+1075.5937 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1076.6076 	EXP 	Sound  stopped
+1076.9099 	EXP 	: sampleRate = 15500
+1076.9152 	EXP 	Sound  reached end of file
+1076.9152 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1076.9243 	EXP 	unnamed Rect: fillColor = '#AD2A63'
+1077.9246 	EXP 	Sound  stopped
+1078.0895 	DATA 	KeyPress: n
+1078.0907 	EXP 	Device response: <KeyPress from None: t=1078.0750842999996, value=n, duration=None>
+1078.3409 	EXP 	Device response: <KeyPress from None: t=1078.0750842999996, value=n, duration=0.2585778000002392>
+1078.4240 	EXP 	unnamed Rect: fillColor = '#BE5033'
+1079.4407 	EXP 	unnamed Rect: fillColor = '#D4617D'
+1080.4425 	EXP 	: sampleRate = 15500
+1080.4477 	EXP 	Sound  reached end of file
+1080.4477 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1081.4575 	EXP 	Sound  stopped
+1081.4586 	EXP 	: sampleRate = 16000
+1081.4602 	EXP 	Sound  reached end of file
+1081.4602 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1082.4743 	EXP 	Sound  stopped
+1082.8120 	EXP 	: sampleRate = 15500
+1082.8187 	EXP 	Sound  reached end of file
+1082.8188 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1082.8207 	EXP 	unnamed Rect: fillColor = '#CE533D'
+1083.7577 	EXP 	Device response: <KeyPress from None: t=1083.7530075999998, value=n, duration=None>
+1083.7723 	DATA 	KeyPress: n
+1083.8076 	EXP 	Sound  stopped
+1084.0410 	EXP 	Device response: <KeyPress from None: t=1083.7530075999998, value=n, duration=0.2724640999999792>
+1084.1408 	EXP 	unnamed Rect: fillColor = '#B55754'
+1085.1575 	EXP 	unnamed Rect: fillColor = '#4E7A2C'
+1086.1591 	EXP 	: sampleRate = 15500
+1086.1664 	EXP 	Sound  reached end of file
+1086.1665 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1087.1740 	EXP 	Sound  stopped
+1087.1749 	EXP 	: sampleRate = 16000
+1087.1765 	EXP 	Sound  reached end of file
+1087.1766 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1088.1909 	EXP 	Sound  stopped
+1088.5088 	EXP 	: sampleRate = 16000
+1088.5110 	EXP 	Sound  reached end of file
+1088.5110 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1088.5240 	EXP 	unnamed Rect: fillColor = '#527D22'
+1089.5244 	EXP 	Sound  stopped
+1089.5410 	EXP 	Device response: <KeyPress from None: t=1089.5290822999996, value=y, duration=None>
+1089.5734 	DATA 	KeyPress: y
+1089.7909 	EXP 	Device response: <KeyPress from None: t=1089.5290822999996, value=y, duration=0.2509420000001228>
+1089.8736 	EXP 	unnamed Rect: fillColor = '#8C54A3'
+1090.8906 	EXP 	unnamed Rect: fillColor = '#D9508C'
+1091.8917 	EXP 	: sampleRate = 15500
+1091.8986 	EXP 	Sound  reached end of file
+1091.8986 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1092.9072 	EXP 	Sound  stopped
+1092.9080 	EXP 	: sampleRate = 16000
+1092.9103 	EXP 	Sound  reached end of file
+1092.9104 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1093.9239 	EXP 	Sound  stopped
+1094.2420 	EXP 	: sampleRate = 15500
+1094.2465 	EXP 	Sound  reached end of file
+1094.2466 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1094.2569 	EXP 	unnamed Rect: fillColor = '#8F55A1'
+1095.2428 	EXP 	Sound  stopped
+1096.3142 	DATA 	KeyPress: y
+1096.3158 	EXP 	Device response: <KeyPress from None: t=1096.2909445999999, value=y, duration=None>
+1096.5405 	EXP 	Device response: <KeyPress from None: t=1096.2909445999999, value=y, duration=0.24747019999995246>
+1096.6402 	EXP 	unnamed Rect: fillColor = '#C35080'
+1097.6570 	EXP 	unnamed Rect: fillColor = '#9767AC'
+1098.6585 	EXP 	: sampleRate = 15500
+1098.6636 	EXP 	Sound  reached end of file
+1098.6636 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1099.6738 	EXP 	Sound  stopped
+1099.6745 	EXP 	: sampleRate = 16000
+1099.6753 	EXP 	Sound  reached end of file
+1099.6754 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1100.6904 	EXP 	Sound  stopped
+1101.0083 	EXP 	: sampleRate = 16000
+1101.0097 	EXP 	Sound  reached end of file
+1101.0097 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1101.0236 	EXP 	unnamed Rect: fillColor = '#A45897'
+1102.0237 	EXP 	Sound  stopped
+1102.0737 	EXP 	Device response: <KeyPress from None: t=1102.0587984, value=y, duration=None>
+1102.1043 	DATA 	KeyPress: y
+1102.3235 	EXP 	Device response: <KeyPress from None: t=1102.0587984, value=y, duration=0.24873440000010305>
+1102.4068 	EXP 	unnamed Rect: fillColor = '#B96A2F'
+1103.4234 	EXP 	unnamed Rect: fillColor = '#666FB9'
+1104.4250 	EXP 	: sampleRate = 15500
+1104.4332 	EXP 	Sound  reached end of file
+1104.4333 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1105.4403 	EXP 	Sound  stopped
+1105.4420 	EXP 	: sampleRate = 16000
+1105.4446 	EXP 	Sound  reached end of file
+1105.4447 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1106.4567 	EXP 	Sound  stopped
+1106.7578 	EXP 	: sampleRate = 15500
+1106.7606 	EXP 	Sound  reached end of file
+1106.7606 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1106.7732 	EXP 	unnamed Rect: fillColor = '#BF6B48'
+1107.7734 	EXP 	Device response: <KeyPress from None: t=1107.7658969999998, value=y, duration=None>
+1107.7735 	EXP 	Sound  stopped
+1107.7932 	DATA 	KeyPress: y
+1108.0233 	EXP 	Device response: <KeyPress from None: t=1107.7658969999998, value=y, duration=0.24986440000020593>
+1108.1064 	EXP 	unnamed Rect: fillColor = '#A13E50'
+1109.1230 	EXP 	unnamed Rect: fillColor = '#4C7E1B'
+1110.1246 	EXP 	: sampleRate = 15500
+1110.1302 	EXP 	Sound  reached end of file
+1110.1302 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1111.1399 	EXP 	Sound  stopped
+1111.1408 	EXP 	: sampleRate = 16000
+1111.1425 	EXP 	Sound  reached end of file
+1111.1426 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1112.1569 	EXP 	Sound  stopped
+1112.4745 	EXP 	: sampleRate = 16000
+1112.4758 	EXP 	Sound  reached end of file
+1112.4759 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1112.4898 	EXP 	unnamed Rect: fillColor = '#4C7E1B'
+1113.3399 	EXP 	Device response: <KeyPress from None: t=1113.3342122, value=n, duration=None>
+1113.3554 	DATA 	KeyPress: n
+1113.4899 	EXP 	Sound  stopped
+1113.6065 	EXP 	Device response: <KeyPress from None: t=1113.3342122, value=n, duration=0.25558909999972457>
+1113.8230 	EXP 	unnamed Rect: fillColor = '#376D1F'
+1114.8398 	EXP 	unnamed Rect: fillColor = '#93448A'
+1115.8407 	EXP 	: sampleRate = 15500
+1115.8453 	EXP 	Sound  reached end of file
+1115.8453 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1116.8568 	EXP 	Sound  stopped
+1116.8589 	EXP 	: sampleRate = 16000
+1116.8616 	EXP 	Sound  reached end of file
+1116.8617 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1117.8732 	EXP 	Sound  stopped
+1118.1762 	EXP 	: sampleRate = 16000
+1118.1784 	EXP 	Sound  reached end of file
+1118.1784 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1118.1897 	EXP 	unnamed Rect: fillColor = '#87455F'
+1119.1400 	EXP 	Device response: <KeyPress from None: t=1119.1290369999997, value=n, duration=None>
+1119.1543 	DATA 	KeyPress: n
+1119.1910 	EXP 	Sound  stopped
+1119.3730 	EXP 	Device response: <KeyPress from None: t=1119.1290369999997, value=n, duration=0.24329200000011042>
+1119.5227 	EXP 	unnamed Rect: fillColor = '#A280D2'
+1120.5395 	EXP 	unnamed Rect: fillColor = '#749953'
+1121.5402 	EXP 	: sampleRate = 15500
+1121.5438 	EXP 	Sound  reached end of file
+1121.5438 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1122.5561 	EXP 	Sound  stopped
+1122.5566 	EXP 	: sampleRate = 16000
+1122.5574 	EXP 	Sound  reached end of file
+1122.5574 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1123.5727 	EXP 	Sound  stopped
+1123.8906 	EXP 	: sampleRate = 16000
+1123.8916 	EXP 	Sound  reached end of file
+1123.8917 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1123.9061 	EXP 	unnamed Rect: fillColor = '#B68482'
+1124.7234 	EXP 	Device response: <KeyPress from None: t=1124.7190291999996, value=n, duration=None>
+1124.7467 	DATA 	KeyPress: n
+1124.9068 	EXP 	Sound  stopped
+1124.9230 	EXP 	Device response: <KeyPress from None: t=1124.7190291999996, value=n, duration=0.2022767000003114>
+1125.2397 	EXP 	unnamed Rect: fillColor = '#1384CA'
+1126.2559 	EXP 	unnamed Rect: fillColor = '#B0376E'
+1127.2568 	EXP 	: sampleRate = 15500
+1127.2588 	EXP 	Sound  reached end of file
+1127.2589 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1128.2726 	EXP 	Sound  stopped
+1128.2731 	EXP 	: sampleRate = 16000
+1128.2738 	EXP 	Sound  reached end of file
+1128.2738 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1129.2898 	EXP 	Sound  stopped
+1129.6081 	EXP 	: sampleRate = 15500
+1129.6141 	EXP 	Sound  reached end of file
+1129.6141 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1129.6226 	EXP 	unnamed Rect: fillColor = '#1384CA'
+1130.6062 	EXP 	Device response: <KeyPress from None: t=1130.6019245999996, value=y, duration=None>
+1130.6222 	DATA 	KeyPress: y
+1130.6237 	EXP 	Sound  stopped
+1130.8560 	EXP 	Device response: <KeyPress from None: t=1130.6019245999996, value=y, duration=0.24798620000001392>
+1130.9563 	EXP 	unnamed Rect: fillColor = '#5F5CB6'
+1131.9725 	EXP 	unnamed Rect: fillColor = '#536715'
+1132.9730 	EXP 	: sampleRate = 15500
+1132.9760 	EXP 	Sound  reached end of file
+1132.9761 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1133.9897 	EXP 	Sound  stopped
+1133.9902 	EXP 	: sampleRate = 16000
+1133.9911 	EXP 	Sound  reached end of file
+1133.9911 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1135.0067 	EXP 	Sound  stopped
+1135.3233 	EXP 	: sampleRate = 16000
+1135.3242 	EXP 	Sound  reached end of file
+1135.3243 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1135.3393 	EXP 	unnamed Rect: fillColor = '#7A539D'
+1136.1730 	EXP 	Device response: <KeyPress from None: t=1136.1581419, value=n, duration=None>
+1136.1962 	DATA 	KeyPress: n
+1136.3232 	EXP 	Sound  stopped
+1136.4062 	EXP 	Device response: <KeyPress from None: t=1136.1581419, value=n, duration=0.2404978999998093>
+1136.6558 	EXP 	unnamed Rect: fillColor = '#BC5234'
+1137.6722 	EXP 	unnamed Rect: fillColor = '#BA7926'
+1138.6729 	EXP 	: sampleRate = 15500
+1138.6769 	EXP 	Sound  reached end of file
+1138.6769 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1139.6891 	EXP 	Sound  stopped
+1139.6899 	EXP 	: sampleRate = 16000
+1139.6915 	EXP 	Sound  reached end of file
+1139.6915 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1140.7057 	EXP 	Sound  stopped
+1141.0079 	EXP 	: sampleRate = 15500
+1141.0115 	EXP 	Sound  reached end of file
+1141.0115 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1141.0222 	EXP 	unnamed Rect: fillColor = '#CC5C45'
+1142.0224 	EXP 	Sound  stopped
+1142.4227 	EXP 	Device response: <KeyPress from None: t=1142.420854, value=y, duration=None>
+1142.4449 	DATA 	KeyPress: y
+1142.6893 	EXP 	Device response: <KeyPress from None: t=1142.420854, value=y, duration=0.2534283999998479>
+1142.7556 	EXP 	unnamed Rect: fillColor = '#786004'
+1143.7720 	EXP 	unnamed Rect: fillColor = '#D75589'
+1144.7732 	EXP 	: sampleRate = 15500
+1144.7777 	EXP 	Sound  reached end of file
+1144.7778 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1145.7890 	EXP 	Sound  stopped
+1145.7900 	EXP 	: sampleRate = 16000
+1145.7918 	EXP 	Sound  reached end of file
+1145.7919 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1146.8059 	EXP 	Sound  stopped
+1147.1238 	EXP 	: sampleRate = 16000
+1147.1254 	EXP 	Sound  reached end of file
+1147.1255 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1147.1390 	EXP 	unnamed Rect: fillColor = '#32774E'
+1148.1390 	EXP 	Sound  stopped
+1148.8554 	EXP 	Device response: <KeyPress from None: t=1148.8550682999999, value=n, duration=None>
+1148.8761 	DATA 	KeyPress: n
+1149.1392 	EXP 	Device response: <KeyPress from None: t=1148.8550682999999, value=n, duration=0.2720015999998395>
+1149.1888 	EXP 	unnamed Rect: fillColor = '#A86136'
+1150.2052 	EXP 	unnamed Rect: fillColor = '#AA5FAD'
+1151.1906 	EXP 	: sampleRate = 15500
+1151.1971 	EXP 	Sound  reached end of file
+1151.1972 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1152.2056 	EXP 	Sound  stopped
+1152.2081 	EXP 	: sampleRate = 16000
+1152.2099 	EXP 	Sound  reached end of file
+1152.2100 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1153.2223 	EXP 	Sound  stopped
+1153.5399 	EXP 	: sampleRate = 15500
+1153.5445 	EXP 	Sound  reached end of file
+1153.5445 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1153.5553 	EXP 	unnamed Rect: fillColor = '#A86136'
+1154.5555 	EXP 	Sound  stopped
+1154.7889 	EXP 	Device response: <KeyPress from None: t=1154.7735027999997, value=y, duration=None>
+1154.8076 	DATA 	KeyPress: y
+1155.0563 	EXP 	Device response: <KeyPress from None: t=1154.7735027999997, value=y, duration=0.2724591999999575>
+1155.1220 	EXP 	unnamed Rect: fillColor = '#94398F'
+1156.1384 	EXP 	unnamed Rect: fillColor = '#847C21'
+1157.1398 	EXP 	: sampleRate = 15500
+1157.1454 	EXP 	Sound  reached end of file
+1157.1454 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1158.1552 	EXP 	Sound  stopped
+1158.1561 	EXP 	: sampleRate = 16000
+1158.1586 	EXP 	Sound  reached end of file
+1158.1586 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1159.1721 	EXP 	Sound  stopped
+1159.4738 	EXP 	: sampleRate = 15500
+1159.4792 	EXP 	Sound  reached end of file
+1159.4793 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1159.4884 	EXP 	unnamed Rect: fillColor = '#A14A9D'
+1160.4889 	EXP 	Sound  stopped
+1160.5223 	EXP 	Device response: <KeyPress from None: t=1160.5207529999998, value=y, duration=None>
+1160.5584 	DATA 	KeyPress: y
+1160.7889 	EXP 	Device response: <KeyPress from None: t=1160.5207529999998, value=y, duration=0.25205430000005435>
+1160.8547 	EXP 	unnamed Rect: fillColor = '#C96FB1'
+1161.8717 	EXP 	unnamed Rect: fillColor = '#5B7302'
+1162.8721 	EXP 	: sampleRate = 15500
+1162.8739 	EXP 	Sound  reached end of file
+1162.8740 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1163.8889 	EXP 	Sound  stopped
+1163.8902 	EXP 	: sampleRate = 16000
+1163.8922 	EXP 	Sound  reached end of file
+1163.8922 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1164.9056 	EXP 	Sound  stopped
+1165.2249 	EXP 	: sampleRate = 16000
+1165.2271 	EXP 	Sound  reached end of file
+1165.2272 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1165.2381 	EXP 	unnamed Rect: fillColor = '#4F6B09'
+1166.2218 	EXP 	Device response: <KeyPress from None: t=1166.2153322, value=y, duration=None>
+1166.2393 	DATA 	KeyPress: y
+1166.2403 	EXP 	Sound  stopped
+1166.5052 	EXP 	Device response: <KeyPress from None: t=1166.2153322, value=y, duration=0.2780247999999119>
+1166.5716 	EXP 	unnamed Rect: fillColor = '#A14254'
+1167.5882 	EXP 	unnamed Rect: fillColor = '#8E9545'
+1168.5896 	EXP 	: sampleRate = 15500
+1168.5958 	EXP 	Sound  reached end of file
+1168.5958 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1169.6049 	EXP 	Sound  stopped
+1169.6061 	EXP 	: sampleRate = 16000
+1169.6081 	EXP 	Sound  reached end of file
+1169.6082 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1170.6221 	EXP 	Sound  stopped
+1170.9409 	EXP 	: sampleRate = 16000
+1170.9421 	EXP 	Sound  reached end of file
+1170.9422 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1170.9549 	EXP 	unnamed Rect: fillColor = '#E0CB80'
+1171.8385 	EXP 	Device response: <KeyPress from None: t=1171.8377704999998, value=n, duration=None>
+1171.8622 	DATA 	KeyPress: n
+1171.9551 	EXP 	Sound  stopped
+1172.1051 	EXP 	Device response: <KeyPress from None: t=1171.8377704999998, value=n, duration=0.2581479999998919>
+1172.2883 	EXP 	unnamed Rect: fillColor = '#7F5A1D'
+1173.3046 	EXP 	unnamed Rect: fillColor = '#B08024'
+1174.3060 	EXP 	: sampleRate = 15500
+1174.3122 	EXP 	Sound  reached end of file
+1174.3122 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1175.3218 	EXP 	Sound  stopped
+1175.3231 	EXP 	: sampleRate = 16000
+1175.3252 	EXP 	Sound  reached end of file
+1175.3252 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1176.3383 	EXP 	Sound  stopped
+1176.6560 	EXP 	: sampleRate = 16000
+1176.6577 	EXP 	Sound  reached end of file
+1176.6577 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1176.6712 	EXP 	unnamed Rect: fillColor = '#B08024'
+1177.6713 	EXP 	Sound  stopped
+1177.7718 	EXP 	Device response: <KeyPress from None: t=1177.7605285999998, value=y, duration=None>
+1177.7979 	DATA 	KeyPress: y
+1178.0219 	EXP 	Device response: <KeyPress from None: t=1177.7605285999998, value=y, duration=0.2476833999999144>
+1178.1046 	EXP 	unnamed Rect: fillColor = '#506C09'
+1179.1213 	EXP 	unnamed Rect: fillColor = '#DA5B82'
+1180.1226 	EXP 	: sampleRate = 15500
+1180.1276 	EXP 	Sound  reached end of file
+1180.1277 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1181.1380 	EXP 	Sound  stopped
+1181.1390 	EXP 	: sampleRate = 16000
+1181.1412 	EXP 	Sound  reached end of file
+1181.1412 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1182.1557 	EXP 	Sound  stopped
+1182.4738 	EXP 	: sampleRate = 15500
+1182.4808 	EXP 	Sound  reached end of file
+1182.4809 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1182.4878 	EXP 	unnamed Rect: fillColor = '#712B63'
+1183.3382 	EXP 	Device response: <KeyPress from None: t=1183.3347869, value=y, duration=None>
+1183.3527 	DATA 	KeyPress: y
+1183.4881 	EXP 	Sound  stopped
+1183.5050 	EXP 	Device response: <KeyPress from None: t=1183.3347869, value=y, duration=0.16300969999974768>
+1183.6713 	EXP 	Device response: <KeyPress from None: t=1183.6624299, value=n, duration=None>
+1183.6880 	DATA 	KeyPress: n
+1183.8213 	EXP 	unnamed Rect: fillColor = '#4A7031'
+1183.9214 	EXP 	Device response: <KeyPress from None: t=1183.6624299, value=n, duration=0.2454315999998471>
+1184.8379 	EXP 	unnamed Rect: fillColor = '#B83E4B'
+1185.8398 	EXP 	: sampleRate = 15500
+1185.8455 	EXP 	Sound  reached end of file
+1185.8455 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1186.8545 	EXP 	Sound  stopped
+1186.8551 	EXP 	: sampleRate = 16000
+1186.8560 	EXP 	Sound  reached end of file
+1186.8561 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1187.8718 	EXP 	Sound  stopped
+1188.1882 	EXP 	: sampleRate = 15500
+1188.1899 	EXP 	Sound  reached end of file
+1188.1900 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1188.2040 	EXP 	unnamed Rect: fillColor = '#42752E'
+1189.1881 	EXP 	Sound  stopped
+1189.8878 	EXP 	Device response: <KeyPress from None: t=1189.8761212999998, value=y, duration=None>
+1189.9017 	DATA 	KeyPress: y
+1190.1213 	EXP 	Device response: <KeyPress from None: t=1189.8761212999998, value=y, duration=0.23937200000000303>
+1190.2206 	EXP 	unnamed Rect: fillColor = '#4F8AD7'
+1191.2376 	EXP 	unnamed Rect: fillColor = '#5E8333'
+1192.2386 	EXP 	: sampleRate = 15500
+1192.2435 	EXP 	Sound  reached end of file
+1192.2435 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1193.2548 	EXP 	Sound  stopped
+1193.2562 	EXP 	: sampleRate = 16000
+1193.2581 	EXP 	Sound  reached end of file
+1193.2582 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1194.2710 	EXP 	Sound  stopped
+1194.5891 	EXP 	: sampleRate = 16000
+1194.5909 	EXP 	Sound  reached end of file
+1194.5910 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1194.6040 	EXP 	unnamed Rect: fillColor = '#F7D55C'
+1195.2542 	EXP 	Device response: <KeyPress from None: t=1195.2523896999996, value=n, duration=None>
+1195.2649 	DATA 	KeyPress: n
+1195.5208 	EXP 	Device response: <KeyPress from None: t=1195.2523896999996, value=n, duration=0.26160440000012386>
+1195.6042 	EXP 	Sound  stopped
+1195.9374 	EXP 	unnamed Rect: fillColor = '#C15B7E'
+1196.9372 	EXP 	unnamed Rect: fillColor = '#BD833F'
+1197.9385 	EXP 	: sampleRate = 15500
+1197.9431 	EXP 	Sound  reached end of file
+1197.9432 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1198.9541 	EXP 	Sound  stopped
+1198.9547 	EXP 	: sampleRate = 16000
+1198.9556 	EXP 	Sound  reached end of file
+1198.9556 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1199.9708 	EXP 	Sound  stopped
+1200.2888 	EXP 	: sampleRate = 16000
+1200.2941 	EXP 	Sound  reached end of file
+1200.2942 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1200.3047 	EXP 	unnamed Rect: fillColor = '#B97F39'
+1201.3039 	EXP 	Sound  stopped
+1201.4040 	EXP 	Device response: <KeyPress from None: t=1201.3978349, value=y, duration=None>
+1201.4179 	DATA 	KeyPress: y
+1201.6540 	EXP 	Device response: <KeyPress from None: t=1201.3978349, value=y, duration=0.247908699999698>
+1201.7371 	EXP 	unnamed Rect: fillColor = '#8E56AB'
+1202.7540 	EXP 	unnamed Rect: fillColor = '#B2699F'
+1203.7549 	EXP 	: sampleRate = 15500
+1203.7598 	EXP 	Sound  reached end of file
+1203.7599 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1204.7710 	EXP 	Sound  stopped
+1204.7722 	EXP 	: sampleRate = 16000
+1204.7743 	EXP 	Sound  reached end of file
+1204.7744 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1205.7874 	EXP 	Sound  stopped
+1206.1055 	EXP 	: sampleRate = 15500
+1206.1079 	EXP 	Sound  reached end of file
+1206.1079 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1206.1204 	EXP 	unnamed Rect: fillColor = '#8E56AB'
+1207.1208 	EXP 	Device response: <KeyPress from None: t=1207.10709, value=n, duration=None>
+1207.1212 	EXP 	Sound  stopped
+1207.1546 	DATA 	KeyPress: n
+1207.3708 	EXP 	Device response: <KeyPress from None: t=1207.10709, value=n, duration=0.2567372999997133>
+1207.4538 	EXP 	unnamed Rect: fillColor = '#BC559D'
+1208.4703 	EXP 	unnamed Rect: fillColor = '#A16725'
+1209.4717 	EXP 	: sampleRate = 15500
+1209.4763 	EXP 	Sound  reached end of file
+1209.4763 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1210.4873 	EXP 	Sound  stopped
+1210.4882 	EXP 	: sampleRate = 16000
+1210.4897 	EXP 	Sound  reached end of file
+1210.4897 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1211.5038 	EXP 	Sound  stopped
+1211.8055 	EXP 	: sampleRate = 16000
+1211.8070 	EXP 	Sound  reached end of file
+1211.8071 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1211.8202 	EXP 	unnamed Rect: fillColor = '#996C09'
+1212.7710 	EXP 	Device response: <KeyPress from None: t=1212.7681057, value=n, duration=None>
+1212.7924 	DATA 	KeyPress: n
+1212.8202 	EXP 	Sound  stopped
+1212.8366 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1212.8366 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1212.8366 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1212.8366 	EXP 	unnamed TextStim: text = 'Calculating... this takes about a minute. Please wait.'
+1274.8258 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1274.8258 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1274.8258 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1274.8258 	EXP 	unnamed TextStim: text = 'Note for the experimenter: the colour calibration fell outside the tested range and was clipped. Please write this down.\n\nPress the space bar to continue.'
+1277.4894 	DATA 	Mouse: Right button down, pos=(1919,1)
+1277.5019 	DATA 	Mouse:  Right button up, pos=(1919,1)
+1310.3677 	DATA 	Keypress: space
+1310.3824 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1310.3824 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1310.3824 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1310.3824 	EXP 	unnamed TextStim: text = 'Part 2 of 3: sound calibration (48 trials)\n\nOn each trial you will first see two coloured squares and hear two speech sounds. Try to remember them. Then one colour will appear together with one sound.\n\nDid this colour AND this sound both appear a moment ago?\n   Y = yes, both of them did.      N = no, at least one of them is different.\n\nFirst, 10 practice trials with feedback. Then 48 trials without feedback.\n\nPlease press Y or N on EVERY trial, even when you are not sure. A trial without a response cannot be used.\n\nPress the space bar to begin.'
+1314.9731 	DATA 	Keypress: space
+1314.9756 	EXP 	Device response: <KeyPress from None: t=1212.7681057, value=n, duration=0.25362219999988156>
+1314.9757 	EXP 	Device response: <KeyPress from None: t=1310.3663069, value=space, duration=None>
+1314.9757 	EXP 	Device response: <KeyPress from None: t=1310.3663069, value=space, duration=0.20554929999980232>
+1314.9757 	EXP 	Device response: <KeyPress from None: t=1314.9714876999997, value=space, duration=None>
+1315.1845 	EXP 	Device response: <KeyPress from None: t=1314.9714876999997, value=space, duration=0.1987090000002354>
+1315.3011 	EXP 	unnamed Rect: fillColor = '#119E57'
+1316.3173 	EXP 	unnamed Rect: fillColor = '#B55993'
+1317.3193 	EXP 	: sampleRate = 16500
+1317.3291 	EXP 	Sound  reached end of file
+1317.3291 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1318.3344 	EXP 	Sound  stopped
+1318.3545 	EXP 	: sampleRate = 17000
+1318.3635 	EXP 	Sound  reached end of file
+1318.3635 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1319.3674 	EXP 	Sound  stopped
+1319.6849 	EXP 	: sampleRate = 17000
+1319.6896 	EXP 	Sound  reached end of file
+1319.6896 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1319.7003 	EXP 	unnamed Rect: fillColor = '#B55993'
+1320.7009 	EXP 	Sound  stopped
+1321.2675 	EXP 	Device response: <KeyPress from None: t=1321.2544847999998, value=y, duration=None>
+1321.2884 	DATA 	KeyPress: y
+1321.2892 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1321.2892 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1321.2892 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1321.2892 	EXP 	unnamed TextStim: text = 'Correct'
+1321.5342 	EXP 	Device response: <KeyPress from None: t=1321.2544847999998, value=y, duration=0.2633623000001535>
+1322.4171 	EXP 	unnamed Rect: fillColor = '#119E57'
+1323.4335 	EXP 	unnamed Rect: fillColor = '#B55993'
+1324.4627 	EXP 	: sampleRate = 16500
+1324.4689 	EXP 	Sound  reached end of file
+1324.4690 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1325.4845 	EXP 	Sound  stopped
+1325.4861 	EXP 	: sampleRate = 16500
+1325.4918 	EXP 	Sound  reached end of file
+1325.4919 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1326.5004 	EXP 	Sound  stopped
+1326.8324 	EXP 	: sampleRate = 16500
+1326.8458 	EXP 	Sound  reached end of file
+1326.8459 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1326.8498 	EXP 	unnamed Rect: fillColor = '#119E57'
+1327.7016 	EXP 	Device response: <KeyPress from None: t=1327.6979044999998, value=n, duration=None>
+1327.7294 	DATA 	KeyPress: n
+1327.8174 	EXP 	Sound  stopped
+1327.8335 	EXP 	unnamed TextStim: text = 'Correct'
+1327.9839 	EXP 	Device response: <KeyPress from None: t=1327.6979044999998, value=n, duration=0.2790774000000056>
+1328.9667 	EXP 	unnamed Rect: fillColor = '#119E57'
+1329.9837 	EXP 	unnamed Rect: fillColor = '#B55993'
+1331.0199 	EXP 	: sampleRate = 16000
+1331.0307 	EXP 	Sound  reached end of file
+1331.0307 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1332.0334 	EXP 	Sound  stopped
+1332.0519 	EXP 	: sampleRate = 17000
+1332.0576 	EXP 	Sound  reached end of file
+1332.0577 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1333.0673 	EXP 	Sound  stopped
+1333.3855 	EXP 	: sampleRate = 16000
+1333.3904 	EXP 	Sound  reached end of file
+1333.3904 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1333.4001 	EXP 	unnamed Rect: fillColor = '#119E57'
+1334.3999 	EXP 	Sound  stopped
+1335.0164 	EXP 	Device response: <KeyPress from None: t=1335.0160798999996, value=y, duration=None>
+1335.0321 	DATA 	KeyPress: y
+1335.0335 	EXP 	unnamed TextStim: text = 'Correct'
+1335.2664 	EXP 	Device response: <KeyPress from None: t=1335.0160798999996, value=y, duration=0.24952940000002855>
+1336.1497 	EXP 	unnamed Rect: fillColor = '#119E57'
+1337.1668 	EXP 	unnamed Rect: fillColor = '#B55993'
+1338.1737 	EXP 	: sampleRate = 16500
+1338.1752 	EXP 	Sound  reached end of file
+1338.1753 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1339.1836 	EXP 	Sound  stopped
+1339.2115 	EXP 	: sampleRate = 16500
+1339.2206 	EXP 	Sound  reached end of file
+1339.2206 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1340.2334 	EXP 	Sound  stopped
+1340.5526 	EXP 	: sampleRate = 16500
+1340.5590 	EXP 	Sound  reached end of file
+1340.5591 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1340.5666 	EXP 	unnamed Rect: fillColor = '#B55993'
+1341.5669 	EXP 	Sound  stopped
+1342.7557 	DATA 	KeyPress: y
+1342.7569 	EXP 	Device response: <KeyPress from None: t=1342.7333835999998, value=y, duration=None>
+1342.7665 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1342.7665 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1342.7665 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1342.7665 	EXP 	unnamed TextStim: text = 'Wrong'
+1342.9835 	EXP 	Device response: <KeyPress from None: t=1342.7333835999998, value=y, duration=0.24045889999979408>
+1343.8831 	EXP 	unnamed Rect: fillColor = '#119E57'
+1344.9000 	EXP 	unnamed Rect: fillColor = '#B55993'
+1345.9250 	EXP 	: sampleRate = 16000
+1345.9427 	EXP 	Sound  reached end of file
+1345.9427 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1346.9501 	EXP 	Sound  stopped
+1346.9520 	EXP 	: sampleRate = 16000
+1346.9621 	EXP 	Sound  reached end of file
+1346.9621 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1347.9674 	EXP 	Sound  stopped
+1348.2848 	EXP 	: sampleRate = 16000
+1348.2894 	EXP 	Sound  reached end of file
+1348.2895 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1348.2993 	EXP 	unnamed Rect: fillColor = '#B55993'
+1349.2845 	EXP 	Sound  stopped
+1349.7833 	EXP 	Device response: <KeyPress from None: t=1349.7685063, value=y, duration=None>
+1349.8060 	DATA 	KeyPress: y
+1349.8072 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1349.8072 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1349.8072 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1349.8072 	EXP 	unnamed TextStim: text = 'Correct'
+1350.0165 	EXP 	Device response: <KeyPress from None: t=1349.7685063, value=y, duration=0.23978660000011587>
+1350.9328 	EXP 	unnamed Rect: fillColor = '#119E57'
+1351.9495 	EXP 	unnamed Rect: fillColor = '#B55993'
+1352.9622 	EXP 	: sampleRate = 17000
+1352.9661 	EXP 	Sound  reached end of file
+1352.9661 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1353.9664 	EXP 	Sound  stopped
+1353.9797 	EXP 	: sampleRate = 15500
+1353.9874 	EXP 	Sound  reached end of file
+1353.9874 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1354.9998 	EXP 	Sound  stopped
+1355.3320 	EXP 	: sampleRate = 17000
+1355.3414 	EXP 	Sound  reached end of file
+1355.3414 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1355.3445 	EXP 	unnamed Rect: fillColor = '#119E57'
+1356.3330 	EXP 	Sound  stopped
+1356.7331 	EXP 	Device response: <KeyPress from None: t=1356.7305090999998, value=n, duration=None>
+1356.7536 	DATA 	KeyPress: n
+1356.7550 	EXP 	unnamed TextStim: text = 'Correct'
+1356.9832 	EXP 	Device response: <KeyPress from None: t=1356.7305090999998, value=n, duration=0.24994229999992967>
+1357.8660 	EXP 	unnamed Rect: fillColor = '#119E57'
+1358.8827 	EXP 	unnamed Rect: fillColor = '#B55993'
+1359.8676 	EXP 	: sampleRate = 17000
+1359.8725 	EXP 	Sound  reached end of file
+1359.8726 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1360.8828 	EXP 	Sound  stopped
+1360.9084 	EXP 	: sampleRate = 16500
+1360.9120 	EXP 	Sound  reached end of file
+1360.9120 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1361.9159 	EXP 	Sound  stopped
+1362.2175 	EXP 	: sampleRate = 16500
+1362.2200 	EXP 	Sound  reached end of file
+1362.2201 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1362.2325 	EXP 	unnamed Rect: fillColor = '#B55993'
+1363.2329 	EXP 	Sound  stopped
+1365.2492 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1365.2492 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1365.2492 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1365.2492 	EXP 	unnamed TextStim: text = 'No response'
+1365.5494 	EXP 	Device response: <KeyPress from None: t=1365.5349834999997, value=n, duration=None>
+1365.5697 	DATA 	KeyPress: n
+1365.7829 	EXP 	Device response: <KeyPress from None: t=1365.5349834999997, value=n, duration=0.23529809999990903>
+1366.3824 	EXP 	unnamed Rect: fillColor = '#119E57'
+1367.3988 	EXP 	unnamed Rect: fillColor = '#B55993'
+1368.4085 	EXP 	: sampleRate = 15000
+1368.4125 	EXP 	Sound  reached end of file
+1368.4125 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1369.4162 	EXP 	Sound  stopped
+1369.4504 	EXP 	: sampleRate = 15500
+1369.4548 	EXP 	Sound  reached end of file
+1369.4549 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1370.4658 	EXP 	Sound  stopped
+1370.7983 	EXP 	: sampleRate = 15000
+1370.8005 	EXP 	Sound  reached end of file
+1370.8005 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1370.8032 	EXP 	unnamed Rect: fillColor = '#119E57'
+1371.7992 	EXP 	Sound  stopped
+1372.7000 	EXP 	Device response: <KeyPress from None: t=1372.6854520999996, value=n, duration=None>
+1372.7143 	DATA 	KeyPress: n
+1372.7152 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1372.7152 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1372.7152 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1372.7152 	EXP 	unnamed TextStim: text = 'Correct'
+1372.9660 	EXP 	Device response: <KeyPress from None: t=1372.6854520999996, value=n, duration=0.26787240000021484>
+1373.8320 	EXP 	unnamed Rect: fillColor = '#119E57'
+1374.8489 	EXP 	unnamed Rect: fillColor = '#B55993'
+1375.8514 	EXP 	: sampleRate = 15500
+1375.8567 	EXP 	Sound  reached end of file
+1375.8568 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1376.8655 	EXP 	Sound  stopped
+1376.8907 	EXP 	: sampleRate = 16000
+1376.8933 	EXP 	Sound  reached end of file
+1376.8934 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1377.8995 	EXP 	Sound  stopped
+1378.2178 	EXP 	: sampleRate = 15500
+1378.2233 	EXP 	Sound  reached end of file
+1378.2234 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1378.2318 	EXP 	unnamed Rect: fillColor = '#119E57'
+1379.2324 	EXP 	Sound  stopped
+1380.1826 	EXP 	Device response: <KeyPress from None: t=1380.1666781999998, value=y, duration=None>
+1380.2125 	DATA 	KeyPress: y
+1380.2147 	EXP 	unnamed TextStim: text = 'Correct'
+1380.4157 	EXP 	Device response: <KeyPress from None: t=1380.1666781999998, value=y, duration=0.2417233999999553>
+1381.3320 	EXP 	unnamed Rect: fillColor = '#119E57'
+1382.3322 	EXP 	unnamed Rect: fillColor = '#B55993'
+1383.3597 	EXP 	: sampleRate = 15500
+1383.3678 	EXP 	Sound  reached end of file
+1383.3678 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1384.3821 	EXP 	Sound  stopped
+1384.4021 	EXP 	: sampleRate = 16000
+1384.4095 	EXP 	Sound  reached end of file
+1384.4095 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1385.4154 	EXP 	Sound  stopped
+1385.7446 	EXP 	: sampleRate = 16000
+1385.7488 	EXP 	Sound  reached end of file
+1385.7489 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1385.7536 	EXP 	unnamed Rect: fillColor = '#B55993'
+1386.7327 	EXP 	Sound  stopped
+1387.2491 	EXP 	Device response: <KeyPress from None: t=1387.2423139999996, value=n, duration=None>
+1387.2745 	DATA 	KeyPress: n
+1387.2763 	EXP 	unnamed TextStim: text = 'Correct'
+1387.5322 	EXP 	Device response: <KeyPress from None: t=1387.2423139999996, value=n, duration=0.27812459999995554>
+1388.0816 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1388.0816 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1388.0816 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1388.0816 	EXP 	unnamed TextStim: text = 'Practice done. From now on there is no feedback.\n\nPress the space bar to continue.'
+1389.7716 	DATA 	Keypress: space
+1389.7741 	EXP 	Device response: <KeyPress from None: t=1389.7699602999996, value=space, duration=None>
+1389.9821 	EXP 	Device response: <KeyPress from None: t=1389.7699602999996, value=space, duration=0.20068280000032246>
+1390.0984 	EXP 	unnamed Rect: fillColor = '#119E57'
+1391.1149 	EXP 	unnamed Rect: fillColor = '#B55993'
+1392.1339 	EXP 	: sampleRate = 15000
+1392.1358 	EXP 	Sound  reached end of file
+1392.1358 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1393.1485 	EXP 	Sound  stopped
+1393.1709 	EXP 	: sampleRate = 16000
+1393.1770 	EXP 	Sound  reached end of file
+1393.1771 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1394.1816 	EXP 	Sound  stopped
+1394.5143 	EXP 	: sampleRate = 16000
+1394.5160 	EXP 	Sound  reached end of file
+1394.5161 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1394.5180 	EXP 	unnamed Rect: fillColor = '#B55993'
+1395.4985 	EXP 	Sound  stopped
+1396.3091 	DATA 	KeyPress: n
+1396.3146 	EXP 	Device response: <KeyPress from None: t=1396.2987684999998, value=n, duration=None>
+1396.5486 	EXP 	Device response: <KeyPress from None: t=1396.2987684999998, value=n, duration=0.2398297999998249>
+1396.6482 	EXP 	unnamed Rect: fillColor = '#119E57'
+1397.6649 	EXP 	unnamed Rect: fillColor = '#B55993'
+1398.6752 	EXP 	: sampleRate = 15000
+1398.6767 	EXP 	Sound  reached end of file
+1398.6767 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1399.6818 	EXP 	Sound  stopped
+1399.7036 	EXP 	: sampleRate = 15000
+1399.7130 	EXP 	Sound  reached end of file
+1399.7131 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1400.7154 	EXP 	Sound  stopped
+1401.0330 	EXP 	: sampleRate = 15000
+1401.0370 	EXP 	Sound  reached end of file
+1401.0371 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1401.0479 	EXP 	unnamed Rect: fillColor = '#B55993'
+1402.0486 	EXP 	Sound  stopped
+1402.3485 	EXP 	Device response: <KeyPress from None: t=1402.3401350999998, value=y, duration=None>
+1402.3644 	DATA 	KeyPress: y
+1402.6150 	EXP 	Device response: <KeyPress from None: t=1402.3401350999998, value=y, duration=0.2691524000001664>
+1402.6813 	EXP 	unnamed Rect: fillColor = '#119E57'
+1403.6977 	EXP 	unnamed Rect: fillColor = '#B55993'
+1404.7351 	EXP 	: sampleRate = 17000
+1404.7404 	EXP 	Sound  reached end of file
+1404.7404 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1405.7483 	EXP 	Sound  stopped
+1405.7701 	EXP 	: sampleRate = 15500
+1405.7728 	EXP 	Sound  reached end of file
+1405.7729 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1406.7823 	EXP 	Sound  stopped
+1407.1002 	EXP 	: sampleRate = 17000
+1407.1103 	EXP 	Sound  reached end of file
+1407.1104 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1407.1148 	EXP 	unnamed Rect: fillColor = '#119E57'
+1408.1149 	EXP 	Sound  stopped
+1408.8325 	EXP 	Device response: <KeyPress from None: t=1408.8252380999998, value=n, duration=None>
+1408.8626 	DATA 	KeyPress: n
+1409.0815 	EXP 	Device response: <KeyPress from None: t=1408.8252380999998, value=n, duration=0.24548490000006495>
+1409.1645 	EXP 	unnamed Rect: fillColor = '#119E57'
+1410.1809 	EXP 	unnamed Rect: fillColor = '#B55993'
+1411.2021 	EXP 	: sampleRate = 16000
+1411.2041 	EXP 	Sound  reached end of file
+1411.2042 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1412.2147 	EXP 	Sound  stopped
+1412.2405 	EXP 	: sampleRate = 17000
+1412.2489 	EXP 	Sound  reached end of file
+1412.2490 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1413.2643 	EXP 	Sound  stopped
+1413.5904 	EXP 	: sampleRate = 16000
+1413.6014 	EXP 	Sound  reached end of file
+1413.6015 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1413.6038 	EXP 	unnamed Rect: fillColor = '#119E57'
+1414.5823 	EXP 	Sound  stopped
+1414.6160 	DATA 	KeyPress: n
+1414.6185 	EXP 	Device response: <KeyPress from None: t=1414.5823068999998, value=n, duration=None>
+1414.8480 	EXP 	Device response: <KeyPress from None: t=1414.5823068999998, value=n, duration=0.2525642999999036>
+1414.9477 	EXP 	unnamed Rect: fillColor = '#119E57'
+1415.9641 	EXP 	unnamed Rect: fillColor = '#B55993'
+1416.9714 	EXP 	: sampleRate = 16500
+1416.9741 	EXP 	Sound  reached end of file
+1416.9741 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1417.9816 	EXP 	Sound  stopped
+1418.0090 	EXP 	: sampleRate = 15000
+1418.0185 	EXP 	Sound  reached end of file
+1418.0185 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1419.0311 	EXP 	Sound  stopped
+1419.3591 	EXP 	: sampleRate = 15000
+1419.3608 	EXP 	Sound  reached end of file
+1419.3608 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1419.3638 	EXP 	unnamed Rect: fillColor = '#B55993'
+1420.3480 	EXP 	Sound  stopped
+1420.8310 	EXP 	Device response: <KeyPress from None: t=1420.8303231, value=n, duration=None>
+1420.8575 	DATA 	KeyPress: n
+1421.0982 	EXP 	Device response: <KeyPress from None: t=1420.8303231, value=n, duration=0.25626459999966755>
+1421.1640 	EXP 	unnamed Rect: fillColor = '#119E57'
+1422.1808 	EXP 	unnamed Rect: fillColor = '#B55993'
+1423.2099 	EXP 	: sampleRate = 16000
+1423.2125 	EXP 	Sound  reached end of file
+1423.2125 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1424.2141 	EXP 	Sound  stopped
+1424.2291 	EXP 	: sampleRate = 15500
+1424.2318 	EXP 	Sound  reached end of file
+1424.2319 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1425.2475 	EXP 	Sound  stopped
+1425.5677 	EXP 	: sampleRate = 15500
+1425.5739 	EXP 	Sound  reached end of file
+1425.5739 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1425.5983 	DATA 	KeyPress: n
+1425.5997 	EXP 	unnamed Rect: fillColor = '#B75EA1'
+1425.6000 	EXP 	Device response: <KeyPress from None: t=1425.5717904999997, value=n, duration=None>
+1425.8478 	EXP 	Device response: <KeyPress from None: t=1425.5717904999997, value=n, duration=0.2718733000001521>
+1426.5642 	EXP 	Sound  stopped
+1426.8313 	EXP 	Device response: <KeyPress from None: t=1426.8287664, value=n, duration=None>
+1426.8548 	DATA 	KeyPress: n
+1426.8980 	EXP 	unnamed Rect: fillColor = '#119E57'
+1426.9642 	EXP 	Device response: <KeyPress from None: t=1426.8287664, value=n, duration=0.12471899999991365>
+1427.9141 	EXP 	unnamed Rect: fillColor = '#B55993'
+1428.9333 	EXP 	: sampleRate = 17000
+1428.9368 	EXP 	Sound  reached end of file
+1428.9368 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1429.9477 	EXP 	Sound  stopped
+1429.9736 	EXP 	: sampleRate = 15500
+1429.9849 	EXP 	Sound  reached end of file
+1429.9849 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1430.9973 	EXP 	Sound  stopped
+1431.3370 	EXP 	: sampleRate = 15500
+1431.3451 	EXP 	Sound  reached end of file
+1431.3452 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1431.3479 	EXP 	unnamed Rect: fillColor = '#B55993'
+1432.3317 	EXP 	Sound  stopped
+1432.4648 	EXP 	Device response: <KeyPress from None: t=1432.4621903999996, value=n, duration=None>
+1432.4956 	DATA 	KeyPress: n
+1432.7142 	EXP 	Device response: <KeyPress from None: t=1432.4621903999996, value=n, duration=0.24928600000021106>
+1432.7969 	EXP 	unnamed Rect: fillColor = '#119E57'
+1433.8136 	EXP 	unnamed Rect: fillColor = '#B55993'
+1434.8429 	EXP 	: sampleRate = 17000
+1434.8472 	EXP 	Sound  reached end of file
+1434.8473 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1435.8641 	EXP 	Sound  stopped
+1435.8656 	EXP 	: sampleRate = 16500
+1435.8688 	EXP 	Sound  reached end of file
+1435.8689 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1436.8808 	EXP 	Sound  stopped
+1437.2220 	EXP 	: sampleRate = 16500
+1437.2258 	EXP 	Sound  reached end of file
+1437.2258 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1437.2295 	EXP 	unnamed Rect: fillColor = '#B55993'
+1438.2139 	EXP 	Sound  stopped
+1439.4009 	DATA 	KeyPress: n
+1439.4029 	EXP 	Device response: <KeyPress from None: t=1439.3816004999999, value=n, duration=None>
+1439.6646 	EXP 	Device response: <KeyPress from None: t=1439.3816004999999, value=n, duration=0.2669464999999036>
+1439.7303 	EXP 	unnamed Rect: fillColor = '#119E57'
+1440.7465 	EXP 	unnamed Rect: fillColor = '#B55993'
+1441.7660 	EXP 	: sampleRate = 17000
+1441.7671 	EXP 	Sound  reached end of file
+1441.7672 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1442.7806 	EXP 	Sound  stopped
+1442.8105 	EXP 	: sampleRate = 15000
+1442.8190 	EXP 	Sound  reached end of file
+1442.8190 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1443.8315 	EXP 	Sound  stopped
+1444.1760 	EXP 	: sampleRate = 17000
+1444.1832 	EXP 	Sound  reached end of file
+1444.1833 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1444.1863 	EXP 	unnamed Rect: fillColor = '#119E57'
+1445.1638 	EXP 	Sound  stopped
+1445.5139 	EXP 	Device response: <KeyPress from None: t=1445.50796, value=y, duration=None>
+1445.5311 	DATA 	KeyPress: y
+1445.6977 	EXP 	Device response: <KeyPress from None: t=1445.50796, value=y, duration=0.17678539999997156>
+1445.8467 	EXP 	unnamed Rect: fillColor = '#119E57'
+1446.8635 	EXP 	unnamed Rect: fillColor = '#B55993'
+1447.8695 	EXP 	: sampleRate = 17000
+1447.8801 	EXP 	Sound  reached end of file
+1447.8801 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1448.8808 	EXP 	Sound  stopped
+1448.8814 	EXP 	: sampleRate = 15500
+1448.8855 	EXP 	Sound  reached end of file
+1448.8855 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1449.8969 	EXP 	Sound  stopped
+1450.2201 	EXP 	: sampleRate = 15500
+1450.2214 	EXP 	Sound  reached end of file
+1450.2215 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1450.2242 	EXP 	unnamed Rect: fillColor = '#E56C7D'
+1451.1305 	EXP 	Device response: <KeyPress from None: t=1451.1148000999997, value=n, duration=None>
+1451.1556 	DATA 	KeyPress: n
+1451.2136 	EXP 	Sound  stopped
+1451.3973 	EXP 	Device response: <KeyPress from None: t=1451.1148000999997, value=n, duration=0.2689989999998943>
+1451.5466 	EXP 	unnamed Rect: fillColor = '#119E57'
+1452.5634 	EXP 	unnamed Rect: fillColor = '#B55993'
+1453.5916 	EXP 	: sampleRate = 17000
+1453.6034 	EXP 	Sound  reached end of file
+1453.6035 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1454.6139 	EXP 	Sound  stopped
+1454.6308 	EXP 	: sampleRate = 16500
+1454.6374 	EXP 	Sound  reached end of file
+1454.6374 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1455.6472 	EXP 	Sound  stopped
+1455.9641 	EXP 	: sampleRate = 16500
+1455.9667 	EXP 	Sound  reached end of file
+1455.9667 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1455.9811 	EXP 	unnamed Rect: fillColor = '#B55993'
+1456.9641 	EXP 	Sound  stopped
+1457.4303 	EXP 	Device response: <KeyPress from None: t=1457.4278081999996, value=y, duration=None>
+1457.4538 	DATA 	KeyPress: y
+1457.6973 	EXP 	Device response: <KeyPress from None: t=1457.4278081999996, value=y, duration=0.25657970000020214>
+1457.7634 	EXP 	unnamed Rect: fillColor = '#119E57'
+1458.7797 	EXP 	unnamed Rect: fillColor = '#B55993'
+1459.7907 	EXP 	: sampleRate = 17000
+1459.7983 	EXP 	Sound  reached end of file
+1459.7984 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1460.8137 	EXP 	Sound  stopped
+1460.8151 	EXP 	: sampleRate = 17000
+1460.8275 	EXP 	Sound  reached end of file
+1460.8276 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1461.8298 	EXP 	Sound  stopped
+1462.1563 	EXP 	: sampleRate = 17000
+1462.1573 	EXP 	Sound  reached end of file
+1462.1574 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1462.1603 	EXP 	unnamed Rect: fillColor = '#B75EA1'
+1463.1464 	EXP 	Sound  stopped
+1463.4468 	EXP 	Device response: <KeyPress from None: t=1463.4463616999997, value=n, duration=None>
+1463.4726 	DATA 	KeyPress: n
+1463.7304 	EXP 	Device response: <KeyPress from None: t=1463.4463616999997, value=n, duration=0.2759814999999435>
+1463.7798 	EXP 	unnamed Rect: fillColor = '#119E57'
+1464.7961 	EXP 	unnamed Rect: fillColor = '#B55993'
+1465.8138 	EXP 	: sampleRate = 17000
+1465.8177 	EXP 	Sound  reached end of file
+1465.8177 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1466.8297 	EXP 	Sound  stopped
+1466.8302 	EXP 	: sampleRate = 16500
+1466.8364 	EXP 	Sound  reached end of file
+1466.8365 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1467.8466 	EXP 	Sound  stopped
+1468.1492 	EXP 	: sampleRate = 17000
+1468.1613 	EXP 	Sound  reached end of file
+1468.1614 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1468.1629 	EXP 	unnamed Rect: fillColor = '#119E57'
+1469.1633 	EXP 	Sound  stopped
+1469.2632 	EXP 	Device response: <KeyPress from None: t=1469.2603058, value=n, duration=None>
+1469.2864 	DATA 	KeyPress: n
+1469.5466 	EXP 	Device response: <KeyPress from None: t=1469.2603058, value=n, duration=0.27048649999960617>
+1469.5961 	EXP 	unnamed Rect: fillColor = '#119E57'
+1470.6127 	EXP 	unnamed Rect: fillColor = '#B55993'
+1471.6340 	EXP 	: sampleRate = 16000
+1471.6431 	EXP 	Sound  reached end of file
+1471.6432 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1472.6462 	EXP 	Sound  stopped
+1472.6469 	EXP 	: sampleRate = 17000
+1472.6517 	EXP 	Sound  reached end of file
+1472.6517 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1473.6627 	EXP 	Sound  stopped
+1473.9811 	EXP 	: sampleRate = 16000
+1473.9823 	EXP 	Sound  reached end of file
+1473.9824 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1473.9839 	EXP 	unnamed Rect: fillColor = '#119E57'
+1474.8128 	EXP 	Device response: <KeyPress from None: t=1474.7986535, value=n, duration=None>
+1474.8361 	DATA 	KeyPress: n
+1474.9798 	EXP 	Sound  stopped
+1475.0963 	EXP 	Device response: <KeyPress from None: t=1474.7986535, value=n, duration=0.2856542999998055>
+1475.3124 	EXP 	unnamed Rect: fillColor = '#119E57'
+1476.3292 	EXP 	unnamed Rect: fillColor = '#B55993'
+1477.4124 	EXP 	: sampleRate = 15000
+1477.4151 	EXP 	Sound  reached end of file
+1477.4151 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1478.4171 	EXP 	Sound  stopped
+1478.4478 	EXP 	: sampleRate = 16000
+1478.4530 	EXP 	Sound  reached end of file
+1478.4530 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1479.4582 	EXP 	Sound  stopped
+1479.7869 	EXP 	: sampleRate = 15000
+1479.7948 	EXP 	Sound  reached end of file
+1479.7949 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1479.7983 	EXP 	unnamed Rect: fillColor = '#8FBF8A'
+1480.7664 	EXP 	Sound  stopped
+1480.7977 	DATA 	KeyPress: n
+1480.7997 	EXP 	Device response: <KeyPress from None: t=1480.7829340999997, value=n, duration=None>
+1481.0998 	EXP 	Device response: <KeyPress from None: t=1480.7829340999997, value=n, duration=0.31071539999993547>
+1481.1334 	EXP 	unnamed Rect: fillColor = '#119E57'
+1482.1498 	EXP 	unnamed Rect: fillColor = '#B55993'
+1483.1769 	EXP 	: sampleRate = 17000
+1483.1829 	EXP 	Sound  reached end of file
+1483.1830 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1484.1839 	EXP 	Sound  stopped
+1484.1845 	EXP 	: sampleRate = 16000
+1484.1853 	EXP 	Sound  reached end of file
+1484.1853 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1485.2007 	EXP 	Sound  stopped
+1485.5182 	EXP 	: sampleRate = 16000
+1485.5205 	EXP 	Sound  reached end of file
+1485.5206 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1485.5333 	EXP 	unnamed Rect: fillColor = '#B55993'
+1486.4007 	EXP 	Device response: <KeyPress from None: t=1486.3872643, value=n, duration=None>
+1486.4153 	DATA 	KeyPress: n
+1486.5325 	EXP 	Sound  stopped
+1486.6659 	EXP 	Device response: <KeyPress from None: t=1486.3872643, value=n, duration=0.27312099999971906>
+1486.8655 	EXP 	unnamed Rect: fillColor = '#119E57'
+1487.8829 	EXP 	unnamed Rect: fillColor = '#B55993'
+1488.8996 	EXP 	: sampleRate = 17000
+1488.9056 	EXP 	Sound  reached end of file
+1488.9057 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1489.9165 	EXP 	Sound  stopped
+1489.9172 	EXP 	: sampleRate = 17000
+1489.9264 	EXP 	Sound  reached end of file
+1489.9265 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1490.9336 	EXP 	Sound  stopped
+1491.2505 	EXP 	: sampleRate = 17000
+1491.2521 	EXP 	Sound  reached end of file
+1491.2521 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1491.2660 	EXP 	unnamed Rect: fillColor = '#2BAE62'
+1492.2507 	EXP 	Sound  stopped
+1492.5325 	EXP 	Device response: <KeyPress from None: t=1492.52342, value=n, duration=None>
+1492.5539 	DATA 	KeyPress: n
+1492.7998 	EXP 	Device response: <KeyPress from None: t=1492.52342, value=n, duration=0.2629591999998411>
+1492.8654 	EXP 	unnamed Rect: fillColor = '#119E57'
+1493.8846 	EXP 	unnamed Rect: fillColor = '#B55993'
+1494.8825 	EXP 	: sampleRate = 15500
+1494.8854 	EXP 	Sound  reached end of file
+1494.8855 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1495.8997 	EXP 	Sound  stopped
+1495.9017 	EXP 	: sampleRate = 16000
+1495.9072 	EXP 	Sound  reached end of file
+1495.9072 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1496.9156 	EXP 	Sound  stopped
+1497.2198 	EXP 	: sampleRate = 16000
+1497.2284 	EXP 	Sound  reached end of file
+1497.2285 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1497.2340 	EXP 	unnamed Rect: fillColor = '#B55993'
+1498.2319 	EXP 	Sound  stopped
+1499.1158 	EXP 	Device response: <KeyPress from None: t=1499.1024577999997, value=y, duration=None>
+1499.1397 	DATA 	KeyPress: y
+1499.3654 	EXP 	Device response: <KeyPress from None: t=1499.1024577999997, value=y, duration=0.24920430000020133>
+1499.4482 	EXP 	unnamed Rect: fillColor = '#119E57'
+1500.4651 	EXP 	unnamed Rect: fillColor = '#B55993'
+1501.4908 	EXP 	: sampleRate = 17000
+1501.4954 	EXP 	Sound  reached end of file
+1501.4954 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1502.4993 	EXP 	Sound  stopped
+1502.5190 	EXP 	: sampleRate = 16000
+1502.5208 	EXP 	Sound  reached end of file
+1502.5209 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1503.5318 	EXP 	Sound  stopped
+1503.8362 	EXP 	: sampleRate = 16000
+1503.8381 	EXP 	Sound  reached end of file
+1503.8381 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1503.8484 	EXP 	unnamed Rect: fillColor = '#B55993'
+1504.8493 	EXP 	Sound  stopped
+1505.0828 	EXP 	Device response: <KeyPress from None: t=1505.0734128999998, value=y, duration=None>
+1505.1143 	DATA 	KeyPress: y
+1505.3499 	EXP 	Device response: <KeyPress from None: t=1505.0734128999998, value=y, duration=0.26906060000010257>
+1505.4152 	EXP 	unnamed Rect: fillColor = '#119E57'
+1506.4312 	EXP 	unnamed Rect: fillColor = '#B55993'
+1507.4397 	EXP 	: sampleRate = 17000
+1507.4455 	EXP 	Sound  reached end of file
+1507.4456 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1508.4486 	EXP 	Sound  stopped
+1508.4698 	EXP 	: sampleRate = 15500
+1508.4722 	EXP 	Sound  reached end of file
+1508.4723 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1509.4815 	EXP 	Sound  stopped
+1509.7837 	EXP 	: sampleRate = 17000
+1509.7889 	EXP 	Sound  reached end of file
+1509.7890 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1509.7984 	EXP 	unnamed Rect: fillColor = '#119E57'
+1510.7340 	EXP 	Device response: <KeyPress from None: t=1510.7311894, value=y, duration=None>
+1510.7509 	DATA 	KeyPress: y
+1510.7829 	EXP 	Sound  stopped
+1511.0159 	EXP 	Device response: <KeyPress from None: t=1510.7311894, value=y, duration=0.2720847999999023>
+1511.1143 	EXP 	unnamed Rect: fillColor = '#119E57'
+1512.1312 	EXP 	unnamed Rect: fillColor = '#B55993'
+1513.1394 	EXP 	: sampleRate = 16000
+1513.1441 	EXP 	Sound  reached end of file
+1513.1441 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1514.1481 	EXP 	Sound  stopped
+1514.1496 	EXP 	: sampleRate = 16000
+1514.1515 	EXP 	Sound  reached end of file
+1514.1515 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1515.1650 	EXP 	Sound  stopped
+1515.4690 	EXP 	: sampleRate = 16000
+1515.4708 	EXP 	Sound  reached end of file
+1515.4708 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1515.4813 	EXP 	unnamed Rect: fillColor = '#119E57'
+1516.4148 	EXP 	Device response: <KeyPress from None: t=1516.4072241, value=n, duration=None>
+1516.4331 	DATA 	KeyPress: n
+1516.4846 	EXP 	Sound  stopped
+1516.6649 	EXP 	Device response: <KeyPress from None: t=1516.4072241, value=n, duration=0.24970649999977468>
+1516.8141 	EXP 	unnamed Rect: fillColor = '#119E57'
+1517.8311 	EXP 	unnamed Rect: fillColor = '#B55993'
+1518.8512 	EXP 	: sampleRate = 16000
+1518.8533 	EXP 	Sound  reached end of file
+1518.8534 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1519.8649 	EXP 	Sound  stopped
+1519.8667 	EXP 	: sampleRate = 16000
+1519.8721 	EXP 	Sound  reached end of file
+1519.8722 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1520.8822 	EXP 	Sound  stopped
+1521.1991 	EXP 	: sampleRate = 16000
+1521.1997 	EXP 	Sound  reached end of file
+1521.1997 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1521.2140 	EXP 	unnamed Rect: fillColor = '#119E57'
+1522.1989 	EXP 	Sound  stopped
+1522.2481 	EXP 	Device response: <KeyPress from None: t=1522.2348601999997, value=y, duration=None>
+1522.2739 	DATA 	KeyPress: y
+1522.4980 	EXP 	Device response: <KeyPress from None: t=1522.2348601999997, value=y, duration=0.24877610000021377>
+1522.5817 	EXP 	unnamed Rect: fillColor = '#119E57'
+1523.5813 	EXP 	unnamed Rect: fillColor = '#B55993'
+1524.5833 	EXP 	: sampleRate = 15500
+1524.5956 	EXP 	Sound  reached end of file
+1524.5957 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1525.5984 	EXP 	Sound  stopped
+1525.5999 	EXP 	: sampleRate = 17000
+1525.6097 	EXP 	Sound  reached end of file
+1525.6098 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1526.6144 	EXP 	Sound  stopped
+1526.9572 	EXP 	: sampleRate = 15500
+1526.9600 	EXP 	Sound  reached end of file
+1526.9600 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1526.9629 	EXP 	unnamed Rect: fillColor = '#119E57'
+1527.9506 	EXP 	Sound  stopped
+1528.5983 	EXP 	Device response: <KeyPress from None: t=1528.5851066999999, value=n, duration=None>
+1528.6157 	DATA 	KeyPress: n
+1528.8649 	EXP 	Device response: <KeyPress from None: t=1528.5851066999999, value=n, duration=0.26847700000007535>
+1528.9322 	EXP 	unnamed Rect: fillColor = '#119E57'
+1529.9316 	EXP 	unnamed Rect: fillColor = '#B55993'
+1530.9538 	EXP 	: sampleRate = 16000
+1530.9565 	EXP 	Sound  reached end of file
+1530.9566 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1531.9643 	EXP 	Sound  stopped
+1531.9880 	EXP 	: sampleRate = 17000
+1531.9913 	EXP 	Sound  reached end of file
+1531.9914 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1532.9980 	EXP 	Sound  stopped
+1533.3328 	EXP 	: sampleRate = 17000
+1533.3340 	EXP 	Sound  reached end of file
+1533.3340 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1533.3363 	EXP 	unnamed Rect: fillColor = '#B55993'
+1534.3310 	EXP 	Sound  stopped
+1535.9144 	EXP 	Device response: <KeyPress from None: t=1535.9056302, value=n, duration=None>
+1535.9382 	DATA 	KeyPress: n
+1536.0504 	EXP 	Device response: <KeyPress from None: t=1535.9056302, value=n, duration=0.1305288999997174>
+1536.2475 	EXP 	unnamed Rect: fillColor = '#119E57'
+1537.2648 	EXP 	unnamed Rect: fillColor = '#B55993'
+1538.2869 	EXP 	: sampleRate = 17000
+1538.2930 	EXP 	Sound  reached end of file
+1538.2930 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1539.2970 	EXP 	Sound  stopped
+1539.3095 	EXP 	: sampleRate = 16000
+1539.3109 	EXP 	Sound  reached end of file
+1539.3110 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1540.3143 	EXP 	Sound  stopped
+1540.6163 	EXP 	: sampleRate = 16000
+1540.6185 	EXP 	Sound  reached end of file
+1540.6187 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1540.6312 	EXP 	unnamed Rect: fillColor = '#B55993'
+1541.6320 	EXP 	Sound  stopped
+1541.9481 	EXP 	Device response: <KeyPress from None: t=1541.9434806, value=y, duration=None>
+1541.9842 	DATA 	KeyPress: y
+1542.1980 	EXP 	Device response: <KeyPress from None: t=1541.9434806, value=y, duration=0.24259319999964646>
+1542.2807 	EXP 	unnamed Rect: fillColor = '#119E57'
+1543.2988 	EXP 	unnamed Rect: fillColor = '#B55993'
+1544.2985 	EXP 	: sampleRate = 16000
+1544.2995 	EXP 	Sound  reached end of file
+1544.2996 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1545.3141 	EXP 	Sound  stopped
+1545.3317 	EXP 	: sampleRate = 16500
+1545.3402 	EXP 	Sound  reached end of file
+1545.3403 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1546.3464 	EXP 	Sound  stopped
+1546.6481 	EXP 	: sampleRate = 16000
+1546.6502 	EXP 	Sound  reached end of file
+1546.6503 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1546.6637 	EXP 	unnamed Rect: fillColor = '#119E57'
+1547.6507 	EXP 	Sound  stopped
+1548.5474 	EXP 	Device response: <KeyPress from None: t=1548.5460681999998, value=n, duration=None>
+1548.5869 	DATA 	KeyPress: n
+1548.8306 	EXP 	Device response: <KeyPress from None: t=1548.5460681999998, value=n, duration=0.2721873999998934>
+1548.8804 	EXP 	unnamed Rect: fillColor = '#119E57'
+1549.8808 	EXP 	unnamed Rect: fillColor = '#B55993'
+1550.8814 	EXP 	: sampleRate = 16500
+1550.8850 	EXP 	Sound  reached end of file
+1550.8851 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1551.8979 	EXP 	Sound  stopped
+1551.9255 	EXP 	: sampleRate = 17000
+1551.9291 	EXP 	Sound  reached end of file
+1551.9292 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1552.9308 	EXP 	Sound  stopped
+1553.2344 	EXP 	: sampleRate = 17000
+1553.2457 	EXP 	Sound  reached end of file
+1553.2458 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1553.2505 	EXP 	unnamed Rect: fillColor = '#B55993'
+1554.2489 	EXP 	Sound  stopped
+1555.3468 	EXP 	Device response: <KeyPress from None: t=1555.3432538999996, value=n, duration=None>
+1555.3581 	DATA 	KeyPress: n
+1555.6132 	EXP 	Device response: <KeyPress from None: t=1555.3432538999996, value=n, duration=0.2613768000001073>
+1555.6807 	EXP 	unnamed Rect: fillColor = '#119E57'
+1556.6980 	EXP 	unnamed Rect: fillColor = '#B55993'
+1557.6995 	EXP 	: sampleRate = 17000
+1557.7116 	EXP 	Sound  reached end of file
+1557.7118 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1558.7148 	EXP 	Sound  stopped
+1558.7165 	EXP 	: sampleRate = 15500
+1558.7242 	EXP 	Sound  reached end of file
+1558.7242 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1559.7299 	EXP 	Sound  stopped
+1560.0312 	EXP 	: sampleRate = 17000
+1560.0352 	EXP 	Sound  reached end of file
+1560.0353 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1560.0466 	EXP 	unnamed Rect: fillColor = '#8FBF8A'
+1560.7639 	EXP 	Device response: <KeyPress from None: t=1560.7610235999996, value=n, duration=None>
+1560.7802 	DATA 	KeyPress: n
+1561.0302 	EXP 	Device response: <KeyPress from None: t=1560.7610235999996, value=n, duration=0.2681072000000313>
+1561.0467 	EXP 	Sound  stopped
+1561.3797 	EXP 	unnamed Rect: fillColor = '#119E57'
+1562.3967 	EXP 	unnamed Rect: fillColor = '#B55993'
+1563.4163 	EXP 	: sampleRate = 15500
+1563.4188 	EXP 	Sound  reached end of file
+1563.4188 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1564.4299 	EXP 	Sound  stopped
+1564.4510 	EXP 	: sampleRate = 17000
+1564.4597 	EXP 	Sound  reached end of file
+1564.4597 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1565.4642 	EXP 	Sound  stopped
+1565.7818 	EXP 	: sampleRate = 15500
+1565.7840 	EXP 	Sound  reached end of file
+1565.7841 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1565.7963 	EXP 	unnamed Rect: fillColor = '#119E57'
+1566.5299 	EXP 	Device response: <KeyPress from None: t=1566.5181195, value=y, duration=None>
+1566.5495 	DATA 	KeyPress: y
+1566.7970 	EXP 	Sound  stopped
+1566.8147 	EXP 	Device response: <KeyPress from None: t=1566.5181195, value=y, duration=0.27853199999935896>
+1567.1303 	EXP 	unnamed Rect: fillColor = '#119E57'
+1568.1472 	EXP 	unnamed Rect: fillColor = '#B55993'
+1569.1742 	EXP 	: sampleRate = 16000
+1569.1769 	EXP 	Sound  reached end of file
+1569.1769 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1570.1801 	EXP 	Sound  stopped
+1570.1980 	EXP 	: sampleRate = 17000
+1570.2051 	EXP 	Sound  reached end of file
+1570.2051 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1571.2133 	EXP 	Sound  stopped
+1571.5306 	EXP 	: sampleRate = 16000
+1571.5381 	EXP 	Sound  reached end of file
+1571.5382 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1571.5453 	EXP 	unnamed Rect: fillColor = '#2BAE62'
+1572.5308 	EXP 	Sound  stopped
+1572.8971 	EXP 	Device response: <KeyPress from None: t=1572.8940339999995, value=y, duration=None>
+1572.9241 	DATA 	KeyPress: y
+1573.1637 	EXP 	Device response: <KeyPress from None: t=1572.8940339999995, value=y, duration=0.25375919999987673>
+1573.2303 	EXP 	unnamed Rect: fillColor = '#119E57'
+1574.2351 	EXP 	unnamed Rect: fillColor = '#B55993'
+1575.2580 	EXP 	: sampleRate = 16000
+1575.2726 	EXP 	Sound  reached end of file
+1575.2727 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1576.2874 	EXP 	Sound  stopped
+1576.2923 	EXP 	: sampleRate = 17000
+1576.3029 	EXP 	Sound  reached end of file
+1576.3030 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1577.3138 	EXP 	Sound  stopped
+1577.6166 	EXP 	: sampleRate = 16000
+1577.6198 	EXP 	Sound  reached end of file
+1577.6199 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1577.6305 	EXP 	unnamed Rect: fillColor = '#119E57'
+1578.6298 	EXP 	Sound  stopped
+1578.6809 	EXP 	Device response: <KeyPress from None: t=1578.6770249999995, value=y, duration=None>
+1578.7236 	DATA 	KeyPress: y
+1578.9641 	EXP 	Device response: <KeyPress from None: t=1578.6770249999995, value=y, duration=0.2804018000006181>
+1579.0138 	EXP 	unnamed Rect: fillColor = '#119E57'
+1580.0303 	EXP 	unnamed Rect: fillColor = '#B55993'
+1581.0309 	EXP 	: sampleRate = 15000
+1581.0318 	EXP 	Sound  reached end of file
+1581.0318 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1582.0462 	EXP 	Sound  stopped
+1582.0469 	EXP 	: sampleRate = 16000
+1582.0476 	EXP 	Sound  reached end of file
+1582.0476 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1583.0635 	EXP 	Sound  stopped
+1583.3650 	EXP 	: sampleRate = 16000
+1583.3659 	EXP 	Sound  reached end of file
+1583.3659 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1583.3795 	EXP 	unnamed Rect: fillColor = '#B55993'
+1584.1627 	EXP 	Device response: <KeyPress from None: t=1584.1538245999996, value=n, duration=None>
+1584.1894 	DATA 	KeyPress: n
+1584.3795 	EXP 	Sound  stopped
+1584.4467 	EXP 	Device response: <KeyPress from None: t=1584.1538245999996, value=n, duration=0.28290800000013405>
+1584.7126 	EXP 	unnamed Rect: fillColor = '#119E57'
+1585.7298 	EXP 	unnamed Rect: fillColor = '#B55993'
+1586.7480 	EXP 	: sampleRate = 16500
+1586.7534 	EXP 	Sound  reached end of file
+1586.7534 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1587.7632 	EXP 	Sound  stopped
+1587.7888 	EXP 	: sampleRate = 15500
+1587.7914 	EXP 	Sound  reached end of file
+1587.7915 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1588.7964 	EXP 	Sound  stopped
+1589.1148 	EXP 	: sampleRate = 16500
+1589.1192 	EXP 	Sound  reached end of file
+1589.1193 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1589.1297 	EXP 	unnamed Rect: fillColor = '#119E57'
+1589.9968 	EXP 	Device response: <KeyPress from None: t=1589.9862453, value=n, duration=None>
+1590.0196 	DATA 	KeyPress: n
+1590.1295 	EXP 	Sound  stopped
+1590.2460 	EXP 	Device response: <KeyPress from None: t=1589.9862453, value=n, duration=0.25867680000010296>
+1590.4623 	EXP 	unnamed Rect: fillColor = '#119E57'
+1591.4627 	EXP 	unnamed Rect: fillColor = '#B55993'
+1592.4842 	EXP 	: sampleRate = 16000
+1592.4864 	EXP 	Sound  reached end of file
+1592.4865 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1593.4958 	EXP 	Sound  stopped
+1593.5184 	EXP 	: sampleRate = 16500
+1593.5241 	EXP 	Sound  reached end of file
+1593.5241 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1594.5293 	EXP 	Sound  stopped
+1594.8464 	EXP 	: sampleRate = 16000
+1594.8531 	EXP 	Sound  reached end of file
+1594.8531 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1594.8620 	EXP 	unnamed Rect: fillColor = '#119E57'
+1595.6960 	EXP 	Device response: <KeyPress from None: t=1595.6812367999996, value=n, duration=None>
+1595.7276 	DATA 	KeyPress: n
+1595.8623 	EXP 	Sound  stopped
+1595.9456 	EXP 	Device response: <KeyPress from None: t=1595.6812367999996, value=n, duration=0.2611811000006128>
+1596.1953 	EXP 	unnamed Rect: fillColor = '#119E57'
+1597.2122 	EXP 	unnamed Rect: fillColor = '#B55993'
+1598.2384 	EXP 	: sampleRate = 17000
+1598.2432 	EXP 	Sound  reached end of file
+1598.2432 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1599.2458 	EXP 	Sound  stopped
+1599.2678 	EXP 	: sampleRate = 16500
+1599.2718 	EXP 	Sound  reached end of file
+1599.2718 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1600.2794 	EXP 	Sound  stopped
+1600.5974 	EXP 	: sampleRate = 17000
+1600.6045 	EXP 	Sound  reached end of file
+1600.6046 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1600.6120 	EXP 	unnamed Rect: fillColor = '#119E57'
+1601.6123 	EXP 	Sound  stopped
+1602.7464 	EXP 	Device response: <KeyPress from None: t=1602.7334802, value=y, duration=None>
+1602.7662 	DATA 	KeyPress: y
+1602.9968 	EXP 	Device response: <KeyPress from None: t=1602.7334802, value=y, duration=0.2505326000000423>
+1603.0795 	EXP 	unnamed Rect: fillColor = '#119E57'
+1604.0959 	EXP 	unnamed Rect: fillColor = '#B55993'
+1605.0808 	EXP 	: sampleRate = 15000
+1605.0859 	EXP 	Sound  reached end of file
+1605.0859 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1606.0968 	EXP 	Sound  stopped
+1606.1151 	EXP 	: sampleRate = 16500
+1606.1232 	EXP 	Sound  reached end of file
+1606.1233 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1607.1289 	EXP 	Sound  stopped
+1607.4310 	EXP 	: sampleRate = 16500
+1607.4384 	EXP 	Sound  reached end of file
+1607.4385 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1607.4454 	EXP 	unnamed Rect: fillColor = '#B55993'
+1608.4451 	EXP 	Sound  stopped
+1608.7300 	EXP 	Device response: <KeyPress from None: t=1608.7199503999996, value=n, duration=None>
+1608.7482 	DATA 	KeyPress: n
+1608.9958 	EXP 	Device response: <KeyPress from None: t=1608.7199503999996, value=n, duration=0.2630090000002383>
+1609.0618 	EXP 	unnamed Rect: fillColor = '#119E57'
+1610.0614 	EXP 	unnamed Rect: fillColor = '#B55993'
+1611.0658 	EXP 	: sampleRate = 16000
+1611.0767 	EXP 	Sound  reached end of file
+1611.0770 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1612.0800 	EXP 	Sound  stopped
+1612.0806 	EXP 	: sampleRate = 15000
+1612.0814 	EXP 	Sound  reached end of file
+1612.0814 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1613.0969 	EXP 	Sound  stopped
+1613.4149 	EXP 	: sampleRate = 16000
+1613.4246 	EXP 	Sound  reached end of file
+1613.4247 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1613.4294 	EXP 	unnamed Rect: fillColor = '#119E57'
+1614.4291 	EXP 	Sound  stopped
+1615.1618 	EXP 	Device response: <KeyPress from None: t=1615.1561666000002, value=n, duration=None>
+1615.1905 	DATA 	KeyPress: n
+1615.4462 	EXP 	Device response: <KeyPress from None: t=1615.1561666000002, value=n, duration=0.28098789999967266>
+1615.4954 	EXP 	unnamed Rect: fillColor = '#119E57'
+1616.5127 	EXP 	unnamed Rect: fillColor = '#B55993'
+1617.4982 	EXP 	: sampleRate = 16000
+1617.5012 	EXP 	Sound  reached end of file
+1617.5013 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1618.5123 	EXP 	Sound  stopped
+1618.5142 	EXP 	: sampleRate = 16500
+1618.5230 	EXP 	Sound  reached end of file
+1618.5230 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1619.5284 	EXP 	Sound  stopped
+1619.8309 	EXP 	: sampleRate = 16000
+1619.8329 	EXP 	Sound  reached end of file
+1619.8329 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1619.8452 	EXP 	unnamed Rect: fillColor = '#119E57'
+1620.8456 	EXP 	Sound  stopped
+1622.5300 	EXP 	Device response: <KeyPress from None: t=1622.5215439999997, value=y, duration=None>
+1622.5587 	DATA 	KeyPress: y
+1622.7462 	EXP 	Device response: <KeyPress from None: t=1622.5215439999997, value=y, duration=0.22103440000046248>
+1622.8614 	EXP 	unnamed Rect: fillColor = '#119E57'
+1623.8779 	EXP 	unnamed Rect: fillColor = '#B55993'
+1624.8810 	EXP 	: sampleRate = 17000
+1624.8869 	EXP 	Sound  reached end of file
+1624.8870 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1625.8962 	EXP 	Sound  stopped
+1625.8976 	EXP 	: sampleRate = 16000
+1625.9000 	EXP 	Sound  reached end of file
+1625.9001 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1626.9121 	EXP 	Sound  stopped
+1627.2311 	EXP 	: sampleRate = 16000
+1627.2335 	EXP 	Sound  reached end of file
+1627.2336 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1627.2440 	EXP 	unnamed Rect: fillColor = '#B55993'
+1627.9797 	EXP 	Device response: <KeyPress from None: t=1627.975073, value=n, duration=None>
+1628.0086 	DATA 	KeyPress: n
+1628.2445 	EXP 	Sound  stopped
+1628.2614 	EXP 	Device response: <KeyPress from None: t=1627.975073, value=n, duration=0.2859582999999475>
+1628.5783 	EXP 	unnamed Rect: fillColor = '#119E57'
+1629.5777 	EXP 	unnamed Rect: fillColor = '#B55993'
+1630.5998 	EXP 	: sampleRate = 15500
+1630.6086 	EXP 	Sound  reached end of file
+1630.6087 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1631.6133 	EXP 	Sound  stopped
+1631.6159 	EXP 	: sampleRate = 15000
+1631.6196 	EXP 	Sound  reached end of file
+1631.6197 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1632.6287 	EXP 	Sound  stopped
+1632.9466 	EXP 	: sampleRate = 15500
+1632.9490 	EXP 	Sound  reached end of file
+1632.9490 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1632.9610 	EXP 	unnamed Rect: fillColor = '#119E57'
+1633.9617 	EXP 	Sound  stopped
+1634.5276 	EXP 	Device response: <KeyPress from None: t=1634.52356, value=n, duration=None>
+1634.5495 	DATA 	KeyPress: n
+1634.8280 	EXP 	Device response: <KeyPress from None: t=1634.52356, value=n, duration=0.2923516999999265>
+1634.8609 	EXP 	unnamed Rect: fillColor = '#119E57'
+1635.8774 	EXP 	unnamed Rect: fillColor = '#B55993'
+1636.8809 	EXP 	: sampleRate = 16000
+1636.8894 	EXP 	Sound  reached end of file
+1636.8894 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1637.8951 	EXP 	Sound  stopped
+1637.9064 	EXP 	: sampleRate = 16000
+1637.9083 	EXP 	Sound  reached end of file
+1637.9084 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1638.9111 	EXP 	Sound  stopped
+1639.2291 	EXP 	: sampleRate = 16000
+1639.2309 	EXP 	Sound  reached end of file
+1639.2309 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1639.2444 	EXP 	unnamed Rect: fillColor = '#B55993'
+1640.2448 	EXP 	Sound  stopped
+1640.3956 	EXP 	Device response: <KeyPress from None: t=1640.3844958999994, value=y, duration=None>
+1640.4171 	DATA 	KeyPress: y
+1640.6459 	EXP 	Device response: <KeyPress from None: t=1640.3844958999994, value=y, duration=0.24745810000058555>
+1640.7284 	EXP 	unnamed Rect: fillColor = '#119E57'
+1641.7442 	EXP 	unnamed Rect: fillColor = '#B55993'
+1642.7703 	EXP 	: sampleRate = 15000
+1642.7753 	EXP 	Sound  reached end of file
+1642.7754 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1643.7784 	EXP 	Sound  stopped
+1643.7805 	EXP 	: sampleRate = 16500
+1643.7876 	EXP 	Sound  reached end of file
+1643.7877 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1644.7954 	EXP 	Sound  stopped
+1645.1267 	EXP 	: sampleRate = 15000
+1645.1285 	EXP 	Sound  reached end of file
+1645.1286 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1645.1322 	EXP 	unnamed Rect: fillColor = '#119E57'
+1646.1285 	EXP 	Sound  stopped
+1646.9276 	EXP 	Device response: <KeyPress from None: t=1646.9155145, value=n, duration=None>
+1646.9470 	DATA 	KeyPress: n
+1647.1938 	EXP 	Device response: <KeyPress from None: t=1646.9155145, value=n, duration=0.26376410000011674>
+1647.2618 	EXP 	unnamed Rect: fillColor = '#119E57'
+1648.2783 	EXP 	unnamed Rect: fillColor = '#B55993'
+1649.2790 	EXP 	: sampleRate = 15000
+1649.2813 	EXP 	Sound  reached end of file
+1649.2814 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1650.2951 	EXP 	Sound  stopped
+1650.2962 	EXP 	: sampleRate = 16000
+1650.2987 	EXP 	Sound  reached end of file
+1650.2988 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1651.3103 	EXP 	Sound  stopped
+1651.6441 	EXP 	: sampleRate = 15000
+1651.6474 	EXP 	Sound  reached end of file
+1651.6474 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1651.6500 	EXP 	unnamed Rect: fillColor = '#119E57'
+1652.5936 	EXP 	Device response: <KeyPress from None: t=1652.5798005000001, value=n, duration=None>
+1652.6044 	DATA 	KeyPress: n
+1652.6267 	EXP 	Sound  stopped
+1652.8768 	EXP 	Device response: <KeyPress from None: t=1652.5798005000001, value=n, duration=0.2929091999994853>
+1652.9598 	EXP 	unnamed Rect: fillColor = '#119E57'
+1653.9609 	EXP 	unnamed Rect: fillColor = '#B55993'
+1654.9460 	EXP 	: sampleRate = 17000
+1654.9527 	EXP 	Sound  reached end of file
+1654.9527 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1655.9597 	EXP 	Sound  stopped
+1655.9604 	EXP 	: sampleRate = 15500
+1655.9614 	EXP 	Sound  reached end of file
+1655.9614 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1656.9619 	EXP 	Sound  stopped
+1657.2804 	EXP 	: sampleRate = 15500
+1657.2826 	EXP 	Sound  reached end of file
+1657.2827 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1657.2931 	EXP 	unnamed Rect: fillColor = '#E56C7D'
+1658.1947 	EXP 	Device response: <KeyPress from None: t=1658.1805138999994, value=n, duration=None>
+1658.2132 	DATA 	KeyPress: n
+1658.2939 	EXP 	Sound  stopped
+1658.4605 	EXP 	Device response: <KeyPress from None: t=1658.1805138999994, value=n, duration=0.26277790000040113>
+1658.6271 	EXP 	unnamed Rect: fillColor = '#119E57'
+1659.6369 	EXP 	unnamed Rect: fillColor = '#B55993'
+1660.6279 	EXP 	: sampleRate = 15500
+1660.6298 	EXP 	Sound  reached end of file
+1660.6299 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1661.6443 	EXP 	Sound  stopped
+1661.6694 	EXP 	: sampleRate = 16500
+1661.6767 	EXP 	Sound  reached end of file
+1661.6767 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1662.6781 	EXP 	Sound  stopped
+1662.9964 	EXP 	: sampleRate = 16500
+1663.0000 	EXP 	Sound  reached end of file
+1663.0001 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1663.0105 	EXP 	unnamed Rect: fillColor = '#B55993'
+1663.9948 	EXP 	Sound  stopped
+1664.2603 	EXP 	Device response: <KeyPress from None: t=1664.2526318999994, value=n, duration=None>
+1664.2813 	DATA 	KeyPress: n
+1664.5446 	EXP 	Device response: <KeyPress from None: t=1664.2526318999994, value=n, duration=0.2778470000002926>
+1664.5939 	EXP 	unnamed Rect: fillColor = '#119E57'
+1665.6108 	EXP 	unnamed Rect: fillColor = '#B55993'
+1666.6124 	EXP 	: sampleRate = 15000
+1666.6145 	EXP 	Sound  reached end of file
+1666.6146 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1667.6268 	EXP 	Sound  stopped
+1667.6275 	EXP 	: sampleRate = 16000
+1667.6336 	EXP 	Sound  reached end of file
+1667.6336 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1668.6439 	EXP 	Sound  stopped
+1668.9810 	EXP 	: sampleRate = 16000
+1668.9935 	EXP 	Sound  reached end of file
+1668.9936 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1668.9969 	EXP 	unnamed Rect: fillColor = '#B55993'
+1669.9608 	EXP 	Sound  stopped
+1671.9103 	EXP 	Device response: <KeyPress from None: t=1671.9082724999994, value=n, duration=None>
+1671.9321 	DATA 	KeyPress: n
+1672.1777 	EXP 	Device response: <KeyPress from None: t=1671.9082724999994, value=n, duration=0.26557660000071337>
+1672.2434 	EXP 	unnamed Rect: fillColor = '#119E57'
+1673.2599 	EXP 	unnamed Rect: fillColor = '#B55993'
+1674.2464 	EXP 	: sampleRate = 15500
+1674.2508 	EXP 	Sound  reached end of file
+1674.2509 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1675.2607 	EXP 	Sound  stopped
+1675.2615 	EXP 	: sampleRate = 16500
+1675.2669 	EXP 	Sound  reached end of file
+1675.2670 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1676.2766 	EXP 	Sound  stopped
+1676.6178 	EXP 	: sampleRate = 15500
+1676.6253 	EXP 	Sound  reached end of file
+1676.6253 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1676.6278 	EXP 	unnamed Rect: fillColor = '#119E57'
+1677.6100 	EXP 	Sound  stopped
+1678.4762 	EXP 	Device response: <KeyPress from None: t=1678.4722203999995, value=n, duration=None>
+1678.4943 	DATA 	KeyPress: n
+1678.7617 	EXP 	Device response: <KeyPress from None: t=1678.4722203999995, value=n, duration=0.2826425000002928>
+1678.7943 	EXP 	unnamed Rect: fillColor = '#119E57'
+1679.8095 	EXP 	unnamed Rect: fillColor = '#B55993'
+1680.8109 	EXP 	: sampleRate = 15500
+1680.8134 	EXP 	Sound  reached end of file
+1680.8134 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1681.8265 	EXP 	Sound  stopped
+1681.8277 	EXP 	: sampleRate = 16500
+1681.8317 	EXP 	Sound  reached end of file
+1681.8317 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1682.8434 	EXP 	Sound  stopped
+1683.1613 	EXP 	: sampleRate = 15500
+1683.1668 	EXP 	Sound  reached end of file
+1683.1669 	EXP 	Playing sound  on speaker Headphones (Realtek(R) Audio)
+1683.1761 	EXP 	unnamed Rect: fillColor = '#119E57'
+1684.0771 	EXP 	Device response: <KeyPress from None: t=1684.0724371000001, value=n, duration=None>
+1684.0966 	DATA 	KeyPress: n
+1684.1604 	EXP 	Sound  stopped
+1684.1763 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1684.1763 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1684.1763 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1684.1763 	EXP 	unnamed TextStim: text = 'Calculating... this takes about a minute. Please wait.'
+1720.0925 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1720.0925 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1720.0925 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1720.0925 	EXP 	unnamed TextStim: text = 'Note for the experimenter: the audio calibration fell outside the tested range and was clipped. Please write this down.\n\nPress the space bar to continue.'
+1725.8982 	DATA 	Keypress: space
+1725.9103 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1725.9103 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1725.9103 	EXP 	unnamed TextStim: height = np.float64(28.0)
+1725.9103 	EXP 	unnamed TextStim: text = 'Part 3 of 3: the main task. First, a short practice.\n\nEach round starts the same way: two colours and two sounds to remember. Then you will answer sixteen questions in a row, one colour-and-sound pair at a time.\n\nBoth the same as before: press Y.   Anything different: press N.\n\nFeedback is shown during practice only.\n\nPress the space bar to begin.'
+1726.6657 	DATA 	Keypress: escape
+1726.7498 	WARNING 	Stopping key buffers but this could be dangerous ifother keyboards rely on the same.
