@@ -52,7 +52,7 @@
 
 每組軸各跑 M0–M1，用 BIC 比；若 A4 或 A3 不比 A5 差，之後的 M2–M4 就用較少的軸（參數少、ρ 更好認）。
 
-**記憶文獻用的是幾個軸**（2026-11-10 查核，皆摘要／片段層級；細節見 `millerNicely1955_噪音混淆_逐SNR.md` §7–8）：
+**記憶文獻用的是幾個軸**（2026-11-10 查核；除 Roodenrys 2025 已讀全文外皆摘要／片段層級；細節見 `millerNicely1955_噪音混淆_逐SNR.md` §7–8 與 `Roodenrys2025_全文查核.md`）：
 
 ```
    研究                          作業                      用幾個軸、哪些軸
@@ -64,7 +64,7 @@
    Cole / Sales 1974             序列回憶                   manner vs place；place「沒有被記住」
    Danhauer et al. 1978          Wickelgren 作業 + 噪音     INDSCAL 抽維度（維數未見）
    Schweppe, Grice & Rummer 2011 序列回憶，操弄共享特徵數    voicing、nasality、manner、place 的組合預測最好
-   Roodenrys et al. 2025         序列回憶                   構音特徵相似度（未細分）
+   Roodenrys et al. 2025         序列回憶（視覺+打字／聽覺+口說） 3：voice、place、manner；二元「差 1 特徵」，36/60 對是 voicing，特徵未分開分析（全文已讀）
    Pisoni 1973                   延遲 same/different        1：ba–pa voicing 連續體
 ```
 
