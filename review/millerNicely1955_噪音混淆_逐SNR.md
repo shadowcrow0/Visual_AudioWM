@@ -121,3 +121,17 @@
 - 所以「你分不出 p–b 是因為非母語」目前沒有文獻背書；中文母語者在詞首塞音與擦音的 voicing 上並不特別差。撤回為「待驗證」。
 
 **對 11-03 資料的解讀要改**：純知覺 d′ 2.3、WM 裡掉到猜，不能歸給「voicing 對非母語者難」。剩下的候選：(a) 記憶負荷（2 + 2 項目）本身；(b) 「最不像」層混了不同類型的對，平均掉了；(c) 假警報 .28 的判準偏差；(d) 這套 wav 的個別 token 品質。`sound_perception_EN.py --axis features` 的結果能分 (b)；(a) 要靠減負荷的版本。
+
+## 8. 修正後的敘述（2026-11-10，第三次查核後由子代理依三份查核結果寫成；只用查過的證據）
+
+p–b、t–d、k–g 這些只差 voicing 的對，在噪音裡確實分得開：Miller & Nicely (1955, p. 349) 明言 voicing 與 nasality 在 −12 dB 仍可辨、place 在 6 dB 以下即難分；我們轉錄其 Table I–VI，三對的對稱混淆自 −12 dB 起皆 ≤ 1.2%，−6 dB 最混的 f–θ、p–k、t–k、d–g 全是只差 place 的對。但「混淆隨差異特徵數下降」不是 M&N 原話，而是從「特徵近乎獨立知覺」(p. 348) 推出的推論；Woods et al. (2010) 更指出低 SNR 時以多特徵錯誤為主——決定混淆的是「哪個特徵」，非特徵數。記憶層面：Wickelgren (1966) 顯示子音在短期記憶中以特徵集合編碼、各特徵半獨立遺忘；Klatt (1968) 重分析得出的特徵含 voiced 而無 place；Conrad (1964) 的聽覺／回憶相關只到字母層級。沒有研究把記憶混淆矩陣與 M&N 數值對照，「記憶裡的混淆結構等於知覺裡的」是推論。非母語：Cutler et al. (2004) 摘要未提 voicing，「voicing 是非母語者最弱特徵」未經查證；華語母語者在 Flege (1989) 與 Yang et al. (2026) 中反而 voicing 辨識近母語、優於 place，只在特定線索被移除時崩潰。因此 11-03 單一受試者純知覺 d′ ≤ 2.3、虛報 .28，不能歸因於「非母語者 voicing 弱」；該軸「最不像」層平均僅差 2.4 個 M&N 特徵且混入 p–b、k–g 與 p–k 類對，軸的定義更可能是主因。WM 內降至猜測水準只表示此對比在目前負荷下量不到，不表示記憶未保留 voicing。
+
+| 論述 | 證據等級 | 來源 | 一句話證據 |
+|---|---|---|---|
+| (a) 噪音中 voicing／nasality 耐噪，place 最先丟 | **已確立** | M&N 1955 (read)；Wang & Bilger 1973 (snippet)；Phatak et al. 2008 (abstract)；Woods et al. 2010 (abstract) | M&N p. 349；Table XXI −12 dB 相對資訊 voicing 52%、nasality 49%、place 4%。限制：CV + /ɑ/、白噪音、無安靜條件；Phatak：摩擦音 voicing 混淆不對稱。 |
+| (b) 「差幾個特徵」決定混淆 | **推論**；「哪個特徵」才是已確立 | M&N (read)；Woods et al. 2010 (abstract) | M&N 只說特徵「幾乎獨立」；Woods：高 SNR 以單一 place 錯誤為主、低 SNR 以多特徵錯誤為主。 |
+| (c) 記憶混淆結構＝知覺混淆結構 | **部分支持 + 推論**；無數值比較 | Wickelgren 1966、Klatt 1968、Conrad 1964、Hintzman 1967、Roodenrys et al. 2025（皆 abstract） | 子音在 STM 以特徵集合編碼、半獨立遺忘；Klatt 的特徵表含 voiced 無 place；Conrad 的相關只在字母層級；沒有記憶中特徵遺失的排序。 |
+| (d) 非母語者 voicing 最弱 | **未經查證**；華語 L1 證據方向相反 | Cutler et al. 2004、Flege 1989、Yang et al. 2026、de Jong & Hao 2018（皆 abstract） | Cutler 摘要未提 voicing；Flege：華語系聽者對未剪輯的詞尾 /t–d/ 近母語；Yang：華語聽者 /s–z/、/θ–ð/ 優於 /s–θ/、/z–ð/。 |
+| (e) 11-03 資料 | **一位受試者的描述性資料**；歸因是推論 | 本研究 | 可說：純知覺各層 .50–1.00、d′ 0.6–2.3、虛報 .28；WM 內 .40–.67、虛報 .22。不可說：非母語者 voicing 弱、記憶不保留 voicing。 |
+
+補充書目（§6 未列者）：Klatt, D. H. (1968). Structure of confusions in short-term memory between English consonants. *JASA, 44*(2), 401–407. https://doi.org/10.1121/1.1911094 [abstract]；Hintzman, D. L. (1967). Articulatory coding in short-term memory. *JVLVB, 6*(3), 312–316 [abstract]；Roodenrys, S., Miller, L. M., Guitard, D., & Neath, I. (2025). Similar phonemes create interference in the serial recall task. *Memory, 33*(2), 248–258. https://doi.org/10.1080/09658211.2024.2433049 [abstract]；Pisoni, D. B. (1973). Auditory and phonetic memory codes in the discrimination of consonants and vowels. *Perception & Psychophysics, 13*(2), 253–260. https://doi.org/10.3758/BF03214136 [abstract；只測 /ba–pa/ 一條 voicing 連續體]。Yang et al. (2026) 的篇名未核對，引用前要補。
