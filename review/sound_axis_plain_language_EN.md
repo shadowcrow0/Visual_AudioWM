@@ -17,9 +17,12 @@ Companion files: `review/consonant_distance_how.md` (the metrics), `review/子�
 ```
    Method                              Who used it                                  How it is computed
    ──────────────────────────────────  ───────────────────────────────────────────  ──────────────────────────────────────────────
-   Shared-feature count /              Wickelgren 1966; Schweppe et al. 2011;       Count how many articulatory features two
-   feature overlap                     Roodenrys et al. 2025                        consonants share; use it to predict serial-recall
+   Shared-feature count /              Wickelgren 1966; Roodenrys et al. 2025       Count how many articulatory features two
+   feature overlap                     (the latter only 0 / 1 / other)              consonants share; use it to predict serial-recall
                                                                                     errors and interference
+   Which feature type is shared        Schweppe et al. 2011                         Three fixed syllable sets: share only manner, only
+                                                                                    place, or neither; ask which kind of sharing hurts
+                                                                                    recall (argues against counting features)
    Error rate per feature              Wickelgren 1966; Klatt 1968                  Split the recall-confusion matrix into one 2×2
                                                                                     table per feature; see which feature is lost most
                                                                                     in memory (Klatt: voicing retained, place lost)
