@@ -87,7 +87,7 @@
 - **在哪**：`adaptive_vawm.py:97-98`、`adaptive_vawm.py:212`。
 
 ## 8. 兩個軸的定義
-- **決定**：顏色 = CIELAB 歐氏距離（ΔE76）；聲音 = −log10(混淆次數 + 1)，次數少 = 好分 = H。
+- **決定**：顏色 = CIELAB 歐氏距離（ΔE76）；聲音 = −log10(混淆次數 + 1)，次數少 = 好分 = H。**（聲音軸 2026-11-10 改為 d′，見第 21 條。）**
 - **為什麼**：校準量出來的數字要能直接填進主實驗的題本。用現有題本同樣的單位，主實驗程式一行都不用改；
   換單位就要改 `VAWM_nobox.py`。與現有 `block*.csv` 的 `*_deltaE` 和 `*_count` 同單位，`VAWM_nobox.py` 不用改。
   ΔE76 是 `colorpool.py:9-10` 的定義（不是 ΔE00）；混淆表是 `generate_trials.py` 的 Miller & Nicely 1955。
@@ -171,10 +171,17 @@
 ## 20. 聲音配對改成固定表 `stimuli/sound_pairs.csv`，不再每次隨機抽
 - **決定**：`make_sound_pairs.py` 從 Luce 距離（`consonant_distance.py`，−12/−6/0 dB 平均）一次產生 80 對：5 個距離層級 × 16 個目標子音各一個 foil，說話者 12 位輪流指派，目標與 foil 同一位說話者。`sound_perception_EN.py` 預設跑這張表（80 不同 + 40 相同 = 120 試，約 7 分鐘），只有呈現順序隨參與者打散。
 - **為什麼**：11-09 受試者要求刺激固定、可檢視；Luce 只在離線算距離時用，實驗程式只讀表。表裡每一列都有 x（Luce 距離）、差了哪些特徵、是否貼齊（2 列：t 第 3 層、z 第 5 層）。
-- **在哪**：`make_sound_pairs.py`、`stimuli/sound_pairs.csv`、`sound_perception_EN.py`（`--axis pairs|counts|features`）。主實驗的校準還沒改用這張表（等純知覺結果）。
+- **在哪**：`make_sound_pairs.py`、`stimuli/sound_pairs.csv`、`sound_perception_EN.py`（`--axis pairs|dprime|features`）。主實驗的聲音軸 11-10 改成同一來源的 d′（第 21 條）。
+
+## 21. 主實驗與校準的聲音軸改成 d′（Miller & Nicely 的 Luce 距離 × 0.911），不再用 −log10(混淆次數)（2026-11-10）
+- **決定**：`stimuli/consonant_dprime.csv`（240 個有序對，`make_sound_pairs.py` 產生）是唯一的聲音軸來源。`adaptive_vawm.load_dprime()` 讀它，`foil_for` 在 d′ 上找最接近的干擾子音，`audio_x(d′) = d′`。`LEVELS_AUDIO = [0.4, 0.9, 1.5, 2.3, 3.3, 4.5]`，`AUDIO_SHIFT = 0`（d′ 已是正數，進 lnrm 不平移）。校準結果的 `extra` 改存 `dprime_high / dprime_low`；block csv 與 `practice.csv` 的欄位 `audio*_H_count / _L_count` 改名 `_dprime`（`VAWM_nobox.py` 不讀這兩欄）。校準期間另一維度的暫定 H / L：d′ 4.3 / 1.0。目標數（2 色 + 2 音）、探測比例、試次數都不動。
+- **為什麼**：(1) 舊軸是三個 SNR 的混淆次數加總的對數，不是知覺單位，而且把只差 voicing 的對排到最遠端；(2) 用 mdsdt 對 M&N 的 14 個 2×2 子設計做 GRT 擬合，28 個單特徵對的 d′（−6 dB）對 Luce 距離是過原點直線 d′ = 0.911·luce（Pearson .98），所以 Luce 距離就是 d′；(3) 擬合也顯示「差幾個特徵」不能當尺——同樣差一個 place，p–t 是 0.46、b–d 是 2.5——所以尺必須按對查表，這正是 d′ 表的形式；(4) 11-03 純知覺資料的命中率隨這個尺單調上升（.71 → 1.00）。全部在 `review/GRT擬合MN_B路線_D2.md`。
+- **代價**：d′ 在純知覺上 ≳ 2 就是天花板，所以層級 2.3 / 3.3 / 4.5 之間的差只會在記憶負荷下出現；11-03 在負荷下連 4 以上的對都在猜測率。換尺不解決負荷問題，那是另一個決定（還沒決定的）。
+- **在哪**：`adaptive_vawm.py` / `_EN`（`load_dprime`、`foil_for`、`LEVELS_AUDIO`、`AUDIO_SHIFT`、`make_result`、`write_blocks`、`CSV_COLUMNS`）；`SFT_WM_nochange.py` / `_EN`（`DPRIME`、`foil_near`、`PROV_DPRIME_*`、`fit_calibration`、`make_study_set`）；`sound_perception_EN.py --axis dprime`；`make_simple_psyexp.py`；`stimuli/consonant_dprime.csv`、`stimuli/practice.csv`；測試 `tests/test_adaptive_vawm.py`（`test_dprime_table_and_axis`、psi/lnrm 聲音觀察者的參數改到 d′ 單位）。
 
 ## 還沒決定的
-- **受試者的母語**：11-03 的 pilot 受試者英語非母語，自述聽不出子音差異；聲音維度在 WM 作業裡落在猜的水準可能有一部分是這個。正式受試者是否限定英語母語者、或改用對非母語者也分得出的聲音刺激，要定。`sound_perception_EN.py` 的結果可以分開「分不出」和「記不住」。
+- **記憶負荷**：11-03 在 2 色 + 2 音負荷下聲音全部層級都在猜測率，純知覺卻在 d′ ≥ 2 全對。尺換成 d′ 後這個問題還在；要不要先只記聲音、縮短保留時間、或降項目數，使用者 11-10 表示目標數不改，其餘未定。
+- **受試者的母語**：11-03 的 pilot 受試者英語非母語，自述聽不出子音差異；聲音維度在 WM 作業裡落在猜的水準可能有一部分是這個。Cutler et al. (2004) 全文（`review/Cutler2004_全文查核.md`）：荷蘭聽者的 voicing 流失跟著 L1 的缺口走（詞尾），華語聽者的對應缺口是推論、未測。正式受試者是否限定英語母語者、或改用對非母語者也分得出的聲音刺激，要定。`sound_perception_EN.py` 的結果可以分開「分不出」和「記不住」。
 - adaptiveSFT 決定 A（DDM 的 `a` 是邊界距離還是分離）：只影響 DDM 模擬與 power scan 的數字，不影響實驗程式。
 - 聲音 lnrm 的層級貼到 foil 後 u 是散的（測試裡 29 個不同值），擬合沒問題，但「層級」這個概念在聲音軸上是近似。
 

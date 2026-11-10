@@ -8,8 +8,8 @@ import pytest
 from scipy.stats import norm
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from adaptive_vawm import (CSV_COLUMNS, LNRMCalibrator, PsiCalibrator, audio_x, count_from_x, delta_e,  # noqa: E402
-                           find_colour_at, is_in_gamut, lab_to_hex, load_confusion, load_full_package,
+from adaptive_vawm import (CSV_COLUMNS, LNRMCalibrator, PsiCalibrator, audio_x, delta_e,  # noqa: E402
+                           find_colour_at, is_in_gamut, lab_to_hex, load_dprime, load_full_package,
                            random_target, read_calibration, save_calibration, to_model_units, write_blocks)
 
 
@@ -22,10 +22,12 @@ def test_colour_helpers():
     assert lab_to_hex([50, 0, 0]) in ("#767676", "#777777")                     # 中性灰（int() 截尾同 colorpool）
 
 
-def test_confusion_table_and_axis():
-    conf = load_confusion()
-    assert len(conf) == 16 and ("k", 207) in conf["p"]                          # generate_trials.py 的第一列
-    assert audio_x(1) > audio_x(451) and abs(count_from_x(audio_x(91)) - 91) < 1e-9
+def test_dprime_table_and_axis():
+    table = load_dprime()
+    assert len(table) == 16 and all(len(v) == 15 for v in table.values())
+    dp = dict(table["p"])
+    assert dp["k"] < dp["t"] < dp["f"] < dp["b"]                                 # p–k 最像、p–b（只差 voicing）最不像
+    assert 0.2 < dp["k"] < 0.5 and 3.5 < dp["b"] < 5.0 and audio_x(dp["b"]) == dp["b"]
 
 
 # ---------------------------------------------------------------- Psi 版：模擬一個「答不同」機率服從累積常態的受試者
@@ -59,20 +61,20 @@ def test_psi_colour_recovers_observer():
 
 def test_psi_audio_snaps_to_available_foils():
     rng = np.random.default_rng(2)
-    respond = psi_observer(alpha=-1.0, beta=0.6, fa=0.1)
+    respond = psi_observer(alpha=2.0, beta=0.8, fa=0.1)
     cal = PsiCalibrator("audio", p_high=0.90, p_low=0.75, p_match=1 / 3, seed=2)
-    conf = load_confusion()
+    table = load_dprime()
     for _ in range(120):
         t = cal.next_trial()
         if not t["is_match"]:
             target_file = t["audio1_target_file"] if t["probe_of"] == 1 else t["audio2_target_file"]
             target_cons = os.path.basename(target_file).split("_")[1][:-5]
-            assert (t["foil"], t["count"]) in conf[target_cons]                # foil 一定是該子音表裡的
-            assert abs(t["x"] - audio_x(t["count"])) < 1e-12
+            assert (t["foil"], t["dprime"]) in table[target_cons]                # foil 一定是該子音表裡的
+            assert abs(t["x"] - audio_x(t["dprime"])) < 1e-12
         cal.record(respond(t, rng), 0.7)
     res = cal.finish()
-    assert res["dim"] == "audio" and abs(res["alpha"] + 1.0) < 0.6
-    assert res["extra"]["count_high"] < res["extra"]["count_low"]              # H = 不易混淆 = 次數少
+    assert res["dim"] == "audio" and abs(res["alpha"] - 2.0) < 0.6
+    assert res["extra"]["dprime_high"] > res["extra"]["dprime_low"]              # H = 好分 = d′ 大
 
 
 def test_record_validation_and_no_response():
@@ -109,7 +111,7 @@ def test_lnrm_quadratic_recovers_and_matches_r_inversion(dim):
     """定值刺激法 + lnrm2 + 反解漂移差：回復 α/α₂，H/L 與 R 公式在後驗平均上的反解一致，H > L，在範圍內。"""
     pytest.importorskip("pymc")
     rng = np.random.default_rng(11)
-    alpha, alpha2 = 1.0, -0.12
+    alpha, alpha2 = (1.0, -0.12) if dim == "colour" else (0.5, -0.04)   # 聲音 u = d′ 0.3–4.9：α 要小，L 才落在 ≥ 0.4 的範圍內
     # 這個模擬觀察者（α = 1, α₂ = −0.12）的漂移差最高 4.2，到不了預設目標 8.0，所以明確用 2.0 / 0.5 和舊層級
     levels = [2.0, 6.0, 12.0, 20.0, 30.0, 45.0] if dim == "colour" else None
     cal = LNRMCalibrator(dim, levels=levels, n_per_level=12, h_targ=2.0, l_targ=0.5, seed=11, tune=400, draws=400, chains=2)
@@ -133,7 +135,7 @@ def test_lnrm_quadratic_recovers_and_matches_r_inversion(dim):
     assert abs(to_model_units(dim, res["high"]) - u_high) < 0.15
     assert res["low"] < res["high"] and res["in_range"]
     if dim == "audio":
-        assert res["extra"]["count_high"] < res["extra"]["count_low"]
+        assert res["extra"]["dprime_high"] > res["extra"]["dprime_low"]
 
 
 def test_lnrm_ogival_link_decision_b():
@@ -162,9 +164,9 @@ def test_write_blocks_matches_practice_csv_layout(tmp_path):
     with open(os.path.join(here, "stimuli", "practice.csv"), newline="", encoding="utf-8-sig") as f:
         practice_cols = next(csv.reader(f))
     assert practice_cols == CSV_COLUMNS
-    # 假的校準結果：ΔE_H 30、ΔE_L 20；count_H 1、count_L 90
+    # 假的校準結果：ΔE_H 30、ΔE_L 20；d′_H 4.3、d′_L 1.0
     colour = dict(dim="colour", high=30.0, low=20.0, extra=dict(method="psi"))
-    audio = dict(dim="audio", high=-0.3, low=-1.96, extra=dict(method="psi", count_high=1.0, count_low=90.0))
+    audio = dict(dim="audio", high=4.3, low=1.0, extra=dict(method="psi", dprime_high=4.3, dprime_low=1.0))
     path = tmp_path / "S_calib.json"
     save_calibration(path, colour, audio, info={"participant": "S"})
     cal = read_calibration(path)
@@ -175,7 +177,7 @@ def test_write_blocks_matches_practice_csv_layout(tmp_path):
     assert list(rows[0].keys()) == CSV_COLUMNS and len(rows) == 5
     for r in rows:
         assert abs(float(r["color1_H_deltaE"]) - 30) <= 0.5 and abs(float(r["color1_L_deltaE"]) - 20) <= 0.5
-        assert int(r["audio1_H_count"]) <= int(r["audio1_L_count"])
+        assert float(r["audio1_H_dprime"]) >= float(r["audio1_L_dprime"])
         assert r["audio1_H_file"].startswith("stimuli/T") and r["audio1_H_file"].endswith("3.wav")
         assert r["audio1_target_talker"] == r["audio1_H_talker"] == r["audio1_L_talker"]
 

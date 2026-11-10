@@ -4,7 +4,7 @@ Why fixed: the experiment should not draw different foils for every participant 
 picks the pairs once, deterministically, from the Luce/Shepard distance (consonant_distance.py, metric
 "luce", mean of -12/-6/0 dB), and the experiment scripts just read the table.
 
-    python make_sound_pairs.py            # rewrites stimuli/sound_pairs.csv and prints the table
+    python make_sound_pairs.py            # rewrites stimuli/consonant_dprime.csv + stimuli/sound_pairs.csv and prints the table
 
 Design of the table:
   * 5 levels of dissimilarity, cut points from consonant_distance.propose_bins (luce, 5 levels):
@@ -32,6 +32,7 @@ from adaptive_vawm_EN import MN_FEATURES, TALKERS, feature_distance, sound_file
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "stimuli", "sound_pairs.csv")
+OUT_DPRIME = os.path.join(HERE, "stimuli", "consonant_dprime.csv")   # the experiment's sound axis (adaptive_vawm.load_dprime)
 MDSDT_PAIRS = os.path.join(HERE, "review", "data", "grt_subdesigns", "pair_dprime_mdsdt.csv")
 LUCE_TO_DPRIME = 0.911   # slope of mdsdt d' (-6 dB) on luce distance, 28 single-feature pairs, intercept 0.003
 N_LEVELS = 5
@@ -54,9 +55,31 @@ def mdsdt_dprime(snr=-6):
     return {k: sum(v) / len(v) for k, v in out.items()}
 
 
+def write_dprime_table(M, direct):
+    """stimuli/consonant_dprime.csv: every ordered (target, foil) pair with luce, dprime (= LUCE_TO_DPRIME * luce), dprime_mdsdt,
+    feature_distance, features_differing. This is the table the experiment reads (adaptive_vawm.load_dprime); 240 rows."""
+    C = cd.CONSONANTS
+    rows = []
+    for i, t in enumerate(C):
+        for j, f in enumerate(C):
+            if i == j:
+                continue
+            key = frozenset((t, f))
+            rows.append(dict(target=t, foil=f, luce=round(float(M[i, j]), 4), dprime=round(LUCE_TO_DPRIME * float(M[i, j]), 3),
+                             dprime_mdsdt=round(direct[key], 2) if key in direct else "",
+                             feature_distance=feature_distance(t, f), features_differing=differing(t, f)))
+    with open(OUT_DPRIME, "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0]))
+        w.writeheader()
+        w.writerows(rows)
+    return rows
+
+
 def main():
     M = cd.matrix("luce")
     direct = mdsdt_dprime()
+    dp_rows = write_dprime_table(M, direct)
+    print(f"wrote {OUT_DPRIME}: {len(dp_rows)} ordered pairs, d' range {min(r['dprime'] for r in dp_rows):.2f}-{max(r['dprime'] for r in dp_rows):.2f}")
     C = cd.CONSONANTS
     bins = cd.propose_bins(M, N_LEVELS)
     edges = bins["edges"]

@@ -27,7 +27,7 @@ def main(argv=None):
     print(f"colour: FA={c['false_alarm']:.2f}  alpha={c['alpha']:.2f} beta={c['beta']:.2f}  "
           f"dE_H={c['high']:.2f} dE_L={c['low']:.2f}  in_range={c['in_range']} {c['warnings']}")
     print(f"audio : FA={a['false_alarm']:.2f}  alpha={a['alpha']:.2f} beta={a['beta']:.2f}  "
-          f"count_H={a['extra']['count_high']:.1f} count_L={a['extra']['count_low']:.1f}  in_range={a['in_range']} {a['warnings']}")
+          f"d'_H={a['extra']['dprime_high']:.2f} d'_L={a['extra']['dprime_low']:.2f}  in_range={a['in_range']} {a['warnings']}")
     paths = write_blocks(cal, args.out, n_blocks=args.blocks, trials_per_block=args.trials, seed=args.seed)
     for p in paths:
         print("wrote", p)

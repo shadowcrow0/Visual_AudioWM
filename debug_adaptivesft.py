@@ -151,10 +151,10 @@ if not hasattr(A, "PsiCalibrator"):
 for name in ("next_intensity", "update_at", "nearest_index", "estimate"):
     (ok if hasattr(A.Psi, name) or name == "next_intensity" else bad)(f"Psi.{name}")
 try:
-    conf = A.load_confusion()
-    ok(f"confusion 表：{len(conf)} 個子音（來自 generate_trials.py）")
+    conf = A.load_dprime()
+    ok(f"d′ 表：{len(conf)} 個子音（stimuli/consonant_dprime.csv）")
 except Exception as e:
-    bad(f"load_confusion 失敗：{e}")
+    bad(f"load_dprime 失敗：{e} — 缺 stimuli/consonant_dprime.csv？重新下載 main 或跑 make_sound_pairs.py")
     raise SystemExit
 
 # ───────────────────────────── 3. METHOD 能力 ─────────────────────────────

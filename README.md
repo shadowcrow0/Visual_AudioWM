@@ -35,7 +35,7 @@ targets 8.0 / 1.3; see `DECISIONS.md`).
   `analyze_vawm` on the resulting `*_simple_main.csv`.
 
 **Open decisions:** feedback is shown in practice only; participants judge only the dimension being calibrated;
-provisional H/L used before a dimension is calibrated are ΔE 30 / 6 for colour and confusion counts 10 / 200 for sound.
+provisional H/L used before a dimension is calibrated are ΔE 30 / 6 for colour and d′ 4.3 / 1.0 for sound.
 All of these are constants at the top of the scripts.
 
 ## 2. GRT line (`GRTv3_ada.py`) — adaptive 2×2 design, awaiting a run

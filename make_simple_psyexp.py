@@ -28,7 +28,7 @@ import os, sys, json, time
 import numpy as np
 os.chdir(_thisDir)                                   # 刺激檔是相對路徑 stimuli/...
 LEVELS_COLOUR = [2.0, 6.0, 12.0, 25.0, 50.0, 90.0]   # 校準用的顏色距離 dE（目標 8.0 的 H 很大，開到 90）
-LEVELS_AUDIO  = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3] # 校準用的子音不相似度 = -log10(混淆次數+1)
+LEVELS_AUDIO  = [0.4, 0.9, 1.5, 2.3, 3.3, 4.5]       # 校準用的子音不相似度 = d′（adaptive_vawm.load_dprime）
 N_PER_LEVEL = 5                                      # 每個強度幾試 -> 6×5 = 30 試「不同」
 P_MATCH = 1 / 4                                      # 再加 1/4「相同」試 -> 共 40 試
 N_WARMUP = 10                                        # 校準前的暖機試次，有回饋、不進擬合
@@ -41,15 +41,15 @@ N_FILLER = 8              # 另一維度 H/L 的填充試（答案一定 N、不
 N_CALIB_TOTAL = N_CALIB + N_FILLER
 OTHER_TARGETS_CHANGE = False  # False = nochange：另一維度的靶整區塊固定；True = change：每試重抽靶。兩版另一維度探測都抽 T/H/L
 PROV_DE_H, PROV_DE_L = 30.0, 6.0
-PROV_COUNT_H, PROV_COUNT_L = 10, 200
+PROV_DPRIME_H, PROV_DPRIME_L = 4.3, 1.0
 FIXED_PAIR = None
 FIXED_COLS = {}
 
 # ═══════════ 1. 借來的數學 ═══════════
-from adaptive_vawm import (TALKERS, audio_x, count_from_x, delta_e, find_colour_at, foil_for,
-                           from_model_units, lab_to_hex, load_confusion, load_full_package, random_target,
+from adaptive_vawm import (TALKERS, audio_x, delta_e, find_colour_at, foil_for,
+                           from_model_units, lab_to_hex, load_dprime, load_full_package, random_target,
                            sound_file, to_model_units)
-CONFUSION = load_confusion(); CONSONANTS = sorted(CONFUSION)
+DPRIME = load_dprime(); CONSONANTS = sorted(DPRIME)
 rng = np.random.default_rng()
 PHASE = None                     # 'calib_colour' / 'calib_audio' / 'practice' / 'main'，由各 intro routine 設定
 CALIB = {}                       # 校到的 H / L
@@ -72,13 +72,12 @@ def warmup_plan(levels):         # 暖機：AA 與最容易層級交替（None, 
     easiest = levels[-1]
     return [(None, 'T'), (easiest, 'T')] * (N_WARMUP // 2)
 
-def foil_near(cons, count):      # 目標子音的干擾子音裡，混淆次數最接近 count 的
-    cands = CONFUSION[cons]
-    return cands[int(np.argmin([abs(np.log10(c + 1) - np.log10(count + 1)) for _, c in cands]))][0]
+def foil_near(cons, dprime):     # 目標子音的干擾子音裡，d′ 最接近 dprime 的
+    return foil_for(DPRIME, cons, dprime)[0]
 
 def make_study_set():            # 主實驗的一組：2 目標色各有 H/L 版本、2 目標音各有 H/L 干擾子音
     de_h, de_l = CALIB['colour']['high'], CALIB['colour']['low']
-    cnt_h, cnt_l = CALIB['audio']['count_high'], CALIB['audio']['count_low']
+    dp_h, dp_l = CALIB['audio']['dprime_high'], CALIB['audio']['dprime_low']
     for _ in range(200):
         t1, t2, s1, s2, k1, k2 = two_targets()
         cols = [find_colour_at(t, de, rng) for t in (t1, t2) for de in (de_h, de_l)]
@@ -88,10 +87,10 @@ def make_study_set():            # 主實驗的一組：2 目標色各有 H/L �
     h1, l1, h2, l2 = cols
     return dict(color1_target=lab_to_hex(t1), color1_H=lab_to_hex(h1), color1_L=lab_to_hex(l1),
                 color2_target=lab_to_hex(t2), color2_H=lab_to_hex(h2), color2_L=lab_to_hex(l2),
-                audio1_target_file=sound_file(k1, s1), audio1_H_file=sound_file(k1, foil_near(s1, cnt_h)),
-                audio1_L_file=sound_file(k1, foil_near(s1, cnt_l)),
-                audio2_target_file=sound_file(k2, s2), audio2_H_file=sound_file(k2, foil_near(s2, cnt_h)),
-                audio2_L_file=sound_file(k2, foil_near(s2, cnt_l)))
+                audio1_target_file=sound_file(k1, s1), audio1_H_file=sound_file(k1, foil_near(s1, dp_h)),
+                audio1_L_file=sound_file(k1, foil_near(s1, dp_l)),
+                audio2_target_file=sound_file(k2, s2), audio2_H_file=sound_file(k2, foil_near(s2, dp_h)),
+                audio2_L_file=sound_file(k2, foil_near(s2, dp_l)))
 
 # 條件編號與名字跟 VAWM_nobox.py 一樣：(名字, 探測色欄位, 探測音欄位)；偶數 = 第 1 個目標、奇數 = 第 2 個
 # ⚠ 名字字母順序原版就不一致（HA/LA = 聲音 H/L；AH/AL = 顏色 H/L；HH/LH/HL/LL = 顏色,聲音）；計分只看 AA，看欄位別看名字
@@ -132,7 +131,7 @@ def fit_dim(dim):                # 72 試 -> lnrm2 -> H / L（原始 adaptiveSFT
         if low >= high: low = lo_lim
     out = dict(high=float(high), low=float(low), in_range=in_range, n_used=len(use), warnings=list(res['warnings']))
     if dim == 'audio':
-        out['count_high'], out['count_low'] = float(count_from_x(high)), float(count_from_x(low))
+        out['dprime_high'], out['dprime_low'] = float(high), float(low)
     print(f"[{dim}] H={out['high']:.2f} L={out['low']:.2f} in_range={in_range} {out['warnings']}")
     return out
 '''
@@ -170,10 +169,10 @@ if PHASE in ('calib_colour', 'calib_audio', 'warm_colour', 'warm_audio'):
         if probe_lab is None: probe_lab = target_col
         x_actual = delta_e(target_col, probe_lab)
         targetCol = lab_to_hex(probe_lab)
-        targetAud = sound_file(talker, target_snd if other == 'T' else foil_near(target_snd, PROV_COUNT_H if other == 'H' else PROV_COUNT_L))
+        targetAud = sound_file(talker, target_snd if other == 'T' else foil_near(target_snd, PROV_DPRIME_H if other == 'H' else PROV_DPRIME_L))
     else:                                                # 校聲音：聲音走層級，顏色 T 或暫定 H/L
-        foil, count = (target_snd, 0) if dim_match else foil_for(CONFUSION, target_snd, x_planned)
-        x_actual = audio_x(count)
+        foil, dprime = (target_snd, 0.0) if dim_match else foil_for(DPRIME, target_snd, x_planned)
+        x_actual = audio_x(dprime)
         targetAud = sound_file(talker, foil)
         if other == 'T':
             targetCol = lab_to_hex(target_col)

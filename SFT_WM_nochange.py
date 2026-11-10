@@ -42,7 +42,7 @@ QUICK = "--quick" in sys.argv       # True = 擬合縮短、只跑 1 個 block
 # ════════════════════════════════════════════════════════════════════════════════
 # 校準（原始 adaptiveSFT：固定幾個強度各跑幾試，收對錯 + 反應時間，區塊結束擬合 lnrm2）
 LEVELS_COLOUR = [2.0, 6.0, 12.0, 25.0, 50.0, 90.0]   # 探測色與目標色的距離 ΔE（越大越好分）；上到 90 是因為目標 8.0 的 H 很大（色域可到 100，DECISIONS 3）；留 2 當低端的錨
-LEVELS_AUDIO = [-2.6, -2.1, -1.6, -1.1, -0.7, -0.3]  # 子音不相似度 = −log10(混淆次數+1)（越大越好分）
+LEVELS_AUDIO = [0.4, 0.9, 1.5, 2.3, 3.3, 4.5]  # consonant dissimilarity in d' (Miller-Nicely / Luce via mdsdt; adaptive_vawm.load_dprime)
 N_PER_LEVEL = 5                                      # 每個強度幾試 → 6×5 = 30 試「不同」（DECISIONS 16）
 P_MATCH = 1 / 4                                      # 再加 1/4 的「相同」試（探測 = 目標）→ 30 + 10 = 40 試進擬合段
 N_WARMUP = 10                                        # 校準前的暖機試次，有回饋、不進擬合；16 太長（11-03 受試者回報），改 10（DECISIONS 16）
@@ -59,7 +59,7 @@ RESP_WINDOW = 3.0            # 探測後等作答幾秒
 # 校準時另一個維度的探測每試都從 T / H / L 抽（兩版相同）；兩版唯一的差別：
 OTHER_TARGETS_CHANGE = False   # False = nochange：另一維度的靶整區塊固定；True = change：每試重抽新的靶（兩個維度都是）
 PROV_DE_H, PROV_DE_L = 30.0, 6.0        # 校聲音時暫定的顏色 H / L（ΔE）；主實驗用真正校出的值
-PROV_COUNT_H, PROV_COUNT_L = 10, 200    # 校顏色時暫定的聲音 H / L（混淆次數）
+PROV_DPRIME_H, PROV_DPRIME_L = 4.3, 1.0      # provisional sound H / L (d') used while the colour dimension is being calibrated
 if QUICK:
     FIT_KW = dict(tune=300, draws=300, chains=2, nuts_sampler="nutpie")
     N_BLOCKS, SETS_PER_BLOCK, N_PRACTICE_SETS = 1, 3, 1
@@ -67,19 +67,19 @@ if QUICK:
 # ════════════════════════════════════════════════════════════════════════════════
 # 1. 借來的工具（數學在這些函式裡；本檔只負責流程）
 # ════════════════════════════════════════════════════════════════════════════════
-from adaptive_vawm import (TALKERS, audio_x, count_from_x, delta_e, find_colour_at, foil_for,  # noqa: E402
-                           from_model_units, lab_to_hex, load_confusion, load_full_package, random_target,
+from adaptive_vawm import (TALKERS, audio_x, delta_e, find_colour_at, foil_for,  # noqa: E402
+                           from_model_units, lab_to_hex, load_dprime, load_full_package, random_target,
                            sound_file, to_model_units)
 #   random_target(rng)            抽一個色域內的目標色（Lab）
 #   find_colour_at(t, dE, rng)    找一個跟 t 距離 dE 的顏色（找不到回 None）
 #   lab_to_hex / delta_e          Lab → '#RRGGBB' / 兩色距離
-#   load_confusion()              {子音: [(容易搞混的子音, 混淆次數), ...]}
-#   foil_for(conf, 子音, x)        依不相似度 x 挑一個干擾子音 → (foil, count)
-#   audio_x(count) / count_from_x 混淆次數 ↔ 不相似度 x
+#   load_dprime()                 {子音: [(干擾子音, d′), ...]}，d′ = Miller & Nicely 的 Luce 距離 × 0.911（stimuli/consonant_dprime.csv）
+#   foil_for(table, 子音, x)       依 d′ x 挑最接近的干擾子音 → (foil, d′)
+#   audio_x(d′)                   聲音軸就是 d′（與顏色的 delta_e 對稱）
 #   sound_file(talker, 子音)       → 'stimuli/T01_b3.wav'
 #   to/from_model_units           進出擬合前的尺度換算（顏色 ΔE/10；聲音 x+2.7）
-CONFUSION = load_confusion()
-CONSONANTS = sorted(CONFUSION)
+DPRIME = load_dprime()
+CONSONANTS = sorted(DPRIME)
 rng = np.random.default_rng()
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -244,10 +244,9 @@ def write_csv(path, rows):               # 每試寫一次整個檔，中途當�
         w.writerows(rows)
 
 
-def foil_near(cons, count):
-    """目標子音的干擾子音裡，混淆次數最接近 count 的那個。"""
-    cands = CONFUSION[cons]
-    return cands[int(np.argmin([abs(np.log10(c + 1) - np.log10(count + 1)) for _, c in cands]))][0]
+def foil_near(cons, dprime):
+    """Among the foil consonants of the target, the one whose d' is closest to dprime."""
+    return foil_for(DPRIME, cons, dprime)[0]
 
 
 def two_targets():
@@ -288,13 +287,13 @@ def run_calib_trial(dim, x, other, fixed, fixed_cols):
         if other == "T":
             probe_snd = sound_file(talker, target_snd)
         else:
-            probe_snd = sound_file(talker, foil_near(target_snd, PROV_COUNT_H if other == "H" else PROV_COUNT_L))
+            probe_snd = sound_file(talker, foil_near(target_snd, PROV_DPRIME_H if other == "H" else PROV_DPRIME_L))
     else:
         if is_match:
-            foil, count = target_snd, 0
+            foil, dprime = target_snd, 0.0
         else:
-            foil, count = foil_for(CONFUSION, target_snd, x)
-        x_actual = audio_x(count)
+            foil, dprime = foil_for(DPRIME, target_snd, x)
+        x_actual = audio_x(dprime)
         probe_snd = sound_file(talker, foil)
         if other == "T":
             probe_col = lab_to_hex(target_col)
@@ -396,8 +395,8 @@ def calibrate(dim, log_rows):
                n_used=len(use), fit_seconds=round(time.time() - t0), warnings=list(res["warnings"]),
                extra=dict(method="lnrm_quadratic"))
     if dim == "audio":                                           # 聲音再換回「混淆次數」給題本用
-        out["extra"]["count_high"] = float(count_from_x(high))
-        out["extra"]["count_low"] = float(count_from_x(low))
+        out["extra"]["dprime_high"] = float(high)
+        out["extra"]["dprime_low"] = float(low)
     print(f"[{dim}] H={out['high']:.2f} L={out['low']:.2f} in_range={in_range} FA={out['false_alarm']} "
           f"擬合 {out['fit_seconds']}s {out['warnings']}")
     if not ROBOT and not in_range:
@@ -410,7 +409,7 @@ def calibrate(dim, log_rows):
 # ════════════════════════════════════════════════════════════════════════════════
 def make_study_set(calib):
     de_h, de_l = calib["colour"]["high"], calib["colour"]["low"]
-    cnt_h, cnt_l = calib["audio"]["extra"]["count_high"], calib["audio"]["extra"]["count_low"]
+    dp_h, dp_l = calib["audio"]["extra"]["dprime_high"], calib["audio"]["extra"]["dprime_low"]
     for _ in range(200):
         t1, t2, s1, s2, k1, k2 = two_targets()
         cols = [find_colour_at(t, de, rng) for t in (t1, t2) for de in (de_h, de_l)]
@@ -423,10 +422,10 @@ def make_study_set(calib):
     return dict(
         color1_target=lab_to_hex(t1), color1_H=lab_to_hex(h1), color1_L=lab_to_hex(l1),
         color2_target=lab_to_hex(t2), color2_H=lab_to_hex(h2), color2_L=lab_to_hex(l2),
-        audio1_target_file=sound_file(k1, s1), audio1_H_file=sound_file(k1, foil_near(s1, cnt_h)),
-        audio1_L_file=sound_file(k1, foil_near(s1, cnt_l)),
-        audio2_target_file=sound_file(k2, s2), audio2_H_file=sound_file(k2, foil_near(s2, cnt_h)),
-        audio2_L_file=sound_file(k2, foil_near(s2, cnt_l)),
+        audio1_target_file=sound_file(k1, s1), audio1_H_file=sound_file(k1, foil_near(s1, dp_h)),
+        audio1_L_file=sound_file(k1, foil_near(s1, dp_l)),
+        audio2_target_file=sound_file(k2, s2), audio2_H_file=sound_file(k2, foil_near(s2, dp_h)),
+        audio2_L_file=sound_file(k2, foil_near(s2, dp_l)),
     )
 
 # ════════════════════════════════════════════════════════════════════════════════
