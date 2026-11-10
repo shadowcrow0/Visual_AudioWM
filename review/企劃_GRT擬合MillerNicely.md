@@ -38,6 +38,17 @@
 
 模型比較用 G²（對飽和模型）、AIC、BIC，每個 SNR 各算一次，再看參數隨 SNR 的走勢（d′ 應單調上升；ρ、c 應穩定）。
 
+**軸本身也要比**（五條軸是假設進去的，不是擬合出來的；Silbert & Hawkins 2016）：
+
+```
+   A5  M&N 的五軸（上面的 M0–M4）
+   A4  affrication 與 duration 合併成一軸（兩者的資訊傳遞權重幾乎相同 .44/.44；duration 只分 s ʃ z ʒ，M&N 自承名字是任意取的 p. 346）
+   A3  voicing、nasality、一條「manner + place」的合併軸（對照 MDS 三維已能解釋 .95）
+   AK  Klatt (1968) 的特徵組（long frication、continuant、sonorant、sibilant、voiced）
+```
+
+每組軸各跑 M0–M1，用 BIC 比；若 A4 或 A3 不比 A5 差，之後的 M2–M4 就用較少的軸（參數少、ρ 更好認）。
+
 ## 4. 實作
 
 ```
