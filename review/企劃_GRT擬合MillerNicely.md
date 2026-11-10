@@ -49,6 +49,24 @@
 
 每組軸各跑 M0–M1，用 BIC 比；若 A4 或 A3 不比 A5 差，之後的 M2–M4 就用較少的軸（參數少、ρ 更好認）。
 
+**記憶文獻用的是幾個軸**（2026-11-10 查核，皆摘要／片段層級；細節見 `millerNicely1955_噪音混淆_逐SNR.md` §7–8）：
+
+```
+   研究                          作業                      用幾個軸、哪些軸
+   ──────────────────────────── ───────────────────────── ────────────────────────────────────────────────
+   Wickelgren 1966               23 子音 CV 序列回憶        4：voicing、nasality、openness（manner）、place（5 值）；三套系統中最準
+   Klatt 1968                    重分析 Wickelgren 矩陣     5 個二元：long frication、continuant、sonorant、sibilant、voiced（無 place）
+   Hintzman 1967                 無意義音節 STM             2：voicing、place
+   Cole, Haber & Sales 1973      聽覺編碼、記憶混淆         Chomsky–Halle 區辨特徵組
+   Cole / Sales 1974             序列回憶                   manner vs place；place「沒有被記住」
+   Danhauer et al. 1978          Wickelgren 作業 + 噪音     INDSCAL 抽維度（維數未見）
+   Schweppe, Grice & Rummer 2011 序列回憶，操弄共享特徵數    voicing、nasality、manner、place 的組合預測最好
+   Roodenrys et al. 2025         序列回憶                   構音特徵相似度（未細分）
+   Pisoni 1973                   延遲 same/different        1：ba–pa voicing 連續體
+```
+
+主流是 Wickelgren 的四軸 = M&N 五軸把 affrication 與 duration 併成 manner，即上面的 **A4**。所以 A5 vs A4 的比較就是「知覺的軸 vs 記憶的軸」；Klatt 的特徵組（AK）提醒 place 可能不在記憶的軸裡。
+
 ## 4. 實作
 
 ```
