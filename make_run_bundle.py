@@ -18,7 +18,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SFT = os.path.join(os.path.dirname(HERE), "adaptiveSFT")
 OUT = os.path.join(HERE, "VAWM_run.zip")
 
-FILES = ["SFT_WM_nochange_EN.py", "sound_perception_EN.py", "adaptive_vawm_EN.py", "audio_pick.py",
+FILES = ["SFT_WM_nochange_EN.py", "sound_perception_EN.py", "adaptive_vawm_EN.py", "audio_pick.py", "consonant_distance.py",
          "debug_adaptivesft_EN.py", "generate_trials.py", "setup_pymc_coder.bat"]
 README = """# VAWM_run — how to run the experiment on a new PC
 

@@ -168,6 +168,11 @@
   `sound_perception_EN.py --axis features` 先在純知覺下驗證差 5 個特徵的 d′ 是否明顯高於差 1 個。驗證過了再換實驗裡的聲音軸（`audio_x` / `foil_for` / `LEVELS_AUDIO` / 模型單位）。
 - **在哪**：`adaptive_vawm.py`（特徵表）、`sound_perception_EN.py`（`--axis features`）。
 
+## 20. 聲音配對改成固定表 `stimuli/sound_pairs.csv`，不再每次隨機抽
+- **決定**：`make_sound_pairs.py` 從 Luce 距離（`consonant_distance.py`，−12/−6/0 dB 平均）一次產生 80 對：5 個距離層級 × 16 個目標子音各一個 foil，說話者 12 位輪流指派，目標與 foil 同一位說話者。`sound_perception_EN.py` 預設跑這張表（80 不同 + 40 相同 = 120 試，約 7 分鐘），只有呈現順序隨參與者打散。
+- **為什麼**：11-09 受試者要求刺激固定、可檢視；Luce 只在離線算距離時用，實驗程式只讀表。表裡每一列都有 x（Luce 距離）、差了哪些特徵、是否貼齊（2 列：t 第 3 層、z 第 5 層）。
+- **在哪**：`make_sound_pairs.py`、`stimuli/sound_pairs.csv`、`sound_perception_EN.py`（`--axis pairs|counts|features`）。主實驗的校準還沒改用這張表（等純知覺結果）。
+
 ## 還沒決定的
 - **受試者的母語**：11-03 的 pilot 受試者英語非母語，自述聽不出子音差異；聲音維度在 WM 作業裡落在猜的水準可能有一部分是這個。正式受試者是否限定英語母語者、或改用對非母語者也分得出的聲音刺激，要定。`sound_perception_EN.py` 的結果可以分開「分不出」和「記不住」。
 - adaptiveSFT 決定 A（DDM 的 `a` 是邊界距離還是分離）：只影響 DDM 模擬與 power scan 的數字，不影響實驗程式。
