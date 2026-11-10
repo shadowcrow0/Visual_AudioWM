@@ -42,7 +42,10 @@
 
 ```
    A5  M&N 的五軸（上面的 M0–M4）
-   A4  affrication 與 duration 合併成一軸（兩者的資訊傳遞權重幾乎相同 .44/.44；duration 只分 s ʃ z ʒ，M&N 自承名字是任意取的 p. 346）
+   A4  affrication 與 duration 合併成一條三階 manner 軸：塞音/鼻音 → 短擦音 (f θ v ð) → 噝音 (s ʃ z ʒ)。
+       這不是為了省參數，是結構上必然：沒有「不摩擦但長」的子音，(affrication 0, duration 1) 那格是空的，
+       duration 巢在 affrication 底下，兩者在資料裡分不開（權重 .44/.44、M&N 自承 duration 名字是任意取的 p. 346）。
+       所以「affrication × duration 可不可分」用真實子音做不成 2×2；能做的是 manner × voicing、manner × place（4b 節）。
    A3  voicing、nasality、一條「manner + place」的合併軸（對照 MDS 三維已能解釋 .95）
    AK  Klatt (1968) 的特徵組（long frication、continuant、sonorant、sibilant、voiced）
 ```
