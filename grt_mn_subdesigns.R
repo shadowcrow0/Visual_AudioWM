@@ -105,12 +105,14 @@ MODELS <- list(
 )
 
 fit_one <- function(freq, spec) {
-  tryCatch({
-    f <- fit.grt(freq, PS_x = spec$PS_x, PS_y = spec$PS_y, PI = spec$PI)
-    if (identical(f, FALSE)) stop("checkConfusionMatrix 回傳 FALSE")
-    f
-  }, error = function(e) { logmsg("    fit.grt 失敗: ", conditionMessage(e)); NULL },
-     warning = function(w) { logmsg("    fit.grt 警告: ", conditionMessage(w)); suppressWarnings(fit.grt(freq, PS_x = spec$PS_x, PS_y = spec$PS_y, PI = spec$PI)) })
+  ## 警告（例如 PI_same_rho 的 "NaNs produced"）只記 log 不中斷；錯誤（共變異矩陣非正定等）記 log、回傳 NULL
+  tryCatch(
+    withCallingHandlers({
+      f <- fit.grt(freq, PS_x = spec$PS_x, PS_y = spec$PS_y, PI = spec$PI)
+      if (identical(f, FALSE)) stop("checkConfusionMatrix 回傳 FALSE")
+      f
+    }, warning = function(w) { logmsg("    fit.grt 警告: ", conditionMessage(w)); invokeRestart("muffleWarning") }),
+    error = function(e) { logmsg("    fit.grt 失敗: ", conditionMessage(e)); NULL })
 }
 
 ## ------------------------------------------------------------------ 主迴圈
