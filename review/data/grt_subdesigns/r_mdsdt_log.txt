@@ -1,0 +1,507 @@
+=== voicing_x_manner__nasality0_place0__voicing01_manner01  2x2  {p b f v}  f=voicing g=manner 
+  SNR -12 dB  sub=all  N=451  (設計保留率 0.4492) 
+    [full         ] AIC=942.50 BIC=992.20 
+    [PS_x         ] AIC=941.20 BIC=982.60 
+    [PS_y         ] AIC=944.50 BIC=985.90 
+    [PS_xy        ] AIC=942.10 BIC=975.30 
+    [PI_same_rho  ] AIC=947.90 BIC=985.20 
+    [PI_all       ] AIC=952.90 BIC=986.10 
+    [PS_xy_PI_all ] AIC=953.70 BIC=970.20 
+  SNR -6 dB  sub=all  N=684  (設計保留率 0.6602) 
+    [full         ] AIC=921.80 BIC=976.40 
+    [PS_x         ] AIC=919.10 BIC=964.60 
+    [PS_y         ] AIC=930.20 BIC=975.70 
+    [PS_xy        ] AIC=927.70 BIC=964.10 
+    [PI_same_rho  ] AIC=935.00 BIC=976.00 
+    [PI_all       ] AIC=948.90 BIC=985.30 
+    [PS_xy_PI_all ] AIC=954.60 BIC=972.80 
+  SNR 0 dB  sub=all  N=836  (設計保留率 0.7545) 
+    [full         ] AIC=669.90 BIC=726.90 
+    [PS_x         ] AIC=666.10 BIC=713.60 
+    [PS_y         ] AIC=684.50 BIC=731.90 
+    [PS_xy        ] AIC=680.60 BIC=718.50 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PI_same_rho] 無法擬合 
+    [PI_all       ] AIC=701.30 BIC=739.20 
+    [PS_xy_PI_all ] AIC=712.10 BIC=731.10 
+  SNR 6 dB  sub=all  N=849  (設計保留率 0.8163) 
+    [full         ] AIC=589.90 BIC=647.00 
+    [PS_x         ] AIC=587.20 BIC=634.80 
+    [PS_y         ] AIC=598.90 BIC=646.50 
+    [PS_xy        ] AIC=595.40 BIC=633.50 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PI_same_rho] 無法擬合 
+    [PI_all       ] AIC=611.10 BIC=649.20 
+    [PS_xy_PI_all ] AIC=617.30 BIC=636.30 
+=== voicing_x_manner__nasality0_place1__voicing01_manner012  2x3  {t d theta eth s z}  f=voicing g=manner 
+  SNR -12 dB  sub=g01  N=317  (設計保留率 0.4171) 
+    [full         ] AIC=687.00 BIC=732.70 
+    [PS_x         ] AIC=691.50 BIC=729.60 
+    [PS_y         ] AIC=686.30 BIC=724.40 
+    [PS_xy        ] AIC=690.60 BIC=721.10 
+    [PI_same_rho  ] AIC=689.10 BIC=723.40 
+    [PI_all       ] AIC=692.00 BIC=722.50 
+    [PS_xy_PI_all ] AIC=695.80 BIC=711.00 
+  SNR -12 dB  sub=g12  N=308  (設計保留率 0.4171) 
+    [full         ] AIC=715.60 BIC=761.00 
+    [PS_x         ] AIC=718.90 BIC=756.70 
+    [PS_y         ] AIC=712.40 BIC=750.20 
+    [PS_xy        ] AIC=715.90 BIC=746.20 
+    [PI_same_rho  ] AIC=710.80 BIC=744.90 
+    [PI_all       ] AIC=709.10 BIC=739.30 
+    [PS_xy_PI_all ] AIC=709.10 BIC=724.20 
+  SNR -6 dB  sub=g01  N=353  (設計保留率 0.498) 
+    [full         ] AIC=510.40 BIC=557.30 
+    [PS_x         ] AIC=517.60 BIC=556.70 
+    [PS_y         ] AIC=514.80 BIC=553.90 
+    [PS_xy        ] AIC=520.50 BIC=551.80 
+    [PI_same_rho  ] AIC=513.50 BIC=548.70 
+    [PI_all       ] AIC=511.70 BIC=543.00 
+    [PS_xy_PI_all ] AIC=523.30 BIC=539.00 
+  SNR -6 dB  sub=g12  N=464  (設計保留率 0.498) 
+    [full         ] AIC=797.40 BIC=847.40 
+    [PS_x         ] AIC=800.70 BIC=842.50 
+    [PS_y         ] AIC=796.00 BIC=837.70 
+    [PS_xy        ] AIC=798.70 BIC=832.10 
+    [PI_same_rho  ] AIC=793.10 BIC=830.60 
+    [PI_all       ] AIC=793.50 BIC=826.90 
+    [PS_xy_PI_all ] AIC=795.50 BIC=812.20 
+  SNR 0 dB  sub=g01  N=570  (設計保留率 0.7671) 
+    [full         ] AIC=241.30 BIC=293.80 
+    [PS_x         ] AIC=238.60 BIC=282.40 
+    [PS_y         ] AIC=240.60 BIC=284.40 
+    [PS_xy        ] AIC=239.00 BIC=274.00 
+    [PI_same_rho  ] AIC=254.50 BIC=293.90 
+    [PI_all       ] AIC=252.60 BIC=287.60 
+    [PS_xy_PI_all ] AIC=249.30 BIC=266.80 
+  SNR 0 dB  sub=g12  N=655  (設計保留率 0.7671) 
+    [full         ] AIC=755.50 BIC=809.60 
+    [PS_x         ] AIC=751.70 BIC=796.80 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_xy] 無法擬合 
+    [PI_same_rho  ] AIC=753.30 BIC=793.90 
+    [PI_all       ] AIC=752.10 BIC=788.20 
+    [PS_xy_PI_all ] AIC=839.60 BIC=857.60 
+  SNR 6 dB  sub=g01  N=809  (設計保留率 0.8663) 
+    [full         ] AIC=269.90 BIC=326.50 
+    [PS_x         ] AIC=268.40 BIC=315.60 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    [PS_xy        ] AIC=272.30 BIC=310.00 
+    [PI_same_rho  ] AIC=285.30 BIC=327.80 
+    [PI_all       ] AIC=283.60 BIC=321.40 
+    [PS_xy_PI_all ] AIC=287.90 BIC=306.70 
+  SNR 6 dB  sub=g12  N=805  (設計保留率 0.8663) 
+    [full         ] AIC=531.30 BIC=587.80 
+    [PS_x         ] AIC=529.30 BIC=576.40 
+    [PS_y         ] AIC=543.70 BIC=590.80 
+    [PS_xy        ] AIC=541.40 BIC=579.10 
+    [PI_same_rho  ] AIC=535.80 BIC=578.20 
+    [PI_all       ] AIC=533.80 BIC=571.50 
+    [PS_xy_PI_all ] AIC=544.20 BIC=563.10 
+=== voicing_x_manner__nasality0_place2__voicing01_manner02  2x2  {k g sh zh}  f=voicing g=manner 
+  SNR -12 dB  sub=all  N=401  (設計保留率 0.4042) 
+    [full         ] AIC=683.90 BIC=732.30 
+    [PS_x         ] AIC=681.20 BIC=721.50 
+    [PS_y         ] AIC=713.00 BIC=753.30 
+    [PS_xy        ] AIC=709.40 BIC=741.70 
+    [PI_same_rho  ] AIC=685.60 BIC=721.90 
+    [PI_all       ] AIC=688.10 BIC=720.30 
+    [PS_xy_PI_all ] AIC=714.40 BIC=730.60 
+  SNR -6 dB  sub=all  N=578  (設計保留率 0.5689) 
+    [full         ] AIC=484.50 BIC=537.10 
+    [PS_x         ] AIC=480.90 BIC=524.70 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_xy] 無法擬合 
+    [PI_same_rho  ] AIC=488.30 BIC=527.70 
+    [PI_all       ] AIC=486.40 BIC=521.50 
+    [PS_xy_PI_all ] AIC=552.30 BIC=569.90 
+  SNR 0 dB  sub=all  N=789  (設計保留率 0.7645) 
+    [full         ] AIC=377.20 BIC=433.50 
+    [PS_x         ] AIC=373.60 BIC=420.50 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_xy] 無法擬合 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PI_same_rho] 無法擬合 
+    [PI_all       ] AIC=386.30 BIC=423.90 
+    [PS_xy_PI_all ] AIC=396.20 BIC=415.00 
+  SNR 6 dB  sub=all  N=824  (設計保留率 0.8619) 
+    [full         ] AIC=220.70 BIC=277.50 
+    [PS_x         ] AIC=216.90 BIC=264.20 
+    [PS_y         ] AIC=219.30 BIC=266.70 
+    [PS_xy        ] AIC=215.40 BIC=253.30 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PI_same_rho] 無法擬合 
+    [PI_all       ] AIC=237.70 BIC=275.50 
+    [PS_xy_PI_all ] AIC=232.40 BIC=251.30 
+=== voicing_x_place__nasality0_manner0__voicing01_place012  2x3  {p b t d k g}  f=voicing g=place 
+  SNR -12 dB  sub=g01  N=385  (設計保留率 0.5522) 
+    [full         ] AIC=717.90 BIC=765.80 
+    [PS_x         ] AIC=714.60 BIC=754.50 
+    [PS_y         ] AIC=735.40 BIC=775.30 
+    [PS_xy        ] AIC=731.70 BIC=763.70 
+    [PI_same_rho  ] AIC=719.10 BIC=755.10 
+    [PI_all       ] AIC=717.30 BIC=749.30 
+    [PS_xy_PI_all ] AIC=731.50 BIC=747.50 
+  SNR -12 dB  sub=g12  N=394  (設計保留率 0.5522) 
+    [full         ] AIC=723.20 BIC=771.40 
+    [PS_x         ] AIC=719.70 BIC=759.90 
+    [PS_y         ] AIC=726.50 BIC=766.70 
+    [PS_xy        ] AIC=723.00 BIC=755.10 
+    [PI_same_rho  ] AIC=717.60 BIC=753.70 
+    [PI_all       ] AIC=717.30 BIC=749.50 
+    [PS_xy_PI_all ] AIC=717.20 BIC=733.20 
+  SNR -6 dB  sub=g01  N=513  (設計保留率 0.7209) 
+    [full         ] AIC=654.80 BIC=706.00 
+    [PS_x         ] AIC=651.20 BIC=693.90 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    [PS_xy        ] AIC=723.20 BIC=757.40 
+    [PI_same_rho  ] AIC=658.20 BIC=696.60 
+    [PI_all       ] AIC=656.70 BIC=690.80 
+    [PS_xy_PI_all ] AIC=725.00 BIC=742.10 
+  SNR -6 dB  sub=g12  N=576  (設計保留率 0.7209) 
+    [full         ] AIC=908.20 BIC=960.80 
+    [PS_x         ] AIC=904.30 BIC=948.10 
+    [PS_y         ] AIC=906.10 BIC=950.00 
+    [PS_xy        ] AIC=902.20 BIC=937.30 
+    [PI_same_rho  ] AIC=902.50 BIC=941.90 
+    [PI_all       ] AIC=900.50 BIC=935.60 
+    [PS_xy_PI_all ] AIC=894.50 BIC=912.00 
+  SNR 0 dB  sub=g01  N=839  (設計保留率 0.9035) 
+    [full         ] AIC=560.10 BIC=617.10 
+    [PS_x         ] AIC=556.20 BIC=603.70 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_xy] 無法擬合 
+    [PI_same_rho  ] AIC=568.30 BIC=611.00 
+    [PI_all       ] AIC=566.30 BIC=604.30 
+    [PS_xy_PI_all ] AIC=628.40 BIC=647.40 
+  SNR 0 dB  sub=g12  N=876  (設計保留率 0.9035) 
+    [full         ] AIC=1044.60 BIC=1102.10 
+    [PS_x         ] AIC=1040.60 BIC=1088.50 
+    [PS_y         ] AIC=1047.40 BIC=1095.30 
+    [PS_xy        ] AIC=1043.40 BIC=1081.80 
+    [PI_same_rho  ] AIC=1041.80 BIC=1085.00 
+    [PI_all       ] AIC=1039.90 BIC=1078.20 
+    [PS_xy_PI_all ] AIC=1038.70 BIC=1057.90 
+  SNR 6 dB  sub=g01  N=870  (設計保留率 0.9504) 
+    [full         ] AIC=313.10 BIC=370.60 
+    [PS_x         ] AIC=309.40 BIC=357.20 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_xy] 無法擬合 
+    [PI_same_rho  ] AIC=328.40 BIC=371.40 
+    [PI_all       ] AIC=326.40 BIC=364.70 
+    [PS_xy_PI_all ] AIC=333.00 BIC=352.20 
+  SNR 6 dB  sub=g12  N=939  (設計保留率 0.9504) 
+    [full         ] AIC=706.30 BIC=764.60 
+    [PS_x         ] AIC=702.50 BIC=751.10 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_xy] 無法擬合 
+    [PI_same_rho  ] AIC=710.20 BIC=754.00 
+    [PI_all       ] AIC=708.40 BIC=747.30 
+    [PS_xy_PI_all ] AIC=739.60 BIC=759.00 
+=== voicing_x_place__nasality0_manner1__voicing01_place01  2x2  {f v theta eth}  f=voicing g=place 
+  SNR -12 dB  sub=all  N=469  (設計保留率 0.4545) 
+    [full         ] AIC=1048.60 BIC=1098.80 
+    [PS_x         ] AIC=1045.50 BIC=1087.40 
+    [PS_y         ] AIC=1049.40 BIC=1091.20 
+    [PS_xy        ] AIC=1046.30 BIC=1079.80 
+    [PI_same_rho  ] AIC=1049.90 BIC=1087.60 
+    [PI_all       ] AIC=1050.60 BIC=1084.10 
+    [PS_xy_PI_all ] AIC=1048.20 BIC=1065.00 
+  SNR -6 dB  sub=all  N=747  (設計保留率 0.6891) 
+    [full         ] AIC=1175.60 BIC=1231.30 
+    [PS_x         ] AIC=1178.10 BIC=1224.50 
+    [PS_y         ] AIC=1172.40 BIC=1218.80 
+    [PS_xy        ] AIC=1174.60 BIC=1211.70 
+    [PI_same_rho  ] AIC=1179.00 BIC=1220.70 
+    [PI_all       ] AIC=1177.20 BIC=1214.30 
+    [PS_xy_PI_all ] AIC=1176.50 BIC=1195.10 
+  SNR 0 dB  sub=all  N=731  (設計保留率 0.781) 
+    [full         ] AIC=937.30 BIC=992.70 
+    [PS_x         ] AIC=933.70 BIC=979.90 
+    [PS_y         ] AIC=956.20 BIC=1002.40 
+    [PS_xy        ] AIC=952.70 BIC=989.60 
+    [PI_same_rho  ] AIC=938.80 BIC=980.40 
+    [PI_all       ] AIC=936.80 BIC=973.70 
+    [PS_xy_PI_all ] AIC=952.20 BIC=970.70 
+  SNR 6 dB  sub=all  N=962  (設計保留率 0.9286) 
+    [full         ] AIC=1226.80 BIC=1285.50 
+    [PS_x         ] AIC=1225.20 BIC=1274.00 
+    [PS_y         ] AIC=1230.60 BIC=1279.50 
+    [PS_xy        ] AIC=1228.80 BIC=1267.90 
+    [PI_same_rho  ] AIC=1224.20 BIC=1268.10 
+    [PI_all       ] AIC=1222.70 BIC=1261.80 
+    [PS_xy_PI_all ] AIC=1224.80 BIC=1244.40 
+=== voicing_x_place__nasality0_manner2__voicing01_place12  2x2  {s z sh zh}  f=voicing g=place 
+  SNR -12 dB  sub=all  N=475  (設計保留率 0.4827) 
+    [full         ] AIC=969.40 BIC=1019.70 
+    [PS_x         ] AIC=973.80 BIC=1015.80 
+    [PS_y         ] AIC=973.00 BIC=1015.00 
+    [PS_xy        ] AIC=977.70 BIC=1011.30 
+    [PI_same_rho  ] AIC=973.40 BIC=1011.20 
+    [PI_all       ] AIC=973.40 BIC=1007.00 
+    [PS_xy_PI_all ] AIC=981.50 BIC=998.30 
+  SNR -6 dB  sub=all  N=695  (設計保留率 0.718) 
+    [full         ] AIC=926.50 BIC=981.30 
+    [PS_x         ] AIC=928.80 BIC=974.40 
+    [PS_y         ] AIC=933.20 BIC=978.80 
+    [PS_xy        ] AIC=934.50 BIC=971.10 
+    [PI_same_rho  ] AIC=923.50 BIC=964.60 
+    [PI_all       ] AIC=921.60 BIC=958.10 
+    [PS_xy_PI_all ] AIC=930.50 BIC=948.80 
+  SNR 0 dB  sub=all  N=808  (設計保留率 0.8632) 
+    [full         ] AIC=474.50 BIC=531.00 
+    [PS_x         ] AIC=470.70 BIC=517.80 
+    [PS_y         ] AIC=485.00 BIC=532.10 
+    [PS_xy        ] AIC=481.20 BIC=518.90 
+    [PI_same_rho  ] AIC=481.20 BIC=523.70 
+    [PI_all       ] AIC=479.20 BIC=516.90 
+    [PS_xy_PI_all ] AIC=485.90 BIC=504.80 
+  SNR 6 dB  sub=all  N=892  (設計保留率 0.9449) 
+    [full         ] AIC=253.00 BIC=310.80 
+    [PS_x         ] AIC=249.10 BIC=297.20 
+    [PS_y         ] AIC=249.60 BIC=297.70 
+    [PS_xy        ] AIC=245.60 BIC=284.10 
+    [PI_same_rho  ] AIC=269.60 BIC=312.90 
+    [PI_all       ] AIC=267.60 BIC=306.10 
+    [PS_xy_PI_all ] AIC=260.20 BIC=279.40 
+=== nasality_x_place__voicing1_manner0__nasality01_place01  2x2  {b m d n}  f=nasality g=place 
+  SNR -12 dB  sub=all  N=611  (設計保留率 0.6365) 
+    [full         ] AIC=1220.10 BIC=1273.40 
+    [PS_x         ] AIC=1224.20 BIC=1268.60 
+    [PS_y         ] AIC=1219.00 BIC=1263.40 
+    [PS_xy        ] AIC=1223.40 BIC=1258.90 
+    [PI_same_rho  ] AIC=1218.00 BIC=1258.00 
+    [PI_all       ] AIC=1216.50 BIC=1252.00 
+    [PS_xy_PI_all ] AIC=1219.40 BIC=1237.20 
+  SNR -6 dB  sub=all  N=688  (設計保留率 0.7319) 
+    [full         ] AIC=895.60 BIC=950.20 
+    [PS_x         ] AIC=892.00 BIC=937.60 
+    [PS_y         ] AIC=909.80 BIC=955.40 
+    [PS_xy        ] AIC=906.20 BIC=942.60 
+    [PI_same_rho  ] AIC=900.90 BIC=941.90 
+    [PI_all       ] AIC=900.60 BIC=937.10 
+    [PS_xy_PI_all ] AIC=911.30 BIC=929.50 
+  SNR 0 dB  sub=all  N=884  (設計保留率 0.8566) 
+    [full         ] AIC=336.40 BIC=394.00 
+    [PS_x         ] AIC=332.90 BIC=380.90 
+    [PS_y         ] AIC=337.00 BIC=385.10 
+    [PS_xy        ] AIC=334.20 BIC=372.60 
+    [PI_same_rho  ] AIC=349.10 BIC=392.30 
+    [PI_all       ] AIC=347.10 BIC=385.50 
+    [PS_xy_PI_all ] AIC=344.20 BIC=363.40 
+  SNR 6 dB  sub=all  N=928  (設計保留率 0.928) 
+    [full         ] AIC=236.60 BIC=294.80 
+    [PS_x         ] AIC=232.70 BIC=281.20 
+    [PS_y         ] AIC=234.10 BIC=282.60 
+    [PS_xy        ] AIC=230.20 BIC=269.00 
+    [PI_same_rho  ] AIC=255.20 BIC=298.90 
+    [PI_all       ] AIC=253.20 BIC=292.00 
+    [PS_xy_PI_all ] AIC=246.60 BIC=266.00 
+=== manner_x_place__voicing0_nasality0__manner01_place01  2x2  {p f t theta}  f=manner g=place 
+  SNR -12 dB  sub=all  N=638  (設計保留率 0.5929) 
+    [full         ] AIC=1697.00 BIC=1750.80 
+    [PS_x         ] AIC=1693.10 BIC=1737.90 
+    [PS_y         ] AIC=1703.60 BIC=1748.40 
+    [PS_xy        ] AIC=1699.80 BIC=1735.60 
+    [PI_same_rho  ] AIC=1694.10 BIC=1734.50 
+    [PI_all       ] AIC=1693.00 BIC=1728.80 
+    [PS_xy_PI_all ] AIC=1695.60 BIC=1713.60 
+  SNR -6 dB  sub=all  N=780  (設計保留率 0.7414) 
+    [full         ] AIC=1686.70 BIC=1742.90 
+    [PS_x         ] AIC=1694.70 BIC=1741.50 
+    [PS_y         ] AIC=1699.50 BIC=1746.30 
+    [PS_xy        ] AIC=1706.80 BIC=1744.20 
+    [PI_same_rho  ] AIC=1687.40 BIC=1729.50 
+    [PI_all       ] AIC=1686.30 BIC=1723.70 
+    [PS_xy_PI_all ] AIC=1707.00 BIC=1725.80 
+  SNR 0 dB  sub=all  N=900  (設計保留率 0.8621) 
+    [full         ] AIC=1362.80 BIC=1420.60 
+    [PS_x         ] AIC=1383.10 BIC=1431.30 
+    [PS_y         ] AIC=1411.00 BIC=1459.20 
+    [PS_xy        ] AIC=1419.80 BIC=1458.30 
+    [PI_same_rho  ] AIC=1379.80 BIC=1423.20 
+    [PI_all       ] AIC=1381.60 BIC=1420.10 
+    [PS_xy_PI_all ] AIC=1450.20 BIC=1469.50 
+  SNR 6 dB  sub=all  N=947  (設計保留率 0.9176) 
+    [full         ] AIC=1015.70 BIC=1074.20 
+    [PS_x         ] AIC=1022.00 BIC=1070.70 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    [PS_xy        ] AIC=1119.30 BIC=1158.20 
+    [PI_same_rho  ] AIC=1023.80 BIC=1067.60 
+    [PI_all       ] AIC=1025.80 BIC=1064.80 
+    [PS_xy_PI_all ] AIC=1136.50 BIC=1156.00 
+=== manner_x_place__voicing0_nasality0__manner02_place12  2x2  {t s k sh}  f=manner g=place 
+  SNR -12 dB  sub=all  N=622  (設計保留率 0.5958) 
+    [full         ] AIC=1538.40 BIC=1591.90 
+    [PS_x         ] AIC=1534.90 BIC=1579.50 
+    [PS_y         ] AIC=1542.00 BIC=1586.60 
+    [PS_xy        ] AIC=1539.50 BIC=1575.20 
+    [PI_same_rho  ] AIC=1569.80 BIC=1609.90 
+    [PI_all       ] AIC=1569.40 BIC=1605.00 
+    [PS_xy_PI_all ] AIC=1569.50 BIC=1587.30 
+  SNR -6 dB  sub=all  N=740  (設計保留率 0.7227) 
+    [full         ] AIC=1259.80 BIC=1315.30 
+    [PS_x         ] AIC=1256.60 BIC=1302.90 
+    [PS_y         ] AIC=1302.30 BIC=1348.60 
+    [PS_xy        ] AIC=1298.60 BIC=1335.60 
+    [PI_same_rho  ] AIC=1274.70 BIC=1316.40 
+    [PI_all       ] AIC=1274.50 BIC=1311.60 
+    [PS_xy_PI_all ] AIC=1313.90 BIC=1332.40 
+  SNR 0 dB  sub=all  N=864  (設計保留率 0.8372) 
+    [full         ] AIC=725.40 BIC=782.80 
+    [PS_x         ] AIC=721.90 BIC=769.70 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_xy] 無法擬合 
+    [PI_same_rho  ] AIC=742.00 BIC=785.00 
+    [PI_all       ] AIC=743.60 BIC=781.80 
+    [PS_xy_PI_all ] AIC=795.30 BIC=814.40 
+  SNR 6 dB  sub=all  N=936  (設計保留率 0.9435) 
+    [full         ] AIC=369.50 BIC=427.80 
+    [PS_x         ] AIC=365.90 BIC=414.50 
+    [PS_y         ] AIC=375.50 BIC=424.10 
+    [PS_xy        ] AIC=371.90 BIC=410.70 
+    [PI_same_rho  ] AIC=381.40 BIC=425.10 
+    [PI_all       ] AIC=379.40 BIC=418.30 
+    [PS_xy_PI_all ] AIC=381.90 BIC=401.40 
+=== manner_x_place__voicing1_nasality0__manner01_place01  2x2  {b v d eth}  f=manner g=place 
+  SNR -12 dB  sub=all  N=564  (設計保留率 0.5685) 
+    [full         ] AIC=1525.00 BIC=1577.40 
+    [PS_x         ] AIC=1526.50 BIC=1570.20 
+    [PS_y         ] AIC=1544.00 BIC=1587.60 
+    [PS_xy        ] AIC=1543.90 BIC=1578.80 
+    [PI_same_rho  ] AIC=1528.60 BIC=1567.90 
+    [PI_all       ] AIC=1526.90 BIC=1561.80 
+    [PS_xy_PI_all ] AIC=1547.50 BIC=1564.90 
+  SNR -6 dB  sub=all  N=749  (設計保留率 0.7674) 
+    [full         ] AIC=1602.80 BIC=1658.40 
+    [PS_x         ] AIC=1599.20 BIC=1645.60 
+    [PS_y         ] AIC=1681.00 BIC=1727.40 
+    [PS_xy        ] AIC=1680.50 BIC=1717.60 
+    [PI_same_rho  ] AIC=1628.00 BIC=1669.80 
+    [PI_all       ] AIC=1634.30 BIC=1671.40 
+    [PS_xy_PI_all ] AIC=1708.90 BIC=1727.50 
+  SNR 0 dB  sub=all  N=799  (設計保留率 0.7895) 
+    [full         ] AIC=987.70 BIC=1044.10 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_x] 無法擬合 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_y] 無法擬合 
+    [PS_xy        ] AIC=1038.70 BIC=1076.40 
+    [PI_same_rho  ] AIC=1019.30 BIC=1061.70 
+    [PI_all       ] AIC=1080.80 BIC=1118.50 
+    [PS_xy_PI_all ] AIC=1148.30 BIC=1167.10 
+  SNR 6 dB  sub=all  N=966  (設計保留率 0.9434) 
+    [full         ] AIC=1087.60 BIC=1146.30 
+    [PS_x         ] AIC=1109.20 BIC=1158.10 
+    [PS_y         ] AIC=1168.30 BIC=1217.20 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PS_xy] 無法擬合 
+    [PI_same_rho  ] AIC=1108.00 BIC=1152.00 
+    [PI_all       ] AIC=1131.30 BIC=1170.40 
+    [PS_xy_PI_all ] AIC=1233.40 BIC=1253.00 
+=== manner_x_place__voicing1_nasality0__manner02_place12  2x2  {d z g zh}  f=manner g=place 
+  SNR -12 dB  sub=all  N=548  (設計保留率 0.583) 
+    fit.grt 失敗: missing value where TRUE/FALSE needed 
+    [full] 無法擬合 
+    [PS_x         ] AIC=1534.60 BIC=1577.90 
+    [PS_y         ] AIC=1523.30 BIC=1566.60 
+    [PS_xy        ] AIC=1533.20 BIC=1567.90 
+    fit.grt 失敗: missing value where TRUE/FALSE needed 
+    [PI_same_rho] 無法擬合 
+    fit.grt 失敗: missing value where TRUE/FALSE needed 
+    [PI_all] 無法擬合 
+    [PS_xy_PI_all ] AIC=1537.00 BIC=1554.30 
+  SNR -6 dB  sub=all  N=796  (設計保留率 0.8432) 
+    [full         ] AIC=2028.80 BIC=2085.20 
+    [PS_x         ] AIC=2035.70 BIC=2082.70 
+    [PS_y         ] AIC=2032.30 BIC=2079.30 
+    [PS_xy        ] AIC=2039.60 BIC=2077.20 
+    [PI_same_rho  ] AIC=2050.70 BIC=2093.00 
+    [PI_all       ] AIC=2054.30 BIC=2091.90 
+    [PS_xy_PI_all ] AIC=2064.60 BIC=2083.40 
+  SNR 0 dB  sub=all  N=927  (設計保留率 0.9616) 
+    [full         ] AIC=1545.30 BIC=1603.50 
+    [PS_x         ] AIC=1577.10 BIC=1625.60 
+    [PS_y         ] AIC=1591.40 BIC=1639.90 
+    [PS_xy        ] AIC=1603.80 BIC=1642.60 
+    [PI_same_rho  ] AIC=1585.80 BIC=1629.40 
+    [PI_all       ] AIC=1583.80 BIC=1622.60 
+    [PS_xy_PI_all ] AIC=1661.70 BIC=1681.10 
+  SNR 6 dB  sub=all  N=922  (設計保留率 0.9525) 
+    [full         ] AIC=823.20 BIC=881.30 
+    [PS_x         ] AIC=821.10 BIC=869.60 
+    [PS_y         ] AIC=875.40 BIC=923.90 
+    [PS_xy        ] AIC=872.70 BIC=911.40 
+    fit.grt 警告: NaNs produced 
+    fit.grt 警告: NaNs produced 
+    fit.grt 失敗: x appears to be not positive definite 
+    [PI_same_rho] 無法擬合 
+    [PI_all       ] AIC=898.10 BIC=936.80 
+    [PS_xy_PI_all ] AIC=948.30 BIC=967.70 
+寫出 review/data/grt_subdesigns/r_mdsdt_results.csv（9072 列） 
+完成 
