@@ -97,3 +97,27 @@
 **未確認**：中文母語者英語子音噪音混淆的逐特徵分析（只搜到 ICPhS 2023 的 Sheng et al. 與一張海報）；Shepard 1972 頁碼；Wang & Bilger、Soli & Arabie 的 DOI。
 
 **結論**：「voicing / nasality 耐噪、place 先丟、塌成五群」直接出自 M&N p. 348–352；「差幾個特徵」這個量化是從 M&N 的獨立通道加 Wickelgren（1965, 1966）推出來的，沒有一篇原文逐字這樣說；對非母語者 Cutler et al. (2004) 指出 voicing 反而最弱。
+
+## 7. 更正（2026-11-10 第二次查核：三個論述分開查）
+
+我在 §3、§5 寫過「噪音裡分得開 ≠ 記憶裡分得開 ≠ 非母語者分得開」。查完文獻，三句只有第一句站得住：
+
+**(1) 噪音裡 voicing 最耐、place 先丟 — 成立，且有重做。**
+- M&N p. 349（見 §6）。注意 −12 dB 處 voicing 的相對資訊傳遞只剩約 52%（Table XXI），不是「幾乎全對」。
+- Woods, D. L., Yund, E. W., Herron, T. J., & Ua Cruadhlaoich, M. A. I. (2010). Consonant identification in consonant-vowel-consonant syllables in speech-spectrum noise. *JASA, 127*(3), 1609–1623. https://doi.org/10.1121/1.3293005 — 摘要：「Single-feature place-of-articulation errors predominated at the highest SNR, while combined-feature errors predominated at the lowest SNR.」
+- Wang & Bilger (1973) https://doi.org/10.1121/1.1914417 — 「Voicing and nasality are well perceived in the presence of masking noise, but their intelligibility drops relative to that of other features in quiet.」（排序不是跨情境固定的。）
+- Phatak, Lovitt & Allen (2008) https://doi.org/10.1121/1.2913251 — 重做 M&N，型態相符，例外是擦音的 voicing 混淆不對稱（偏向答有聲）。
+
+**(2) 「記憶裡只差 voicing 的對反而最難」— 沒有文獻支持，方向還可能相反。**
+- Wickelgren (1966) 的摘要只說子音在 STM 裡是「一組可各自遺忘的特徵」；引用他的文獻說他的 STM 錯誤「大多落在同一 voicing 類別內」、「即使視覺呈現也反映 voicing 區分」——即記憶裡 voicing 也是被保留的特徵，和 M&N 一致，不是相反。
+- Conrad (1964) https://doi.org/10.1111/j.2044-8295.1964.tb00899.x：「A highly significant correlation was found between letters which confused in the listening test, and letters which confused in recall.」——聽覺混淆和記憶混淆高度相關。
+- 所以「噪音裡分得開 ≠ 記憶裡分得開」是我的推論，文獻傾向兩者相似。撤回。
+
+**(3) 「非母語者（尤其中文母語）voicing 最弱」— 只有對比特定的證據，也有相反的。**
+- Cutler et al. (2004) 的摘要沒有提 voicing；本地筆記引 p. 3672 是母語者的結果（manner、voicing 都顯著優於 place）。「荷蘭聽者 voicing 最差」未核實。
+- Flege (1989) https://doi.org/10.1121/1.398599：中文母語者對詞尾 /t/–/d/ 未剪接的刺激辨識「接近母語者」，拿掉除阻爆發才變差——是線索特定的缺損，不是整體 voicing 缺損。
+- Yang, Y., Yang, F., Porter, D. A., & Zhu, J. (2026). *Phonetica, 83*(1), 19–46. https://doi.org/10.1515/phon-2025-0029：中文母語者對 /s–z/、/θ–ð/（voicing）的區辨**優於** /s–θ/、/z–ð/（place）。與「voicing 最弱」相反。
+- de Jong & Hao (2018) *J. Phonetics, 66*, 15–27 https://doi.org/10.1016/j.wocn.2017.09.002：台灣國語學習者的 voicing 正確率跨位置相關，詞尾例外。
+- 所以「你分不出 p–b 是因為非母語」目前沒有文獻背書；中文母語者在詞首塞音與擦音的 voicing 上並不特別差。撤回為「待驗證」。
+
+**對 11-03 資料的解讀要改**：純知覺 d′ 2.3、WM 裡掉到猜，不能歸給「voicing 對非母語者難」。剩下的候選：(a) 記憶負荷（2 + 2 項目）本身；(b) 「最不像」層混了不同類型的對，平均掉了；(c) 假警報 .28 的判準偏差；(d) 這套 wav 的個別 token 品質。`sound_perception_EN.py --axis features` 的結果能分 (b)；(a) 要靠減負荷的版本。
