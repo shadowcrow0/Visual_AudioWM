@@ -84,10 +84,11 @@ manner 在有聲比無聲差（1.3 vs 2.0、1.3 vs 3.9）。MRI 幾乎全顯著�
 - PDF：橢圓長軸是否傾斜（ρ ≠ 0）、四個中心是否排成矩形。
 - 2×3 設計若 log 寫「無法擬合」，改看 Python 表，或拆成兩個 2×2（已有 `t s k ʃ`、`p f t θ` 這類）。
 
-## 未核實
+## R 腳本的核對狀態（2026-11-10 第二次更新）
 
-- 已對照 CRAN 文件（2026-11-10）：`fit.grt(freq, PS_x=FALSE, PS_y=FALSE, PI="none")`，`PI` 可為 `"none"`/`"same_rho"`/`"all"`；`mriTest`、`riTest` 存在；`silbert09a` 為 2×2 frequency × duration 混淆矩陣；模型比較用 `GOF`（AIC）。
-- 仍憑記憶：回傳物件欄位（`means` / `covmat` / `a1`…）、`plot.grt`；R 腳本這些地方仍標 `[UNVERIFIED]`，各包 tryCatch。
-- 4×4 矩陣版面假設為 x 跑最快 (x0y0, x1y0, x0y1, x1y1)；請對 `str(silbert09a)`，不對就改 `LAYOUT`。
-- 2×3（兩軸水準數不同）mdsdt 能否吃 xtabs 形式：未知，腳本會先試 xtabs 再試矩陣，失敗只記 log。
-- 本容器沒有 R，腳本沒跑過；Python 部分已執行、測試通過。
+已直接讀 mdsdt 1.3 原始碼（GitHub hawkrobe/mdsdt，`R/grt_base.R`），腳本依此改寫：
+
+- `fit.grt(freq, PS_x, PS_y, PI="none"/"same_rho"/"all")`；回傳 `$dists`（每刺激 mu_r, sd_r, mu_c, sd_c, rho）、`$AIC`、`$BIC`；`mriTest(freq)`、`riTest(freq)` 吃 4×4 矩陣。
+- **版面**：列／欄順序必須是 a1b1, a1b2, a2b1, a2b2 ——第二軸跑最快。子代理原先假設的「x 跑最快」是錯的，已改成 g 跑最快、f = PS_x。
+- **2×3 不支援**：`create_n_by_n_mod` 以 sqrt(刺激數) 當每軸水準數，6 個刺激會壞掉。腳本把三水準軸切成相鄰兩水準的兩個 2×2（`g01`、`g12`），再一次條件化在子集內；例如 {t d θ ð s z} −6 dB 的 g01 子表只剩 353/737 個反應。
+- 本容器裝得起 R 4.3.3（apt），但沙盒不允許安裝 GitHub 來的第三方套件，所以腳本只做了 `parse()` 與資料整形函式的實測（矩陣形狀、N 正確），`fit.grt` 本身沒有在這裡跑過。筆電上 `install.packages("mdsdt")` 後直接執行即可。
