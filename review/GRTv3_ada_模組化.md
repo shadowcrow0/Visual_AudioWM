@@ -42,6 +42,24 @@
 4. 不再寫 `piloting`、`expVersion`、`psychopyVersion` 等 Builder 欄位；`--pilot` 只代表視窗模式。
 5. 對話框只問 participant / session；`audio_device` 寫進 expInfo。
 
+## 校準模式開關：`config.CALIB_JOINT`
+
+```
+   CALIB_JOINT = 0（預設，= GRTv3_ada 原設計）          CALIB_JOINT = 1（Glavan 的 joint）
+   ─────────────────────────────────────────────    ──────────────────────────────────────────────
+   區塊 1：Psi₁ 提議 x → 兩色 ±|x|，四格同一個清楚 /bi/   每一試：AGRTHandler.__next__() 同時給 (x, s)
+           目標 colour bit 由 x 正負決定，sound bit 隨機            兩色 ±|x|、兩個 SNR ±|s|
+   區塊 2：Psi₂ 提議 s → 兩 SNR ±|s|，四格同一色               目標的兩個 bit 都由正負決定（沒有隨機成分）
+           目標 sound bit 由 s 正負決定，colour bit 隨機    反應：addResponse((colour_bit, sound_bit)) 同時更新兩個 Psi
+   更新：_psi1.update / _psi2.update 各自                  回饋：框出完全正確的那個選項
+   回饋：只框被校那一維正確的兩個選項                       試次數 N_ADAPT_JOINT（72）
+   試次數 N_ADAPT_COL + N_ADAPT_SND（72 + 72）              休息訊息、指導語（"three parts"）隨之改
+   收尾：estimateLambda → estimateGRTintensities(0.64)     收尾相同
+```
+
+資料欄：分開校時 `adapt_x / adapt_resp / adapt_corr` 與原檔相同；joint 多 `adapt_s / adapt_resp_s`，兩種模式都寫 `calib_joint`。
+joint 的 `adapt_corr` = 兩維都對。`AGRT.py` 本身仍未改動。
+
 ## 沒有驗證的
 
 - 容器沒有 PsychoPy：`grtv3/display.py`、`grtv3/session.py` 只做了 `py_compile` 與 pyflakes，**沒有跑過**。用到的 API 都是原 Builder 檔已經在用的
@@ -51,5 +69,5 @@
 
 ## 測試
 
-`pytest tests/test_grtv3.py`（11 個）：區塊內 2:1、每格次數、相位切點、目標時槽、計分四種結果與 err_rel、Psi 反應位元、回饋規則、標籤隨 SNR 正負、
+`pytest tests/test_grtv3.py`（14 個，含 3 個 joint 模式）：區塊內 2:1、每格次數、相位切點、目標時槽、計分四種結果與 err_rel、Psi 反應位元、回饋規則、標籤隨 SNR 正負、
 休息訊息出現的試次、LUT 超範圍丟錯、校準水準規則、收尾截範圍、遮蔽噪音可重建。

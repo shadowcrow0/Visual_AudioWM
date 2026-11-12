@@ -8,8 +8,11 @@ PSYCHOPY_VERSION_NOTE = "written for PsychoPy 2026.x"
 N_VALID_PER_CELL = 24      # 每個 (target_item, target_serial) 格的 valid 試次
 N_INVALID_PER_CELL = 4     # 每個 (target_item, relation, target_serial) 格的 invalid 試次 → valid:invalid = 2:1
 BLOCK_SIZE = 144
-N_ADAPT_COL = 72           # 校準區塊 1：顏色
-N_ADAPT_SND = 72           # 校準區塊 2：聲音
+CALIB_JOINT = 0            # 0 = 兩個區塊分開校（先顏色 N_ADAPT_COL 試，再聲音 N_ADAPT_SND 試；GRTv3_ada 原設計）
+                           # 1 = Glavan 的 joint：每一試同時提議兩維（AGRTHandler.__next__ / addResponse），共 N_ADAPT_JOINT 試
+N_ADAPT_COL = 72           # 校準區塊 1：顏色（CALIB_JOINT = 0）
+N_ADAPT_SND = 72           # 校準區塊 2：聲音（CALIB_JOINT = 0）
+N_ADAPT_JOINT = 72         # joint 模式的校準試次數（CALIB_JOINT = 1）
 N_PRACTICE = 15
 FEEDBACK_PRE_MAIN = True   # 校準與練習後框出正確選項
 FEEDBACK_SEC = 1.5

@@ -57,6 +57,7 @@ class Plan:
     n_practice: int
     n_main: int
     n_blocks: int
+    joint: bool = False      # True：校準是一個 joint 區塊（n_adapt_col 放 joint 試次數，n_adapt_snd = 0）
 
     @property
     def n_adapt(self):
@@ -71,15 +72,23 @@ class Plan:
         return len(self.trials)
 
     def phase_of(self, trial_i):
-        return ("adapt_col" if trial_i < self.n_adapt_col else
-                "adapt_snd" if trial_i < self.n_adapt else
-                "practice" if trial_i < self.n_pre else "main")
+        if trial_i < self.n_adapt:
+            if self.joint:
+                return "adapt_joint"
+            return "adapt_col" if trial_i < self.n_adapt_col else "adapt_snd"
+        return "practice" if trial_i < self.n_pre else "main"
 
 
-def build_plan(rng, n_adapt_col=C.N_ADAPT_COL, n_adapt_snd=C.N_ADAPT_SND, n_practice=C.N_PRACTICE):
+def build_plan(rng, n_adapt_col=C.N_ADAPT_COL, n_adapt_snd=C.N_ADAPT_SND, n_practice=C.N_PRACTICE,
+               joint=bool(C.CALIB_JOINT), n_adapt_joint=C.N_ADAPT_JOINT):
     main, n_blocks = build_main_plan(rng)
-    trials = build_adapt_plan(rng, n_adapt_col) + build_adapt_plan(rng, n_adapt_snd) + build_practice_plan(rng, n_practice) + main
-    return Plan(trials, n_adapt_col, n_adapt_snd, n_practice, len(main), n_blocks)
+    if joint:
+        adapt = build_adapt_plan(rng, n_adapt_joint)
+        n_adapt_col, n_adapt_snd = n_adapt_joint, 0
+    else:
+        adapt = build_adapt_plan(rng, n_adapt_col) + build_adapt_plan(rng, n_adapt_snd)
+    trials = adapt + build_practice_plan(rng, n_practice) + main
+    return Plan(trials, n_adapt_col, n_adapt_snd, n_practice, len(main), n_blocks, joint=joint)
 
 
 # ── 每試版面 ──────────────────────────────────────────────────────────────
@@ -153,14 +162,21 @@ def score_response(pressed_key, opt_perm, target_item, cued_item):
 
 
 def adapt_response(phase, chosen_item):
-    """校準試次餵給 Psi 的二元反應：顏色區塊看 colour bit（1 = pink），聲音區塊看 sound bit（1 = [bi]）。"""
+    """校準試次餵給 Psi 的反應：顏色區塊 colour bit（1 = pink）、聲音區塊 sound bit（1 = [bi]）；
+    joint 模式回傳 (colour_resp, sound_resp)，即 AGRTHandler.addResponse 要的 tuple。"""
+    col = chosen_item & 1
+    snd = 1 if (chosen_item >> 1) == 0 else 0
     if phase == "adapt_col":
-        return chosen_item & 1
-    return 1 if (chosen_item >> 1) == 0 else 0
+        return col
+    if phase == "adapt_snd":
+        return snd
+    return (col, snd)
 
 
 def adapt_correct(resp, adapt_x):
-    """Psi 提議 x > 0 時「正確」反應是 1（GRTv3_ada_EN.py:2386）。"""
+    """Psi 提議 x > 0 時「正確」反應是 1（GRTv3_ada_EN.py:2386）。joint：兩維都對才算對。"""
+    if isinstance(resp, tuple):
+        return int(all(r == int(x > 0) for r, x in zip(resp, adapt_x)))
     return int(resp == int(adapt_x > 0))
 
 
@@ -177,10 +193,14 @@ def feedback_ok(phase, item, target_item):
 
 def rest_message(n_done, plan, practice_correct):
     """回傳要顯示的休息文字；不用休息時回傳 None（GRTv3_ada_EN.py:2465-2502）。"""
-    if n_done == plan.n_adapt_col:
-        return T.rest_after_colour()
-    if n_done == plan.n_adapt:
-        return T.rest_after_sound(plan.n_practice)
+    if plan.joint:
+        if n_done == plan.n_adapt:
+            return T.rest_after_joint(plan.n_practice)
+    else:
+        if n_done == plan.n_adapt_col:
+            return T.rest_after_colour()
+        if n_done == plan.n_adapt:
+            return T.rest_after_sound(plan.n_practice)
     if n_done == plan.n_pre:
         return T.rest_after_practice(practice_correct, plan.n_practice, plan.n_blocks)
     if n_done > plan.n_pre and (n_done - plan.n_pre) % C.BLOCK_SIZE == 0 and n_done < plan.n_trials:

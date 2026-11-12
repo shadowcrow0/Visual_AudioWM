@@ -152,3 +152,47 @@ def test_mask_noise(tmp_path):
     tex = visual_mask_textures(123)
     assert len(tex) == 4 and tex[0].shape == (C.MASK_TEX_N, C.MASK_TEX_N) and np.abs(tex[0]).max() <= 1.0
     assert np.allclose(visual_mask_textures(123)[1], tex[1])                 # reproducible from the seed
+
+
+# ── CALIB_JOINT = 1：Glavan 的 joint 校準 ─────────────────────────────────
+
+def test_joint_plan_and_phase():
+    plan = build_plan(np.random.default_rng(7), joint=True, n_adapt_joint=72)
+    assert plan.joint and plan.n_adapt == 72 and plan.n_adapt_snd == 0
+    assert plan.phase_of(0) == plan.phase_of(71) == "adapt_joint" and plan.phase_of(72) == "practice"
+    assert plan.n_trials == 72 + 15 + 576
+    assert rest_message(72, plan, 0).startswith("Calibration finished") and rest_message(36, plan, 0) is None
+
+
+def test_joint_levels_response_and_feedback():
+    lut = ColourLUT(); rng = np.random.default_rng(8)
+    lv, item = levels_for_adapt("adapt_joint", (+1.2, -5.0), lut, rng)
+    assert lv.colour_arc == [-1.2, 1.2] and lv.snr_levels == [5.0, -5.0]
+    assert item == 1 + 2 * 1                                  # x>0 → pink (bit 1); s<0 → lo_snr / [pi] (sound bit 1)
+    assert adapt_response("adapt_joint", 3) == (1, 0) and adapt_response("adapt_joint", 0) == (0, 1)
+    assert adapt_correct((1, 0), (+1.2, -5.0)) == 1 and adapt_correct((1, 1), (+1.2, -5.0)) == 0
+    assert feedback_ok("adapt_joint", 3, 3) and not feedback_ok("adapt_joint", 1, 3)
+
+
+class FakeJointHandler(FakeHandler):
+    def __init__(self):
+        super().__init__(); self.n = 0; self.responses = []
+
+    def next(self):
+        self.n += 1
+        return (0.8, -3.0) if self.n <= 2 else None
+
+    def addResponse(self, r):
+        self.responses.append(r)
+
+
+def test_calibration_joint_uses_handler_next_and_addResponse():
+    lut = ColourLUT(); rng = np.random.default_rng(9)
+    cal = Calibration(lut, handler=FakeJointHandler(), joint=True)
+    x, lv, item = cal.propose("adapt_joint", rng)
+    assert x == (0.8, -3.0) and lv.colour_arc == [-0.8, 0.8] and lv.snr_levels == [3.0, -3.0] and item == 3
+    cal.update("adapt_joint", (1, 0))
+    assert cal.agrt.responses == [(1, 0)] and cal.agrt._psi1.updates == []     # joint goes through addResponse, not _psi.update
+    cal.propose("adapt_joint", rng)
+    with pytest.raises(RuntimeError):
+        cal.propose("adapt_joint", rng)                                          # nTrials exhausted

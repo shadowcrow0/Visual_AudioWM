@@ -62,8 +62,8 @@ def run_session(argv=None, require_headphones=True):
     mask_sr, mask_ref_rms = mask_reference()
     masker = MaskNoise(snd.outdir, mask_sr, mask_ref_rms)
     calib = Calibration(lut)
-    print(f"[plan] calibration colour {plan.n_adapt_col} + sound {plan.n_adapt_snd} + practice {plan.n_practice} "
-          f"+ main {plan.n_main} = {plan.n_trials} trials; main {plan.n_blocks} blocks x {C.BLOCK_SIZE}")
+    print(f"[plan] calibration {'joint ' + str(plan.n_adapt) if plan.joint else f'colour {plan.n_adapt_col} + sound {plan.n_adapt_snd}'}"
+          f" + practice {plan.n_practice} + main {plan.n_main} = {plan.n_trials} trials; main {plan.n_blocks} blocks x {C.BLOCK_SIZE}")
     print(f"[colour] {lut.meta}; usable arc [{lut.arc_min:.2f}, {lut.arc_max:.2f}]")
     print(f"[mask] {C.MASK_DUR}s visual={C.MASK_VISUAL} audio={C.MASK_AUDIO}; ref RMS={mask_ref_rms:.4f}")
 
@@ -72,7 +72,8 @@ def run_session(argv=None, require_headphones=True):
     try:
         disp.show_text("Intro", T.INTRO)
         exp.nextEntry()
-        disp.show_text("instruction_normal", T.INSTRUCTION, stim=disp.instruction_text, extra=[disp.instruction_img])
+        disp.show_text("instruction_normal", T.INSTRUCTION_JOINT if plan.joint else T.INSTRUCTION,
+                       stim=disp.instruction_text, extra=[disp.instruction_img])
         exp.nextEntry()
 
         for trial_i, (cue_valid, target_item, relation, target_serial) in enumerate(plan.trials):
@@ -180,9 +181,16 @@ def run_session(argv=None, require_headphones=True):
             exp.addData("outcome", outcome)
             exp.addData("is_correct", is_correct)
             if is_adapt:
-                exp.addData("adapt_x", adapt_x)
-                exp.addData("adapt_resp", adapt_resp)
+                if phase == "adapt_joint":                 # 兩維各一欄；分開校時 adapt_x 是單一數值（與原檔相同）
+                    exp.addData("adapt_x", adapt_x[0])
+                    exp.addData("adapt_s", adapt_x[1])
+                    exp.addData("adapt_resp", adapt_resp[0] if adapt_resp else None)
+                    exp.addData("adapt_resp_s", adapt_resp[1] if adapt_resp else None)
+                else:
+                    exp.addData("adapt_x", adapt_x)
+                    exp.addData("adapt_resp", adapt_resp)
                 exp.addData("adapt_corr", adapt_corr)
+                exp.addData("calib_joint", int(plan.joint))
 
             # ── 校準收尾：主實驗的水準 ──
             if trial_i == plan.n_adapt - 1:

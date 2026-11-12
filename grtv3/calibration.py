@@ -29,7 +29,16 @@ class Levels:
 
 
 def levels_for_adapt(phase, adapt_x, lut, rng, fix_arc=C.ADAPT_FIX_ARC, fix_snr=C.ADAPT_FIX_SNR):
-    """純邏輯：給 Psi 提議值，回傳 (Levels, target_item)。"""
+    """純邏輯：給 Psi 提議值，回傳 (Levels, target_item)。
+    adapt_col / adapt_snd：adapt_x 是一個數，另一維固定、目標的另一個 bit 隨機；
+    adapt_joint：adapt_x = (x, s)，兩維都是 ±|·|，目標的兩個 bit 都由正負決定（沒有隨機成分）。"""
+    if phase == "adapt_joint":
+        x, s = adapt_x
+        arc = [-abs(x), abs(x)]
+        lv = Levels(arc, [lut.hex_for(a) for a in arc], abs(s), -abs(s))
+        cb = 1 if x > 0 else 0
+        sb = 0 if s > 0 else 1
+        return lv, cb + 2 * sb
     if phase == "adapt_col":
         arc = [-abs(adapt_x), abs(adapt_x)]
         lv = Levels(arc, [lut.hex_for(a) for a in arc], fix_snr, fix_snr)
@@ -47,11 +56,12 @@ def levels_for_adapt(phase, adapt_x, lut, rng, fix_arc=C.ADAPT_FIX_ARC, fix_snr=
 
 class Calibration:
     def __init__(self, lut, n_col=C.N_ADAPT_COL, n_snd=C.N_ADAPT_SND, lapse=C.LAPSE, snr_lim=C.SNR_LIM,
-                 steps=C.PSI_STEPS, handler=None):
-        self.lut, self.snr_lim = lut, snr_lim
+                 steps=C.PSI_STEPS, handler=None, joint=bool(C.CALIB_JOINT), n_joint=C.N_ADAPT_JOINT):
+        self.lut, self.snr_lim, self.joint = lut, snr_lim, joint
+        n_trials = n_joint if joint else n_col + n_snd
         if handler is None:
             from AGRT import AGRTHandler                      # 需要 PsychoPy（StairHandler）
-            handler = AGRTHandler(nTrials=n_col + n_snd, lapse=lapse,
+            handler = AGRTHandler(nTrials=n_trials, lapse=lapse,
                                   dim1range=[-lut.arc_lim, lut.arc_lim], dim2range=[-snr_lim, snr_lim],
                                   dim1steps=steps, dim2steps=steps)
         self.agrt = handler
@@ -61,13 +71,23 @@ class Calibration:
         return self.agrt._psi1 if phase == "adapt_col" else self.agrt._psi2
 
     def propose(self, phase, rng):
-        """回傳 (adapt_x, Levels, target_item)。"""
-        x = float(self.psi(phase).nextIntensity)
+        """回傳 (adapt_x, Levels, target_item)。joint 走 AGRTHandler.__next__（兩維一起，handler 自己記 intensities）。"""
+        if phase == "adapt_joint":
+            x = self.agrt.next()
+            if x is None:
+                raise RuntimeError("AGRTHandler has no more joint trials (nTrials reached)")
+            x = (float(x[0]), float(x[1]))
+        else:
+            x = float(self.psi(phase).nextIntensity)
         lv, item = levels_for_adapt(phase, x, self.lut, rng)
         return x, lv, item
 
     def update(self, phase, resp):
-        self.psi(phase).update(resp)
+        """分開校：更新一個 Psi；joint：AGRTHandler.addResponse((colour_resp, sound_resp)) 同時更新兩個。"""
+        if phase == "adapt_joint":
+            self.agrt.addResponse(tuple(resp))
+        else:
+            self.psi(phase).update(resp)
 
     def finish(self, overall_acc=C.OVERALL_ACC, posterior_path=None):
         """估 α/β，反解主實驗水準，截到可呈現範圍。回傳 (Levels, lambdas, raw)。"""

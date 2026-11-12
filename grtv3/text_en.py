@@ -14,6 +14,10 @@ INSTRUCTION = ("The task.\n\nFour coloured squares will appear one at a time, on
                "answer. The colours and sounds are adjusted to stay difficult, so feeling unsure is normal - just give your best "
                "guess every time. Answer as accurately as you can - speed is not important.\n\nPress the space bar to begin.")
 
+INSTRUCTION_JOINT = INSTRUCTION.replace(
+    "The session has four parts: colour calibration, sound calibration, a short practice,",
+    "The session has three parts: a calibration in which both the colours and the sounds are adjusted, a short practice,")
+
 KEY_MAP_LINES = ("        i = upper left            o = upper right\n"
                  "        k = lower left            l = lower right\n\n")
 
@@ -24,6 +28,12 @@ FEEDBACK_SUFFIX = "\nThe correct option is framed."
 def rest_after_colour():
     return ("Part 1 (colour calibration) finished.\n\nPart 2 is the same task; this time the sounds are adjusted and all "
             "the squares have the same colour.\n\nTake a short rest.\n\nPress the space bar when you are ready to continue.")
+
+
+def rest_after_joint(n_practice):
+    return ("Calibration finished.\n\n"
+            f"Next is a short practice of {n_practice} trials with the colours and sounds set for you. The correct option is "
+            "still framed after each answer.\n\nPress the space bar when you are ready to continue.")
 
 
 def rest_after_sound(n_practice):
