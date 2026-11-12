@@ -515,7 +515,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     #    有聲段 RMS 對齊,就是為了讓「一個 SNR 數字」在兩類上代表同一件事。)
     from snr_runtime import SNRStimulus
 
-    SND_TOKEN  = 'be'            # be.wav = /bi/ —— 整場只播這一個 token
+    SND_TOKEN  = 'bi'            # snr_audio.SPEECH_FILES 的鍵（自然 [bi] token，8a75be2 起）；整場只播這一個
     SNR_LEVELS = [+6.0, -6.0]    # dB;index 0 = 高 SNR, index 1 = 低 SNR
     SNR_NAMES  = ['hi_snr', 'lo_snr']
 

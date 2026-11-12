@@ -67,7 +67,7 @@ class SNRStimulus:
         wav 的輸出目錄,不存在就建立。建議用 `thisExp.dataFileName + '_snr'`,
         這樣刺激檔跟資料檔放在一起、命名對得起來。
     token : str
-        `snr_audio.SPEECH_FILES` 裡的鍵。預設 'be'(= /bi/)。
+        `snr_audio.SPEECH_FILES` 裡的鍵。預設 'bi'(自然 [bi] token)。
     keep_wavs : bool
         False 的話,每次 make() 之前先刪掉上一批檔案,磁碟只留最近 keep_last 個。
         紀錄裡的種子仍可位元重建,所以刪掉不會失去資訊 —— 只是要重建才拿得回來。
@@ -76,7 +76,7 @@ class SNRStimulus:
         routine 結束後才真正放開檔案,刪到還在用的檔會出錯。預設 32 ≈ 6 個試次。
     """
 
-    def __init__(self, outdir, token='be', keep_wavs=True, keep_last=32):
+    def __init__(self, outdir, token='bi', keep_wavs=True, keep_last=32):
         if token not in snr_audio.speech_names():
             raise KeyError(f"未知的 token:{token!r};"
                            f"可用的是 {snr_audio.speech_names()}")
@@ -197,7 +197,7 @@ class SNRStimulus:
                 pass
 
     @staticmethod
-    def rebuild(seed, snr_db, token='be'):
+    def rebuild(seed, snr_db, token='bi'):
         """從紀錄裡的 (seed, snr_db) 位元重建某個刺激,回傳 (sr, waveform)。
 
         double-pass 一致性(同一段噪音重播,看反應一不一致 -> 分離知覺雜訊與

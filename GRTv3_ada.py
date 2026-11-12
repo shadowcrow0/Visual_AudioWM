@@ -933,7 +933,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     LAPSE       = 0.08    # 整體 lapse; handler 內部轉成邊際 lapse 1-sqrt(1-.08)
     from snr_runtime import SNRStimulus
 
-    SND_TOKEN   = 'be'          # be.wav = /bi/,整場只用這一個音節
+    SND_TOKEN   = 'bi'          # snr_audio.SPEECH_FILES 的鍵（自然 [bi] token，8a75be2 起）；整場只用這一個音節
     SNR_LIM     = 18.0          # 聽覺軸 = SNR,對稱範圍 ±SNR_LIM dB
     SNR_NAMES   = ['hi_snr', 'lo_snr']   # 物理層標籤,與 GRTv3.py 同名
     SND_LABELS  = ['[bi]', '[pi]']       # 反應層標籤:高 SNR -> [bi],低 SNR -> [pi]

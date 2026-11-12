@@ -864,7 +864,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     LAPSE       = 0.08
     from snr_runtime import SNRStimulus
 
-    SND_TOKEN   = 'be'
+    SND_TOKEN   = 'bi'          # the key in snr_audio.SPEECH_FILES (natural [bi] token since 8a75be2)
     SNR_LIM     = 18.0
     SNR_NAMES   = ['hi_snr', 'lo_snr']
     SND_LABELS  = ['[bi]', '[pi]']
