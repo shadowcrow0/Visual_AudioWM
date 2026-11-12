@@ -124,11 +124,63 @@ the Luce distance through the origin, d′ = 0.003 + 0.911 (−ln η), Pearson r
 between η and d′ under equal-variance Gaussian assumptions. We therefore defined the dissimilarity of every one of the
 120 pairs as d′ = 0.911 × (−ln η) (Table S1; `stimuli/consonant_dprime.csv`). The scale runs from 0.26 (/p–k/) to 4.95.
 
-The same fits show why a feature-count scale was not used. Voicing and nasality were perceptually separable from the
-other features (ΔAIC of the separable model ≤ 0 in every context), and voicing was perceptually independent of place
-and manner at −6 dB. Place and manner were not separable: the d′ for place among voiceless stops was 0.46 (/p–t/) but
-2.5 among voiced stops (/b–d/), and the d′ for manner was 3.4 for /k–ʃ/ but 1.1 for /g–ʒ/ (Fig. S2). A difference of
-"one feature" therefore spans a fivefold range of discriminability, so dissimilarity must be specified per pair.
+*How we got here: from counting features to a per-pair table.* GRT was not the starting point. The first sound axis
+was the log of Miller and Nicely's confusion counts summed over three S/N levels; in the first pilot the sound dimension
+sat at chance under memory load, which sent us back to the axis. Miller and Nicely (1955) analysed their matrices feature
+by feature with information transmission and concluded that the five features "were perceived almost independently of
+one another" (p. 348): voicing and nasality remained discriminable at −12 dB whereas place was hard to distinguish below
++6 dB, a difference of some 18 dB in efficiency (p. 349; Table XXI, relative transmission at −12 dB: voicing 52 %,
+nasality 49 %, place 4 %). The picture of features as independent channels invites a feature-distance scale: two
+consonants are as dissimilar as the number of features on which they differ. The speech short-term-memory literature
+speaks the same language: Wickelgren (1966) predicted recall confusions from voicing, nasality, manner (openness) and
+place and concluded that consonants are stored as feature bundles whose features are forgotten semi-independently;
+Klatt (1968) re-analysed the same data with a feature set containing voicing but not place.
+
+The same literature warns against *counting* features. Schweppe, Grice and Rummer (2011) manipulated which feature is
+shared, not how many: a set sharing only manner (/pa ta ka/) impaired serial recall in every presentation and recall
+mode, a set sharing only place (/da la za/) only with spoken recall, and the distinct set, which differed additionally
+in place, was not recalled better — "as might be expected if a simple count of differences across feature values were
+involved" (p. 264); they cite Brady, Mann and Schmidt (1987), who found no consistent relation between recall and sharing
+0, 1 or 2 features. Roodenrys et al. (2025) used only a binary "differs by exactly one articulatory feature" definition,
+36 of their 60 interfering pairs were voicing pairs, and the three feature types were never analysed separately. Cutler
+et al. (2004) showed that feature weights follow the listener's first language: Dutch listeners transmitted voicing
+worst, but only in the syllable-final position where Dutch has no voicing contrast. Taken together: which feature
+differs matters; how many differ is not a scale. Our own data pointed the same way: the old axis placed the voicing-only
+pairs /p–b/ and /k–g/ at the "least similar" end (white noise does not mask voicing), yet a non-native participant's
+d′ for these pairs in a pure perception test was only 2.3, no better than for other pairs.
+
+What was needed, then, was a scale that presupposes no feature weights and estimates the discriminability of every pair
+from human identification data. There are two mature ways to turn a confusion matrix into distances, with
+complementary strengths:
+
+| | Luce's similarity-choice model (Luce, 1963; Shepard, 1957) | General recognition theory (Ashby & Townsend, 1986) |
+|---|---|---|
+| Model | P(j∣i) = b_j η_ij / Σ_k b_k η_ik: symmetric similarity η_ij, response bias b_j | one multivariate Gaussian perceptual distribution per stimulus; decision regions partition the space; d′ = mean separation / SD |
+| Structure assumed | none: η are free parameters, no dimensions | explicit perceptual dimensions; PS, PI and DS are testable |
+| Handles at once | the whole 16 × 16 (135 parameters) | a factorial design with two dimensions and equal numbers of levels (here: sub-designs) |
+| Yields | distances −ln η for 120 pairs (Shepard, 1987) | d′ for single-feature pairs (28) plus which features are separable / independent |
+| Lacks | a unit: −ln η is on an arbitrary scale | coverage: no direct value for pairs differing on several features |
+| Shared | both absorb response bias; both are estimated from the same matrix | |
+
+They are complements, not rivals: Luce gives coverage, GRT gives the unit and the structure. They can be joined because
+under equal-variance Gaussian assumptions they describe the same thing — the similarity-choice model is the logistic
+approximation to signal detection theory (Luce, 1963; Shepard, 1957; Nosofsky, 1986, linking η_ij = exp(−c·d_ij) to
+multidimensional-scaling distance). For two-alternative identification the Gaussian model gives P(correct) = Φ(d′/2)
+and the choice model 1/(1 + η); with Φ(x) ≈ logistic(1.7x) this yields −ln η ≈ 0.85·d′, i.e. −ln η should be a line
+through the origin in d′. On the 28 single-feature pairs we measured d′ = 0.911·(−ln η) (r = .98, Fig. S1), a slope of
+the same order as the theoretical approximation (1.18) but not identical to it — the GRT d′ uses −6 dB only, the Luce
+distance averages three S/N levels, and the sub-matrices are conditioned — so the empirical slope was used rather than
+the theoretical constant.
+
+*What the GRT fits told us.* Beyond the unit, they answer whether a feature can serve as an axis. Voicing and nasality
+were perceptually separable from the other features (ΔAIC of the separable model ≤ 0 in every context), and voicing was
+perceptually independent of place and manner at −6 dB. Place and manner were not separable: the d′ for place among
+voiceless stops was 0.46 (/p–t/) but 2.5 among voiced stops (/b–d/) — Miller and Nicely themselves noted that the
+aspiration noise of voiceless stops masks the formant transitions that signal place (p. 347) — and the d′ for manner was
+3.4 for /k–ʃ/ but 1.1 for /g–ʒ/ (Fig. S2). A difference of "one feature" thus spans a fivefold range of discriminability;
+the stimulus space is not a product of feature axes. This is why dissimilarity must be specified per pair, which is
+exactly what the Luce–GRT d′ table is; it also explains why Schweppe et al. found a manner–place asymmetry and why
+Roodenrys et al.'s voicing pairs behaved differently from the rest — none of which a count can express.
 
 *Levels.* Calibration used six nominal levels, d′ = 0.4, 0.9, 1.5, 2.3, 3.3 and 4.5. On each trial the probe
 consonant was the foil of the remembered target whose d′ to it was closest to the nominal level, and the realised d′
@@ -220,6 +272,6 @@ this leaves H un-equated across participants in drift units, a departure from th
 Ashby & Townsend (1986) Psychol Rev 93, 154. · Cutler, Weber, Smits & Cooper (2004) JASA 116, 3668. · Houpt, Blaha,
 McIntire, Havig & Townsend (2014) Behav Res Methods 46, 307. · Luce (1963) in Handbook of Mathematical Psychology. ·
 Miller & Nicely (1955) JASA 27, 338. · Roodenrys, Miller, Guitard & Neath (2025) Memory 33, 248. · Schweppe, Grice &
-Rummer (2011) JML 64, 256. · Shepard (1957) Psychometrika 22, 325; (1987) Science 237, 1317. · Silbert & Hawkins
+Rummer (2011) JML 64, 256. · Shepard (1957) Psychometrika 22, 325; (1987) Science 237, 1317. · Nosofsky (1986) JEP:General 115, 39. · Brady, Mann & Schmidt (1987) Mem Cognit 15, 444. · Klatt (1968) JASA 44, 401. · Silbert & Hawkins
 (2016) J Math Psychol 73, 110 (mdsdt). · Thomas (2001) Percept Psychophys 63, 625 (MRI test). · Wickelgren (1966)
 JASA 39, 388. · [TODO: adaptiveSFT / LNRM citation; PyMC; nutpie.]

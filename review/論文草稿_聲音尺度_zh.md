@@ -100,9 +100,44 @@ d′ 應相近——28 個單特徵對中有 21 對重複出現，16 對跨設�
 Luce 距離的過原點線性函數，d′ = 0.003 + 0.911 (−ln η)，Pearson r = .98（圖 S1），即等變異高斯假設下 η 與 d′ 應有的關係。
 我們因此把 120 對每一對的不相似度定義為 d′ = 0.911 × (−ln η)（表 S1；`stimuli/consonant_dprime.csv`）。尺度從 0.26（/p–k/）到 4.95。
 
-同一組擬合也說明為什麼不用「差幾個特徵」當尺度。Voicing 與 nasality 相對其他特徵知覺可分（可分模型的 ΔAIC 在每個脈絡都 ≤ 0），
-voicing 在 −6 dB 並與 place、manner 知覺獨立。Place 與 manner 不可分：無聲塞音間 place 的 d′ 為 0.46（/p–t/），有聲塞音間為 2.5（/b–d/）；
-manner 的 d′ 在 /k–ʃ/ 為 3.4、在 /g–ʒ/ 為 1.1（圖 S2）。「差一個特徵」橫跨五倍的可辨度，所以不相似度必須按對指定。
+*為什麼走到這一步：從特徵計數到按對查表。* 我們不是一開始就決定用 GRT。第一版的聲音軸是 Miller 與 Nicely 三個 S/N 水準混淆次數加總的對數；
+第一次 pilot 中聲音維度在記憶負荷下全在猜測率，迫使我們回頭檢視這條軸。回到 Miller 與 Nicely (1955) 本身：他們以資訊傳遞量
+（information transmission）逐特徵分析，結論是五個特徵「幾乎彼此獨立地被知覺」（p. 348），其中 voicing 與 nasality 在 −12 dB 仍可辨、
+place 在 +6 dB 以下即難分，效率相差約 18 dB（p. 349；Table XXI 在 −12 dB 的相對傳遞量：voicing 52%、nasality 49%、place 4%）。這個「特徵是獨立通道」
+的圖像自然導向一個特徵距離（feature distance）尺度：兩個子音差幾個特徵，就有多不像。語音短期記憶的文獻也沿用這套語言：Wickelgren (1966)
+以 voicing、nasality、manner（openness）、place 四個特徵預測子音的回憶混淆，發現子音在短期記憶中以特徵集合編碼、各特徵半獨立遺忘；
+Klatt (1968) 重分析同一批資料得出含 voiced 但不含 place 的特徵組。
+
+但同一批文獻也警告不能**數**特徵。Schweppe、Grice 與 Rummer (2011) 操弄的是「共享哪一類特徵」而非幾個：只共享 manner 的組（/pa ta ka/）
+在任何呈現與回憶模式下都傷序列回憶，只共享 place 的組（/da la za/）只在口說回憶時傷；distinct 組多差了 place 卻沒有更好記，作者明確指出
+「若涉及的是特徵值差異的簡單計數，就該預期更好的回憶」（p. 264），並引 Brady、Mann 與 Schmidt (1987)：共享 0、1、2 個特徵與回憶之間沒有一致關係。
+Roodenrys 等人 (2025) 只用「差恰好一個構音特徵」的二元定義，60 個干擾對中 36 個是 voicing 對，三類特徵從未分開分析。Cutler 等人 (2004) 則顯示
+特徵的權重跟著聽者的母語走：荷蘭聽者的 voicing 傳遞最差，但集中在荷語沒有濁音對比的詞尾位置。合起來，文獻給的訊息是：哪一個特徵不同很重要，
+差幾個特徵不是尺。我們自己的資料也指向同一處：舊軸把只差 voicing 的 /p–b/、/k–g/ 放在「最不像」的一端（因為白噪音蓋不掉 voicing），
+而非母語受試者在純知覺測試中對這些對的 d′ 只有 2.3，並不比其他對更容易。
+
+所以我們需要的是一把**不預設各特徵權重**、直接從人類辨識資料估出每一對子音可辨度的尺。把混淆矩陣變成距離有兩條成熟的路，兩者各有所長：
+
+| | Luce 相似選擇模型（similarity-choice model；Luce, 1963；Shepard, 1957） | 一般再認理論（GRT；Ashby & Townsend, 1986） |
+|---|---|---|
+| 模型 | P(j∣i) = b_j η_ij / Σ_k b_k η_ik：對稱相似度 η_ij 與反應偏差 b_j | 每個刺激一個多變量常態知覺分布；決策區域把空間切成反應；d′ = 均值距離 / 標準差 |
+| 假設的結構 | 無：η 是自由參數，不假設維度 | 有：明確的知覺維度；可檢驗 PS、PI、DS |
+| 一次能處理 | 整個 16 × 16（135 個參數） | 兩個維度、每維水準數相同的因子設計（本研究以子設計處理） |
+| 給出 | 120 對的距離 −ln η（Shepard, 1987） | 單特徵對的 d′（28 對）＋ 哪些特徵可分、獨立 |
+| 缺 | 單位：−ln η 是任意尺度 | 覆蓋：無法直接給跨多個特徵的對 |
+| 共同點 | 都吸收反應偏差；都是從同一張混淆矩陣估出 | |
+
+兩者不是競爭關係，而是互補：Luce 給覆蓋，GRT 給單位與結構。它們可以接在一起，是因為在等變異高斯假設下兩者描述的是同一件事——
+相似選擇模型是訊號偵測理論的 logistic 近似（Luce, 1963；Shepard, 1957；Nosofsky, 1986 將 η_ij = exp(−c·d_ij) 與多維尺度距離連結）。
+以二選一辨識為例，高斯模型給 P(正確) = Φ(d′/2)，選擇模型給 1/(1 + η)，用 Φ(x) ≈ logistic(1.7x) 可得 −ln η ≈ 0.85·d′，即 −ln η 應與 d′
+成過原點的直線。我們在 28 個單特徵對上實際量到的是 d′ = 0.911·(−ln η)（r = .98，圖 S1），斜率與理論近似的 1.18 同一量級但不相同——差異來自
+GRT 的 d′ 只用 −6 dB、Luce 距離平均三個 S/N、以及子矩陣的條件化——因此我們採用經驗斜率，而不是理論常數。
+
+*GRT 擬合告訴我們什麼。* 它不只給單位，還回答了「特徵能不能當軸」。Voicing 與 nasality 相對其他特徵知覺可分（可分模型的 ΔAIC 在每個脈絡都 ≤ 0），
+voicing 在 −6 dB 並與 place、manner 知覺獨立。Place 與 manner 不可分：無聲塞音間 place 的 d′ 為 0.46（/p–t/），有聲塞音間為 2.5（/b–d/）——
+Miller 與 Nicely 自己就注意到無聲塞音的送氣噪音遮住了區辨部位的共振峰過渡（p. 347）；manner 的 d′ 在 /k–ʃ/ 為 3.4、在 /g–ʒ/ 為 1.1（圖 S2）。
+換言之，「差一個特徵」橫跨五倍的可辨度，刺激空間不是特徵軸的乘積。這就是為什麼不相似度必須按對指定，而 Luce–GRT 的 d′ 表正是這樣一張表；
+它同時也解釋了為什麼 Schweppe 等人會看到 manner 與 place 的不對稱、Roodenrys 等人的 voicing 對比其他對更強——這些都不是計數能表達的。
 
 *水準。* 校準使用六個名義水準，d′ = 0.4、0.9、1.5、2.3、3.3、4.5。每一試的探測子音是該目標的 foil 中 d′ 最接近名義水準者，
 實際 d′ 被記錄並用於擬合（表 S2）。最低兩層是 place 對比，中間是 manner 對比，最高層是 voicing 對比。
@@ -167,5 +202,5 @@ pilot 中，同一位受試者的聲音正確率在所有水準都在猜測率�
 
 Ashby & Townsend (1986) Psychol Rev 93, 154. · Cutler, Weber, Smits & Cooper (2004) JASA 116, 3668. · Houpt, Blaha, McIntire, Havig & Townsend (2014)
 Behav Res Methods 46, 307. · Luce (1963) in Handbook of Mathematical Psychology. · Miller & Nicely (1955) JASA 27, 338. · Roodenrys, Miller, Guitard & Neath
-(2025) Memory 33, 248. · Schweppe, Grice & Rummer (2011) JML 64, 256. · Shepard (1957) Psychometrika 22, 325；(1987) Science 237, 1317. · Silbert & Hawkins
+(2025) Memory 33, 248. · Schweppe, Grice & Rummer (2011) JML 64, 256. · Shepard (1957) Psychometrika 22, 325；(1987) Science 237, 1317. · Nosofsky (1986) JEP:General 115, 39. · Brady, Mann & Schmidt (1987) Mem Cognit 15, 444. · Klatt (1968) JASA 44, 401. · Silbert & Hawkins
 (2016) J Math Psychol 73, 110（mdsdt）. · Thomas (2001) Percept Psychophys 63, 625（MRI 檢定）. · Wickelgren (1966) JASA 39, 388. · [待補：adaptiveSFT / LNRM；PyMC；nutpie。]
