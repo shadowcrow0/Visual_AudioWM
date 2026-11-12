@@ -55,7 +55,12 @@ def ok(msg):
     print("  ✔ " + msg)
 
 
+N_BAD = 0
+
+
 def bad(msg):
+    global N_BAD
+    N_BAD += 1
     print("  ✘ " + msg)
 
 
@@ -76,7 +81,7 @@ try:
     ok(f"numpy {np.__version__}  scipy {scipy.__version__}")
 except Exception as e:
     bad(f"numpy/scipy 載入失敗：{e}")
-    raise SystemExit
+    sys.exit(1)
 try:
     import psychopy
     ok(f"psychopy {psychopy.__version__}")
@@ -121,7 +126,7 @@ if found is None:
     bad("沒有任何位置有 adaptivesft/psi.py")
     fix("git clone https://github.com/shadowcrow0/adaptiveSFT.git 放在本 repo 隔壁，"
         "或在本檔 KNOWN_FORK_PATHS 加上它的路徑，或設環境變數 ADAPTIVESFT_PATH")
-    raise SystemExit
+    sys.exit(1)
 if not os.environ.get("ADAPTIVESFT_PATH"):
     os.environ["ADAPTIVESFT_PATH"] = found       # adaptive_vawm 在 import 時讀這個
     print(f"  （本次自動設定 ADAPTIVESFT_PATH = {found}）")
@@ -141,13 +146,13 @@ try:
 except Exception:
     bad("import adaptive_vawm 失敗：")
     traceback.print_exc()
-    raise SystemExit
+    sys.exit(1)
 if not hasattr(A, "PsiCalibrator"):
     bad("這份 adaptive_vawm.py 是舊版 API（有 ColourCalibrator/AudioCalibrator，沒有 PsiCalibrator/LNRMCalibrator）")
     print(f"    檔案：{A.__file__}")
     fix("這個資料夾不是 GitHub main 的最新版（2026-10-02 之前的 ZIP）。"
         "請重新 clone / 下載 main 到新資料夾再跑；舊資料夾裡手改過的 VAWM_calibrate.py 先另存")
-    raise SystemExit
+    sys.exit(1)
 for name in ("next_intensity", "update_at", "nearest_index", "estimate"):
     (ok if hasattr(A.Psi, name) or name == "next_intensity" else bad)(f"Psi.{name}")
 try:
@@ -155,7 +160,7 @@ try:
     ok(f"d′ 表：{len(conf)} 個子音（stimuli/consonant_dprime.csv）")
 except Exception as e:
     bad(f"load_dprime 失敗：{e} — 缺 stimuli/consonant_dprime.csv？重新下載 main 或跑 make_sound_pairs.py")
-    raise SystemExit
+    sys.exit(1)
 
 # ───────────────────────────── 3. METHOD 能力 ─────────────────────────────
 hdr(3, "METHOD 能力檢查")
@@ -366,3 +371,5 @@ else:
 print("\n" + "=" * W)
 print("DEBUG 結束。沒看到 ✘ 就代表校準鏈在這個環境是通的。")
 print("=" * W)
+
+sys.exit(1 if N_BAD else 0)     # 讓批次檔／CI 讀得到結果
