@@ -62,6 +62,7 @@ expInfo = {
     'expName|hid': expName,
     'expVersion|hid': expVersion,
     'psychopyVersion|hid': psychopyVersion,
+    'audio_device|hid': AUDIO['name'],   # which output device actually played the sounds; saved in every data row (same as the SFT scripts)
 }
 
 # --- Define some variables which will change depending on pilot mode ---

@@ -78,6 +78,7 @@ expInfo = {
     'expName|hid': expName,
     'expVersion|hid': expVersion,
     'psychopyVersion|hid': psychopyVersion,
+    'audio_device|hid': AUDIO['name'],   # 實際播放的輸出裝置名稱；寫進每一列資料（與 SFT 腳本相同）
 }
 
 # --- Define some variables which will change depending on pilot mode ---
