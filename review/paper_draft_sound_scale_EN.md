@@ -1,7 +1,7 @@
 # Draft text for the paper: the consonant dissimilarity scale (Methods, Supplement, Results, Limitations)
 
 2026-11-12. Follows `論文規格書_聲音軸.md`. Numbers come from the files named in brackets. `[TODO: …]` marks items the
-authors must supply. Figures: `figures/figS1_dprime_vs_luce.png`, `figures/figS2_separability_dAIC.png`;
+authors must supply. Figures: `figures/figS1_dprime_vs_luce.png`, `figures/figS2_separability_dAIC.png`, `figures/figM1_feature_merge.png`;
 tables: `figures/tableS1_dprime_matrix.md`, `figures/tableS2_levels_to_pairs.md`.
 
 ---
@@ -47,9 +47,41 @@ dimensions and the same number of levels on each, typically a 2 × 2 design and 
 consonants lie on four feature axes (Table M1), so sub-designs of two features were cut out with the other features held
 fixed.
 
-**Table M1. Feature coding of the 16 consonants** (Miller & Nicely's five features with affrication and duration merged
-into a three-level manner axis, because every long consonant is also fricated — the two binary features are not
-factorial).
+*From five features to four axes (Fig. M1).* Miller and Nicely described the 16 consonants with five articulatory
+features (pp. 346–347, Table XIX): **voicing** — whether the vocal cords vibrate (/b d g v ð z ʒ m n/ vs /p t k f θ s ʃ/);
+**nasality** — the velum lowered and air released through the nose (/m n/ only); **affrication** — the articulators
+brought close enough to produce turbulent friction noise (/f θ s ʃ v ð z ʒ/ vs the stops and nasals); **duration** — a
+name they "arbitrarily adopted" for the difference between /s ʃ z ʒ/, "long, intense, high-frequency noises", and the
+other 12 consonants; and **place** — front (/p b f v m/), middle (/t d θ ð s z n/) and back (/k g ʃ ʒ/). They treated
+each feature as a communication channel and computed information transmission per channel, noting explicitly that the
+inputs to the five channels are not independent, so that "even if the channels themselves are independent, the amounts
+transmitted through each channel will be related" (p. 348): the 16 consonants do not fill all combinations of the five
+features.
+
+This matters for GRT. Perceptual separability asks whether the perceptual distribution of feature A is the same at every
+level of feature B; to answer it, every level of A must occur at every level of B — A × B must be a **full factorial
+design**, with at least one stimulus in every cell. Affrication × duration fails this test (Fig. M1A): cell (0,0) holds
+the eight stops and nasals, (1,0) holds /f θ v ð/, (1,1) holds /s ʃ z ʒ/, but (0,1) — "long but not fricated" — contains
+**no English consonant**. Three of four cells are filled; duration is defined only for consonants with affrication = 1;
+the two factors are **nested**, not crossed. Nested factors cannot be tested for separability against each other and
+cannot each carry an independent d′ axis.
+
+Three treatments were considered: (a) keep five features and write a five-dimensional likelihood ourselves — feasible,
+but it abandons validated fitting software and the (0,1) cell stays empty, so the separability test is still impossible;
+(b) drop duration — this merges /s/ with /θ/ and /ʃ/ with /θ/, whose discriminabilities differ greatly (after fitting,
+d′ = 0.97 for θ–s vs 0.46 for f–θ); (c) merge the two features into one **three-level ordinal manner axis**: 0 = closure
+(stops and nasals), 1 = short friction (/f θ v ð/), 2 = long, intense friction (/s ʃ z ʒ/) (Fig. M1B). Option (c) loses
+no information — the three occupied cells map one-to-one onto three levels and the empty cell never needs a code — its
+order has acoustic meaning (increasing friction and duration), and it matches the three-way manner/openness coding
+customary in the speech short-term-memory literature (Wickelgren, 1966). We adopted (c).
+
+Four axes remain: voicing (2), nasality (2), manner (3), place (3). Fig. M1C lays the 16 consonants out on
+voicing × manner × place with the nasals apart: cells are still empty (no front sibilant, no back short fricative, nasals
+only at front and middle), so **the four axes together are still not a full factorial** and cannot be handed to any model
+that requires one in more than two dimensions. What can be done is to find, in that layout, the rectangles in which every
+cell holds exactly one consonant — the sub-designs below.
+
+**Table M1. Coding of the 16 consonants on the four axes**
 
 | | voicing | nasality | manner | place |
 |---|---|---|---|---|

@@ -2,7 +2,7 @@
 
 2026-11-12。英文版 `paper_draft_sound_scale_EN.md` 的中文對照，依 `論文規格書_聲音軸.md` 的順序。
 數字出處在括號裡的檔名；`[待補：…]` 是作者要填的。圖：`figures/figS1_dprime_vs_luce.png`、
-`figures/figS2_separability_dAIC.png`；表：`figures/tableS1_dprime_matrix.md`、`figures/tableS2_levels_to_pairs.md`。
+`figures/figS2_separability_dAIC.png`、`figures/figM1_feature_merge.png`；表：`figures/tableS1_dprime_matrix.md`、`figures/tableS2_levels_to_pairs.md`。
 
 ---
 
@@ -35,7 +35,30 @@ GRT 把每個刺激在知覺空間中表成一個二維常態分布（perceptual
 mdsdt（Silbert & Hawkins, 2016）處理的是**兩個維度、每維水準數相同**的全報告辨識設計（full-report identification design），
 最典型的是 2 × 2 設計的 4 × 4 混淆矩陣。16 個子音卻分布在四條特徵軸上（表 M1），不能直接餵入。我們因此固定其餘特徵、切出兩特徵的子設計。
 
-**表 M1. 16 個子音的特徵編碼（Miller & Nicely 的五個特徵，affrication 與 duration 合併為三階 manner）**
+*從五個特徵到四條軸（圖 M1）。* Miller 與 Nicely 用五個二元或三元的構音特徵（articulatory features）描述 16 個子音（pp. 346–347，Table XIX）：
+**voicing（濁音性）**——發音時聲帶振動與否（/b d g v ð z ʒ m n/ 對 /p t k f θ s ʃ/）；**nasality（鼻音性）**——軟顎下降、氣流經鼻腔（只有 /m n/）；
+**affrication（摩擦性）**——構音器官靠近而不完全閉合，產生湍流噪音（/f θ s ʃ v ð z ʒ/ 對塞音與鼻音）；**duration（時長）**——他們自己說是
+「任意採用的名稱」，指 /s ʃ z ʒ/ 這四個「長、強、高頻噪音」與其餘 12 個子音的差別；**place（發音部位）**——前（/p b f v m/）、中（/t d θ ð s z n/）、
+後（/k g ʃ ʒ/）三個位置。他們把每個特徵當成一條通道（channel）各算資訊傳遞量，並明說五條通道的**輸入並不獨立**——「即使通道本身獨立，
+各通道傳遞的量也會彼此相關」（p. 348）——因為 16 個子音並沒有佔滿五個特徵的所有組合。
+
+這一點對 GRT 至關重要。GRT 的知覺可分性問的是：「特徵 A 的知覺分布，在特徵 B 的每一個水準下是否相同？」要回答，B 的每個水準下都必須有
+A 的每個水準，也就是 A × B 必須是**全因子設計（full factorial design）**：每個格子至少有一個刺激。檢查 affrication × duration（圖 M1A）：
+(0,0) 有塞音與鼻音八個，(1,0) 有 /f θ v ð/，(1,1) 有 /s ʃ z ʒ/，但 (0,1)——「長而不摩擦」——在英語裡**沒有子音**。四格只填了三格，
+duration 只在 affrication = 1 的子音上有定義，是**巢套（nested）**在 affrication 之內的，不是與它交叉（crossed）的。巢套的兩個因子無法互相檢驗可分性，
+也無法各給一個獨立的 d′ 軸。
+
+我們考慮過三種處理：(a) 保留五個特徵、自行寫五維概似函數——可行但等於放棄現成且經過驗證的擬合軟體，且 (0,1) 格仍然是空的，可分性檢驗照樣做不了；
+(b) 丟掉 duration——會把 /s/ 與 /θ/、/ʃ/ 與 /θ/ 歸為同一類，而它們的可辨度差很多（擬合後 θ–s 的 d′ 0.97，f–θ 0.46）；
+(c) 把兩個特徵合成一條**三階序位軸 manner（發音方式）**：0 = 閉塞（塞音與鼻音）、1 = 短摩擦（/f θ v ð/）、2 = 長而強的摩擦（/s ʃ z ʒ/）
+（圖 M1B）。(c) 不丟資訊——三個被佔用的格子一對一映到三個水準，空的那格不必編碼——而且順序有聲學意義（摩擦量與時長遞增），
+也與語音短期記憶文獻慣用的 manner / openness 三分法（Wickelgren, 1966）一致。我們採用 (c)。
+
+合併之後剩下四條軸：voicing（2）、nasality（2）、manner（3）、place（3）。圖 M1C 把 16 個子音攤在 voicing × manner × place 的格子上，
+鼻音另列：仍然有空格（前位沒有噝音、後位沒有短擦音、鼻音只有前中兩位），所以**四條軸合起來也不是全因子**，不能一次餵給任何
+兩維以上都要求全因子的模型。能做的是在這張圖上找出「每格恰有一個子音的長方形」——那就是下文的子設計。
+
+**表 M1. 16 個子音在四條軸上的編碼**
 
 | | voicing（濁音性） | nasality（鼻音性） | manner（發音方式） | place（發音部位） |
 |---|---|---|---|---|
@@ -47,9 +70,6 @@ mdsdt（Silbert & Hawkins, 2016）處理的是**兩個維度、每維水準數�
 | v ð | 1 | 0 | 1 | 0 1 |
 | z ʒ | 1 | 0 | 2 | 1 2 |
 | m n | 1 | 1 | 0 | 0 1 |
-
-M&N 原始的 affrication（摩擦）與 duration（時長）兩個二元特徵不是全因子：duration = 1 的子音全都 affrication = 1（沒有「無摩擦但長」的子音），
-所以兩者合成一條三階 manner 軸。
 
 *子設計的枚舉規則（`grt_mn_subdesigns.py`）。* 取兩條軸 f、g；把另外兩條軸固定在某一組值（脈絡，context）；在該脈絡下找出 f 的水準子集 L_f
 與 g 的水準子集 L_g，使 L_f × L_g 的**每一格恰有一個子音**（全因子，full factorial）；只保留無法再加入水準的極大（maximal）子集。
