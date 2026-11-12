@@ -22,7 +22,7 @@ OUT = os.path.join(HERE, "VAWM_run.zip")
 FILES = ["SFT_WM_nochange_EN.py", "sound_perception_EN.py", "adaptive_vawm_EN.py", "audio_pick.py", "consonant_distance.py",
          "debug_adaptivesft_EN.py", "generate_trials.py", "setup_pymc_coder.bat", "RUN_ON_LINUX.md",
          # GRTv3_ada (the GRT experiment; same audio_pick, no PyMC): script + Psi + SNR mixing + colour LUT + Linux note
-         "GRTv3_ada_EN.py", "AGRT.py", "snr_audio.py", "snr_runtime.py", "agrt_colour_lut.json", "RUN_GRTv3_ON_LINUX.md"]
+         "GRTv3_ada_EN.py", "AGRT.py", "snr_audio.py", "snr_runtime.py", "agrt_colour_lut.json", "RUN_GRTv3_ON_LINUX.md", "RUN_ON_MAC.md"]
 README = """# VAWM_run — how to run the experiment on a new PC
 
 Keep `VAWM_run/` and `adaptiveSFT/` side by side (as unzipped).
