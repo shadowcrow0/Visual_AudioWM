@@ -39,14 +39,83 @@ direction, leaving the estimate to the smoothing constant. Averaging over −6/0
 of the 120 pairs by Spearman ρ = .97 relative to the chosen set; using +12 dB alone gives ρ = .58.
 
 *Units.* To express the Luce distances in signal-detection units we fitted general recognition theory (GRT; Ashby &
-Townsend, 1986) models to feature-pair sub-designs of the same data. Holding the remaining features fixed, the 16
-consonants yield 11 maximal full-factorial sub-designs of two features (voicing × place in stops, short fricatives and
-sibilants; voicing × manner at each place; nasality × place; manner × place for each voicing), of which two 2 × 3
-designs were split into adjacent 2 × 2 designs (`grt_mn_subdesigns.py`). Each 4 × 4 sub-matrix contains only the
-responses that fell inside the subset (retained proportion at −6 dB: .55–.80). We fitted the equal-variance Gaussian
-GRT model with decisional separability, in the unconstrained form and with perceptual separability imposed on either
-axis and perceptual independence imposed, using mdsdt 1.3 (Silbert & Hawkins; R [TODO: version]) and compared models by
-ΔAIC. The −6 dB table was used because higher S/N tables were too sparse for stable fits.
+Townsend, 1986) models to the same data. GRT represents each stimulus as a bivariate Gaussian perceptual distribution
+and tests perceptual separability (PS: the distribution along one dimension does not move with the level of the other)
+and perceptual independence (PI: within a stimulus the perceptual noise on the two dimensions is uncorrelated). The
+available fitting software, mdsdt (Silbert & Hawkins, 2016), handles full-report identification designs with two
+dimensions and the same number of levels on each, typically a 2 × 2 design and its 4 × 4 confusion matrix. The 16
+consonants lie on four feature axes (Table M1), so sub-designs of two features were cut out with the other features held
+fixed.
+
+**Table M1. Feature coding of the 16 consonants** (Miller & Nicely's five features with affrication and duration merged
+into a three-level manner axis, because every long consonant is also fricated — the two binary features are not
+factorial).
+
+| | voicing | nasality | manner | place |
+|---|---|---|---|---|
+| levels | 0 voiceless / 1 voiced | 0 oral / 1 nasal | 0 stop or nasal / 1 short fricative / 2 sibilant | 0 front / 1 middle / 2 back |
+| p t k | 0 | 0 | 0 | 0 1 2 |
+| f θ | 0 | 0 | 1 | 0 1 |
+| s ʃ | 0 | 0 | 2 | 1 2 |
+| b d g | 1 | 0 | 0 | 0 1 2 |
+| v ð | 1 | 0 | 1 | 0 1 |
+| z ʒ | 1 | 0 | 2 | 1 2 |
+| m n | 1 | 1 | 0 | 0 1 |
+
+*Enumeration rule* (`grt_mn_subdesigns.py`). Choose two axes f and g; fix the other two at one combination of values
+(the context); within that context find level subsets L_f and L_g such that every cell of L_f × L_g holds exactly one
+consonant (a full factorial); keep only maximal subsets. One context can hold two maximal subsets (both manner × place
+contexts do). This gives 11 sub-designs (Table M2). No voicing × nasality or nasality × manner design exists because
+all nasals are voiced and all are manner 0.
+
+**Table M2. The 11 feature-pair sub-designs** (−6 dB; retained = share of each consonant's responses that fall inside
+the subset).
+
+| f × g | context | consonants | size | retained |
+|---|---|---|---|---|
+| voicing × manner | oral, front | p b f v | 2 × 2 | .66 |
+| voicing × manner | oral, middle | t d θ ð s z | 2 × 3 | .50 |
+| voicing × manner | oral, back | k g ʃ ʒ | 2 × 2 (manner 0, 2) | .57 |
+| voicing × place | oral, stops | p b t d k g | 2 × 3 | .72 |
+| voicing × place | oral, short fricatives | f v θ ð | 2 × 2 | .69 |
+| voicing × place | oral, sibilants | s z ʃ ʒ | 2 × 2 (place 1, 2) | .72 |
+| nasality × place | voiced, manner 0 | b m d n | 2 × 2 | .73 |
+| manner × place | voiceless, oral | p f t θ | 2 × 2 (manner 0, 1) | .74 |
+| manner × place | voiceless, oral | t s k ʃ | 2 × 2 (manner 0, 2; place 1, 2) | .72 |
+| manner × place | voiced, oral | b v d ð | 2 × 2 (manner 0, 1) | .77 |
+| manner × place | voiced, oral | d z g ʒ | 2 × 2 (manner 0, 2; place 1, 2) | .84 |
+
+*Why a subset is admissible.* Each sub-matrix keeps only the cells whose stimulus and response both lie in the subset,
+i.e. the identification data are conditioned on the response falling among these four (or six) candidates. Under the
+GRT decision model, if the response criteria are not changed by our later selection of a subset — which decisional
+separability guarantees — the conditioned 4 × 4 matrix is the data the sub-design itself would have produced, with fewer
+trials. The cost is that d′ now means discriminability among these candidates, and that low retention (.45 at −12 dB)
+degrades the estimates; hence the main conclusions use −6 dB.
+
+**Table M3. How the two 2 × 3 designs were split into adjacent 2 × 2 designs.**
+
+| original | 2 × 3 consonants | split along | sub-design (a) | sub-design (b) |
+|---|---|---|---|---|
+| voicing × manner, middle | t d / θ ð / s z | adjacent manner levels | manner 0 ∣ 1: t d θ ð | manner 1 ∣ 2: θ ð s z |
+| voicing × place, stops | p b / t d / k g | adjacent place levels | place 0 ∣ 1: p b t d | place 1 ∣ 2: t d k g |
+
+Each 2 × 2 sub-table is conditioned once more on its own four consonants (e.g. t d θ ð at −6 dB retains 353 of the 737
+responses of the 2 × 3 design).
+
+*Why the split is admissible.* (1) Software: mdsdt's n × n routine takes √(number of stimuli) as the number of levels per
+axis (`create_n_by_n_mod`), so six stimuli cannot be fitted. (2) The quantity needed is the d′ between adjacent levels —
+t–θ and θ–s separately, not three points on one line — and the PS question is likewise asked step by step (does the
+voicing distribution move when manner goes from 0 to 1, and from 1 to 2?). (3) The split is just one more conditioning,
+with the same logic as above; what is lost is the information whether the three distributions are collinear and whether
+the three levels share one set of criteria. The empirical check is that a pair estimated in different sub-designs should
+give similar d′: of the 28 single-feature pairs, 21 recur across designs and agree within 0.4, the only exception being
+/d–ð/ (1.40 vs 2.04).
+
+Each 4 × 4 sub-matrix was fitted with mdsdt 1.3 (R [TODO: version]) under the equal-variance Gaussian GRT model with
+decisional separability, in seven versions: unconstrained (full), PS on axis f, PS on axis g, PS on both, one shared
+correlation ρ, ρ = 0 (PI), and PS on both with ρ = 0. Models were read with ΔAIC = AIC(constrained) − AIC(full): ≤ 2
+taken as the constraint holding, > 10 as rejected. The −6 dB table was used because higher S/N tables were too sparse
+for stable fits.
 
 The fits gave a d′ for each of 28 single-feature pairs (the mean separation along the fitted axis; pairs recurring in
 more than one sub-design agreed within 0.4 except /d–ð/). Across these 28 pairs the GRT d′ was a linear function of

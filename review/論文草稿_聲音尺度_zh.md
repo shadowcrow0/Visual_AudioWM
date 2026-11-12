@@ -29,11 +29,72 @@
 距離定義為 −ln η_ij（Shepard, 1987），在 −12、−6、0 dB 三張表上平均；較高 S/N 的三張表不用，因為在 0、+6、+12 dB 分別有 120 對中的
 73、80、92 對在兩個方向都從未互混，估計值只剩平滑常數。改用 −6/0/+6 dB 平均時，120 對的順序與所選集合的 Spearman ρ = .97；只用 +12 dB 時 ρ = .58。
 
-*單位。* 為把 Luce 距離表成訊號偵測單位，我們對同一筆資料的特徵對子設計擬合一般再認理論（GRT；Ashby & Townsend, 1986）模型。
-固定其餘特徵，16 個子音可切出 11 個兩特徵的極大全因子子設計（塞音、短擦音、噝音中的 voicing × place；各發音部位的 voicing × manner；
-nasality × place；各 voicing 的 manner × place），其中兩個 2 × 3 設計再切成相鄰的 2 × 2（`grt_mn_subdesigns.py`）。每個 4 × 4 子矩陣只含落在子集內的
-反應（−6 dB 的保留比例 .55–.80）。以 mdsdt 1.3（Silbert & Hawkins；R [待補：版本]）擬合等變異高斯、決策可分的 GRT 模型——無限制版本、
-在任一軸上加知覺可分性、加知覺獨立性——並以 ΔAIC 比較。因較高 S/N 的表太稀疏、擬合不穩，採用 −6 dB 表。
+*單位。* 為把 Luce 距離表成訊號偵測單位，我們對同一筆資料擬合一般再認理論（general recognition theory, GRT；Ashby & Townsend, 1986）模型。
+GRT 把每個刺激在知覺空間中表成一個二維常態分布（perceptual distribution），並檢驗兩個性質：知覺可分性（perceptual separability, PS；
+某一維的知覺分布不隨另一維的水準而移動）與知覺獨立性（perceptual independence, PI；單一刺激內兩維的知覺雜訊不相關）。可用的擬合軟體
+mdsdt（Silbert & Hawkins, 2016）處理的是**兩個維度、每維水準數相同**的全報告辨識設計（full-report identification design），
+最典型的是 2 × 2 設計的 4 × 4 混淆矩陣。16 個子音卻分布在四條特徵軸上（表 M1），不能直接餵入。我們因此固定其餘特徵、切出兩特徵的子設計。
+
+**表 M1. 16 個子音的特徵編碼（Miller & Nicely 的五個特徵，affrication 與 duration 合併為三階 manner）**
+
+| | voicing（濁音性） | nasality（鼻音性） | manner（發音方式） | place（發音部位） |
+|---|---|---|---|---|
+| 水準 | 0 清 voiceless / 1 濁 voiced | 0 口 oral / 1 鼻 nasal | 0 塞音與鼻音 stop/nasal / 1 短擦音 short fricative / 2 噝音 sibilant | 0 前 front / 1 中 middle / 2 後 back |
+| p t k | 0 | 0 | 0 | 0 1 2 |
+| f θ | 0 | 0 | 1 | 0 1 |
+| s ʃ | 0 | 0 | 2 | 1 2 |
+| b d g | 1 | 0 | 0 | 0 1 2 |
+| v ð | 1 | 0 | 1 | 0 1 |
+| z ʒ | 1 | 0 | 2 | 1 2 |
+| m n | 1 | 1 | 0 | 0 1 |
+
+M&N 原始的 affrication（摩擦）與 duration（時長）兩個二元特徵不是全因子：duration = 1 的子音全都 affrication = 1（沒有「無摩擦但長」的子音），
+所以兩者合成一條三階 manner 軸。
+
+*子設計的枚舉規則（`grt_mn_subdesigns.py`）。* 取兩條軸 f、g；把另外兩條軸固定在某一組值（脈絡，context）；在該脈絡下找出 f 的水準子集 L_f
+與 g 的水準子集 L_g，使 L_f × L_g 的**每一格恰有一個子音**（全因子，full factorial）；只保留無法再加入水準的極大（maximal）子集。
+同一脈絡可能有兩個極大子集（manner × place 的兩個脈絡各有兩個）。結果是 11 個子設計（表 M2）。沒有 voicing × nasality 與 nasality × manner
+的設計，因為鼻音全是濁音、全是 manner 0，湊不出因子格。
+
+**表 M2. 11 個特徵對子設計（−6 dB；保留比例 = 落在子集內的反應佔該子音全部反應的比例）**
+
+| 軸 f × 軸 g | 固定脈絡 | 子音（f 慢、g 快） | 大小 | 保留比例 |
+|---|---|---|---|---|
+| voicing × manner | 口音、前位 | p b f v | 2 × 2 | .66 |
+| voicing × manner | 口音、中位 | t d θ ð s z | 2 × 3 | .50 |
+| voicing × manner | 口音、後位 | k g ʃ ʒ | 2 × 2（manner 0、2） | .57 |
+| voicing × place | 口音、塞音 | p b t d k g | 2 × 3 | .72 |
+| voicing × place | 口音、短擦音 | f v θ ð | 2 × 2 | .69 |
+| voicing × place | 口音、噝音 | s z ʃ ʒ | 2 × 2（place 1、2） | .72 |
+| nasality × place | 濁音、manner 0 | b m d n | 2 × 2 | .73 |
+| manner × place | 清音、口音 | p f t θ | 2 × 2（manner 0、1） | .74 |
+| manner × place | 清音、口音 | t s k ʃ | 2 × 2（manner 0、2；place 1、2） | .72 |
+| manner × place | 濁音、口音 | b v d ð | 2 × 2（manner 0、1） | .77 |
+| manner × place | 濁音、口音 | d z g ʒ | 2 × 2（manner 0、2；place 1、2） | .84 |
+
+*為什麼可以只看子集。* 每個子矩陣只保留刺激與反應都在該子集內的格，等於把辨識資料**條件化**（condition）在「受試者的反應落在這四（或六）個
+候選之內」。在 GRT 的決策模型下，若受試者對每個反應區域的判準不因我們事後挑出子集而改變（這由決策可分性 decisional separability 假設保證），
+條件化後的 4 × 4 矩陣就是該子設計本身會得到的資料，只是試次數變少；被丟掉的反應（例如把 /p/ 聽成 /h/ 以外的其他子音）不影響子集內各格的
+相對比例。代價是 d′ 的意義變成「在這幾個候選之間的可辨度」，而且保留比例低時（−12 dB 僅 .45）估計變差，所以主結論用 −6 dB。
+
+**表 M3. 兩個 2 × 3 設計如何切成相鄰水準的 2 × 2**
+
+| 原設計 | 2 × 3 的子音 | 切法 | 子設計 (a) | 子設計 (b) |
+|---|---|---|---|---|
+| voicing × manner，中位 | t d / θ ð / s z | 沿 manner 取相鄰兩級 | manner 0 ∣ 1：t d θ ð | manner 1 ∣ 2：θ ð s z |
+| voicing × place，塞音 | p b / t d / k g | 沿 place 取相鄰兩級 | place 0 ∣ 1：p b t d | place 1 ∣ 2：t d k g |
+
+每個 2 × 2 子表再一次條件化在它自己的四個子音內（例如 t d θ ð 在 −6 dB 只剩原 2 × 3 反應的 353/737）。
+
+*為什麼可以這樣切。* 三個理由。（1）軟體限制：mdsdt 的 n × n 路徑以 √(刺激數) 當每軸水準數（`create_n_by_n_mod`），六個刺激會失敗，
+2 × 3 無法直接擬合。（2）我們要的量本來就是**相鄰水準之間**的 d′：尺度上需要的是 t–θ、θ–s 各自的距離，不是 t–s 一條直線上的三點；
+PS 的檢驗也是逐一相鄰對比問「voicing 的分布在 manner 從 0 到 1、從 1 到 2 時有沒有移動」。（3）切割只是再一次條件化，邏輯與前一段相同；
+失去的是「三個分布是否共線」與「三個水準共用一組判準」這兩項資訊。切割後是否可信有一個經驗檢查：同一對子音出現在不同子設計時
+d′ 應相近——28 個單特徵對中，重複出現的 21 對跨設計差距 ≤ 0.4，例外只有 /d–ð/（1.40 vs 2.04）。
+
+每個 4 × 4 子矩陣以 mdsdt 1.3（R [待補：版本]）擬合等變異高斯（equal-variance Gaussian）、假設決策可分的 GRT 模型，比較七個版本：
+無限制（full）、軸 f 可分（PS_x）、軸 g 可分（PS_y）、兩軸皆可分、所有分布共用一個相關係數 ρ、ρ = 0（PI）、兩軸可分且 ρ = 0；
+以 ΔAIC = AIC(受限模型) − AIC(full) 判讀，≤ 2 視為限制成立、> 10 視為拒絕。因較高 S/N 的表太稀疏、擬合不穩，採用 −6 dB 表。
 
 擬合給出 28 個單特徵對各自的 d′（沿擬合軸的均值間距；出現在多於一個子設計的對，除 /d–ð/ 外差距 ≤ 0.4）。在這 28 對上，GRT 的 d′ 是
 Luce 距離的過原點線性函數，d′ = 0.003 + 0.911 (−ln η)，Pearson r = .98（圖 S1），即等變異高斯假設下 η 與 d′ 應有的關係。
