@@ -127,6 +127,16 @@ AGRT.py            Psi adaptive procedure (Kontsevich & Tyler 1999),
                    Locally patched for a removed scipy API.
                    Two independent Psi objects, one per dimension.
 
+grt_psi.py         GRTv3_ada's calibration: wraps the two Psi objects
+                   (propose x -> trial Levels + target, update from the
+                   chosen item, finish -> main-task Levels). No PsychoPy.
+
+grt_stimuli.py     GRTv3_ada's stimulus definition: item bits, Levels
+                   (2 colour arcs + 2 SNRs), colour LUT lookup, study/cue
+                   layout, scoring, trial plans, mask noise. No PsychoPy.
+                   Both tested by tests/test_grt_ada_modules.py, which
+                   stubs PsychoPy so the real AGRTHandler runs.
+
 agrt_setup.py      builds the perceptually-uniform colour axis (ΔE00 arc
    +               length, not CIELAB hue angle — hue degrees are not
 agrt_colour_lut    perceptually uniform, which would silently break AGRT's

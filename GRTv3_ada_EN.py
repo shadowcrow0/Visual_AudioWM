@@ -433,77 +433,49 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     #   itemAudi   = [S1, S1, S2, S2]  ->  i >> 1
     #
     # --------------------------------------------------------------------
-    REL_NAME = {0: 'valid', 1: 'colour_only', 2: 'sound_only', 3: 'both'}
-    
-    N_VALID_PER_CELL   = 24
-    N_INVALID_PER_CELL = 4
-    BLOCK_SIZE         = 144
-    
-    strata = []
-    for _it in range(4):
-        for _sp in range(4):
-            strata.append(((1, _it, 0, _sp), N_VALID_PER_CELL))
-            for _rel in (1, 2, 3):
-                strata.append(((0, _it, _rel, _sp), N_INVALID_PER_CELL))
-    
-    N_MAIN   = sum(n for _, n in strata)
-    n_blocks = N_MAIN // BLOCK_SIZE
-    blocks   = [[] for _ in range(n_blocks)]
-    _k = 0
-    for _cond, _n in strata:
-        for _ in range(_n):
-            blocks[_k % n_blocks].append(_cond)
-            _k += 1
-    for _bi in range(n_blocks):
-        blocks[_bi] = [blocks[_bi][i] for i in rng.permutation(len(blocks[_bi]))]
-    main_plan = [t for b in blocks for t in b]
-    
-    N_ADAPT_COL = 72
-    N_ADAPT_SND = 72
-    N_ADAPT     = N_ADAPT_COL + N_ADAPT_SND
-    def _adapt_plan(n):
-        _sp = [i % 4 for i in range(n)]
-        return [(1, None, 0, int(_sp[i])) for i in rng.permutation(n)]
-    adapt_plan = _adapt_plan(N_ADAPT_COL) + _adapt_plan(N_ADAPT_SND)
+    # 刺激定義(item 編碼、Levels、色彩查表、版面、計分、試次計畫、遮蔽噪音)在 grt_stimuli.py,
+    # Psi 校準在 grt_psi.py。兩者都不碰 PsychoPy,tests/test_grt_ada_modules.py 可在
+    # 沒有 PsychoPy 的環境驗證。這裡只留參數與畫面。
+    import grt_stimuli as gs
+    from grt_stimuli import REL_NAME, SNR_NAMES, ITEM_SNR, POS
 
+    # ---- 主實驗：每個 (target_item x serial_pos) 24 個 valid,每個 (x relation) 4 個 invalid
+    BLOCK_SIZE = 144                # 576 / 144 = 4 個 block,每個 block 內 valid:invalid = 2:1
+    main_plan, n_blocks = gs.main_plan(rng, n_valid_per_cell=24, n_invalid_per_cell=4,
+                                       block_size=BLOCK_SIZE)
+    N_MAIN = len(main_plan)
+
+    # ---- 校準(區塊 1、2):全部 valid,也走完整作業。
+    # 試次數:Glavan 2022 人類研究用 144(Adaptive-GRT/Human Study/Adaptive/
+    # AGRT_Exp_1_3_0.py:774),但他們每試是 2 秒的簡單作答;這裡每試是 8-10 秒
+    # 的完整工作記憶試次,144 × 2 會超過 40 分鐘，所以減半成 72。
+    N_ADAPT_COL = 72                # 區塊 1:只校顏色
+    N_ADAPT_SND = 72                # 區塊 2:只校聲音
+    N_ADAPT     = N_ADAPT_COL + N_ADAPT_SND
+    adapt_plan  = gs.adapt_plan(N_ADAPT_COL, rng) + gs.adapt_plan(N_ADAPT_SND, rng)
+
+    # ---- 區塊 3 = 練習：用校準出來的值跑主實驗流程，每試給正解;valid:invalid 同主實驗 2:1
     N_PRACTICE        = 15
-    FEEDBACK_PRE_MAIN = True
-    FEEDBACK_SEC      = 1.5
-    _n_valid   = round(N_PRACTICE * 2 / 3)      # 10 valid
-    _n_invalid = N_PRACTICE - _n_valid          # 5 invalid
-    _valid_pool = [(1, _it, 0, _sp) for _it in range(4) for _sp in range(4)]
-    _inval_pool = [(0, _it, _rel, _sp) for _it in range(4) for _rel in (1, 2, 3) for _sp in range(4)]
-    practice_plan = ([_valid_pool[i] for i in rng.permutation(len(_valid_pool))[:_n_valid]] +
-                     [_inval_pool[i] for i in rng.permutation(len(_inval_pool))[:_n_invalid]])
-    practice_plan = [practice_plan[i] for i in rng.permutation(len(practice_plan))]
-    
+    FEEDBACK_PRE_MAIN = True        # 校準與練習試次作答後把正確選項框起來;主實驗不給
+    FEEDBACK_SEC      = 1.5         # 回饋畫面停留秒數
+    practice_plan     = gs.practice_plan(N_PRACTICE, rng)
+
     trial_plan = adapt_plan + practice_plan + main_plan
-    N_PRE      = N_ADAPT + N_PRACTICE
+    N_PRE      = N_ADAPT + N_PRACTICE   # 主實驗之前的試次數
     N_TRIALS   = len(trial_plan)
     trial_i    = -1
-    practice_correct = 0
-    
+    practice_correct = 0            # 練習階段的答對數，用於練習結束時的回饋
+
     print(f"[plan] calibration colour {N_ADAPT_COL} + sound {N_ADAPT_SND} + practice {N_PRACTICE}"
           f"(all with feedback) + main {N_MAIN} = {N_TRIALS} trials;"
           f" main {n_blocks} blocks x {BLOCK_SIZE}")
-    
-    import json
-    with open('agrt_colour_lut.json', encoding='utf-8') as _f:
-        _LUT = json.load(_f)
-    _LUT_HEX = _LUT['hex']
-    _LUT_ARC = _LUT['arc_min'] + np.arange(len(_LUT_HEX)) * _LUT['step']
-    
-    def colour_for(arc):
-        """Arc-length coordinate (dE00) -> '#RRGGBB'; raises outside the usable range instead of clipping silently."""
-        if not (_LUT_ARC[0] <= arc <= _LUT_ARC[-1]):
-            raise ValueError(f"colour arc length {arc} is outside the usable range "
-                             f"[{_LUT_ARC[0]:.2f}, {_LUT_ARC[-1]:.2f}] dE00")
-        return _LUT_HEX[int(np.abs(_LUT_ARC - arc).argmin())]
-    
-    COLOUR_ARC = [-3.0, +3.0]
-    COLOUR_HEX = [colour_for(a) for a in COLOUR_ARC]
-    print(f"[colour] anchor h={_LUT['anchor_h']} L*={_LUT['lstar']} C*={_LUT['cstar']};"
-          f" arc {COLOUR_ARC} -> {COLOUR_HEX}")
+
+    # ---- 色彩軸：離線查表(理由見 grt_stimuli.ColourAxis)
+    COLOUR_AXIS = gs.ColourAxis.load('agrt_colour_lut.json')
+    # 主實驗用的兩級顏色 + 兩級 SNR。⚠ 只是開機預設 —— 校準結束(PsiCalibration.finish)會覆寫。
+    levels = gs.DEFAULT_LEVELS
+    print(f"[colour] anchor h={COLOUR_AXIS.lut['anchor_h']} L*={COLOUR_AXIS.lut['lstar']} C*={COLOUR_AXIS.lut['cstar']};"
+          f" arc {list(levels.colour_arc)} -> {levels.colour_hex(COLOUR_AXIS)}")
     
     Fixation = visual.ShapeStim(
         win=win, name='Fixation', vertices='cross',
@@ -858,19 +830,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     #
     # ══════════════════════════════════════════════════════════════════
     # ══════════════════════════════════════════════════════════════════
-    from AGRT import AGRTHandler
-
-    OVERALL_ACC = 0.64
+    from grt_psi import PsiCalibration
+    OVERALL_ACC = 0.64    # 聯合正確率 0.80、每維 89.4%(理由見 grt_psi.PsiCalibration)
     LAPSE       = 0.08
     from snr_runtime import SNRStimulus
 
     SND_TOKEN   = 'be'
     SNR_LIM     = 18.0
-    SNR_NAMES   = ['hi_snr', 'lo_snr']
-    SND_LABELS  = ['[bi]', '[pi]']
-    ITEM_SNR    = [0, 0, 1, 1]
-    AUDIO_HI, AUDIO_LO = +6.0, -6.0
-    _ARC_LIM = float(min(-_LUT_ARC[0], _LUT_ARC[-1]))
 
     ADAPT_FIX_ARC = 0.0
     ADAPT_FIX_SNR = 12.0
@@ -892,31 +858,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     MASK_SIZE     = 4.0
 
     import snr_audio
-    def _mask_ref_rms(n_seeds=16):
-        _v = []
-        for _s in range(n_seeds):
-            _sr, _sp, _nz, _lead = snr_audio.mix_components(
-                SND_TOKEN, 0.0, np.random.default_rng(_s))
-            _tail = int(round(snr_audio.NOISE_TAIL_MS * _sr / 1000.0))
-            _v.append(float(np.mean(_nz[_lead:len(_nz) - _tail] ** 2)))
-        return _sr, float(np.sqrt(np.mean(_v)))
-    MASK_SR, MASK_REF_RMS = _mask_ref_rms()
-    MASK_N_SAMP = int(round(MASK_DUR * MASK_SR))
+    # 聽覺遮蔽的位準與重建方式：見 grt_stimuli.MaskNoise。
+    mask_noise   = gs.MaskNoise(SND_TOKEN, snd.outdir, dur=MASK_DUR, db=MASK_NOISE_DB)
+    MASK_REF_RMS = mask_noise.ref_rms
     print(f"[mask] {MASK_DUR}s visual={MASK_VISUAL} audio={MASK_AUDIO};"
           f" 0 dB SNR noise reference RMS={MASK_REF_RMS:.4f}, offset {MASK_NOISE_DB:+.1f} dB")
-
-    def make_mask_noise(trial_idx):
-        """Generate a MASK_DUR-second speech-shaped noise burst for this trial with a fresh seed, write it as a wav, and return (seed, db, rms, path, summary)."""
-        _seed = snr_audio.new_seed()
-        _db   = float(MASK_NOISE_DB)
-        _rms  = MASK_REF_RMS * 10.0 ** (_db / 20.0)
-        _y    = snr_audio.speech_shaped_noise(
-            MASK_N_SAMP, np.random.default_rng(_seed)) * _rms
-        _name = f"mask_{trial_idx:04d}_{_db:+.2f}dB.wav"
-        _path = os.path.join(snd.outdir, _name)
-        _scale = snr_audio.write_wav(_path, MASK_SR, _y)
-        _summary = f"ssn|{_db:+.2f}dB|seed={_seed}|{_name}|scale={_scale:.3f}"
-        return _seed, _db, _rms, _path, _summary
 
     # --- Initialize components for Routine "mask" ---
     MASK_VIS_STIMS = []
@@ -946,13 +892,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         ori=0.0, pos=(0, 0), anchor='center', lineWidth=4.0,
         lineColor='white', fillColor=None, interpolate=True)
 
-    agrt = AGRTHandler(nTrials=N_ADAPT_COL + N_ADAPT_SND, lapse=LAPSE,
-                       dim1range=[-_ARC_LIM, _ARC_LIM],
-                       dim2range=[-SNR_LIM, SNR_LIM],
-                       dim1steps=100, dim2steps=100)
-    COLOUR_ARC = [ADAPT_FIX_ARC, ADAPT_FIX_ARC]
-    COLOUR_HEX = [colour_for(COLOUR_ARC[0]), colour_for(COLOUR_ARC[1])]
-    AUDIO_HI, AUDIO_LO = ADAPT_FIX_SNR, ADAPT_FIX_SNR
+    psi_cal = PsiCalibration(COLOUR_AXIS.half_range, SNR_LIM,
+                             n_col=N_ADAPT_COL, n_snd=N_ADAPT_SND,
+                             overall_acc=OVERALL_ACC, lapse=LAPSE,
+                             fix_arc=ADAPT_FIX_ARC, fix_snr=ADAPT_FIX_SNR, steps=100)
     print(f"[plan] calibration: block 1 colour {N_ADAPT_COL} trials, block 2 sound {N_ADAPT_SND} trials, all with the full task")
 
     # --- Prepare to start Routine "instruction_normal" ---
@@ -1136,62 +1079,47 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # Run 'Begin Routine' code from pattern
         trial_i += 1
         cue_valid, target_item, relation, target_serial = trial_plan[trial_i]
-        phase = ('adapt_col' if trial_i < N_ADAPT_COL else
-                 'adapt_snd' if trial_i < N_ADAPT     else
-                 'practice'  if trial_i < N_PRE       else 'main')
+        phase = psi_cal.phase_of(trial_i) or ('practice' if trial_i < N_PRE else 'main')
         is_practice = (phase == 'practice')
         is_adapt    = phase.startswith('adapt')
 
-        adapt_x = None
-        if phase == 'adapt_col':
-            adapt_x = float(agrt._psi1.nextIntensity)
-            COLOUR_ARC = [-abs(adapt_x), abs(adapt_x)]
-            COLOUR_HEX = [colour_for(COLOUR_ARC[0]), colour_for(COLOUR_ARC[1])]
-            AUDIO_HI, AUDIO_LO = ADAPT_FIX_SNR, ADAPT_FIX_SNR
-            _cb = 1 if adapt_x > 0 else 0
-            _sb = int(rng.integers(2))
-            target_item = _cb + 2 * _sb
-        elif phase == 'adapt_snd':
-            adapt_x = float(agrt._psi2.nextIntensity)
-            AUDIO_HI, AUDIO_LO = abs(adapt_x), -abs(adapt_x)
-            COLOUR_ARC = [ADAPT_FIX_ARC, ADAPT_FIX_ARC]
-            COLOUR_HEX = [colour_for(COLOUR_ARC[0]), colour_for(COLOUR_ARC[1])]
-            _sb = 0 if adapt_x > 0 else 1
-            _cb = int(rng.integers(2))
-            target_item = _cb + 2 * _sb
-        
-        SNR_LEVELS = [AUDIO_HI, AUDIO_LO]                  # index 0 = hi_snr([bi]), 1 = lo_snr([pi])
-        itemAudi   = snd.make_many([SNR_LEVELS[ITEM_SNR[_i]] for _i in range(4)],
+        # ---- 校準試次:Psi 決定這一試的刺激值與 target(規則見 grt_psi.PsiCalibration.propose)
+        adapt_trial = adapt_x = None
+        if is_adapt:
+            adapt_trial  = psi_cal.propose(phase, rng)
+            adapt_x      = adapt_trial.x
+            target_item  = adapt_trial.target_item
+            trial_levels = adapt_trial.levels
+        else:
+            trial_levels = levels
+        # 舊欄位名照留，資料檔格式不變
+        COLOUR_ARC = list(trial_levels.colour_arc)
+        AUDIO_HI, AUDIO_LO = trial_levels.snr_hi, trial_levels.snr_lo
+
+        # 每試現混。每次抽新種子，所以同一級的兩個 item 拿到的必然是不同的噪音 ——
+        # 否則「噪音樣本一樣」本身就成了「這兩個是同一類」的線索。
+        itemAudi   = snd.make_many([trial_levels.item_snr(_i) for _i in range(4)],
                                    tags=[f'item{_i}' for _i in range(4)])
-        itemColhex = [COLOUR_HEX[0], COLOUR_HEX[1], COLOUR_HEX[0], COLOUR_HEX[1]]
+        itemColhex = trial_levels.item_hex(COLOUR_AXIS)     # [C1, C2, C1, C2]
         Fix_Dur = .3
-        
-        d = 10.0 / np.sqrt(2)
-        POS   = [( d,  d),
-                 (-d,  d),
-                 (-d, -d),
-                 ( d, -d)]
-        NAMES = ['UR', 'UL', 'BL', 'BR']
-        START = [0.3, 1.3, 2.3, 3.3]
-        DUR   = 1.0
-        
+
+        START, DUR = gs.STUDY_ONSETS, gs.STUDY_DUR
         posURx, posURy = POS[0]
         posULx, posULy = POS[1]
         posBLx, posBLy = POS[2]
         posBRx, posBRy = POS[3]
-        
-        quad_content = [int(x) for x in rng.permutation(4)]
-        target_quad  = quad_content.index(target_item)
-        
-        time_perm = [int(x) for x in rng.permutation(4)]
-        _i = time_perm.index(target_serial)
-        time_perm[_i], time_perm[target_quad] = time_perm[target_quad], time_perm[_i]
-        
+
+        # 象限 q 上放 item quad_content[q],在 START[time_perm[q]] 出現;target 落在計畫的序列位置
+        study_lay    = gs.study_layout(target_item, target_serial, rng)
+        quad_content = study_lay.quad_content
+        time_perm    = study_lay.time_perm
+        target_quad  = study_lay.target_quad
+
         StudyUR, itemAudiUR = itemColhex[quad_content[0]], itemAudi[quad_content[0]]
         StudyUL, itemAudiUL = itemColhex[quad_content[1]], itemAudi[quad_content[1]]
         StudyBL, itemAudiBL = itemColhex[quad_content[2]], itemAudi[quad_content[2]]
         StudyBR, itemAudiBR = itemColhex[quad_content[3]], itemAudi[quad_content[3]]
-        
+
         TimeStartUR = START[time_perm[0]]
         TimeStartUL = START[time_perm[1]]
         TimeStartBL = START[time_perm[2]]
@@ -1227,7 +1155,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 _mk.setPos(POS[_q])
         if MASK_AUDIO:
             (mask_noise_seed, mask_noise_db, mask_noise_rms,
-             _mask_wav, mask_noise_summary) = make_mask_noise(trial_i)
+             _mask_wav, mask_noise_summary) = mask_noise.make(trial_i)
             maskAudi.setSound(_mask_wav, secs=MASK_DUR, hamming=True)
             maskAudi.setVolume(1.0, log=False)
             maskAudi.seek(0)
@@ -1782,15 +1710,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         continueRoutine = True
         # update component parameters for each repeat
         # Run 'Begin Routine' code from code
-        cued_item = target_item ^ relation      # relation = 0 -> cued == target (valid)
-        cue_idx   = quad_content.index(cued_item)
+        cued_item, cue_idx = gs.cue_layout(target_item, relation, study_lay)   # relation 0 -> valid
         
         cue_posx, cue_posy       = POS[cue_idx]
         target_posx, target_posy = POS[target_quad]
         POS_cue = POS[cue_idx]
         
         cue_color = itemColhex[target_item]
-        cue_audi  = snd.make(SNR_LEVELS[ITEM_SNR[target_item]], tag='probe')
+        cue_audi  = snd.make(trial_levels.item_snr(target_item), tag='probe')
         
         Cue.setPos(POS_cue)
         targetC.setFillColor(cue_color)
@@ -2004,22 +1931,16 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         continueRoutine = True
         # update component parameters for each repeat
         # Run 'Begin Routine' code from recog
-        d = 10.0 / np.sqrt(2)
-        POS = [( d,  d), (-d,  d), (-d, -d), ( d, -d)]      # 0=UR 1=UL 2=BL 3=BR
-        GAP = 4.2
-        POS_TXT = [(x, y + GAP/2) for x, y in POS]
-        POS_COL = [(x, y - GAP/2) for x, y in POS]
-        
-        final_value = [COLOUR_HEX[0], COLOUR_HEX[1], COLOUR_HEX[0], COLOUR_HEX[1]]
-        TXT         = [SND_LABELS[0] if SNR_LEVELS[ITEM_SNR[i]] > 0 else SND_LABELS[1]
-                       for i in range(4)]
+        POS_TXT, POS_COL = gs.POS_TXT, gs.POS_COL          # 標籤在上、色塊在下
+        final_value = itemColhex                            # 與 itemColhex 同序
+        TXT         = trial_levels.item_labels()            # 看 SNR 正負號(理由見 Levels.item_labels)
         
         txtUR_pos, colUR_pos = POS_TXT[0], POS_COL[0]
         txtUL_pos, colUL_pos = POS_TXT[1], POS_COL[1]
         txtBL_pos, colBL_pos = POS_TXT[2], POS_COL[2]
         txtBR_pos, colBR_pos = POS_TXT[3], POS_COL[3]
         
-        opt_perm = [int(x) for x in rng.permutation(4)]
+        opt_perm = gs.option_perm(rng)
         UR_item, UL_item, BL_item, BR_item = opt_perm
         
         UR_col, UR_TXT = final_value[UR_item], TXT[UR_item]
@@ -2333,7 +2254,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         task.tStopRefresh = tThisFlipGlobal
         thisExp.addData('task.stopped', task.tStop)
         # Run 'End Routine' code from recog
-        KEY_TO_SLOT = {'i': 'UL', 'o': 'UR', 'k': 'BL', 'l': 'BR'}
+        KEY_TO_SLOT = gs.KEY_TO_SLOT
         SLOT_ITEM   = {'UR': UR_item, 'UL': UL_item, 'BL': BL_item, 'BR': BR_item}
         
         pressed_key = key_resp_2.keys
@@ -2347,18 +2268,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             chosen_slot = None
             chosen_item = None
         
-        if chosen_item is None:
-            outcome = 'noresp'
-        elif chosen_item == target_item:
-            outcome = 'correct'
-        elif chosen_item == cued_item:
-            outcome = 'intrusion'
-        else:
-            outcome = 'other'
-        
+        outcome, err_rel = gs.score(chosen_item, target_item, cued_item)
         is_correct = (outcome == 'correct')
-        
-        err_rel = None if (chosen_item is None or outcome == 'correct') else (chosen_item ^ target_item)
         
         thisExp.addData('opt_perm',     str(opt_perm))
         thisExp.addData('pressed_key',  pressed_key)
@@ -2376,18 +2287,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         if is_practice and outcome == 'correct':
             practice_correct += 1
 
-        if is_adapt and chosen_item is not None:
-            if phase == 'adapt_col':
-                adapt_resp = chosen_item & 1                      # 1 = pink
-                agrt._psi1.update(adapt_resp)
-            else:
-                adapt_resp = 1 if (chosen_item >> 1) == 0 else 0  # 1 = [bi]
-                agrt._psi2.update(adapt_resp)
-            adapt_corr = int(adapt_resp == int(adapt_x > 0))
-            outcome    = 'correct' if adapt_corr else 'other'
-            is_correct = bool(adapt_corr)
-            thisExp.addData('outcome',    outcome)
-            thisExp.addData('is_correct', is_correct)
+        # 只看被校的那一維;沒作答不更新(grt_psi.PsiCalibration.update)
+        if is_adapt:
+            adapt_resp, adapt_corr = psi_cal.update(adapt_trial, chosen_item)
+            if adapt_resp is not None:
+                outcome    = 'correct' if adapt_corr else 'other'
+                is_correct = bool(adapt_corr)
+                thisExp.addData('outcome',    outcome)
+                thisExp.addData('is_correct', is_correct)
         else:
             adapt_resp = adapt_corr = None
         if is_adapt:
@@ -2396,37 +2303,19 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             thisExp.addData('adapt_corr', adapt_corr)
 
         if trial_i == N_ADAPT - 1:
-            _lams = agrt.estimateLambda()
-            (_c_lo, _c_hi), (_s_lo, _s_hi) = agrt.estimateGRTintensities(OVERALL_ACC, _lams)
-            _c_lo = float(np.clip(_c_lo, _LUT_ARC[0], _LUT_ARC[-1]))
-            _c_hi = float(np.clip(_c_hi, _LUT_ARC[0], _LUT_ARC[-1]))
-            _s_lo = float(np.clip(_s_lo, -SNR_LIM, SNR_LIM))
-            _s_hi = float(np.clip(_s_hi, -SNR_LIM, SNR_LIM))
-            COLOUR_ARC = [_c_lo, _c_hi]
-            COLOUR_HEX = [colour_for(_c_lo), colour_for(_c_hi)]
-            AUDIO_HI, AUDIO_LO = _s_hi, _s_lo    # HI = hi_snr([bi]), LO = lo_snr([pi])
-            agrt.savePosterior(filename + '_posterior')
-            thisExp.addData('psi_col_alpha', float(_lams[0][0]))
-            thisExp.addData('psi_col_beta',  float(_lams[0][1]))
-            thisExp.addData('psi_snd_alpha', float(_lams[1][0]))
-            thisExp.addData('psi_snd_beta',  float(_lams[1][1]))
-            thisExp.addData('final_colour_arc_lo', _c_lo)
-            thisExp.addData('final_colour_arc_hi', _c_hi)
-            thisExp.addData('final_snr_hi', AUDIO_HI)
-            thisExp.addData('final_snr_lo', AUDIO_LO)
+            # 官方估計 -> 覆寫主實驗刺激值(夾擠規則見 grt_psi.PsiCalibration.finish)
+            _cal   = psi_cal.finish(COLOUR_AXIS)
+            levels = _cal.levels
+            psi_cal.save_posterior(filename + '_posterior')
+            for _k, _v in _cal.data.items():
+                thisExp.addData(_k, _v)
             thisExp.addData('snr_token', SND_TOKEN)
-            thisExp.addData('snr_lim', SNR_LIM)
-            print(f"[AGRT] colour lambda={_lams[0]}  sound lambda={_lams[1]}")
-            print(f"[AGRT] COLOUR_ARC={COLOUR_ARC} -> {COLOUR_HEX}; "
-                  f"SNR hi([bi])={AUDIO_HI:+.2f} lo([pi])={AUDIO_LO:+.2f} dB")
+            print(f"[AGRT] colour lambda={_cal.lambdas[0]}  sound lambda={_cal.lambdas[1]}")
+            print(f"[AGRT] COLOUR_ARC={list(levels.colour_arc)} -> {levels.colour_hex(COLOUR_AXIS)}; "
+                  f"SNR hi([bi])={levels.snr_hi:+.2f} lo([pi])={levels.snr_lo:+.2f} dB")
 
         if phase != 'main' and FEEDBACK_PRE_MAIN:
-            if phase == 'adapt_col':
-                _fb_ok = lambda _i: (_i & 1) == (target_item & 1)
-            elif phase == 'adapt_snd':
-                _fb_ok = lambda _i: (_i >> 1) == (target_item >> 1)
-            else:
-                _fb_ok = lambda _i: _i == target_item
+            _fb_ok = psi_cal.feedback_ok(phase, target_item)   # 校準時兩個內容相同的角落都框
             _slot_pos = {'UR': POS[0], 'UL': POS[1], 'BL': POS[2], 'BR': POS[3]}
             for _st in (vUL, vUR, vBL, vBR, UL, UR, BL, BR):
                 _st.draw()
