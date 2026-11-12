@@ -108,8 +108,9 @@ t–θ and θ–s separately, not three points on one line — and the PS questi
 voicing distribution move when manner goes from 0 to 1, and from 1 to 2?). (3) The split is just one more conditioning,
 with the same logic as above; what is lost is the information whether the three distributions are collinear and whether
 the three levels share one set of criteria. The empirical check is that a pair estimated in different sub-designs should
-give similar d′: of the 28 single-feature pairs, 21 recur across designs and agree within 0.4, the only exception being
-/d–ð/ (1.40 vs 2.04).
+give similar d′: of the 28 single-feature pairs, 21 recur across designs; 16 agree within 0.4, and the largest
+discrepancies are /θ–ð/ (2.48–3.13), /d–ð/ (1.40–2.04), /b–d/ (2.16–2.78), /k–ʃ/ (3.12–3.59) and /t–d/ (3.94–4.35),
+at most 0.65; no pair changes rank.
 
 Each 4 × 4 sub-matrix was fitted with mdsdt 1.3 (R [TODO: version]) under the equal-variance Gaussian GRT model with
 decisional separability, in seven versions: unconstrained (full), PS on axis f, PS on axis g, PS on both, one shared
@@ -117,8 +118,8 @@ correlation ρ, ρ = 0 (PI), and PS on both with ρ = 0. Models were read with �
 taken as the constraint holding, > 10 as rejected. The −6 dB table was used because higher S/N tables were too sparse
 for stable fits.
 
-The fits gave a d′ for each of 28 single-feature pairs (the mean separation along the fitted axis; pairs recurring in
-more than one sub-design agreed within 0.4 except /d–ð/). Across these 28 pairs the GRT d′ was a linear function of
+The fits gave a d′ for each of 28 single-feature pairs (the mean separation along the fitted axis; of the 21 pairs recurring in
+more than one sub-design, 16 agreed within 0.4, the largest discrepancy being 0.65). Across these 28 pairs the GRT d′ was a linear function of
 the Luce distance through the origin, d′ = 0.003 + 0.911 (−ln η), Pearson r = .98 (Fig. S1), the relation expected
 between η and d′ under equal-variance Gaussian assumptions. We therefore defined the dissimilarity of every one of the
 120 pairs as d′ = 0.911 × (−ln η) (Table S1; `stimuli/consonant_dprime.csv`). The scale runs from 0.26 (/p–k/) to 4.95.
