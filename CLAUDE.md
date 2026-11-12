@@ -60,7 +60,7 @@ Both are PsychoPy Builder output from `GRTv2.psyexp`, hand-edited afterwards.
 
 | | `GRTv3.py` | `GRTv3_a.py` | `GRTv3_ada.py` |
 |---|---|---|---|
-| Sound stimulus | one token `be.wav` (/bi/), always | same | same |
+| Sound stimulus | one token (`snr_audio` key `bi`, natural [bi]), always | same | same |
 | Two auditory items | **high SNR** vs **low SNR** (+6 / −6 dB, fixed) | ±SNR from AGRT | ±SNR from AGRT |
 | What the listener reports | **the consonant: [bi] or [pi]** | "clear / noisy" | **[bi] or [pi]** |
 | Colour axis | fixed ±3.0 ΔE00 | calibrated by a 60-trial AGRT phase | same |

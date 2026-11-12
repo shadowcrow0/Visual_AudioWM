@@ -480,7 +480,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
     #
     from snr_runtime import SNRStimulus
 
-    SND_TOKEN  = 'be'
+    SND_TOKEN  = 'bi'            # the key in snr_audio.SPEECH_FILES (natural [bi] token since 8a75be2)
     SNR_LEVELS = [+6.0, -6.0]
     SNR_NAMES  = ['hi_snr', 'lo_snr']
 
