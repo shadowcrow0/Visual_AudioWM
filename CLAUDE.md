@@ -115,6 +115,13 @@ estimated sound α/β reflect the learned feedback rule, not perception; and
 
 ⛔ `GRTv3_a.py` asks "clear or noisy" and is kept only as the predecessor.
 
+**Branch `modular`: `GRTv3_ada_modular.py` + `grtv3/`** is the same experiment
+without Builder: `plan.py` / `colour.py` / `masking.py` / `calibration.py` are
+pure Python with tests (`tests/test_grtv3.py`); `display.py` / `session.py` hold
+the PsychoPy layer and have only been py_compiled here. Map of old line numbers →
+new functions in `review/GRTv3_ada_模組化.md`. Note found while porting: the
+Builder scripts still say `SND_TOKEN = 'be'` but `snr_audio` only has `'bi'`.
+
 ⚠️ The ±6 dB levels in `GRTv3.py` are **placeholders**, not measured. The low
 level needs to be low enough to actually push /bi/ toward /pi/, and that
 threshold has not been piloted on this token.
