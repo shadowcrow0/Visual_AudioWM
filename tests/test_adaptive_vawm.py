@@ -1,4 +1,4 @@
-"""adaptive_vawm.py 的測試：模擬受試者跑完校準 → H/L 合理；block csv 欄位與 practice.csv 相同；VAWM 輸出 → SIC 分析。"""
+"""adaptive_vawm_EN.py 的測試：模擬受試者跑完校準 → H/L 合理；block csv 欄位與 practice.csv 相同；VAWM 輸出 → SIC 分析。"""
 import csv
 import os
 import sys
@@ -8,7 +8,7 @@ import pytest
 from scipy.stats import norm
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from adaptive_vawm import (CSV_COLUMNS, LNRMCalibrator, PsiCalibrator, audio_x, delta_e,  # noqa: E402
+from adaptive_vawm_EN import (CSV_COLUMNS, LNRMCalibrator, PsiCalibrator, audio_x, delta_e,  # noqa: E402
                            find_colour_at, is_in_gamut, lab_to_hex, load_dprime, load_full_package,
                            random_target, read_calibration, save_calibration, to_model_units, write_blocks)
 
@@ -185,7 +185,7 @@ def test_write_blocks_matches_practice_csv_layout(tmp_path):
 def test_vawm_csv_to_dfp_analysis(tmp_path):
     """假造一份 VAWM_nobox.py 格式的輸出（每個探測一列），PAR-OR 的 DDM 填 RT → 判 ParallelOR。要 PyMC。"""
     pytest.importorskip("pymc")
-    from adaptive_vawm import analyze_vawm, vawm_to_dfp_rows
+    from adaptive_vawm_EN import analyze_vawm, vawm_to_dfp_rows
     load_full_package()
     from adaptivesft.ddm import dfp_ddm
     rng = np.random.default_rng(9)

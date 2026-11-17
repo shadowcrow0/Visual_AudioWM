@@ -53,12 +53,18 @@ matters for any write-up.
 Counts: 24 practice + 576 main (4 blocks × 144) = 600 trials, valid:invalid
 held at 2:1 within every block. Practice deliberately uses the same ratio.
 
-## The two experiment scripts
+## The experiment scripts
 
-Both are PsychoPy Builder output from `GRTv2.psyexp`, hand-edited afterwards.
-**Do not regenerate from Builder** — that would wipe the hand-written sections.
+**Read `ARCHITECTURE.md` first**: which file owns which constant, what is frozen in
+`archive/`, which files to read for which task. Since 2026-11-17 every script
+exists once, as the `*_EN.py` file (English console and participant text; the
+Chinese-commented twins are frozen in `archive/zh_comments/`).
 
-| | `GRTv3.py` | `GRTv3_a.py` | `GRTv3_ada.py` |
+The GRT scripts are PsychoPy Builder output from `GRTv2.psyexp` (now in
+`archive/legacy_vawm_nobox/`), hand-edited afterwards. **Do not regenerate from
+Builder** — that would wipe the hand-written sections.
+
+| | `GRTv3_EN.py` | `GRTv3_a.py` (archive) | `GRTv3_ada_EN.py` |
 |---|---|---|---|
 | Sound stimulus | one token (`snr_audio` key `bi`, natural [bi]), always | same | same |
 | Two auditory items | **high SNR** vs **low SNR** (+6 / −6 dB, fixed) | ±SNR from AGRT | ±SNR from AGRT |
@@ -67,7 +73,7 @@ Both are PsychoPy Builder output from `GRTv2.psyexp`, hand-edited afterwards.
 | Calibration | — | 60 joint trials, two f/j questions | **72 colour + 72 sound trials of the real task, then 15 practice with feedback** |
 | Status | fixed-level design | superseded by `_ada` | current adaptive design |
 
-**The design (`GRTv3.py`).** One syllable is played all session. Noise masks the
+**The design (`GRTv3_EN.py`).** One syllable is played all session. Noise masks the
 voicing cue, so the low-SNR item is often heard as /pi/. The physical difference
 between the two auditory items is the noise level; the *reported* difference is
 the consonant.
@@ -81,7 +87,7 @@ at one shared SNR — which is what `snr_audio.py` was actually built for; it
 aligns the two tokens' onsets and voiced-segment RMS so that one SNR number
 means the same thing for both.
 
-**`GRTv3_ada.py` — the adaptive design.** Both dimensions are calibrated per
+**`GRTv3_ada_EN.py` — the adaptive design.** Both dimensions are calibrated per
 participant by the two independent Psi objects in `AGRT.py` (60 trials, one
 audiovisual compound per trial). The sound axis is SNR used as a *stand-in for
 the b/p (VOT) continuum*, which the program cannot synthesise: high-SNR /bi/
@@ -113,16 +119,16 @@ estimated sound α/β reflect the learned feedback rule, not perception; and
 (2) turning `SND_FEEDBACK` off removes the anchor and the curve may floor at
 0.5 again, breaking the model.
 
-⛔ `GRTv3_a.py` asks "clear or noisy" and is kept only as the predecessor.
+⛔ `GRTv3_a.py` asks "clear or noisy" and is kept only as the predecessor (`archive/`).
 
 **Branch `modular`: `GRTv3_ada_modular.py` + `grtv3/`** is the same experiment
 without Builder: `plan.py` / `colour.py` / `masking.py` / `calibration.py` are
 pure Python with tests (`tests/test_grtv3.py`); `display.py` / `session.py` hold
 the PsychoPy layer and have only been py_compiled here. Map of old line numbers →
-new functions in `review/GRTv3_ada_模組化.md`. Note found while porting: the
-Builder scripts still say `SND_TOKEN = 'be'` but `snr_audio` only has `'bi'`.
+new functions in `review/GRTv3_ada_模組化.md`. (`SND_TOKEN` is `'bi'` everywhere
+since 2026-11-17; `snr_audio` only has that token.)
 
-⚠️ The ±6 dB levels in `GRTv3.py` are **placeholders**, not measured. The low
+⚠️ The ±6 dB levels in `GRTv3_EN.py` are **placeholders**, not measured. The low
 level needs to be low enough to actually push /bi/ toward /pi/, and that
 threshold has not been piloted on this token.
 
@@ -166,7 +172,7 @@ audio_device.py    resolves the output device BY NAME, never by index
   The loop's handler is built with `isTrials=False`, so PsychoPy does not
   emit it. Without that line all 600 trials overwrite one row and the saved
   file has a single line of data.
-- **`GRTv3.py` requires headphones** (`require_headphones=True`) and errors
+- **`GRTv3_EN.py` requires headphones** (`require_headphones=True`) and errors
   out if none are found. Over speakers the delivered SNR is not the
   configured SNR, so the data is worthless.
 - **`dim2steps` in `AGRTHandler` sets three grids at once** — the stimulus
@@ -213,7 +219,13 @@ is no structure to show (a yes/no answer, a single number).
 
 ## Conventions
 
-- Comments and docs in this repo are written in Chinese; match that.
+- `ARCHITECTURE.md` §3 is the single-source table: a constant is defined in
+  exactly one file; `SFT_WM_nochange_EN.py` imports its levels and targets from
+  `adaptive_vawm_EN.py`.
+- `archive/` is frozen: not edited, not bundled, not imported.
+
+- Docs and decision notes are written in Chinese. Code comments may be Chinese
+  or English; what matters is one copy per script — never a zh/EN fork.
 - Comments explain **why**, especially where a simpler-looking approach was
   tried and failed. Keep that reasoning when editing nearby code.
 - Generated per-participant stimuli (`data/*_snr/`, ~130 MB per session) are
