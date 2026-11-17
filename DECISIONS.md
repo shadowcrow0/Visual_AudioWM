@@ -179,6 +179,11 @@
 - **代價**：d′ 在純知覺上 ≳ 2 就是天花板，所以層級 2.3 / 3.3 / 4.5 之間的差只會在記憶負荷下出現；11-03 在負荷下連 4 以上的對都在猜測率。換尺不解決負荷問題，那是另一個決定（還沒決定的）。
 - **在哪**：`adaptive_vawm.py` / `_EN`（`load_dprime`、`foil_for`、`LEVELS_AUDIO`、`AUDIO_SHIFT`、`make_result`、`write_blocks`、`CSV_COLUMNS`）；`SFT_WM_nochange.py` / `_EN`（`DPRIME`、`foil_near`、`PROV_DPRIME_*`、`fit_calibration`、`make_study_set`）；`sound_perception_EN.py --axis dprime`；`make_simple_psyexp.py`；`stimuli/consonant_dprime.csv`、`stimuli/practice.csv`；測試 `tests/test_adaptive_vawm.py`（`test_dprime_table_and_axis`、psi/lnrm 聲音觀察者的參數改到 d′ 單位）。
 
+## 22. 一份程式只留一份：zh 版與舊流程移到 archive/，常數單一來源，規則寫進 ARCHITECTURE.md（2026-11-17）
+- **決定**：每支腳本只留 `*_EN.py`（實驗機跑的那份）；中文註解的孿生檔（`adaptive_vawm.py`、`SFT_WM_nochange.py`、`debug_adaptivesft.py`、`GRTv3.py`、`GRTv3_ada.py`）凍結到 `archive/zh_comments/`；舊流程 `VAWM_nobox.py`、`VAWM_calibrate(_EN).py`、`make_adaptive_blocks(_EN).py`、`make_simple_psyexp.py`、三個 `.psyexp`、`generate_trials.py` 凍結到 `archive/legacy_vawm_nobox/`。`SFT_WM_nochange_EN.py` 改成從 `adaptive_vawm_EN.py` import `LEVELS_*` 與 `H_TARG / L_TARG`，不再自己定義。VAWM_run 的 .bat 全部經 `_env.bat` 取 PsychoPy 路徑。`debug_adaptivesft_EN.py` 有 ✘ 就 exit 1。受試者看到的任何東西（文字、按鍵、時序、回饋）沒有改。
+- **為什麼**：AST 比對證實 zh/EN 只差 print/raise 的語言，每個修改卻要做兩次；舊流程 7000+ 行留在根目錄會被當成現行程式讀掉 token；同一常數兩處定義已經造成過不一致。
+- **在哪**：`ARCHITECTURE.md`（§3 唯一來源表、§6 更新流程、§7 寫法、§8 做什麼任務讀哪些檔）；`archive/*/README.md`。**本檔第 1–21 條引用的 `adaptive_vawm.py` / `VAWM_calibrate.py` 等檔名是當時的檔名，照舊不改；現行對應是 `adaptive_vawm_EN.py`，`VAWM_calibrate.py` 的參數現在在 `adaptive_vawm_EN.py` 檔頭（見 ARCHITECTURE §3）。**
+
 ## 還沒決定的
 - **記憶負荷**：11-03 在 2 色 + 2 音負荷下聲音全部層級都在猜測率，純知覺卻在 d′ ≥ 2 全對。尺換成 d′ 後這個問題還在；要不要先只記聲音、縮短保留時間、或降項目數，使用者 11-10 表示目標數不改，其餘未定。
 - **受試者的母語**：11-03 的 pilot 受試者英語非母語，自述聽不出子音差異；聲音維度在 WM 作業裡落在猜的水準可能有一部分是這個。Cutler et al. (2004) 全文（`review/Cutler2004_全文查核.md`）：荷蘭聽者的 voicing 流失跟著 L1 的缺口走（詞尾），華語聽者的對應缺口是推論、未測。正式受試者是否限定英語母語者、或改用對非母語者也分得出的聲音刺激，要定。`sound_perception_EN.py` 的結果可以分開「分不出」和「記不住」。
@@ -188,11 +193,11 @@
 ## 三年後要改東西，從哪裡下手
 | 想改 | 先跑 | 再改 |
 |---|---|---|
-| 目標值、層級、試次數 | `pytest tests/test_adaptive_vawm.py -k lnrm` | `VAWM_calibrate.py` 最上面的參數 |
+| 目標值、層級、試次數 | `pytest tests/test_adaptive_vawm.py -k lnrm` | `adaptive_vawm_EN.py` 的 `LEVELS_*` / `H_TARG_DEFAULT`；試次結構在 `SFT_WM_nochange_EN.py` 檔頭 |
 | 一試長什麼樣 | `-k psi_colour`、`-k psi_audio` | `make_colour_trial` / `make_audio_trial` |
 | block csv 的欄位 | `-k write_blocks` | `write_blocks`、`CSV_COLUMNS` |
 | 分析（SIC / MIC） | `-k dfp_analysis` | `vawm_to_dfp_rows`、`adaptiveSFT/adaptivesft/sic.py` |
-| 擬合模型本身 | `adaptiveSFT: pytest tests/test_models.py tests/test_lnrm_vs_stan.py` | `adaptiveSFT/adaptivesft/models.py` |
+| 擬合模型本身 | `adaptiveSFT: pytest tests/test_models.py tests/test_lnrm_vs_stan.py` | `adaptiveSFT/adaptivesft/models_v2.py`（實驗用 v2；`models.py` 是 v1，只給模擬） |
 
 表的讀法：「先跑」那一欄是改之前要先確認會過的測試（改完再跑一次，過了才算改好）；「再改」是要動的地方。
 
@@ -200,5 +205,6 @@
 1. 不要動的：第 2、3、4 條綁在一起（模型曲線 ↔ 目標值）。改一個就要改另一個。
 2. 想改任何數字：先讀對應那一條的「為什麼」，再照最後那張表先跑測試、再改、再跑測試。
 3. 改了遮蔽（第 13 條）或作業形式（第 10 條）之後，之前校過的受試者要重校。
-4. 行號對不上時，用 grep 搜「在哪」裡的名字（例如 `grep -n alpha2_rule adaptive_vawm.py`），不要猜。
-5. 「還沒決定的」兩條如果有一天要定案，加成第 14、15 條，格式照舊。
+4. 行號對不上時，用 grep 搜「在哪」裡的名字（例如 `grep -n alpha2_rule adaptive_vawm_EN.py`），不要猜。
+5. 「還沒決定的」如果有一天要定案，接著第 22 條往下加，格式照舊。
+6. 改檔案結構、搬檔案、加常數之前先讀 `ARCHITECTURE.md`。
