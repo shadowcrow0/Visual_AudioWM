@@ -207,7 +207,7 @@ ax.text(x_last - 16, my - 37.5, "after the 40th trial", ha="right", va="center",
 
 # D-middle: the 40-trial sequence of ΔE levels (schematic)
 rng = np.random.default_rng(3)
-levels = [2, 6, 12, 25, 50, 90]
+levels = [8, 14, 20, 28, 40, 90]
 plan = [v for v in levels for _ in range(5)] + [0] * 10
 rng.shuffle(plan)
 plan = np.array(plan, float)
