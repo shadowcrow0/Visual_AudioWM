@@ -18,8 +18,8 @@
 
 \title{Appendix: Calibration Pilot, Diagnosis, and Revisions of the Adaptive SFT Procedure}
 \shorttitle{Calibration pilot}
-\author{}
-\affiliation{}
+\authorsnames{}
+\authorsaffiliations{}
 
 \begin{document}
 \appendix
@@ -117,7 +117,7 @@ The structural mismatch is removed by one additional parameter, an intercept $b_
 
 \section{Revision 2: A Saturating Link Function}\label{sec:link}
 
-The criterion fixes the floor; the quadratic term governs the top of the curve, and a quadratic with $\alpha_2 < 0$ has a single maximum beyond which it declines. On EN01's data the quadratic (with $b_0$) peaked at $\Delta E \approx 64$ and fell to $d_{\text{eff}} = 0.34$ at $\Delta E = 90$ (Figure~\ref{fig:links}), a shape forced by $-\alpha_2 x^2$ rather than by the data: the only observation above $\Delta E = 50$ is a single miss in five trials at 90, which the quadratic reads as an increase in difficulty and a saturating curve reads as a lapse (Figure~\ref{fig:linkpred}). We therefore adopted the authors' alternative link \parencite[the \texttt{lnrm2a} model;][]{houpt2014}, $d(x) = \tfrac{1}{2} L\,\text{logistic}\!\left(s\,(x - m)\right)$, with the ceiling $L$ estimated rather than fixed at 10, together with $b_0$. A linear link was also examined: it removed the sign ambiguity ($P(\alpha < 0) = .07$ without $b_0$) but cannot represent a steep rise followed by a plateau and placed the upper calibration point at $\Delta E = 78$--$95$, incompatible with the 5/5 performance of both recent pilots at $\Delta E = 25$--$50$. The two saturating shapes examined (logistic; saturating exponential) agreed on the \SI{50}{\percent} point (EN01: 25 vs 27; yyc1110: 16 vs 13) and differed on the plateau, for which the pilot design had no observations between $\Delta E = 28$ and 90 (Section~\ref{sec:levels}).
+The criterion fixes the floor; the quadratic term governs the top of the curve, and a quadratic with $\alpha_2 < 0$ has a single maximum beyond which it declines. On EN01's data the quadratic (with $b_0$) peaked at $\Delta E \approx 64$ and fell to $d_{\text{eff}} = 0.34$ at $\Delta E = 90$ (Figure~\ref{fig:links}), a shape forced by $-\alpha_2 x^2$ rather than by the data: the only observation above $\Delta E = 50$ is a single miss in five trials at 90, which the quadratic reads as an increase in difficulty and a saturating curve reads as a lapse (Figure~\ref{fig:linkpred}). We therefore adopted the authors' alternative link \parencite[the \texttt{lnrm2a} model;][]{houpt2014}, $d(x) = \tfrac{1}{2} L \cdot \mathrm{logistic}\left(s\,(x - m)\right)$, with the ceiling $L$ estimated rather than fixed at 10, together with $b_0$. A linear link was also examined: it removed the sign ambiguity ($P(\alpha < 0) = .07$ without $b_0$) but cannot represent a steep rise followed by a plateau and placed the upper calibration point at $\Delta E = 78$--$95$, incompatible with the 5/5 performance of both recent pilots at $\Delta E = 25$--$50$. The two saturating shapes examined (logistic; saturating exponential) agreed on the \SI{50}{\percent} point (EN01: 25 vs 27; yyc1110: 16 vs 13) and differed on the plateau, for which the pilot design had no observations between $\Delta E = 28$ and 90 (Section~\ref{sec:levels}).
 
 \begin{figure}[htbp]
 \caption{Fitted Drift Advantage Under the Quadratic and the Logistic Link, Both With $b_0$}
@@ -170,15 +170,18 @@ Refitting the two recent pilots with the revised model and rules gave colour $L 
 \begin{table}[htbp]
 \caption{Colour Calibration Levels ($\Delta E_{00}$) Before and After the Revisions}
 \label{tab:levels}
-\begin{tabular}{lcccc}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llccc@{}}
 \toprule
-Level set & Levels & On the floor & On the slope (12--30) & On the bend / ceiling \\
+Level set & Levels & Floor & Slope (12--30) & Bend / ceiling \\
 \midrule
-Pilot design       & 2, 6, 12, 25, 50, 90  & 2, 6, 12   & 25         & --- / 50, 90 \\
-Revision, step 1   & 8, 14, 20, 28, 40, 90 & 8 (partly) & 14, 20, 28 & 40 / 90 \\
-Revision, step 2   & 8, 14, 20, 28, 45, 70 & 8 (partly) & 14, 20, 28 & 45 / 70 \\
+Pilot design     & 2, 6, 12, 25, 50, 90  & 2, 6, 12   & 25         & --- / 50, 90 \\
+Revision, step 1 & 8, 14, 20, 28, 40, 90 & 8 (partly) & 14, 20, 28 & 40 / 90 \\
+Revision, step 2 & 8, 14, 20, 28, 45, 70 & 8 (partly) & 14, 20, 28 & 45 / 70 \\
 \bottomrule
 \end{tabular}
+\normalsize
 \note{Regions are defined from the three pilots' data (Figure~\ref{fig:pilots}). Five trials per level in all sets.}
 \end{table}
 
