@@ -213,3 +213,27 @@ def test_vawm_csv_to_dfp_analysis(tmp_path):
     assert out["n_dfp"] == 320 and out["accuracy_other"][0] == 1.0
     assert out["result"]["DFP"]["classification"]["Predicted_by"] == "ParallelOR"
     assert "ParallelOR" in out["report"]
+
+
+@pytest.mark.parametrize("dim", ["colour", "audio"])
+def test_fit_points_same_different_observer(dim):
+    """DECISIONS 25：同／異作業的模擬觀察者（強度 0 偏「一樣」，d_eff 沿 ogival 升到天花板）→ fit_points 回復 50% 點與到頂點，
+    H > L，都在層級範圍內；b0 的符號為負。"""
+    pytest.importorskip("pymc")
+    from adaptive_vawm_EN import CALIB_PLATEAU, LEVELS_AUDIO, LEVELS_COLOUR, fit_points, from_model_units, load_full_package
+    load_full_package()
+    from adaptivesft.race import lnrm_random
+    rng = np.random.default_rng(25)
+    levels = LEVELS_COLOUR if dim == "colour" else LEVELS_AUDIO
+    b0, A, slope, mid = (-1.0, 1.6, 1.5, 2.0) if dim == "colour" else (-0.6, 1.4, 1.5, 1.2)
+    x50 = mid + np.log((-b0 / A) / (1 + b0 / A)) / slope
+    plateau = mid + np.log(CALIB_PLATEAU / (1 - CALIB_PLATEAU)) / slope
+    xs = [lv for lv in levels for _ in range(8)]
+    us = np.array([to_model_units(dim, x) for x in xs])
+    rt, correct = lnrm_random(b0 + A / (1 + np.exp(-slope * (us - mid))), -0.4, 0.5, 0.15, rng)
+    res = fit_points(xs, rt, correct, dim, levels, dict(tune=500, draws=500, chains=2, random_seed=2, nuts_sampler="nutpie", target_accept=0.95))
+    assert res["extra"]["params"]["b0"] < 0
+    assert abs(res["extra"]["x50_median"] - from_model_units(dim, x50)) < (6.0 if dim == "colour" else 0.5)
+    assert abs(res["extra"]["plateau_median"] - from_model_units(dim, plateau)) < (15.0 if dim == "colour" else 1.5)
+    assert min(levels) <= res["low"] < res["high"] <= max(levels)
+    assert res["extra"]["method"] == "lnrm_ogival+b0" and res["extra"]["divergences"] < 20

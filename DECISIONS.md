@@ -197,8 +197,20 @@
 - **還沒定**：SNR 的值。pilot：`sound_perception_EN.py --axis dprime --snr -6`（和 −12、0）各一位聽者，看 (a) 哪個 SNR 讓 d′ ≤ 1.5 那幾級掉到七成、d′ ≥ 3 還在天花板附近，(b) 12 位說話者在該 SNR 的排序跟 M&N 一致；然後重算 `stimuli/consonant_dprime.csv`（決定 21 的流程、換 SNR 參數），再把 `SND_SNR_DB` 設上去。
 - **在哪**：`sft_noise.py`（純 numpy，`python sft_noise.py` 自檢；`tests/test_sft_noise.py`）；`SFT_WM_nochange_EN.py`（`SND_SNR_DB`、`snd_path`、`run_calib_trial(..., tag)`、`run_sets`）；`sound_perception_EN.py --snr`；`debug_adaptivesft_EN.py` 第 8 項；`make_run_bundle.py` FILES。
 
+## 25. 校準改成「L = 50% 點、H = 到頂 90%」，模型 = Houpt 的 ogival（lnrm2a）+ 判準 b₀，顏色層級上端改 45 / 70（2026-11-18）
+- **決定**：`SFT_WM_nochange_EN.py` 的校準擬合改走 `adaptive_vawm_EN.fit_points`：`fit_lnrm_v2(link="ogival", L="estimate", bias=True)`（adaptiveSFT 新增 `bias` 參數：d_eff = b₀ + ½L·logistic(slope·(x − mid))，b₀ ~ Normal(0, 2)），再用 `adaptivesft.salience.find_points` 取兩個點：**L = 50% 點**（d_eff = 0，兩個累積器同時到）、**H = 到頂點**（logistic = `CALIB_PLATEAU` = .9，d 到天花板九成，之後再加強度 RT 不再變快）。點估計用後驗**中位數**。Houpt 的漂移差目標 8.0 / 1.3 不再用來定刺激，只留給 `LNRMCalibrator`（R 對齊測試）。`LEVELS_COLOUR = [8, 14, 20, 28, 45, 70]`（第 23 條的 40 / 90 改成 45 / 70：到頂的轉彎處要有點，90 只是天花板確認、兩位受試者在 50 已全對 + RT 變平）。出界規則改成：沒有 50% 點 → L = 最低級；沒有到頂點 → H = 最高級；clip 之後 L ≥ H → **H 推到最高級**（不再砍 L）；每一步都寫進 warnings、印出、螢幕提示實驗者。
+- **為什麼**（EN01 11-18 + yyc1110 11-10 的 30 試重擬合，全部在 `review/` 可重跑）：
+  1. lnrm2 假設強度 0 時兩個累積器一樣快（答對率 50%）。那是 Houpt 對稱二選一的情形；same/different 作業裡強度 0 的正確答案是「一樣」，答「不一樣」的比例掉到誤報率（EN01 .1），不是 50%。沒有 b₀ 的模型只能用負斜率去模仿地板，α 後驗跨零（EN01 P(α<0) = .48 → 負根 → 第 23 條那次 H = L = 2）。加 b₀ 後 α 確定為正（0.70，P(α<0) = 0），兩位都如此。
+  2. 50% 點對連結函數不敏感（EN01：二次式 23、飽和指數 27、ogival 27；yyc1110：13 / 13 / 16），因為它只需要曲線在哪裡穿過 0。
+  3. 「90% 正確率」不能當 H：LNRM 的正確率 Φ(√2·d/σ) 與 RT 離散共用 σ，WM 負荷下 σ ≈ 1.0–1.2，模型認為 90% 要 d_eff ≈ 1.1 而天花板只到 0.7–0.9，於是「永遠到不了」，資料卻在 50 以上全對。這是 LNRM 的結構，換曲線救不了。到頂點與 σ 無關。
+  4. 直線試過：解掉符號問題（P(α<0) .07）但不會「先陡後平」，把 90% 點推到 ΔE 78–95，跟 25 就 5/5 的 yyc1110 對不上。ogival 是 Houpt 自己的另一版（`lnrm2a.stan`、`simulateLNRM_ogival.R`），論文可直接引；他固定 L = 10，我們的天花板 d ≈ 0.7–1.0，所以 L 改估計。
+  5. 用中位數：根是 α/α₂ 型的比值分布，α₂ 蓋到 0 時平均不存在（同一筆資料 8 個 seed 平均 +500 ~ −8498，中位數 431–498）。
+- **結果**：EN01 顏色 L 25.2 [15, 42]、H 36.3 [18, 81]；yyc1110 L 15.2 [9, 21]、H 26.9 [18, 48]；都在範圍內、0–2 發散。聲音兩位 50% 點都在尺外（x50 中位數 −1.1 / −0.8，b₀ 負但 ogival 在 0 不為 0）→ L = 0.4 並警告，H ≈ 3.2；跟第 24 條一致：聲音要噪音。H 的可信區間寬是因為舊層級 40 以上只有兩級，新層級 45 / 70 就是為它放的。
+- **沒一起改的**：Psi 版（`PsiCalibrator`）仍可當替代，它只用對錯、沒有 σ 耦合，40–50 試能定 50% / 90% 點；目前先用 LNRM 版以保留 RT 資訊，兩位以上資料後比較。`LNRMCalibrator`、`find_salience`、`alpha2_rule` 全部保留，`bias=False` 時與 Houpt 逐字相同，對照測試不動。
+- **在哪**：adaptiveSFT `models_v2.build_model(bias=)`、`salience.find_points`、`tests/test_models_v2.py::test_bias_ogival_recovers_points`；Visual_AudioWM `adaptive_vawm_EN.py`（`CALIB_LINK / CALIB_BIAS / CALIB_PLATEAU`、`LEVELS_COLOUR`、`fit_points`）、`SFT_WM_nochange_EN.py`（`fit_calibration` 改呼叫 `fit_points`；機器人觀察者加 b₀ = −1）、`tests/test_adaptive_vawm.py::test_fit_points_same_different_observer`；json 的 `extra` 多了 `x50_*`、`plateau_*`、`params`（b₀、slope、midpoint、A）、`varZ`、`divergences`。
+
 ## 還沒決定的
-- **反解負根與 clip 規則**：`salience.py` 對 R :279 逐字對齊用 mean，負根沒有防護；`SFT_WM_nochange_EN.py:350-353` 把負數 clip 到最低級、再把 L 砍到最低級，等於把失敗改寫成合法設定。候選：丟負根再平均或用中位數；`low >= high` 時推 H 到 `hi_lim`；觸發時停下來要實驗者確認。層級改了之後 EN01 型的翻負應該少很多，但公式的洞還在。
+- ~~反解負根與 clip 規則~~ → 第 25 條定案（中位數、50% 點、L ≥ H 時推 H）。
 - **記憶負荷**：11-03 在 2 色 + 2 音負荷下聲音全部層級都在猜測率，純知覺卻在 d′ ≥ 2 全對。尺換成 d′ 後這個問題還在；要不要先只記聲音、縮短保留時間、或降項目數，使用者 11-10 表示目標數不改，其餘未定。
 - **受試者的母語**：11-03 的 pilot 受試者英語非母語，自述聽不出子音差異；聲音維度在 WM 作業裡落在猜的水準可能有一部分是這個。Cutler et al. (2004) 全文（`review/Cutler2004_全文查核.md`）：荷蘭聽者的 voicing 流失跟著 L1 的缺口走（詞尾），華語聽者的對應缺口是推論、未測。正式受試者是否限定英語母語者、或改用對非母語者也分得出的聲音刺激，要定。`sound_perception_EN.py` 的結果可以分開「分不出」和「記不住」。
 - adaptiveSFT 決定 A（DDM 的 `a` 是邊界距離還是分離）：只影響 DDM 模擬與 power scan 的數字，不影響實驗程式。
@@ -220,5 +232,5 @@
 2. 想改任何數字：先讀對應那一條的「為什麼」，再照最後那張表先跑測試、再改、再跑測試。
 3. 改了遮蔽（第 13 條）或作業形式（第 10 條）之後，之前校過的受試者要重校。
 4. 行號對不上時，用 grep 搜「在哪」裡的名字（例如 `grep -n alpha2_rule adaptive_vawm_EN.py`），不要猜。
-5. 「還沒決定的」如果有一天要定案，接著第 24 條往下加，格式照舊。
+5. 「還沒決定的」如果有一天要定案，接著第 25 條往下加，格式照舊。
 6. 改檔案結構、搬檔案、加常數之前先讀 `ARCHITECTURE.md`。
