@@ -40,8 +40,9 @@ VAWM_run 的內容 = `make_run_bundle.py --repo <VAWM_run>` 的輸出。要改�
 
 | 東西 | 唯一定義處 | 誰讀它 |
 |---|---|---|
-| 顏色／聲音校準水準 `LEVELS_COLOUR` / `LEVELS_AUDIO`（顏色 [8,14,20,28,40,90]，DECISIONS 23） | `adaptive_vawm_EN.py` | SFT 腳本（import）、純知覺測試、debug |
-| 漂移差目標 `H_TARG_DEFAULT` / `L_TARG_DEFAULT`（8.0 / 1.3） | `adaptive_vawm_EN.py` | SFT 腳本（import 成 H_TARG / L_TARG） |
+| 顏色／聲音校準水準 `LEVELS_COLOUR` / `LEVELS_AUDIO`（顏色 [8,14,20,28,45,70]，DECISIONS 23、25） | `adaptive_vawm_EN.py` | SFT 腳本（import）、純知覺測試、debug |
+| 校準模型與規則 `CALIB_LINK` (ogival) / `CALIB_BIAS` (b₀) / `CALIB_PLATEAU` (.9)；L = 50% 點、H = 到頂點 | `adaptive_vawm_EN.py`（`fit_points`） | SFT 腳本 `fit_calibration`（DECISIONS 25） |
+| Houpt 漂移差目標 `H_TARG_DEFAULT` / `L_TARG_DEFAULT`（8.0 / 1.3） | `adaptive_vawm_EN.py` | 只有 `LNRMCalibrator`（R 對齊測試、debug），實驗不用 |
 | 聲音軸（每對子音的 d′） | `stimuli/consonant_dprime.csv` ← `make_sound_pairs.py` ← `consonant_distance.py`（離線） | `adaptive_vawm_EN.load_dprime`；實驗只讀 csv |
 | 純知覺測試的 80 對 | `stimuli/sound_pairs.csv` ← `make_sound_pairs.py` | `sound_perception_EN.py` |
 | 顏色弧長 → hex | `agrt_colour_lut.json` ← `agrt_setup.py`（離線，需 colour-science） | GRT 腳本、`grtv3/colour.py` |
@@ -103,11 +104,11 @@ VAWM_run 的內容 = `make_run_bundle.py --repo <VAWM_run>` 的輸出。要改�
 | 任務 | 讀 | 不要讀 |
 |---|---|---|
 | 改 SFT 的試次數／比例／反應窗 | `SFT_WM_nochange_EN.py` 1–60 行、DECISIONS 14–18 | 其餘 400 行 |
-| 改校準水準／目標 | `adaptive_vawm_EN.py` 100–115 行、DECISIONS 3、7、21 | `LNRMCalibrator` 內部 |
+| 改校準水準／規則 | `adaptive_vawm_EN.py` 105–120 行與 `fit_points`、DECISIONS 23、25 | `LNRMCalibrator` 內部（R 對齊用） |
 | 改聲音軸 | `make_sound_pairs.py`、`consonant_distance.py` 的 docstring、`review/GRT擬合MN_B路線_D2.md` §4 | 擬合細節 |
 | 聲音裝置問題 | `audio_pick.py` 檔頭 docstring、`_env.bat` | 其他 |
 | SFT 噪音／SNR／種子 | `sft_noise.py` docstring、DECISIONS 24 | `snr_audio.py` 內部（它只借 wav 讀寫與位準常數） |
-| 擬合不收斂／H 到不了 | `adaptiveSFT/adaptivesft/salience.py`、`models_v2.py`、`review/pilot_2026-11-10_calibration.md` | `models.py`（v1）|
+| 擬合不收斂／點找不到 | `adaptivesft/salience.py` `find_points`、`models_v2.py`（`bias`）、DECISIONS 25 | `models.py`（v1）、`find_salience`（Houpt 對齊） |
 | GRT 流程 | branch modular 的 `grtv3/session.py`（200 行）與 `review/GRTv3_ada_模組化.md` 的對照表 | `GRTv3_ada_EN.py` 全文（2748 行）——用 grep 定位行號即可 |
 | 寫論文方法 | `review/paper_draft_sound_scale_EN.md`、`論文規格書_聲音軸.md` | 其他 review 筆記（它們是 dated records） |
 | 任何事 | — | `archive/`、`review/papers/*.pdf`（除非任務是查原文）、`data/*.psydat` |
