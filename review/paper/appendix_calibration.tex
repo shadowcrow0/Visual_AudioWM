@@ -66,6 +66,7 @@ The value 2 was not a fitted quantity. It is $\min(\text{levels})$, produced by 
 \begin{figure}[htbp]
 \caption{Colour Calibration Data of EN01 Against the Floor Assumed by the Symmetric Race Model}
 \label{fig:floor}
+\centering
 \includegraphics[width=\linewidth]{fig1_data_vs_model_floor}
 \note{Points are the proportion of \emph{different} responses at each level (5 trials each; bars are binomial standard errors). The dashed line is the false-alarm rate on same trials (.10), the task's empirical floor; the dotted line is the \SI{50}{\percent} floor implied by $d(0) = 0$.}
 \end{figure}
@@ -73,6 +74,7 @@ The value 2 was not a fitted quantity. It is $\min(\text{levels})$, produced by 
 \begin{figure}[htbp]
 \caption{Posterior Distribution of the Slope $\alpha$ Under the Symmetric Model}
 \label{fig:alpha}
+\centering
 \includegraphics[width=\linewidth]{fig2_alpha_posterior}
 \note{Quadratic link, no criterion; 4{,}000 draws. $P(\alpha < 0) = .50$.}
 \end{figure}
@@ -80,6 +82,7 @@ The value 2 was not a fitted quantity. It is $\min(\text{levels})$, produced by 
 \begin{figure}[htbp]
 \caption{Inverted H Across the Solvable Posterior Draws}
 \label{fig:Hroots}
+\centering
 \includegraphics[width=\linewidth]{fig3_H_root_distribution}
 \note{Symmetric-log abscissa. Of 1{,}314 draws with $\alpha_2 < 0$, 30 had a real root for the H target; two were negative. Red: mean ($-994$), the summary used by the script; blue: median (431). The green band is the presentable range.}
 \end{figure}
@@ -87,6 +90,7 @@ The value 2 was not a fitted quantity. It is $\min(\text{levels})$, produced by 
 \begin{figure}[htbp]
 \caption{Inverted L Across the Solvable Posterior Draws}
 \label{fig:Lroots}
+\centering
 \includegraphics[width=\linewidth]{fig4_L_root_distribution}
 \note{As Figure~\ref{fig:Hroots}, for the L target: 507 solvable draws, four negative, mean $-50$, median 50.}
 \end{figure}
@@ -98,6 +102,7 @@ The structural mismatch is removed by one additional parameter, an intercept $b_
 \begin{figure}[htbp]
 \caption{The Same Race Model Under a Symmetric Two-Alternative Task and Under a Same/Different Task}
 \label{fig:tasks}
+\centering
 \includegraphics[width=\linewidth]{fig5_two_tasks}
 \note{Illustrative curves with identical $\alpha$, $\alpha_2$ and $\sigma$; the blue curve adds a head start of the \emph{same} accumulator, $b_0 = -1.2$. The dotted lines mark the two floors.}
 \end{figure}
@@ -105,12 +110,14 @@ The structural mismatch is removed by one additional parameter, an intercept $b_
 \begin{figure}[htbp]
 \caption{Posterior of $\alpha$ on EN01's Data With and Without the Criterion}
 \label{fig:alphab0}
+\centering
 \includegraphics[width=\linewidth]{fig6_alpha_with_without_b0}
 \end{figure}
 
 \begin{figure}[htbp]
 \caption{Posterior-Median Predictions With and Without the Criterion Against EN01's Data}
 \label{fig:predb0}
+\centering
 \includegraphics[width=\linewidth]{fig7_prediction_with_without_b0}
 \note{The remaining underprediction at $\Delta E = 50$ (.85 predicted, 5/5 observed) reflects the shared $\sigma$ of accuracy and response time in the race model and is addressed in Section~\ref{sec:levels}.}
 \end{figure}
@@ -122,6 +129,7 @@ The criterion fixes the floor; the quadratic term governs the top of the curve, 
 \begin{figure}[htbp]
 \caption{Fitted Drift Advantage Under the Quadratic and the Logistic Link, Both With $b_0$}
 \label{fig:links}
+\centering
 \includegraphics[width=\linewidth]{fig8_quadratic_vs_ogival_drift}
 \note{Posterior medians with \SI{90}{\percent} bands; EN01, 30 trials. The quadratic's vertex is at $\Delta E \approx 64$.}
 \end{figure}
@@ -129,6 +137,7 @@ The criterion fixes the floor; the quadratic term governs the top of the curve, 
 \begin{figure}[htbp]
 \caption{Predicted Proportion of \emph{Different} Responses Under the Two Links Against EN01's Data}
 \label{fig:linkpred}
+\centering
 \includegraphics[width=\linewidth]{fig9_quadratic_vs_ogival_prediction}
 \end{figure}
 
@@ -143,6 +152,7 @@ The criterion fixes the floor; the quadratic term governs the top of the curve, 
 \begin{figure}[htbp]
 \caption{Mean and Median of the Inverted H Across Eight Sampler Seeds on the Same Data}
 \label{fig:seeds}
+\centering
 \includegraphics[width=\linewidth]{fig10_mean_vs_median_seeds}
 \note{Original model (quadratic link, no criterion). Labels give the number of negative draws among the solvable draws for each seed.}
 \end{figure}
@@ -150,6 +160,7 @@ The criterion fixes the floor; the quadratic term governs the top of the curve, 
 \begin{figure}[htbp]
 \caption{Inverted H as a Function of the Curvature Draw, for Three Values of the Slope}
 \label{fig:mechanism}
+\centering
 \includegraphics[width=\linewidth]{fig11_root_vs_alpha2}
 \note{Symmetric-log ordinate; the histogram is the posterior of $\alpha_2$ for the draws with $\alpha_2 < 0$. Positive-slope draws give bounded roots (about $20/\alpha$ $\Delta E$); negative-slope draws give roots that diverge as $\alpha_2 \to 0$.}
 \end{figure}
@@ -157,6 +168,7 @@ The criterion fixes the floor; the quadratic term governs the top of the curve, 
 \begin{figure}[htbp]
 \caption{Posterior Draws of the Two Calibration Points Under the Revised Model (Logistic Link With $b_0$), EN01}
 \label{fig:newpoints}
+\centering
 \includegraphics[width=\linewidth]{fig12_new_pipeline_points}
 \note{Left: \SI{50}{\percent} point; right: plateau onset. Draws beyond 400 $\Delta E$ are shown at 400.}
 \end{figure}
@@ -188,12 +200,14 @@ Revision, step 2 & 8, 14, 20, 28, 45, 70 & 8 (partly) & 14, 20, 28 & 45 / 70 \\
 \begin{figure}[htbp]
 \caption{Colour Calibration Performance of the Three Pilots and the Three Level Sets}
 \label{fig:pilots}
+\centering
 \includegraphics[width=\linewidth]{fig13_pilots_levels}
 \end{figure}
 
 \begin{figure}[htbp]
 \caption{Fitted Drift Curves, Plateau Estimates, and the Old and New Upper Levels}
 \label{fig:plateauci}
+\centering
 \includegraphics[width=\linewidth]{fig14_plateau_ci_levels}
 \note{Logistic link with $b_0$, EN01 and yyc1110; horizontal bars are \SI{90}{\percent} intervals of the plateau onset. The shaded region (30--50) is where both curves bend and where the pilot design had no trials.}
 \end{figure}
@@ -201,6 +215,7 @@ Revision, step 2 & 8, 14, 20, 28, 45, 70 & 8 (partly) & 14, 20, 28 & 45 / 70 \\
 \begin{figure}[htbp]
 \caption{Simulated Uncertainty of the Plateau Estimate Under the Three Level Sets}
 \label{fig:levelsim}
+\centering
 \includegraphics[width=\linewidth]{fig15_plateau_ci_by_levelset}
 \note{Observer parameters taken from EN01's fit (true plateau 35 $\Delta E$); five trials per level; six simulated data sets per level set.}
 \end{figure}
@@ -218,6 +233,7 @@ Revision, step 2 & 8, 14, 20, 28, 45, 70 & 8 (partly) & 14, 20, 28 & 45 / 70 \\
 \begin{figure}[htbp]
 \caption{Survivor Functions of Correct Response Times by Auditory Level in EN01's Main Task}
 \label{fig:survivor}
+\centering
 \includegraphics[width=\linewidth]{fig16_sound_survivor_functions}
 \note{Solid: double-change cells pooled by sound level; dashed: single-channel cells HA vs.\ LA. One-sided Kolmogorov--Smirnov $p$ values in the legend.}
 \end{figure}
@@ -225,6 +241,7 @@ Revision, step 2 & 8, 14, 20, 28, 45, 70 & 8 (partly) & 14, 20, 28 & 45 / 70 \\
 \begin{figure}[htbp]
 \caption{The Consonant-Pair $d'$ Scale and EN01's Auditory Calibration}
 \label{fig:dscale}
+\centering
 \includegraphics[width=\linewidth]{fig17_dprime_scale_vs_EN01}
 \note{Histogram: the 240 ordered pairs of the scale; the vertical line marks $d' = 0.8$. Points: proportion of \emph{different} responses at each calibration level (actual $d'$ after snapping to available foils).}
 \end{figure}
@@ -232,6 +249,7 @@ Revision, step 2 & 8, 14, 20, 28, 45, 70 & 8 (partly) & 14, 20, 28 & 45 / 70 \\
 \begin{figure}[htbp]
 \caption{Compression of the Pair Scale With Decreasing Signal-to-Noise Ratio in the Miller and Nicely (1955) Data}
 \label{fig:snr}
+\centering
 \includegraphics[width=\linewidth]{fig18_snr_shifts_scale}
 \note{$d' = 0.911 \times$ Luce distance \parencite{luce1963} computed from the confusion matrices at 0, $-6$ and $-12$ dB. The factor 0.911 was estimated at $-6$ dB only; the table used in the experiment has not yet been recomputed per SNR, and the SNR itself awaits the pilot.}
 \end{figure}
