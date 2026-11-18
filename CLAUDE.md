@@ -218,11 +218,13 @@ complexity of the question, not the effort spent on it.
 Keep what is load-bearing: caveats that change a decision, what was verified
 versus assumed, and the numbers behind a claim. Trim commentary, not evidence.
 
-**Use ASCII to visualize content when explaining concepts.** When something has
-structure — a timeline, a data flow, a grid, a state change, a before/after —
-draw it instead of describing it in prose. Label the boxes, keep it under ~15
-lines, put it in a fenced block so the alignment survives. Skip it when there
-is no structure to show (a yes/no answer, a single number).
+**Draw figures with Python, not ASCII.** When something has structure (a
+timeline, a data flow, a psychometric curve, a before/after, a pipeline), make
+a matplotlib figure from the real numbers, save it as PNG, send it, and
+explain it panel by panel. Keep ASCII art out of explanations; a markdown
+table is fine for a few numbers. Fonts: the dev container has WenQuanYi Zen Hei
+Mono for Chinese; use ASCII `-` and `b0` / `a2` rather than `−` / subscripts,
+which that font lacks.
 
 ## Conventions
 
