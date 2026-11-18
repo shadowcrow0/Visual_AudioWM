@@ -157,6 +157,13 @@ snr_runtime.py     the thin layer between snr_audio and the experiment:
 
 audio_device.py    resolves the output device BY NAME, never by index
                    (indices shift between machines and across replugging).
+
+sft_noise.py       SFT counterpart of snr_runtime: mixes the consonant
+                   tokens into speech-shaped noise at ONE session-wide SNR
+                   (`SND_SNR_DB` in SFT_WM_nochange_EN.py; None = clean).
+                   Seed per presentation = seed_for(phase, trial, slot):
+                   same for every participant, probe ≠ studied item, logged
+                   in snd_seed_*, rebuild() is bit-identical. DECISIONS 24.
 ```
 
 ## Gotchas that have already bitten
