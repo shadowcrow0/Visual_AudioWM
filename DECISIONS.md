@@ -190,6 +190,13 @@
 - **沒一起改的**：(1) 負根的平均與 clip 規則（見「還沒決定的」）；(2) `PROV_DE_L = 6`（聲音校準期間暫用的顏色 L）照三人資料是看不見的，要不要跟著搬到 20–30 待定；(3) 聲音層級——兩位英語 OK 的受試者六級幾乎全在天花板，斜面在 d′ 0.8 以下而 d′ 表沒有那一段，搬層級無解，是刺激對的問題。
 - **在哪**：`adaptive_vawm_EN.py:109`；`figures/make_procedure_figure_en.py:210`（示意圖）；`SFT_WM_nochange_EN.py` 由 import 取得。`debug_adaptivesft_EN.py:230` 與 `tests/test_adaptive_vawm.py:116,146` 的 [2,6,12,20,30,45] 是模擬觀察者自己的層級，與實驗無關，不改。
 
+## 24. SFT 的聲音加語音形噪音：整場一個 SNR，噪音種子 = hash(試次, 位置)，探測另一個種子（2026-11-18，SNR 值待 pilot）
+- **決定**：`SFT_WM_nochange_EN.py` 新增 `SND_SNR_DB`（預設 `None` = 乾淨，行為與之前完全相同）。設定後每一個語音呈現都由 `sft_noise.py` 即時混進語音形噪音，整場同一個 SNR；H / L 的差異仍然只有子音對。噪音種子 = `sft_noise.seed_for(<phase>, <試次識別>, <slot>)`（blake2b，跨機器穩定），學習項目 s1 / s2 與探測各一個種子；種子不含受試者編號，所以每個人在同一試同一位置聽到相同的噪音（固定刺激集，跟決定 20 把聲音對釘成表同一個精神）。每列資料寫 `snd_snr_db`、`snd_seed_s1 / s2 / probe`，`sft_noise.rebuild(wav, db, seed, path)` 逐位元重建。`sound_perception_EN.py --snr <dB>` 用同一套做 pilot。
+- **為什麼**：(1) d′ 表 240 對裡只有 14 對 < 0.8，兩位英語 OK 的受試者（yyc1110、EN01）六級幾乎全在天花板，L 校出來 0.93 / 1.57 仍是天花板，EN01 主實驗聲音 H / L 的存活函數分不開（KS p = .55，正確率 .92 / .90）；斜面在尺的左邊外面，搬層級無解。(2) 噪音把所有對的 d′ 一起往 0 壓，整把尺左移；這正是 Miller & Nicely 產生那些矩陣的操弄，d′ 表要用 M&N 同一 SNR 的矩陣重算（`consonant_distance.confusion_distance(snrs=(x,))`），不是乘係數——噪音對 place 線索壓得比 voicing / nasality 重，排序會變。(3) SNR 是環境常數不是層級，不進變異來源；種子綁試次與位置、不綁條件、更不綁顏色（綁顏色會讓兩個通道不獨立）。(4) 探測必須換種子：同一段噪音重播的「一樣」是波形相同，受試者可以配噪音紋路；不同噪音的「一樣」才是同一個子音。
+- **技術**：噪音前導 150 ms、尾 100 ms（起始不確定性，同 snr_audio），最長檔 0.93 s < 播放的 1 s；SNR 以 token 有效段（起始到結尾，−40 dB re 峰值）的 RMS 定義，混後整段正規化到 `snr_audio.OUTPUT_RMS`；LTAS 由 192 個 token 合併估計——token 的取樣率是說話者別的（15000–17000 Hz，5 種），所以 LTAS 在共同頻率軸上平均、噪音按各檔取樣率生成。乾淨模式播原檔（未正規化），所以乾淨與混音兩種模式的音量不同，pilot 比較 SNR 條件時不要混用乾淨條件當基準。
+- **還沒定**：SNR 的值。pilot：`sound_perception_EN.py --axis dprime --snr -6`（和 −12、0）各一位聽者，看 (a) 哪個 SNR 讓 d′ ≤ 1.5 那幾級掉到七成、d′ ≥ 3 還在天花板附近，(b) 12 位說話者在該 SNR 的排序跟 M&N 一致；然後重算 `stimuli/consonant_dprime.csv`（決定 21 的流程、換 SNR 參數），再把 `SND_SNR_DB` 設上去。
+- **在哪**：`sft_noise.py`（純 numpy，`python sft_noise.py` 自檢；`tests/test_sft_noise.py`）；`SFT_WM_nochange_EN.py`（`SND_SNR_DB`、`snd_path`、`run_calib_trial(..., tag)`、`run_sets`）；`sound_perception_EN.py --snr`；`debug_adaptivesft_EN.py` 第 8 項；`make_run_bundle.py` FILES。
+
 ## 還沒決定的
 - **反解負根與 clip 規則**：`salience.py` 對 R :279 逐字對齊用 mean，負根沒有防護；`SFT_WM_nochange_EN.py:350-353` 把負數 clip 到最低級、再把 L 砍到最低級，等於把失敗改寫成合法設定。候選：丟負根再平均或用中位數；`low >= high` 時推 H 到 `hi_lim`；觸發時停下來要實驗者確認。層級改了之後 EN01 型的翻負應該少很多，但公式的洞還在。
 - **記憶負荷**：11-03 在 2 色 + 2 音負荷下聲音全部層級都在猜測率，純知覺卻在 d′ ≥ 2 全對。尺換成 d′ 後這個問題還在；要不要先只記聲音、縮短保留時間、或降項目數，使用者 11-10 表示目標數不改，其餘未定。
@@ -213,5 +220,5 @@
 2. 想改任何數字：先讀對應那一條的「為什麼」，再照最後那張表先跑測試、再改、再跑測試。
 3. 改了遮蔽（第 13 條）或作業形式（第 10 條）之後，之前校過的受試者要重校。
 4. 行號對不上時，用 grep 搜「在哪」裡的名字（例如 `grep -n alpha2_rule adaptive_vawm_EN.py`），不要猜。
-5. 「還沒決定的」如果有一天要定案，接著第 23 條往下加，格式照舊。
+5. 「還沒決定的」如果有一天要定案，接著第 24 條往下加，格式照舊。
 6. 改檔案結構、搬檔案、加常數之前先讀 `ARCHITECTURE.md`。
