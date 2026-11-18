@@ -39,7 +39,7 @@ VAWM_run 的內容 = `make_run_bundle.py --repo <VAWM_run>` 的輸出。要改�
 
 | 東西 | 唯一定義處 | 誰讀它 |
 |---|---|---|
-| 顏色／聲音校準水準 `LEVELS_COLOUR` / `LEVELS_AUDIO` | `adaptive_vawm_EN.py` | SFT 腳本（import）、純知覺測試、debug |
+| 顏色／聲音校準水準 `LEVELS_COLOUR` / `LEVELS_AUDIO`（顏色 [8,14,20,28,40,90]，DECISIONS 23） | `adaptive_vawm_EN.py` | SFT 腳本（import）、純知覺測試、debug |
 | 漂移差目標 `H_TARG_DEFAULT` / `L_TARG_DEFAULT`（8.0 / 1.3） | `adaptive_vawm_EN.py` | SFT 腳本（import 成 H_TARG / L_TARG） |
 | 聲音軸（每對子音的 d′） | `stimuli/consonant_dprime.csv` ← `make_sound_pairs.py` ← `consonant_distance.py`（離線） | `adaptive_vawm_EN.load_dprime`；實驗只讀 csv |
 | 純知覺測試的 80 對 | `stimuli/sound_pairs.csv` ← `make_sound_pairs.py` | `sound_perception_EN.py` |
