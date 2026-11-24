@@ -127,6 +127,8 @@ grep 比讀全文便宜：`grep -n "^[A-Z_]* *=" SFT_WM_nochange_EN.py` 就能�
 
 `online/snr_pilot/` 是純知覺子音測驗的 jsPsych 版，給 Pavlovia 用來選 SNR（DECISIONS 24）。刺激由 `online/make_snr_pilot_stimuli.py` 用 `sft_noise` 預先混好（同一套 seed），瀏覽器只播檔案；`online/pavlovia_to_perception_csv.py` 把 Pavlovia 的資料轉回 `data/<id>_sound_perception_dprime_snr<dB>.csv`，分析腳本不用改。不是主實驗的替代品（RT 精度、環境不可控）。改試次設計要同時改 `sound_perception_EN.py` 與 `experiment.js`；這是刻意的兩份，因為語言不同。
 
+`online/calib_pilot/` 是「聲音校準前測」的試作（單一 SNR +6 dB、216 題不同 + 108 題相同、題目依頻譜圖差別鋪開；`online/make_calib_pilot_stimuli.py` 產生，讀 `analyze/out/acoustic_scale_pairs.csv`）。它是提案的試作，不是實驗的一部分：實驗主程式沒有因它改動，要不要採用見 `review/evaluation_2026-11-24_current_vs_proposed_sound_scale.md` §7。`online/snr_pilot/` 保持原樣（WEB01 的資料出自它）；兩者共用 `pack_stimuli.py` 與 `pavlovia_to_perception_csv.py`。
+
 ## 11. 事後分析（analyze/）
 
 `analyze/` 放的是「讀 `data/*.csv`、`*.json` 與 `stimuli/` 算出筆記裡那些數字」的程式，每支從 repo 根目錄執行（`python analyze/<name>.py`），清單與對應的筆記見 `analyze/README.md`。規則：

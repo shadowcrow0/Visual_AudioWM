@@ -1,0 +1,37 @@
+{
+ "hp": {
+  "file": "bundles/stim_hp.json",
+  "n": 18,
+  "mb": 4.23
+ },
+ "p1": {
+  "file": "bundles/stim_p1.json",
+  "n": 108,
+  "mb": 4.02
+ },
+ "p2": {
+  "file": "bundles/stim_p2.json",
+  "n": 108,
+  "mb": 4.04
+ },
+ "p3": {
+  "file": "bundles/stim_p3.json",
+  "n": 108,
+  "mb": 4.06
+ },
+ "p4": {
+  "file": "bundles/stim_p4.json",
+  "n": 108,
+  "mb": 4.01
+ },
+ "p5": {
+  "file": "bundles/stim_p5.json",
+  "n": 108,
+  "mb": 4.0
+ },
+ "p6": {
+  "file": "bundles/stim_p6.json",
+  "n": 108,
+  "mb": 4.06
+ }
+}

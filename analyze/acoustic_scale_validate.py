@@ -136,14 +136,19 @@ def main():
     print(f"\n2. {a.participant}「不同」試：n = {len(df)}，命中 {int(y.sum())}，漏 {int((1 - y).sum())}")
     out["listener"] = {"participant": a.participant, "n": int(len(df)), "misses": int((1 - y).sum())}
     snr_num = df.snd_snr_db.astype(float).values
+    one_snr = len(set(snr_num)) == 1                               # 單一 SNR 的場次（online/calib_pilot）：SNR 是常數，不能放進迴歸
     for m, lab in RULERS:
         au, ci, r = auc(df[m], y), boot_auc(df[m], y), pearsonr(df[m], y)[0]
         by = {s: auc(g[m], g.correct) for s, g in df.groupby("snr")}
-        b, aic = logistic(np.c_[snr_num, df[m].values], y)
+        if one_snr:
+            b, aic = logistic(df[[m]].values, y)
+            b = np.array([b[0], np.nan, b[1]])
+        else:
+            b, aic = logistic(np.c_[snr_num, df[m].values], y)
         out["listener"][m] = dict(auc=au, ci=ci, r=r, by_snr=by, aic_snr_plus_ruler=aic, coef_snr=float(b[1]), coef_ruler=float(b[2]))
-        print(f"   {lab:26s} AUC {au:.2f} [{ci[0]:.2f}, {ci[1]:.2f}]  r={r:+.2f}  AIC(SNR + 尺) {aic:6.1f}  SNR 係數 {b[1]:+.3f}   各 SNR " + " ".join(f"{s}:{v:.2f}" for s, v in by.items()))
-    out["listener"]["aic_snr_only"] = logistic(snr_num[:, None], y)[1]
-    print(f"   只放 SNR 的 AIC {out['listener']['aic_snr_only']:.1f}")
+        print(f"   {lab:26s} AUC {au:.2f} [{ci[0]:.2f}, {ci[1]:.2f}]  r={r:+.2f}  AIC({'尺' if one_snr else 'SNR + 尺'}) {aic:6.1f}  SNR 係數 {b[1]:+.3f}   各 SNR " + " ".join(f"{s}:{v:.2f}" for s, v in by.items()))
+    out["listener"]["aic_snr_only"] = logistic(np.empty((len(y), 0)) if one_snr else snr_num[:, None], y)[1]
+    print(f"   {'只有截距' if one_snr else '只放 SNR'} 的 AIC {out['listener']['aic_snr_only']:.1f}")
     g = df.groupby("pair").agg(hit=("correct", "mean"), n=("correct", "size"), mn=("mn_dprime", "mean"), ex=("ac_excess", "mean"),
                                ext=("ac_excess_talker", "mean"), dp=("ac_dprime", "mean"), ft=("features", "mean"))
     for nmin in (1, 3):

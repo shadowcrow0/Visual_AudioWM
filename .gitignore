@@ -33,6 +33,7 @@ review/paper/*.log
 # online pilot: the raw wavs are rebuilt by online/make_snr_pilot_stimuli.py; the bundles are what gets uploaded
 online/snr_pilot/stim/
 online/snr_pilot/conditions.csv
+online/calib_pilot/stim/
 
 # analyze/: the scripts are tracked, their outputs (tables, figures, refit json) are rebuilt by running them
 analyze/out/

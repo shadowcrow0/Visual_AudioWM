@@ -72,7 +72,8 @@ def curve(pid, n_boot, seed):
                x50=pooled["x50"], s=pooled["s"], lam=pooled["lam"], x90=pooled["x50"] + pooled["s"] * np.log(9),
                x50_ci95=[float(v) for v in np.percentile(boot[:, 0], [2.5, 97.5])], x90_ci95=[float(v) for v in np.percentile(boot[:, 1], [2.5, 97.5])],
                per_snr={f"{k:g}": dict(v, x90=v["x50"] + v["s"] * np.log(9), n=int((snr == k).sum())) for k, v in per.items()},
-               separate_vs_pooled=dict(lr=float(lr), df=df, p=float(chi2.sf(lr, df))), x_range=[float(x.min()), float(x.max())])
+               separate_vs_pooled=dict(lr=float(lr), df=df, p=float(chi2.sf(lr, df)) if df > 0 else None),      # 單一 SNR 的場次沒有「各自一條」可比
+               x_range=[float(x.min()), float(x.max())])
     return res, t, fa_d
 
 
@@ -91,7 +92,8 @@ if __name__ == "__main__":
     print(f"{a.participant}：「不同」試 {res['n_different']} 題，命中 {res['hit']:.2f}；誤報 " + " / ".join(f"{k} dB {v:.2f}" for k, v in res["false_alarm"].items()))
     print(f"  曲線中點 x50 = {res['x50']:.2f} dB [{res['x50_ci95'][0]:.2f}, {res['x50_ci95'][1]:.2f}]；到頂九成 x90 = {res['x90']:.2f} dB [{res['x90_ci95'][0]:.2f}, {res['x90_ci95'][1]:.2f}]；s = {res['s']:.2f}；λ = {res['lam']:.3f}")
     for k, v in res["per_snr"].items(): print(f"  SNR {float(k):+g} dB 單獨擬合：x50 {v['x50']:.2f}  x90 {v['x90']:.2f}  (n = {v['n']})")
-    sv = res["separate_vs_pooled"]; print(f"  各 SNR 各自一條 對 共用一條：概似比 {sv['lr']:.2f}，df {sv['df']}，p = {sv['p']:.3f}")
+    sv = res["separate_vs_pooled"]; multi = sv["p"] is not None
+    if multi: print(f"  各 SNR 各自一條 對 共用一條：概似比 {sv['lr']:.2f}，df {sv['df']}，p = {sv['p']:.3f}")
 
     fig, ax = plt.subplots(figsize=(8, 4.8)); xs = np.linspace(0, max(10.5, res["x_range"][1]), 300)
     for s in sorted(fa_d):
@@ -102,8 +104,9 @@ if __name__ == "__main__":
     for v, lab, ha, dx in ((res["x50"], f"曲線中點 {res['x50']:.1f} dB", "right", -0.08), (res["x90"], f"到頂九成 {res['x90']:.1f} dB", "left", 0.08)):
         ax.axvline(v, color="#7f8c8d", ls=":", lw=1.2); ax.text(v + dx, 0.03, lab, color="#7f8c8d", fontsize=9, ha=ha)   # 兩個標籤各放一側，兩條線很近時才不會疊在一起
     ax.set_xlabel("頻譜圖上的差別 x (dB，該題的說話者)"); ax.set_ylabel("回答「不一樣」的比例"); ax.set_ylim(0, 1.03); ax.set_xlim(-0.7, xs[-1])
-    ax.legend(frameon=False, fontsize=9, loc="lower right", title="三條線共用中點和斜率，只有誤報不同")
-    ax.set_title(f"{a.participant}：三個 SNR 共用一條換算曲線（各自一條 p = {sv['p']:.2f}）\n（點 = 每個 SNR 的「不同」題依 x 分四組 ± 1 SE；空心方塊 = 「相同」題的誤報）", loc="left", fontsize=10.5)
+    ax.legend(frameon=False, fontsize=9, loc="lower right", title="三條線共用中點和斜率，只有誤報不同" if multi else None)
+    head = f"{a.participant}：三個 SNR 共用一條換算曲線（各自一條 p = {sv['p']:.2f}）" if multi else f"{a.participant}：換算曲線（單一 SNR）"
+    ax.set_title(head + f"\n（點 = 每個 SNR 的「不同」題依 x 分四組 ± 1 SE；空心方塊 = 「相同」題的誤報）", loc="left", fontsize=10.5)
     for sp in ("top", "right"): ax.spines[sp].set_visible(False)
     fig.tight_layout(); fig.savefig(os.path.join(out, f"acoustic_scale_curve_{a.participant}.png")); plt.close(fig)
 

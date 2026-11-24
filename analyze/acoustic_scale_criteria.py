@@ -42,9 +42,12 @@ def c1_c2(t):
         res[f"auc_{name}"] = auc(t[col].values, y)
         res[f"auc_{name}_ci95"] = boot_auc(t[col].values, y)
     _, aic1 = logistic(t[[XCOL]].values, y)
-    b2, aic2 = logistic(t[[XCOL, "snr"]].values, y)
-    res.update(aic_x=aic1, aic_x_snr=aic2, aic_gain_from_snr=aic1 - aic2, snr_coef=float(b2[2]),
-               c1_pass=bool(res["auc_acoustic"] >= C1_MIN), c2_pass=bool(aic1 - aic2 < C2_MAX))
+    if t.snr.nunique() > 1:
+        b2, aic2 = logistic(t[[XCOL, "snr"]].values, y)
+        res.update(aic_x=aic1, aic_x_snr=aic2, aic_gain_from_snr=aic1 - aic2, snr_coef=float(b2[2]), c2_pass=bool(aic1 - aic2 < C2_MAX))
+    else:                                          # 單一 SNR 的場次（online/calib_pilot）：C2 問的是「加 SNR 有沒有幫助」，沒有第二個 SNR 就算不了
+        res.update(aic_x=aic1, aic_x_snr=None, aic_gain_from_snr=None, snr_coef=None, c2_pass=None)
+    res["c1_pass"] = bool(res["auc_acoustic"] >= C1_MIN)
     return res
 
 
@@ -99,8 +102,11 @@ if __name__ == "__main__":
         print(f"\n{pid}（「不同」試 {r['n']} 題，命中 {r['hit']:.2f}）")
         print(f"  C1 排序力：聲學尺 {r['auc_acoustic']:.2f} [{r['auc_acoustic_ci95'][0]:.2f}, {r['auc_acoustic_ci95'][1]:.2f}]"
               f"（M&N {r['auc_mn']:.2f}，特徵數 {r['auc_features']:.2f}）→ {'通過' if r['c1_pass'] else '未過'}（門檻 ≥ {C1_MIN}）")
-        print(f"  C2 單一軸：AIC(差別) {r['aic_x']:.1f}，AIC(差別 + SNR) {r['aic_x_snr']:.1f}，加 SNR 的改善 {r['aic_gain_from_snr']:+.1f}，"
-              f"SNR 係數 {r['snr_coef']:+.3f} / dB → {'通過' if r['c2_pass'] else '未過'}（門檻 < {C2_MAX}）")
+        if r["c2_pass"] is None:
+            print("  C2 單一軸：不適用（這一場只有一個 SNR）")
+        else:
+            print(f"  C2 單一軸：AIC(差別) {r['aic_x']:.1f}，AIC(差別 + SNR) {r['aic_x_snr']:.1f}，加 SNR 的改善 {r['aic_gain_from_snr']:+.1f}，"
+                  f"SNR 係數 {r['snr_coef']:+.3f} / dB → {'通過' if r['c2_pass'] else '未過'}（門檻 < {C2_MAX}）")
         c = r["c5_curve"]
         print(f"  C5 (a) 換算曲線：P = .5 的點 {c['x_half']:.2f} dB（合併誤報 {c['false_alarm_pooled']:.2f}；曲線中點 {c['x50_midpoint']:.2f}），"
               f"到頂九成 {c['x90']:.2f} dB，測過的範圍 {c['tested_range'][0]:.2f}–{c['tested_range'][1]:.2f} → {'在範圍內' if c['c5a_pass'] else '不在範圍內'}")
