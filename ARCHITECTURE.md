@@ -126,3 +126,13 @@ grep 比讀全文便宜：`grep -n "^[A-Z_]* *=" SFT_WM_nochange_EN.py` 就能�
 ## 10. 線上版（online/）
 
 `online/snr_pilot/` 是純知覺子音測驗的 jsPsych 版，給 Pavlovia 用來選 SNR（DECISIONS 24）。刺激由 `online/make_snr_pilot_stimuli.py` 用 `sft_noise` 預先混好（同一套 seed），瀏覽器只播檔案；`online/pavlovia_to_perception_csv.py` 把 Pavlovia 的資料轉回 `data/<id>_sound_perception_dprime_snr<dB>.csv`，分析腳本不用改。不是主實驗的替代品（RT 精度、環境不可控）。改試次設計要同時改 `sound_perception_EN.py` 與 `experiment.js`；這是刻意的兩份，因為語言不同。
+
+## 11. 事後分析（analyze/）
+
+`analyze/` 放的是「讀 `data/*.csv`、`*.json` 與 `stimuli/` 算出筆記裡那些數字」的程式，每支從 repo 根目錄執行（`python analyze/<name>.py`），清單與對應的筆記見 `analyze/README.md`。規則：
+
+- 相依方向：`analyze/*` → `adaptive_vawm_EN`、`snr_audio`、`consonant_distance`、`adaptiveSFT`。**實驗程式不得 import `analyze/`**；它不進 `make_run_bundle.py`、不上實驗機、不進公開的 VAWM_run（讀的是受試者資料）。
+- 不複製常數：層級、目標值、單位換算從 `adaptive_vawm_EN` 讀；取樣設定 `FIT_KW` 用 `analyze/_common.experiment_fit_kw()` 從 `SFT_WM_nochange_EN.py` 以 ast 讀出（那個檔 import 就要 PsychoPy）。
+- 過濾規則只寫在 `analyze/_common.py`（RT 窗、`other == "T"`、block 0 = 練習），各支程式共用，數字才對得起來。
+- 輸出寫到 `analyze/out/`（gitignore）；要放進筆記的圖另外複製到 `review/figures/`。
+- 只有檔名以 `calibration_refit` / `calibration_link_comparison` / `calibration_seed_stability` 開頭的三支需要 PyMC；其餘只要 numpy / scipy / pandas / matplotlib。
