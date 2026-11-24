@@ -2,7 +2,7 @@
  *
  *   node online/calib_pilot_browser_test.js [out.csv] [extra query, e.g. "maxtrials=12&skipcheck=1"]
  *
- * It serves the folder on localhost, fills the intake form, answers the headphone check from the plan, and answers
+ * It serves the folder on localhost, answers the headphone check from the plan, and answers
  * every pair trial about 300 ms after the second syllable starts: correctly, except that every 7th trial is answered
  * wrongly and every 50th is left unanswered (so "Wrong" and "No response" are exercised too).
  * Needs the Playwright that ships with the dev container (require('playwright')); not part of the experiment. */
@@ -21,13 +21,14 @@ const PORT = 8765, dir = path.join(__dirname, "calib_pilot");
   page.on("pageerror", e => console.log("PAGE ERROR:", e.message));
   await page.route("**/lib.pavlovia.org/**", r => r.abort());                // no Pavlovia here: the page falls back to local mode
   const t0 = Date.now();
-  await page.goto(`http://127.0.0.1:${PORT}/index.html?participant=test${extra}`);
-  // the placeholder id must be refused
-  await page.fill("#lang", "English"); await page.selectOption("#home", "yes"); await page.fill("#age", "0");
-  await page.click("button[type=submit]");
-  const refused = await page.textContent("#err");
-  console.log("placeholder id refused:", /participant code/.test(refused));
-  await page.fill("#pid", "BROWSERTEST"); await page.click("button[type=submit]");
+  // a placeholder id in the link must be replaced by a generated one, and nothing may be asked before the test
+  const probe = await browser.newPage(); await probe.route("**/lib.pavlovia.org/**", r => r.abort());
+  await probe.goto(`http://127.0.0.1:${PORT}/index.html?participant=test&skipcheck=1&maxtrials=1`);
+  await probe.waitForFunction(() => window.jsPsychInstance && window.jsPsychInstance.getCurrentTrial());
+  const gen = await probe.evaluate(() => ({ pid: window.__pid, form: !!document.querySelector("form") }));
+  console.log("placeholder id replaced:", /^P\d{8}_\d{6}$/.test(String(gen.pid)), gen.pid, "| form on the page:", gen.form);
+  await probe.close();
+  await page.goto(`http://127.0.0.1:${PORT}/index.html?participant=BROWSERTEST${extra}`);
 
   let last = -1, pairs = 0;
   for (;;) {

@@ -3,15 +3,14 @@
  * two syllables 0.5 s apart, y = same / n = different, answer from the onset of syllable 2 within 4 s, 0.6 s feedback.
  * Stimuli are pre-mixed; the browser only plays files and records keys.
  *
- * Before anything loads the page asks for: participant id (never the placeholder "test"), native language, whether
- * English was spoken at home in childhood, and the age English was first learned. All four are required and are written
- * on every data row.
+ * The participant is asked nothing before the test. The id is taken from the link; without one (or with a placeholder
+ * such as "test") the page makes an id from the date and time. Language background is recorded by the researcher.
  *
- * URL parameters:  ?participant=ID          prefills the id
+ * URL parameters:  ?participant=ID          the participant id (letters, digits, - or _)
  *                  ?skipcheck=1             no headphone test (testing only)
  *                  ?order_seed=N            fixes the trial order (default: drawn at random and logged)
  *                  ?maxtrials=N             only the first N trials of the order (testing only; logged as test_maxtrials)
- * Data columns per pair trial: participant, design, snr_db, order_seed, native_language, english_at_home, english_start_age,
+ * Data columns per pair trial: participant, id_source, design, snr_db, order_seed,
  * task=pair, trial, row, is_same, consonant, foil, talker, group, pair, pair_type, voicing_only, x_acoustic, x_acoustic_pair,
  * bin, mn_dprime, feature_distance, snd1, snd2, seed1, seed2, key, rt, correct.
  * seed1 / seed2 are STRINGS: a 64-bit integer stored as a JS number is rounded and can no longer rebuild the stimulus. */
@@ -33,39 +32,20 @@ function shuffled(n, seed) {
   return idx;
 }
 
-// ---- intake form: plain DOM, so no extra jsPsych plugin has to be uploaded ----
-function intake() {
-  return new Promise(resolve => {
-    document.body.innerHTML = `
-      <form id="intake" class="intake" autocomplete="off">
-        <h2>Consonant listening test</h2>
-        <p>About 20 minutes. Please use headphones and sit somewhere quiet.</p>
-        <label>Participant code (given to you by the researcher)<br><input id="pid" type="text" maxlength="24"></label>
-        <label>What is your native language (the first language you learned)?<br><input id="lang" type="text" maxlength="40"></label>
-        <label>Was English spoken in your home when you were a child?<br>
-          <select id="home"><option value="">choose…</option><option value="yes">yes</option><option value="no">no</option></select></label>
-        <label>At what age did you start learning English? (0 if from birth)<br><input id="age" type="number" min="0" max="99" step="1"></label>
-        <p id="err" class="err"></p>
-        <button type="submit">Continue</button>
-      </form>`;
-    const $ = id => document.getElementById(id);
-    $("pid").value = params.get("participant") || "";
-    $("intake").addEventListener("submit", ev => {
-      ev.preventDefault();
-      const pid = $("pid").value.trim(), lang = $("lang").value.trim(), home = $("home").value, age = $("age").value.trim();
-      const bad = [];
-      if (BAD_IDS.includes(pid.toLowerCase()) || !/^[A-Za-z0-9_-]+$/.test(pid)) bad.push("a participant code (letters, digits, - or _; not a placeholder such as “test”)");
-      if (lang.length < 2) bad.push("your native language");
-      if (!home) bad.push("whether English was spoken at home");
-      if (age === "" || isNaN(parseInt(age)) || parseInt(age) < 0) bad.push("the age you started learning English");
-      if (bad.length) { $("err").textContent = "Please fill in: " + bad.join("; ") + "."; return; }
-      resolve({ participant: pid, native_language: lang, english_at_home: home, english_start_age: parseInt(age) });
-    });
-  });
+// ---- participant id: no questions are asked ----
+// The id comes from the link (?participant=CAL01). A link without one, or with a placeholder such as "test", gets an id
+// made from the local date and time, so two sessions can never be stored under the same placeholder (that happened once:
+// a whole session arrived as "test"). The researcher keeps the participant's language background in the lab notes.
+function participantId() {
+  const given = (params.get("participant") || "").trim();
+  if (/^[A-Za-z0-9_-]+$/.test(given) && !BAD_IDS.includes(given.toLowerCase())) return { participant: given, id_source: "link" };
+  const d = new Date(), z = n => String(n).padStart(2, "0");
+  return { participant: `P${d.getFullYear()}${z(d.getMonth() + 1)}${z(d.getDate())}_${z(d.getHours())}${z(d.getMinutes())}${z(d.getSeconds())}`, id_source: "generated" };
 }
 
-intake().then(who => {
+Promise.resolve(participantId()).then(who => {
   const PID = who.participant;
+  window.__pid = PID;                    // test hook
   const jsPsych = initJsPsych({
     on_finish: () => {
       if (!onPavlovia) {
@@ -93,7 +73,7 @@ intake().then(who => {
     document.body.innerHTML = "";
     window.__hp = cond.headphone_check;   // test hook: lets an automated driver answer the headphone check
     jsPsych.data.addProperties({ participant: PID, design: cond.design, plan_seed: cond.plan_seed, snr_db: cond.snr_db, order_seed: String(ORDER_SEED),
-                                 native_language: who.native_language, english_at_home: who.english_at_home, english_start_age: who.english_start_age,
+                                 id_source: who.id_source,
                                  test_maxtrials: MAX_TRIALS === null ? "" : MAX_TRIALS, user_agent: navigator.userAgent });
     let order = shuffled(cond.trials.length, ORDER_SEED);
     if (MAX_TRIALS !== null) order = order.slice(0, MAX_TRIALS);
@@ -109,7 +89,9 @@ intake().then(who => {
     const page = (html) => ({ type: jsPsychHtmlKeyboardResponse, stimulus: html, choices: [" "], post_trial_gap: 300 });
     const fix = (ms) => ({ type: jsPsychHtmlKeyboardResponse, stimulus: "<div class='fix'>+</div>", choices: "NO_KEYS", trial_duration: ms });
 
-    timeline.push(page(`<p>Thank you. Set the volume to a comfortable level now (it will not change during the test).</p>
+    timeline.push(page(`<p>Welcome. This listening test takes about 20 minutes.</p>
+      <p><b>Please use headphones</b> and sit somewhere quiet.</p>
+      <p>Set the volume to a comfortable level now (it will not change during the test).</p>
       <p>Press the space bar to continue.</p>`));
 
     // ---- headphone screening (Woods et al., 2017) ----

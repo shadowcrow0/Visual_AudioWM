@@ -13,9 +13,9 @@
 | 題目的單位 | 子音對，說話者隨機 | 子音對 × 說話者；x 用該說話者兩個音檔的值 |
 | 只差清濁的對子 | 碰巧抽到（WEB01 只有 f–v 3 題） | 7 對全放，每對 6 題（`:52`、`:96-102`） |
 | 說話者 | 12 個編號隨機 | 三組聲音之間平衡，組別記進資料（`:49`） |
-| 題目順序 | 三段各自洗牌，種子沒記 | 整場洗一次，`order_seed` 記進資料，可重建（`experiment.js:22`、`:28`） |
-| 開頭 | 只有網址帶的受試者編號 | 表單：編號、母語、小時候家裡說不說英語、幾歲開始學英語，四項必填（`experiment.js:37`） |
-| 噪音種子 | 數字（被瀏覽器四捨五入過） | 字串（`make_calib_pilot_stimuli.py:151`、`experiment.js:155`） |
+| 題目順序 | 三段各自洗牌，種子沒記 | 整場洗一次，`order_seed` 記進資料，可重建（`experiment.js:21`、`:27`） |
+| 開頭 | 只有網址帶的受試者編號 | 不問任何問題。編號來自網址；沒帶或是 `test` 這類佔位字，就用當下的日期時間產生一個（`experiment.js:39`）。母語等背景由研究者另外記錄 |
+| 噪音種子 | 數字（被瀏覽器四捨五入過） | 字串（`make_calib_pilot_stimuli.py:151`、`experiment.js:137`） |
 
 試次的時間結構、按鍵（Y 相同 / N 不同）、回饋、耳機檢查都沿用。
 
@@ -80,7 +80,8 @@ python online/pack_stimuli.py calib_pilot
    - 路徑必須正好是 `js/...` 和 `bundles/...`。**不要建 `lib/`**：Pavlovia 保留這個名字，有它就會拒絕同步。
 3. 實驗狀態設成 **Piloting** 可以免費試跑；**Running** 才能正式收（要點數或授權）。
 4. 給受試者的連結：`https://run.pavlovia.org/<帳號>/<實驗名>/?participant=CAL01`
-   - `participant=` 會預先填進表單；不帶也可以，受試者要自己填。`test`、`anon` 這類佔位字會被表單拒絕（`experiment.js:24`）。
+   - 編號只從 `participant=` 來，頁面不會問受試者任何問題。不帶、或帶的是 `test`、`anon` 這類佔位字（`experiment.js:23`），頁面會自己產生 `P年月日_時分秒` 當編號，資料的 `id_source` 欄寫 `generated`。
+   - **母語等背景頁面不記錄**，請在發連結時自己記下「編號 ↔ 是誰、母語是什麼」。
    - 測試用：`&skipcheck=1` 跳過耳機檢查；`&maxtrials=12` 只跑前 12 題；`&order_seed=數字` 固定題目順序。
 5. 資料：Dashboard → 該實驗 → Download results，每位受試者一個 CSV。
 
@@ -96,7 +97,7 @@ python analyze/acoustic_scale_criteria.py --participants <id> --fit-points   # C
 ```
 
 - 檔名沿用實驗室版的樣式，所以 `analyze/` 的程式直接讀得到；`axis` 欄寫 `acoustic`，`x` / `count` 欄放的是該對在 d′ 表上的值（給「現在的尺」那一欄的比較用），聲學差別在新增的 `x_acoustic` 欄。
-- json 會保留母語等三題的回答、`order_seed`、耳機檢查結果（`pavlovia_to_perception_csv.py:102-108`）。
+- json 會保留 `order_seed`、耳機檢查結果（`pavlovia_to_perception_csv.py:102-108`）。母語等欄位頁面不再收集，json 裡會是空的。
 - **同一個人做過 `snr_pilot` 的 +6 dB 再做這個，檔名會撞**。轉檔程式遇到「檔案已存在而內容不同」會停下來（`:44`），請用 `--id 新編號` 存成另一個編號（例如 `WEB01C`）。
 - 資料檔若帶的是佔位字編號，轉檔會拒絕，要用 `--id` 指定（`:64`）。
 - 單一 SNR 的場次，判準 C2（加 SNR 有沒有幫助）不適用，程式會印「不適用」（`analyze/acoustic_scale_criteria.py:45`）；`acoustic_scale_validate.py` 的迴歸不放 SNR（`:139`）。這三支程式對 WEB01、yyc1116 印出的結果改動前後逐字相同（json 的數值相同）。
@@ -105,9 +106,9 @@ python analyze/acoustic_scale_criteria.py --participants <id> --fit-points   # C
 
 **瀏覽器實跑**（`node online/calib_pilot_browser_test.js`；無頭 Chromium，本機靜態伺服器，沒有 Pavlovia）：
 
-- 佔位字編號 `test` 被表單拒絕；耳機檢查 6 題跑完並通過。
+- 耳機檢查 6 題跑完並通過。（2026-11-24 拿掉開頭表單後重測：網址帶 `test` 時頁面改用自動產生的編號、頁面上沒有任何表單；含耳機檢查跑 14 題通過。整場 324 題的實跑是拿掉表單之前做的，題目迴圈沒有改。）
 - 324 題全部跑到，題目清單的每一列各出現一次；216 不同 + 108 相同。
-- 資料檔欄位齊全，母語等四項每列都有；種子是 17–19 位數的完整字串，324 題與題目清單逐位相同。
+- 資料檔欄位齊全；種子是 17–19 位數的完整字串，324 題與題目清單逐位相同。
 - 題目順序可以從記下的 `order_seed` 重建，與資料一致。
 - 計分正確：測試程式每 7 題故意答錯、每 50 題不作答，記錄的對錯與預期 324 / 324 相符。
 - 轉檔後 324 列、26 欄，json 帶著問卷與 `order_seed`。
@@ -131,12 +132,12 @@ python analyze/acoustic_scale_criteria.py --participants <id> --fit-points   # C
 
   `fit_points` 的 x 傳入前除以 2 再乘回來，這是 `analyze/acoustic_scale_criteria.py` 的做法，不是實驗的設定。它的 H 定義（ogival 到頂九成）與換算曲線的 x90 不是同一個量，所以數值不同。
 
-**時間**：WEB01 做 `snr_pilot` 的 324 題含說明與耳機檢查是 19.7 分鐘（實測）；這裡題數相同，多一張表單和一次休息，估計 20–21 分鐘。瀏覽器測試（每題 0.3 秒就作答、不讀說明）跑完是 14.9 分鐘，這是下限。
+**時間**：WEB01 做 `snr_pilot` 的 324 題含說明與耳機檢查是 19.7 分鐘（實測）；這裡題數相同，多一次休息，估計約 20 分鐘。瀏覽器測試（每題 0.3 秒就作答、不讀說明）跑完是 14.9 分鐘，這是下限。
 
 **沒有驗證到的**：
 
 - **Pavlovia 上傳與存檔**這一段在這裡測不了；頁面在沒有 Pavlovia 時走的是「結束後提供下載」的分支。
-- 真人的作答速度、表單在手機或其他瀏覽器上的樣子、實際耳機上的音量。
+- 真人的作答速度、頁面在手機或其他瀏覽器上的樣子、實際耳機上的音量。
 - 模擬假設聽者就是那條曲線、每題獨立、沒有練習效果。斜率更平或誤報更高的聽者（例如 yyc1116：誤報 .23–.47、x90 約 5.7 dB）區間會更寬；可以用 `--x50 --s --lam --fa` 重跑。
 - 題目的 x 來自 `analyze/acoustic_scale_compute.py`（每個音檔 6 個噪音種子的平均），不是每一題實際播放那兩段噪音的值。先前的檢查顯示兩者相關 1.00（那份檢查還沒進 repo）。
 
