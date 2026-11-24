@@ -18,3 +18,14 @@ audio_device.txt
 # make_run_bundle.py 的輸出（實驗機用的打包）
 VAWM_run.zip
 _bundle/
+
+# LaTeX build files (review/paper); the PDF is kept
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.run.xml
+review/paper/*.log
