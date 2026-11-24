@@ -38,6 +38,7 @@ python analyze/<name>.py --help                           # 每支都有
 | `acoustic_scale_use.py` | 前兩支的輸出 | 差別在時間上的位置、視窗敏感度、差別 → 命中的邏輯曲線、各 SNR 下 120 對的分布、差別最小 / 最大的對、與 M&N 最難 20 對的重疊 | 企劃書 §2 的分布表、E8、E12；§5 的換算 |
 | `acoustic_scale_figs.py` | 前三支的輸出 | 七張圖 | `review/figures/fig24-fig29` |
 | `acoustic_scale_design_check.py` | 前三支的輸出 | 驗證實驗建議的 40 對；模擬三種情境下各判準的值（每人 AUC、組間 / 折半 ρ、清濁對殘差） | 企劃書 §6 的參考值、附錄 A |
+| `acoustic_scale_listener_curve.py` | `acoustic_scale_trials_<聽者>.csv`（validate 的輸出）、該聽者的 pilot csv | 換算曲線：x50、x90、bootstrap 區間、各 SNR 能否共用一條；與另一位聽者的四等分對照 | `review/pilot_2026-11-24_WEB01_snr_pilot.md` §4、`review/figures/fig31-fig32` |
 | `_common.py` | — | 路徑、字型、讀檔與過濾規則、不經 PyMC 載入 `sic.py`、用 ast 讀實驗的 `FIT_KW` | — |
 
 聲學尺的五支要依序跑（compute → validate → use → figs / design_check），後面的讀前面寫在 `analyze/out/` 的檔。

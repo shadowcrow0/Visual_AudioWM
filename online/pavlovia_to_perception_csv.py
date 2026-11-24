@@ -38,6 +38,10 @@ def convert(path):
         print(f"{path}: no pair trials"); return
     pid = pairs[0]["participant"]
     hp = [r for r in rows if r.get("task") == "hpcheck"]
+    # The browser stores the 64-bit noise seeds as doubles, so the data file has them rounded (…9237 -> …9200) and a
+    # rounded seed cannot rebuild the stimulus. The exact seeds are in the plan the page was built from: take them by row.
+    plan = os.path.join(HERE, "snr_pilot", "conditions.json")
+    exact = {int(t["row"]): (t["seed1"], t["seed2"]) for t in json.load(open(plan, encoding="utf-8"))["trials"]} if os.path.exists(plan) else {}
     hp_correct = sum(int(float(val(r["correct"]) or 0)) for r in hp)
     os.makedirs(os.path.join(ROOT, "data"), exist_ok=True)
     for snr in sorted({float(r["snr_db"]) for r in pairs}):
@@ -45,10 +49,11 @@ def convert(path):
         out = []
         for r in blk:
             rt = val(r["rt"]); key = val(r["key"]); corr = val(r["correct"])
+            s1, s2 = exact.get(int(r["row"]), (r["seed1"], r["seed2"]))
             out.append(dict(participant=pid, trial=int(r["trial"]), axis="dprime", is_same=int(r["is_same"]),
-                            x_planned=val(r["x_planned"]), x=val(r["x"]), consonant=r["consonant"], foil=r["foil"], count=None,
+                            x_planned=val(r["x_planned"]), x=val(r["x"]), consonant=r["consonant"], foil=r["foil"], count=val(r["x"]),
                             feature_distance=val(r["feature_distance"]), talker=r["talker"], snd1=r["snd1"], snd2=r["snd2"],
-                            snd_snr_db=snr, snd_seed_1=r["seed1"], snd_seed_2=r["seed2"], key=key,
+                            snd_snr_db=snr, snd_seed_1=s1, snd_seed_2=s2, key=key,
                             rt=float(rt) / 1000.0 if rt is not None else None, correct=int(float(corr)) if corr is not None else None))
         base = os.path.join(ROOT, "data", f"{pid}_sound_perception_dprime_snr{snr:g}")
         with open(base + ".csv", "w", newline="", encoding="utf-8") as f:
