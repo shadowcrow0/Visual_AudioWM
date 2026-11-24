@@ -33,7 +33,14 @@ python analyze/<name>.py --help                           # 每支都有
 | `calibration_link_comparison.py` **PyMC** | 同上 | 二次式 / 直線 / ogival × 有無 b0，加飽和指數：50% 點、90% 點、斜率跨零的比例 | DECISIONS 25「為什麼」1-3 |
 | `calibration_seed_stability.py` **PyMC** | 同上（預設 EN01 s001 顏色） | 舊規則（二次式、反解目標、取平均）換 8 個取樣種子：平均與中位數 | DECISIONS 25「為什麼」4；「-994 怎麼來的」；`review/paper` fig10 |
 | `main_task_summary.py` | `data/*_simple_main.csv` | 九個條件的正確率與 RT、AA 誤報逐 block、存活函數序（兩個方向的單尾 KS）、Houpt dominance、KS-SIC | s002 筆記 §3；DECISIONS 24「為什麼 (1)」；fig16、fig22、fig23 |
+| `acoustic_scale_compute.py` | `stimuli/T??_<子音>3.wav`；噪音用 `sft_noise` | 每一對 × 每個 SNR（乾淨、+12、+6、0、-6 dB）：頻譜圖差、噪音底、扣掉噪音底後的「差別」、留一位說話者的樣板觀察者 d′ | `review/proposal_2026-11-24_language_independent_sound_scale.md` §2、§5；約 25 秒 |
+| `acoustic_scale_validate.py` | 上一支的輸出、`stimuli/consonant_dprime.csv`、`data/<id>_sound_perception_dprime_snr<dB>.csv`、EN01 的校準 trials | 聲學尺對 M&N（r、ρ）；對非母語聽者逐題比三把尺（AUC + 拔靴區間、AIC、四等分命中）；對 EN01 乾淨條件 | 企劃書 §2 的 E2、E3、E5-E7、E10 |
+| `acoustic_scale_use.py` | 前兩支的輸出 | 差別在時間上的位置、視窗敏感度、差別 → 命中的邏輯曲線、各 SNR 下 120 對的分布、差別最小 / 最大的對、與 M&N 最難 20 對的重疊 | 企劃書 §2 的分布表、E8、E12；§5 的換算 |
+| `acoustic_scale_figs.py` | 前三支的輸出 | 七張圖 | `review/figures/fig24-fig29` |
+| `acoustic_scale_design_check.py` | 前三支的輸出 | 驗證實驗建議的 40 對；模擬三種情境下各判準的值（每人 AUC、組間 / 折半 ρ、清濁對殘差） | 企劃書 §6 的參考值、附錄 A |
 | `_common.py` | — | 路徑、字型、讀檔與過濾規則、不經 PyMC 載入 `sic.py`、用 ast 讀實驗的 `FIT_KW` | — |
+
+聲學尺的五支要依序跑（compute → validate → use → figs / design_check），後面的讀前面寫在 `analyze/out/` 的檔。
 
 ## 共用的過濾規則（都在 `_common.py`）
 
@@ -49,6 +56,7 @@ python analyze/<name>.py --help                           # 每支都有
 - 「沒有類別就只能比原始聲音」：程式給的是事後分組的誤報差與未校正的 p；θ ð v 同時也是最弱的音，兩種解釋分不開。
 - 「這批錄音的 80-350 Hz 差 9-18 dB」是量測；「母語者用這條線索」是文獻，不是這裡量的。
 - `calibration_refit.py` 的 L / H 是「現行版對舊資料會給什麼」；舊資料的層級沒有涵蓋轉彎處，區間很寬。
+- 聲學尺（`acoustic_scale_*`）量的是「聲音裡有多少差別」，不是「聽者用了多少」；排序力 .74 來自一位非母語聽者的事後比較。「難 / 易」的界線是用同一位聽者、同一批資料換算的，只是示意。`acoustic_scale_design_check.py` 的數字是模擬。
 
 ## 驗證（2026-11-24，全部用 `/usr/bin/python3` 實跑；PyMC 三支都是完整取樣 1000 × 4 鏈）
 
@@ -64,6 +72,11 @@ python analyze/<name>.py --help                           # 每支都有
 | `calibration_link_comparison.py`（seed 15） | 50% 點 EN01 二次式 23.3、飽和指數 26.8；yyc1110 12.8 / 12.9 / 15.5；沒有 b0 的二次式 P(α<0) = .47 ✓（ogival 見下） |
 | `calibration_seed_stability.py` | seed 15 的 H 平均 -993.9；8 個種子中位數 422-493、平均在 seed 12 / 15 翻成負的 ✓ |
 | `main_task_summary.py` | s002 正確率表、AA 誤報 .21（block 1 .36 → block 6 .12）、Houpt p .13-.98、SIC D+ .085 p = .74 / D- .134 p = .47；s001 正確率 .92 / .90 ✓ |
+| `acoustic_scale_compute.py` | 與整理前的版本逐格相同（600 列 × 36 欄，最大差 0）；各 SNR 的平均差別 10.09 / 5.95 / 4.35 / 2.89 / 1.66 dB ✓ |
+| `acoustic_scale_validate.py` | yyc1116 210 題、漏 47；排序力 M&N .56 [.48, .64]、特徵數 .63 [.55, .70]、聲學尺 .74 [.67, .81]、樣板 d′ .69；AIC 221.8 / 215.2 / 201.5；四等分 .53 / .77 / .87 / .94；對 M&N 表 r = .21（+6 dB）；EN01 71 題中 67 題可反推、漏 5 ✓ |
+| `acoustic_scale_use.py` | 難 / 中 / 易：乾淨 0/1/119、+12 12/43/65、+6 51/27/42、0 67/40/13、-6 95/25/0；.75 在 3.1 dB、.90 在 5.3 dB；最難 20 對重疊 4；視窗敏感度 .73-.75（只看母音開頭 100 ms：.56）✓ |
+| `acoustic_scale_figs.py` | +6 dB 時 0.4 kHz 以下剩 17%、3 kHz 以上剩 62%；d 對 z（T01）12.0 → 4.3 dB ✓ |
+| `acoustic_scale_design_check.py`（500 次，seed 20261124） | 兩組相同：組間 ρ .90 [.86, .94]、清濁殘差 0.01 [-0.31, 0.35]；一組清濁對差 2 logit：ρ .81 [.74, .86]、殘差 -2.00 [-2.31, -1.71]（模擬，不是資料） |
 
 ## 與筆記對不上的地方（重跑時發現的）
 
