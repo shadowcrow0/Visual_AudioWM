@@ -65,7 +65,9 @@ python analyze/<name>.py --help                           # 每支都有
 | `calibration_seed_stability.py` | seed 15 的 H 平均 -993.9；8 個種子中位數 422-493、平均在 seed 12 / 15 翻成負的 ✓ |
 | `main_task_summary.py` | s002 正確率表、AA 誤報 .21（block 1 .36 → block 6 .12）、Houpt p .13-.98、SIC D+ .085 p = .74 / D- .134 p = .47；s001 正確率 .92 / .90 ✓ |
 
-## 與筆記對不上的地方（重跑時發現的；筆記本身沒有改，等決定怎麼更正）
+## 與筆記對不上的地方（重跑時發現的）
+
+第 1-3 點已在 2026-11-24 更正進筆記（`review/pilot_2026-11-24_EN01_s002.md` §3、DECISIONS 24、`review/pilot_2026-11-18_snr_pilot.md` 讀法 2、論文附錄的 Selective-influence 段與 fig16、`review/figures/fig22-23`），原文旁都留了更正註記。第 4-5 點是定義或先驗不同，筆記維持原樣。下面保留當初的差異紀錄。
 
 1. **存活函數序的方向標反了。** `review/pilot_2026-11-24_EN01_s002.md` §3 寫「聲音：S_H < S_L 預期方向 p = .44」「顏色：預期方向 p = .42」，DECISIONS 24 寫 EN01 s001「KS p = .55」。這三個數字是 `_ks_one_sided(H, L, "less")`，它的統計量是 max(F_L − F_H)，檢的是「L 較快」（違反的方向），不是預期方向。預期方向（H 較快，`"greater"`）是：
 
