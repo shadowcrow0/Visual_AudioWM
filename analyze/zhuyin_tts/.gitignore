@@ -1,0 +1,7 @@
+model/
+venv/
+out/
+out*/
+BlueMagpie-TTS/
+__pycache__/
+*.wav
