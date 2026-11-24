@@ -122,3 +122,7 @@ grep 比讀全文便宜：`grep -n "^[A-Z_]* *=" SFT_WM_nochange_EN.py` 就能�
    claude/grtv3-ada-adaptivesft-feasibility-btx6w8   工作分支，與 main 等價（每次 push 兩邊都推）
    modular                                 GRTv3_ada 的 grtv3/ 套件版；main 定期合進來；驗過再反向合併
 ```
+
+## 10. 線上版（online/）
+
+`online/snr_pilot/` 是純知覺子音測驗的 jsPsych 版，給 Pavlovia 用來選 SNR（DECISIONS 24）。刺激由 `online/make_snr_pilot_stimuli.py` 用 `sft_noise` 預先混好（同一套 seed），瀏覽器只播檔案；`online/pavlovia_to_perception_csv.py` 把 Pavlovia 的資料轉回 `data/<id>_sound_perception_dprime_snr<dB>.csv`，分析腳本不用改。不是主實驗的替代品（RT 精度、環境不可控）。改試次設計要同時改 `sound_perception_EN.py` 與 `experiment.js`；這是刻意的兩份，因為語言不同。
