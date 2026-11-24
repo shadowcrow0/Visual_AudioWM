@@ -17,7 +17,7 @@ plt = C.setup_plot()
 out = C.out_dir()
 R = json.load(open(os.path.join(out, "acoustic_scale_criteria.json")))
 RULERS = (("mn", "Miller & Nicely 的 d'\n（現在的尺）", "#95a5a6"), ("features", "差幾個發音特徵", "#d35400"), ("acoustic", "頻譜圖上的差別\n（企劃書主線的軸）", "#2471a3"))
-NOTE = {"WEB01": "新聽者，母語未記錄；算法定案後才看到的資料", "yyc1116": "非英語母語；發展這把尺時用的資料"}
+NOTE = {"WEB01": "新聽者，英語母語；算法定案後才看到的資料", "yyc1116": "非英語母語；發展這把尺時用的資料"}
 
 fig, ax = plt.subplots(figsize=(8.2, 4.8))
 ids = [p for p in ("yyc1116", "WEB01") if p in R]
