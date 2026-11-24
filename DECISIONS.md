@@ -209,6 +209,11 @@
 - **沒一起改的**：Psi 版（`PsiCalibrator`）仍可當替代，它只用對錯、沒有 σ 耦合，40–50 試能定 50% / 90% 點；目前先用 LNRM 版以保留 RT 資訊，兩位以上資料後比較。`LNRMCalibrator`、`find_salience`、`alpha2_rule` 全部保留，`bias=False` 時與 Houpt 逐字相同，對照測試不動。
 - **在哪**：adaptiveSFT `models_v2.build_model(bias=)`、`salience.find_points`、`tests/test_models_v2.py::test_bias_ogival_recovers_points`；Visual_AudioWM `adaptive_vawm_EN.py`（`CALIB_LINK / CALIB_BIAS / CALIB_PLATEAU`、`LEVELS_COLOUR`、`fit_points`）、`SFT_WM_nochange_EN.py`（`fit_calibration` 改呼叫 `fit_points`；機器人觀察者加 b₀ = −1）、`tests/test_adaptive_vawm.py::test_fit_points_same_different_observer`；json 的 `extra` 多了 `x50_*`、`plateau_*`、`params`（b₀、slope、midpoint、A）、`varZ`、`divergences`。
 
+## 26. SFT 的色塊不畫框（2026-11-24）
+- **決定**：`SFT_WM_nochange_EN.py` 三個色塊（左、右、探測）的 `lineColor` 從灰色 `#808080` 改成 `black`，與背景同色，等於沒有框。
+- **為什麼**：使用者 11-24 指定。灰框是 Builder 時代留下的預設，對顏色判斷是多餘的邊界線索（框與色塊的對比會隨色塊亮度變，小色差時可能成為額外訊號）。
+- **在哪**：`SFT_WM_nochange_EN.py` 建立 `patch_l / patch_r / patch_c` 的三行。受試者看到的畫面因此改變：11-24 之前的資料是有框的。
+
 ## 還沒決定的
 - ~~反解負根與 clip 規則~~ → 第 25 條定案（中位數、50% 點、L ≥ H 時推 H）。
 - **記憶負荷**：11-03 在 2 色 + 2 音負荷下聲音全部層級都在猜測率，純知覺卻在 d′ ≥ 2 全對。尺換成 d′ 後這個問題還在；要不要先只記聲音、縮短保留時間、或降項目數，使用者 11-10 表示目標數不改，其餘未定。
@@ -232,5 +237,5 @@
 2. 想改任何數字：先讀對應那一條的「為什麼」，再照最後那張表先跑測試、再改、再跑測試。
 3. 改了遮蔽（第 13 條）或作業形式（第 10 條）之後，之前校過的受試者要重校。
 4. 行號對不上時，用 grep 搜「在哪」裡的名字（例如 `grep -n alpha2_rule adaptive_vawm_EN.py`），不要猜。
-5. 「還沒決定的」如果有一天要定案，接著第 25 條往下加，格式照舊。
+5. 「還沒決定的」如果有一天要定案，接著第 26 條往下加，格式照舊。
 6. 改檔案結構、搬檔案、加常數之前先讀 `ARCHITECTURE.md`。
