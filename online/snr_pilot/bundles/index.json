@@ -1,0 +1,37 @@
+{
+ "hp": {
+  "file": "bundles/stim_hp.json",
+  "n": 18,
+  "mb": 4.23
+ },
+ "snr0_s1": {
+  "file": "bundles/stim_snr0_s1.json",
+  "n": 108,
+  "mb": 4.03
+ },
+ "snr0_s2": {
+  "file": "bundles/stim_snr0_s2.json",
+  "n": 108,
+  "mb": 4.05
+ },
+ "snr6_s1": {
+  "file": "bundles/stim_snr6_s1.json",
+  "n": 108,
+  "mb": 4.03
+ },
+ "snr6_s2": {
+  "file": "bundles/stim_snr6_s2.json",
+  "n": 108,
+  "mb": 4.05
+ },
+ "snr12_s1": {
+  "file": "bundles/stim_snr12_s1.json",
+  "n": 108,
+  "mb": 4.03
+ },
+ "snr12_s2": {
+  "file": "bundles/stim_snr12_s2.json",
+  "n": 108,
+  "mb": 4.05
+ }
+}

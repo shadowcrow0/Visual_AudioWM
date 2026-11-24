@@ -27,16 +27,26 @@ const jsPsych = initJsPsych({
 });
 jsPsych.data.addProperties({ participant: PID, snr_order: SNR_ORDER.join("|"), user_agent: navigator.userAgent });
 
-fetch("conditions.json").then(r => r.json()).then(cond => {
+// The sounds come as base64 bundles (online/pack_stimuli.py) so the whole experiment is a dozen files that can be
+// uploaded one by one through GitLab's web UI. Each wav becomes a Blob URL; "stim/<name>" is mapped to that URL.
+const SRC = {};
+const b64url = (b64) => { const bin = atob(b64); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return URL.createObjectURL(new Blob([u], { type: "audio/wav" })); };
+const snd = (name) => SRC[name.replace(/^stim\//, "")] || name;
+document.body.innerHTML = "<p style='font-size:22px;margin:40px'>Loading the sounds (about 20 MB)…</p>";
+const needed = [SKIP_CHECK ? null : "hp"].filter(Boolean).concat(SNR_ORDER.flatMap(s => [`snr${s}_s1`, `snr${s}_s2`]));
+Promise.all([fetch("conditions.json").then(r => r.json())].concat(needed.map(g => fetch(`bundles/stim_${g}.json`).then(r => r.json()))))
+.then(([cond, ...bundles]) => {
+  bundles.forEach(b => Object.entries(b).forEach(([name, b64]) => { SRC[name] = b64url(b64); }));
+  document.body.innerHTML = "";
   window.__hp = cond.headphone_check;   // test hook: lets an automated driver answer the headphone check
   const timeline = [];
   if (onPavlovia) timeline.push({ type: jsPsychPavlovia, command: "init" });
 
   const files = [];
-  cond.headphone_check.forEach(t => t.files.forEach(f => files.push("stim/" + f)));
-  cond.trials.forEach(t => SNR_ORDER.forEach(s => { files.push(t[`file1_snr${s}`]); files.push(t[`file2_snr${s}`]); }));
+  cond.headphone_check.forEach(t => t.files.forEach(f => files.push(snd(f))));
+  cond.trials.forEach(t => SNR_ORDER.forEach(s => { files.push(snd(t[`file1_snr${s}`])); files.push(snd(t[`file2_snr${s}`])); }));
   timeline.push({ type: jsPsychPreload, audio: files, show_progress_bar: true, max_load_time: 600000,
-                  message: "<p class='center'>Loading the sounds (about 20 MB)…</p>" });
+                  message: "<p class='center'>Preparing the sounds…</p>" });
 
   const page = (html) => ({ type: jsPsychHtmlKeyboardResponse, stimulus: html, choices: [" "], post_trial_gap: 300 });
   const fix = (ms, cls = "fix") => ({ type: jsPsychHtmlKeyboardResponse, stimulus: `<div class='${cls}'>+</div>`, choices: "NO_KEYS", trial_duration: ms });
@@ -52,7 +62,7 @@ fetch("conditions.json").then(r => r.json()).then(cond => {
       <p>Press the space bar to begin.</p>`));
     cond.headphone_check.forEach(t => {
       t.files.forEach((f, i) => {
-        timeline.push({ type: jsPsychAudioKeyboardResponse, stimulus: "stim/" + f, choices: "NO_KEYS", trial_ends_after_audio: true,
+        timeline.push({ type: jsPsychAudioKeyboardResponse, stimulus: snd(f), choices: "NO_KEYS", trial_ends_after_audio: true,
                         prompt: `<div class='fix'>${i + 1}</div>`, post_trial_gap: 300 });
       });
       timeline.push({ type: jsPsychHtmlKeyboardResponse, stimulus: "<p class='center'>Which tone was the quietest?  1 / 2 / 3</p>", choices: ["1", "2", "3"],
@@ -85,9 +95,9 @@ fetch("conditions.json").then(r => r.json()).then(cond => {
                      consonant: t.consonant, foil: t.foil, feature_distance: t.feature_distance, talker: t.talker,
                      snd1: t.snd1, snd2: t.snd2, seed1: String(t.seed1), seed2: String(t.seed2) };
       timeline.push(fix(300));
-      timeline.push({ type: jsPsychAudioKeyboardResponse, stimulus: t[`file1_snr${snr}`], choices: "NO_KEYS", trial_ends_after_audio: true,
+      timeline.push({ type: jsPsychAudioKeyboardResponse, stimulus: snd(t[`file1_snr${snr}`]), choices: "NO_KEYS", trial_ends_after_audio: true,
                       prompt: "<div class='fix'>+</div>", post_trial_gap: ISI_MS });
-      timeline.push({ type: jsPsychAudioKeyboardResponse, stimulus: t[`file2_snr${snr}`], choices: ["y", "n"], response_allowed_while_playing: true,
+      timeline.push({ type: jsPsychAudioKeyboardResponse, stimulus: snd(t[`file2_snr${snr}`]), choices: ["y", "n"], response_allowed_while_playing: true,
                       trial_duration: RESP_WINDOW_MS + 1000, response_ends_trial: true, prompt: "<div class='fix'>+</div>", data: base,
                       on_finish: d => { d.key = d.response; d.correct = d.response === null ? null : ((d.response === "y") === (d.is_same === 1) ? 1 : 0); } });
       timeline.push({ type: jsPsychHtmlKeyboardResponse, choices: "NO_KEYS", trial_duration: FEEDBACK_MS,

@@ -5,19 +5,27 @@ choosing the session-wide SNR of the SFT task (DECISIONS 24) without a lab visit
 same stimuli (pre-mixed with the lab's own seeds), plus a headphone screen.
 
 ```
- online/snr_pilot/
-    index.html, experiment.js      the experiment (jsPsych 7.3.4; lib/ vendored, no CDN)
-    conditions.json / .csv         the fixed 108-row plan: pair, talker, level, seeds, file names per SNR
-    stim/                          648 pre-mixed syllables (r<row>_s<1|2>_snr<dB>.wav) + 18 headphone-check tones, 21 MB
- online/make_snr_pilot_stimuli.py  rebuilds stim/ and conditions.* from stimuli/*.wav with sft_noise (deterministic)
+ online/snr_pilot/                 <- upload THIS folder's files (13 files, each < 5 MB)
+    index.html, experiment.js      the experiment (jsPsych 7.3.4)
+    conditions.json                the fixed 108-row plan: pair, talker, level, seeds, file names per SNR
+    lib/  (5 files)                jsPsych + 3 plugins + css, vendored (no CDN)
+    bundles/  (7 files)            the sounds as base64 JSON: stim_hp.json + stim_snr<dB>_s<1|2>.json, ~4 MB each
+    stim/                          the 666 wav files the bundles were made from (not needed online; not in git)
+ online/make_snr_pilot_stimuli.py  rebuilds stim/ and conditions.json from stimuli/*.wav with sft_noise (deterministic)
+ online/pack_stimuli.py            stim/ -> bundles/
  online/pavlovia_to_perception_csv.py   turns a Pavlovia data file into data/<id>_sound_perception_dprime_snr<dB>.csv + .json
 ```
+
+Why bundles: GitLab's web upload takes one file at a time, so 666 wavs would need git. Thirteen files can be
+uploaded by hand. In the browser each wav is unpacked into memory (a Blob URL) before the experiment starts.
 
 ## Put it on Pavlovia
 
 1. pavlovia.org → Dashboard → **Experiments** → New: pick *jsPsych*, give it a name. Pavlovia creates a GitLab repo.
-2. Upload this whole folder (`index.html`, `experiment.js`, `conditions.json`, `lib/`, `stim/`) into that repo
-   (GitLab web upload, or `git clone` the repo, copy the files in, `git push`).
+2. Put the files into that repo. **Web UI, no git**: open the repo on gitlab.pavlovia.org → `+` → *Upload file*
+   for `index.html`, `experiment.js`, `conditions.json`; then `+` → *New directory* `lib` and upload its 5 files
+   into it; same for `bundles` and its 7 JSON files (paths must be exactly `lib/...` and `bundles/...`).
+   **With git**: `git clone` the repo, copy the same 13 files in, `git push`.
 3. Set the experiment to **Piloting** to try it (free), **Running** to collect (needs credits or a licence).
 4. Participant link: `https://run.pavlovia.org/<user>/<experiment>/?participant=XX` — add `&snr=0,6,12` to set the
    block order (default), `&snr=6` for one block, `&skipcheck=1` to skip the headphone screen (testing only).
