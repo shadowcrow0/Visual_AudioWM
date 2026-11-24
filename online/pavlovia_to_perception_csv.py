@@ -19,6 +19,11 @@ COLS = ["participant", "trial", "axis", "is_same", "x_planned", "x", "consonant"
         "talker", "snd1", "snd2", "snd_snr_db", "snd_seed_1", "snd_seed_2", "key", "rt", "correct"]
 
 
+def val(v):
+    """jsPsych writes null as the string 'null' (and sometimes '') in its CSV."""
+    return None if v in (None, "", "null") else v
+
+
 def z(p, n):
     from statistics import NormalDist
     p = min(max(p, 0.5 / n), 1 - 0.5 / n)
@@ -33,19 +38,18 @@ def convert(path):
         print(f"{path}: no pair trials"); return
     pid = pairs[0]["participant"]
     hp = [r for r in rows if r.get("task") == "hpcheck"]
-    hp_correct = sum(int(r["correct"] or 0) for r in hp)
+    hp_correct = sum(int(float(val(r["correct"]) or 0)) for r in hp)
     os.makedirs(os.path.join(ROOT, "data"), exist_ok=True)
     for snr in sorted({float(r["snr_db"]) for r in pairs}):
         blk = sorted([r for r in pairs if float(r["snr_db"]) == snr], key=lambda r: int(r["trial"]))
         out = []
         for r in blk:
-            rt = float(r["rt"]) / 1000.0 if r["rt"] not in ("", "null") else None
-            key = r["key"] if r["key"] not in ("", "null") else None
+            rt = val(r["rt"]); key = val(r["key"]); corr = val(r["correct"])
             out.append(dict(participant=pid, trial=int(r["trial"]), axis="dprime", is_same=int(r["is_same"]),
-                            x_planned=r["x_planned"] or None, x=r["x"] or None, consonant=r["consonant"], foil=r["foil"], count=None,
-                            feature_distance=r["feature_distance"] or None, talker=r["talker"], snd1=r["snd1"], snd2=r["snd2"],
-                            snd_snr_db=snr, snd_seed_1=r["seed1"], snd_seed_2=r["seed2"], key=key, rt=rt,
-                            correct=int(r["correct"]) if r["correct"] not in ("", "null") else None))
+                            x_planned=val(r["x_planned"]), x=val(r["x"]), consonant=r["consonant"], foil=r["foil"], count=None,
+                            feature_distance=val(r["feature_distance"]), talker=r["talker"], snd1=r["snd1"], snd2=r["snd2"],
+                            snd_snr_db=snr, snd_seed_1=r["seed1"], snd_seed_2=r["seed2"], key=key,
+                            rt=float(rt) / 1000.0 if rt is not None else None, correct=int(float(corr)) if corr is not None else None))
         base = os.path.join(ROOT, "data", f"{pid}_sound_perception_dprime_snr{snr:g}")
         with open(base + ".csv", "w", newline="", encoding="utf-8") as f:
             w = csv.DictWriter(f, fieldnames=COLS); w.writeheader(); w.writerows(out)
