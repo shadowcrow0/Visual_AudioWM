@@ -43,7 +43,7 @@ Promise.all([fetch("conditions.json").then(r => r.json())].concat(needed.map(g =
   if (onPavlovia) timeline.push({ type: jsPsychPavlovia, command: "init" });
 
   const files = [];
-  cond.headphone_check.forEach(t => t.files.forEach(f => files.push(snd(f))));
+  if (!SKIP_CHECK) cond.headphone_check.forEach(t => t.files.forEach(f => files.push(snd(f))));
   cond.trials.forEach(t => SNR_ORDER.forEach(s => { files.push(snd(t[`file1_snr${s}`])); files.push(snd(t[`file2_snr${s}`])); }));
   timeline.push({ type: jsPsychPreload, audio: files, show_progress_bar: true, max_load_time: 600000,
                   message: "<p class='center'>Preparing the sounds…</p>" });
