@@ -16,7 +16,7 @@ python analyze/<name>.py --help                           # 每支都有
 
 輸出（表、圖、重算的 json）預設寫到 `analyze/out/`（gitignore；`--out` 可改）。要放進筆記的圖另外複製到 `review/figures/`。
 
-相依：numpy、scipy、pandas、matplotlib；adaptiveSFT repo 要找得到（跟實驗一樣：放在隔壁、或設 `ADAPTIVESFT_PATH`）。
+相依：numpy、scipy、pandas、matplotlib；adaptiveSFT repo 要找得到（跟實驗一樣：放在隔壁、或設 `ADAPTIVESFT_PATH`）。`stimuli_voice_check.py` 的母音共振峰另需 praat-parselmouth（沒裝會略過那一項）。
 標「PyMC」的三支另外要 pymc + nutpie（`setup_pymc_coder.bat` 裝的那套）。中文字型 WenQuanYi Zen Hei；沒有的話圖上的中文會變方塊，數字不受影響。
 
 ## 每支程式
@@ -39,6 +39,9 @@ python analyze/<name>.py --help                           # 每支都有
 | `acoustic_scale_figs.py` | 前三支的輸出 | 七張圖 | `review/figures/fig24-fig29` |
 | `acoustic_scale_design_check.py` | 前三支的輸出 | 驗證實驗建議的 40 對；模擬三種情境下各判準的值（每人 AUC、組間 / 折半 ρ、清濁對殘差） | 企劃書 §6 的參考值、附錄 A |
 | `acoustic_scale_listener_curve.py` | `acoustic_scale_trials_<聽者>.csv`（validate 的輸出）、該聽者的 pilot csv | 換算曲線：x50、x90、bootstrap 區間、各 SNR 能否共用一條；與另一位聽者的四等分對照 | `review/pilot_2026-11-24_WEB01_snr_pilot.md` §4、`review/figures/fig31-fig32` |
+| `acoustic_scale_criteria.py` | `acoustic_scale_trials_<聽者>.csv`、該聽者的 pilot csv；`--fit-points` 需要 PyMC | 企劃書 §6 的逐人判準 C1（排序力）、C2（加 SNR 的 AIC 改善）、C5（換算曲線與 `fit_points` 的 L / H 是否在範圍內；`--by-snr` 每場各跑一次） | `review/evaluation_2026-11-24_current_vs_proposed_sound_scale.md` §5 |
+| `stimuli_voice_check.py` | `stimuli/T??_*3.wav`、`acoustic_scale_pairs.csv`；母音共振峰需要 praat-parselmouth | 12 個說話者編號兩兩的音量包絡相關、各編號的音高、母音 F1–F3、聲學尺上同一對在組內 / 組間的差異 | 同上 §3、`review/figures/fig34` |
+| `evaluation_figs.py` | 上兩支的 json | 三把尺在兩位聽者上的排序力；說話者相關矩陣 | `review/figures/fig33-fig34` |
 | `_common.py` | — | 路徑、字型、讀檔與過濾規則、不經 PyMC 載入 `sic.py`、用 ast 讀實驗的 `FIT_KW` | — |
 
 聲學尺的五支要依序跑（compute → validate → use → figs / design_check），後面的讀前面寫在 `analyze/out/` 的檔。
