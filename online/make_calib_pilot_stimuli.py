@@ -1,13 +1,20 @@
 """Build the ONLINE calibration pilot (online/calib_pilot/): 216 different + 108 same consonant pairs at ONE SNR,
 spread evenly along the acoustic axis (spectrogram difference in our noise), every syllable pre-mixed.
 
-    python analyze/acoustic_scale_compute.py             # once: writes analyze/out/acoustic_scale_pairs.csv (about 25 s)
-    python online/make_calib_pilot_stimuli.py            # writes calib_pilot/stim/*.wav, conditions.json, design.csv, design.png
+    python online/make_calib_pilot_stimuli.py            # +3 dB (version 2): writes calib_pilot/stim/*.wav, conditions.json, design.csv, design.png
     python online/pack_stimuli.py calib_pilot            # stim/ -> bundles/
+    python online/check_pavlovia_deploy.py --write-manifest
+    python online/make_calib_pilot_stimuli.py --snr 6 --out DIR    # version 1 (+6 dB, what CAL01 heard) rebuilt into DIR, byte-identical conditions.json
+
+Versions. v1 = +6 dB, built 2026-11-25, one session (CAL01): too easy for him, six of the eight bins at ceiling
+(review/pilot_2026-11-26_CAL01_calib_pilot.md). v2 = +3 dB, built 2026-11-26, the SNR the SFT experiment now uses
+(DECISIONS 27). Only SNR changed: same bins, same rules, same PLAN_SEED; the plan itself differs because every x is
+smaller in more noise, so other pair x talker units land in each bin. The data file says which version it is
+(snr_db). The noise seeds depend on the row number only, so they are the same in both versions.
 
 Why a second pilot instead of changing online/snr_pilot/: that one produced WEB01's data and must stay rebuildable.
 What is different here (review/evaluation_2026-11-24_current_vs_proposed_sound_scale.md §7, step 1):
-- One SNR (+6 dB). A single 72-trial block per SNR could not be calibrated for either listener; ~216 trials at one SNR can.
+- One SNR. A single 72-trial block per SNR could not be calibrated for either listener; ~216 trials at one SNR can.
 - The unit is pair x talker and its x is the acoustic difference of THAT talker's two files at this SNR
   (analyze/acoustic_scale_compute.py, columns ex_T01..ex_T12), not the d' table. Trials fill 1-dB bins from 0.5 to 8.5 dB
   as evenly as the material allows, so the slope AND the ceiling are sampled.
@@ -38,13 +45,19 @@ import sft_noise  # noqa: E402
 import make_snr_pilot_stimuli as snr_pilot  # noqa: E402   (headphone-check tones: same generator)
 from adaptive_vawm_EN import TALKERS, audio_x, feature_distance, load_dprime, sound_file  # noqa: E402
 
-SNR = 6.0
+def _arg(flag, default):
+    return sys.argv[sys.argv.index(flag) + 1] if flag in sys.argv else default
+
+
+SNR = float(_arg("--snr", 3.0))                  # v2 = 3.0 (default), v1 = 6.0
+BUILT = {6.0: "2026-11-25", 3.0: "2026-11-26"}   # written into conditions.json; a fixed date per version keeps the file reproducible
 N_DIFF, N_SAME = 216, 108
 EDGES = np.arange(0.5, 9.0, 1.0)                 # 8 bins: 0.5-1.5, ..., 7.5-8.5 dB
 PLAN_SEED = 20261125
-OUT = os.path.join(HERE, "calib_pilot")
+OUT = os.path.abspath(_arg("--out", os.path.join(HERE, "calib_pilot")))
 STIM = os.path.join(OUT, "stim")
 PAIRS_CSV = os.path.join(ROOT, "analyze", "out", "acoustic_scale_pairs.csv")
+PAIRS_CSV_SNR = os.path.join(ROOT, "analyze", "out", f"acoustic_scale_pairs_snr{SNR:g}.csv")    # for an SNR the main table does not have
 
 GROUPS = {"G1": TALKERS[0:6], "G2": TALKERS[6:9], "G3": TALKERS[9:12]}       # analyze/stimuli_voice_check.py
 GROUP_OF = {t: g for g, ts in GROUPS.items() for t in ts}
@@ -55,20 +68,40 @@ pair_type = lambda a, b: "".join(sorted([CLASS[a], CLASS[b]], key="SFN".index)) 
 
 
 def load_acoustic():
-    """{(pair, talker): x} and {pair: 12-talker mean} at SNR, from analyze/acoustic_scale_compute.py."""
-    if not os.path.exists(PAIRS_CSV):
-        raise SystemExit(f"missing {PAIRS_CSV}: run  python analyze/acoustic_scale_compute.py  first")
-    x, mean = {}, {}
-    with open(PAIRS_CSV, encoding="utf-8") as f:
-        for r in csv.DictReader(f):
-            if r["snr"] in ("clean",) or float(r["snr"]) != SNR:
-                continue
-            p = pair_key(r["a"], r["b"])
-            mean[p] = float(r["excess"])
-            for t in TALKERS:
-                x[(p, t)] = float(r[f"ex_{t}"])
+    """{(pair, talker): x} and {pair: 12-talker mean} at SNR, from analyze/acoustic_scale_compute.py.
+
+    The main table (acoustic_scale_pairs.csv) holds the SNRs listeners were tested at (12 / 6 / 0 / -6 dB). For any other
+    SNR the same functions are run for that one SNR and cached next to it; the algorithm is not touched, only the module's
+    SNR list (analyze/snr_candidates_compare.py does the same and checks that 0 and 6 dB come out identical to the table).
+    """
+    def read(path):
+        x, mean = {}, {}
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as f:
+                for r in csv.DictReader(f):
+                    if r["snr"] in ("clean",) or float(r["snr"]) != SNR:
+                        continue
+                    p = pair_key(r["a"], r["b"])
+                    mean[p] = float(r["excess"])
+                    for t in TALKERS:
+                        x[(p, t)] = float(r[f"ex_{t}"])
+        return x, mean
+
+    x, mean = read(PAIRS_CSV)
+    if not mean:
+        x, mean = read(PAIRS_CSV_SNR)
+    if not mean:
+        # In a SEPARATE process: acoustic_scale_compute sets sft_noise.NOISE_LEAD_MS = 450 for its analysis window
+        # (acoustic_scale_compute.py:39). Imported here, it would lengthen the noise lead of every stimulus rendered below
+        # (this happened once on 2026-11-26: files came out 0.3 s longer; caught by the bundle size, never deployed).
+        import subprocess
+        os.makedirs(os.path.dirname(PAIRS_CSV_SNR), exist_ok=True)
+        code = ("import sys; sys.path.insert(0, 'analyze'); import acoustic_scale_compute as M; "
+                f"M.SNRS = [{SNR!r}]; M.pairs(M.features()).to_csv({PAIRS_CSV_SNR!r}, index=False)")
+        subprocess.run([sys.executable, "-c", code], cwd=ROOT, check=True)
+        x, mean = read(PAIRS_CSV_SNR)
     if len(mean) != 120:
-        raise SystemExit(f"{PAIRS_CSV}: expected 120 pairs at {SNR:g} dB, found {len(mean)}")
+        raise SystemExit(f"expected 120 pairs at {SNR:g} dB, found {len(mean)} (looked in {PAIRS_CSV} and {PAIRS_CSV_SNR})")
     return x, mean
 
 
@@ -159,7 +192,7 @@ def design_table(rows):
     for bi in range(len(EDGES) - 1):
         sub = [r for r in rows if not r["is_same"] and r["bin"] == bi]
         cons = [c for r in sub for c in (r["consonant"], r["foil"])]
-        top = sorted({c: cons.count(c) for c in set(cons)}.items(), key=lambda kv: -kv[1])[:3]
+        top = sorted({c: cons.count(c) for c in set(cons)}.items(), key=lambda kv: (-kv[1], kv[0]))[:3]     # ties by name: set order differs between runs
         out.append(dict(bin=f"{EDGES[bi]:.1f}-{EDGES[bi + 1]:.1f}", n=len(sub), voicing_only=sum(r["voicing_only"] for r in sub),
                         distinct_pairs=len({r["pair"] for r in sub}), **{ty: sum(r["pair_type"] == ty for r in sub) for ty in types},
                         **{g: sum(r["group"] == g for r in sub) for g in GROUPS},
@@ -180,7 +213,7 @@ def design_figure(rows, path):
         v = np.array([r[ty] for r in tab]); ax.bar(xs, v, 0.7, bottom=bottom, color=col, label=lab); bottom += v
     for x_, r in zip(xs, tab):
         ax.text(x_, r["n"] + 0.4, f"{r['n']}" + (f"（清濁 {r['voicing_only']}）" if r["voicing_only"] else ""), ha="center", va="bottom", fontsize=8.5)
-    ax.set_xticks(xs); ax.set_xticklabels([r["bin"] for r in tab]); ax.set_xlabel("頻譜圖上的差別 x (dB，該說話者，+6 dB 噪音)")
+    ax.set_xticks(xs); ax.set_xticklabels([r["bin"] for r in tab]); ax.set_xlabel(f"頻譜圖上的差別 x (dB，該說話者，{SNR:+g} dB 噪音)")
     ax.set_ylabel("「不同」題數"); ax.set_ylim(0, max(bottom) + 5); ax.legend(frameon=False, fontsize=8.5, ncol=3, loc="upper center", bbox_to_anchor=(0.5, -0.17))
     ax.set_title(f"校準前測的 {N_DIFF} 題「不同」：每 1 dB 一格的題數與子音類別組成", loc="left", fontsize=10.5)
     for s in ("top", "right"): ax.spines[s].set_visible(False)
@@ -190,6 +223,9 @@ def design_figure(rows, path):
 def main():
     os.makedirs(STIM, exist_ok=True)
     X, XMEAN = load_acoustic()
+    if (sft_noise.NOISE_LEAD_MS, sft_noise.NOISE_TAIL_MS) != (150.0, 100.0):
+        raise SystemExit(f"sft_noise lead / tail is {sft_noise.NOISE_LEAD_MS} / {sft_noise.NOISE_TAIL_MS} ms, not the experiment's 150 / 100: "
+                         "something imported in this process changed it; the stimuli would not be the experiment's")
     rng = np.random.default_rng(PLAN_SEED)
     rows = make_plan(rng, X, XMEAN, load_dprime())
     for r in rows:
@@ -201,7 +237,7 @@ def main():
     hp = snr_pilot.headphone_check(np.random.default_rng(PLAN_SEED + 1))
     tab = design_table(rows)
     cond = dict(design="calib_pilot", snr_db=SNR, n_different=N_DIFF, n_same=N_SAME, bin_edges=[float(e) for e in EDGES], plan_seed=PLAN_SEED,
-                groups=GROUPS, trials=rows, headphone_check=hp, built="2026-11-25")
+                groups=GROUPS, trials=rows, headphone_check=hp, built=BUILT.get(SNR, "unversioned"))
     with open(os.path.join(OUT, "conditions.json"), "w", encoding="utf-8") as f:
         json.dump(cond, f, indent=1)
     with open(os.path.join(OUT, "design.csv"), "w", newline="", encoding="utf-8") as f:

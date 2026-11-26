@@ -4,8 +4,8 @@
 # size 2674  index.html
 78d460c9bde85c3c4beab17d1d6a5a7bd72ea8b14e4e82f123ca01ef731e7e58  experiment.js
 # size 14017  experiment.js
-b9440ce2b2c136ba59e60b7b064d4012ab51444bb6fb3d5001df4a451c873649  conditions.json
-# size 162015  conditions.json
+0d271f6b410ec245a41ef58d8f746be43585ea10f031ea3fd933fa257911de0b  conditions.json
+# size 162103  conditions.json
 2b5a14d24b4d34eae6fcdfa13fe5f16df4ec05751c1f69b6e88e063270fff664  js/jspsych.js
 # size 98520  js/jspsych.js
 fa82c872674d17a559d9a8930b4ad23dfaa51bbc8f51c3261c119b2eb164ec09  js/jspsych.css
@@ -18,15 +18,15 @@ e255add7ab35a033678c030bc9eccf16e0a80b8f9daf51c0564f1ed444e9e7af  js/plugin-audi
 # size 5909  js/plugin-preload.js
 06a30cecbe2d2e4be3516d163a89753cbe1cc1068b1862f0467549af2981cc47  bundles/stim_hp.json
 # size 4234951  bundles/stim_hp.json
-07f4dff85a120bb16c5bd9a12313e7405fbab03405898bb5d2c26563ff2f4d35  bundles/stim_p1.json
-# size 4021453  bundles/stim_p1.json
-a1c0f0fec5cc92ef27205e55d3305debc91339a01a5d7194e29c1822388d6125  bundles/stim_p2.json
-# size 4043089  bundles/stim_p2.json
-90afc0f46314b36c90df57a87ecb96ffa5db475f087c1855a6876b094fc24479  bundles/stim_p3.json
-# size 4062053  bundles/stim_p3.json
-c194b72fa4415c91a2a16247fc35786528f62a8e0b6ce1095d6cf0f742eff4cf  bundles/stim_p4.json
-# size 4009633  bundles/stim_p4.json
-b52d88efefb4793fd80c0f412c901f6b7b488e33dff23b45e2c8742521213891  bundles/stim_p5.json
-# size 4000425  bundles/stim_p5.json
-e5ac9981b0b6de309c2a9ccad58a832fe46464dc3c21876507eb4f83c05369ac  bundles/stim_p6.json
-# size 4058893  bundles/stim_p6.json
+98cb053ba882871efbce53eb253be76f7eb6a992c7d6f6abab25bf113d2c8eea  bundles/stim_p1.json
+# size 4086373  bundles/stim_p1.json
+b15ac33a977d197fc2f324a6377651ff8c9ae34280772890882461c3bd2f741a  bundles/stim_p2.json
+# size 4035021  bundles/stim_p2.json
+046e1b1049a2c8e56dcff8abb46e44bcdb967bbe0e9f4e4fdae99cc3f0131ff0  bundles/stim_p3.json
+# size 4027429  bundles/stim_p3.json
+fa67b6a7224e69ac50a70a757ab230dc33850b17a3ce92e0369d27320fe10ae8  bundles/stim_p4.json
+# size 4085925  bundles/stim_p4.json
+2bb87fda762c409c2076384d49f54de007cd76ba61780c0b513049371e47bcd3  bundles/stim_p5.json
+# size 4040565  bundles/stim_p5.json
+c2f6e98b34d3c3fb9db856c0ff41526c35eceed7c4850bd4a091ed5cfadc295f  bundles/stim_p6.json
+# size 4040913  bundles/stim_p6.json
