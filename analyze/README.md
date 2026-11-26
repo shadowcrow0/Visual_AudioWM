@@ -42,6 +42,7 @@ python analyze/<name>.py --help                           # 每支都有
 | `calib_pilot_design_check.py` | `online/calib_pilot/conditions.json`；WEB01 的 RT（只在 `--write-session` 時） | 模擬聽者（預設 WEB01 的曲線）在線上校準前測的題目上估回來的 x50 / x90 與區間；可另寫一場瀏覽器格式的模擬資料 | `online/calib_pilot/README.md`「驗證」。**模擬，不是資料** |
 | `calib_pilot_report.py` | `data/<聽者>_sound_perception_dprime_snr6.csv`（`online/calib_pilot` 的資料，帶 `x_acoustic`、`bin`、`voicing_only`）、`acoustic_scale_pairs.csv`；`--raw` 原始檔（算用時）；`--others` 其他聽者的曲線 json | 線上校準前測一場的報告：八個區間的命中、誤報（前後半、分段、依子音、三組聲音）、換算曲線；只差清濁的 7 對（曲線不含清濁題再預測、偏移量 δ、逐對、方向、塞 / 擦——後兩項是事後比較）；拿掉清濁題的排序力；在該 SNR 會被選為 L / H 的音檔對 | `review/pilot_2026-11-26_CAL01_calib_pilot.md` §2、§3、§5、`review/figures/fig35-fig38` |
 | `acoustic_scale_criteria.py` | `acoustic_scale_trials_<聽者>.csv`、該聽者的 pilot csv；`--fit-points` 需要 PyMC | 企劃書 §6 的逐人判準 C1（排序力）、C2（加 SNR 的 AIC 改善）、C5（換算曲線與 `fit_points` 的 L / H 是否在範圍內；`--by-snr` 每場各跑一次） | `review/evaluation_2026-11-24_current_vs_proposed_sound_scale.md` §5 |
+| `snr_candidates_compare.py` | 音檔（經 `acoustic_scale_compute`，SNR 清單換成 0 / +2 / +3 / +4.5 / +6 dB）、`acoustic_scale_trials_<聽者>.csv`、各聽者的 pilot csv、`stimuli/consonant_dprime.csv` 與 `adaptive_vawm_EN` 的 `LEVELS_AUDIO` / `foil_for` | SFT 的 SNR 候選值 +2 / +3 / +4.5 dB 的比較（0、+6 當參考）：1440 個音檔對的頻譜圖差別；每位聽者的 L / H 落在其中哪裡、附近有幾個音檔對；照實驗挑對子的規則預測六個層級的命中；四條判準 K1–K4；沒量過的 SNR 的誤報怎麼假設、換假設動多少；bootstrap；留一個 SNR 不用再去預測它。**預測，不是量測** | `review/snr_2026-11-26_candidates_2_3_4.5dB.md`、`review/figures/fig39-fig45`；約 10 分鐘（`--figs-only` 只重畫圖） |
 | `stimuli_voice_check.py` | `stimuli/T??_*3.wav`、`acoustic_scale_pairs.csv`；母音共振峰需要 praat-parselmouth | 12 個說話者編號兩兩的音量包絡相關、各編號的音高、母音 F1–F3、聲學尺上同一對在組內 / 組間的差異 | 同上 §3、`review/figures/fig34` |
 | `evaluation_figs.py` | 上兩支的 json | 三把尺在兩位聽者上的排序力；說話者相關矩陣 | `review/figures/fig33-fig34` |
 | `_common.py` | — | 路徑、字型、讀檔與過濾規則、不經 PyMC 載入 `sic.py`、用 ast 讀實驗的 `FIT_KW` | — |
@@ -61,6 +62,7 @@ python analyze/<name>.py --help                           # 每支都有
 - 「尺對非母語者沒有排序力」：程式給的是一位聽者 75 對的 r = .07。
 - 「沒有類別就只能比原始聲音」：程式給的是事後分組的誤報差與未校正的 p；θ ð v 同時也是最弱的音，兩種解釋分不開。
 - 「這批錄音的 80-350 Hz 差 9-18 dB」是量測；「母語者用這條線索」是文獻，不是這裡量的。
+- `snr_candidates_compare.py` 在 +2 / +3 / +4.5 dB 的每個數字都是預測：假設同一位聽者的換算曲線不隨 SNR 變、誤報用內插；判準 K1–K4 的門檻是那支程式自己定的；全部沒有記憶負荷。
 - `calibration_refit.py` 的 L / H 是「現行版對舊資料會給什麼」；舊資料的層級沒有涵蓋轉彎處，區間很寬。
 - 聲學尺（`acoustic_scale_*`）量的是「聲音裡有多少差別」，不是「聽者用了多少」；排序力 .74 來自一位非母語聽者的事後比較。「難 / 易」的界線是用同一位聽者、同一批資料換算的，只是示意。`acoustic_scale_design_check.py` 的數字是模擬。
 
@@ -80,6 +82,7 @@ python analyze/<name>.py --help                           # 每支都有
 | `main_task_summary.py` | s002 正確率表、AA 誤報 .21（block 1 .36 → block 6 .12）、Houpt p .13-.98、SIC D+ .085 p = .74 / D- .134 p = .47；s001 正確率 .92 / .90 ✓ |
 | `acoustic_scale_compute.py` | 與整理前的版本逐格相同（600 列 × 36 欄，最大差 0）；各 SNR 的平均差別 10.09 / 5.95 / 4.35 / 2.89 / 1.66 dB ✓ |
 | `calib_pilot_report.py`（2026-11-26，CAL01） | 命中 .921、誤報 .093；八格 .63 .85 .96 .96 .96 1.00 1.00 1.00；清濁 34/42、曲線預測 37.6、δ −0.4 dB（p = .17）；L 候選 41 個、H 候選 206 個 ✓（約 1 分鐘） |
+| `snr_candidates_compare.py`（2026-11-26，seed 20261126，bootstrap 1000 次） | 0 / +6 dB 的 x 與 `acoustic_scale_pairs.csv` 最大差 0；曲線 CAL01 1.18 / 2.21、WEB01 1.98 / 3.24、yyc1116 2.51 / 5.74；CAL01 在 +6 dB 低於中點 15、高於 x90 1150、L 附近 41 個（12 對）、H 附近 206 個（47 對）——與 `calib_pilot_report.py` 相同；兩位母語者過的格數 +2 / +3 / +4.5 dB = 8 / 7 / 7；留 +6 dB：WEB01 實際 59、預測 58.7 ✓（約 10 分鐘）。**+2 / +3 / +4.5 dB 的數字是預測** |
 | `acoustic_scale_validate.py` | yyc1116 210 題、漏 47；排序力 M&N .56 [.48, .64]、特徵數 .63 [.55, .70]、聲學尺 .74 [.67, .81]、樣板 d′ .69；AIC 221.8 / 215.2 / 201.5；四等分 .53 / .77 / .87 / .94；對 M&N 表 r = .21（+6 dB）；EN01 71 題中 67 題可反推、漏 5 ✓ |
 | `acoustic_scale_use.py` | 難 / 中 / 易：乾淨 0/1/119、+12 12/43/65、+6 51/27/42、0 67/40/13、-6 95/25/0；.75 在 3.1 dB、.90 在 5.3 dB；最難 20 對重疊 4；視窗敏感度 .73-.75（只看母音開頭 100 ms：.56）✓ |
 | `acoustic_scale_figs.py` | +6 dB 時 0.4 kHz 以下剩 17%、3 kHz 以上剩 62%；d 對 z（T01）12.0 → 4.3 dB ✓ |
