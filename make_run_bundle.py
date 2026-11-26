@@ -56,8 +56,9 @@ Since 2026-11-26 every speech sound in the SFT experiment is mixed into speech-s
 (`SND_SNR_DB = 3.0`); the mixed wavs go to `data/<id>_snr/` and can be deleted after the csv files are copied.
 
 Settings are the constants at the top of `SFT_WM_nochange_EN.py` and `adaptive_vawm_EN.py` (colour levels dE 8–70,
-sound levels d' 0.4–4.5, L = the 50 % point and H = 90 % of the plateau, calibration 10 warm-up + 30 fitted +
-8 filler = 48 trials per dimension, main task 6 blocks x 14 sets x 16 probes).
+sound levels d' 0.4–4.5, L = the 50 % point and H = 90 % of the plateau, calibration per dimension = 10 warm-up
+trials with feedback, then 48 trials: 30 at the six levels + 10 matches + 8 fillers; main task 6 blocks x 14 sets x
+16 probes).
 
 Step-by-step install from a terminal, per operating system: `RUN_ON_WINDOWS_CLI.md` (PowerShell),
 `RUN_ON_LINUX.md`, `RUN_ON_MAC.md`; the GRT experiment on Linux: `RUN_GRTv3_ON_LINUX.md`.
