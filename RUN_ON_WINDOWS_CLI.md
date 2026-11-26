@@ -8,10 +8,18 @@ What was checked from there:
 
 - the packages in step 3 resolve on Windows for Python 3.10, 3.11 and 3.12, all as wheels (nothing is compiled);
 - the same install, the diagnostics and a simulated session were run on Linux with Python 3.12 and with Python 3.10,
-  the two stacks in the table of step 3 (`RUN_ON_LINUX.md`, table at the top).
+  the two stacks in the table of step 3 (`RUN_ON_LINUX.md`, first table at the top);
+- step 1 on Linux, 2026-11-26 (`RUN_ON_LINUX.md`, second table at the top): the `git clone` and `git pull` of 1a
+  were run; the zip address of 1b was downloaded with `curl` and does unpack as `VAWM_run-main`; the two `git log`
+  lines of 1d were run and the file was searched with `grep` (the fresh clone showed `2026-11-24` and
+  `SND_SNR_DB = None`); `debug_adaptivesft_EN.py` was run inside that clone. The layout of 1c was tested on clones of
+  local copies of the two repositories, not from GitHub.
 
-Route A below is what `setup_pymc_coder.bat` does and what the lab machine uses. Route B is new and untested on
-Windows. Report what breaks, with the exact line.
+Not run at all: every PowerShell line of this file (`Invoke-WebRequest`, `Expand-Archive`, `Select-String`
+included), and the GitHub login of 1c.
+
+Python route A below (step 2) is what `setup_pymc_coder.bat` does and what the lab machine uses. Python route B is
+new and untested on Windows. Report what breaks, with the exact line.
 
 ```
  VAWM_run\
@@ -25,21 +33,34 @@ Windows. Report what breaks, with the exact line.
 | | why | check |
 |---|---|---|
 | a Python with PsychoPy (route A or B in step 2) | everything is run with that one `python.exe`, stored in `$py` | step 2 |
-| git (optional) | to get and update this folder; without it, download the zip (step 1b) | `git --version` |
+| git (optional for the public bundle, required for the source repositories) | to get and update this folder; without it, download the zip (step 1b) | `git --version` |
 | headphones | over speakers the delivered SNR is not the configured SNR, and since 2026-11-26 every SFT sound is in noise | plugged in before step 4 |
 
 ## 1. Get the code
 
-**1a. With git**
+Two routes, numbered so they are not confused with the lettered Python routes of step 2. Both end inside a folder
+`VAWM_run\` that holds `Visual_AudioWM\` and `adaptiveSFT\` side by side, which is what every later step assumes.
+
+| | route 1 (1a or 1b): the public run bundle | route 2 (1c): the two source repositories |
+|---|---|---|
+| repository | `shadowcrow0/VAWM_run` | `shadowcrow0/Visual_AudioWM` (private) and `shadowcrow0/adaptiveSFT` |
+| GitHub login | none | an account with access to Visual_AudioWM |
+| code you get | whatever was last bundled, so it can be behind the source | always current |
+| what is in it | the run files only: scripts, `stimuli\`, an empty `data\`, these guides, the numbered `.bat` files | everything, also `tests\`, `DECISIONS.md` and the `modular` branch; no numbered `.bat` files |
+| meant for | an experiment machine | development, or when the bundle is behind |
+
+**1a. Route 1 with git**
 
 ```powershell
 git clone https://github.com/shadowcrow0/VAWM_run.git
 cd VAWM_run
 ```
 
-Later updates: `git pull` in the same folder.
+Later updates: `git pull` in the same folder. The bundle's `.gitignore` excludes `Visual_AudioWM/data/*`,
+`Visual_AudioWM/audio_device.txt` and `psychopy_path.txt`, so a pull leaves the collected data and the machine's
+settings alone.
 
-**1b. Without git** (nothing to install; PowerShell downloads and unpacks the current snapshot)
+**1b. Route 1 without git** (nothing to install; PowerShell downloads and unpacks the current snapshot)
 
 ```powershell
 cd $HOME\Documents
@@ -55,7 +76,44 @@ To update later, repeat 1b into a fresh folder and copy your `Visual_AudioWM\dat
 If you would rather have git: `winget install --id Git.Git -e` in an administrator PowerShell, then open a new
 window and use 1a.
 
-Participant data in `Visual_AudioWM\data\` are never pushed from here; send them to the private repository.
+**1c. Route 2** (git and a GitHub login)
+
+```powershell
+mkdir VAWM_run
+cd VAWM_run
+git clone https://github.com/shadowcrow0/Visual_AudioWM.git
+git clone https://github.com/shadowcrow0/adaptiveSFT.git
+```
+
+The same with SSH: `git clone git@github.com:shadowcrow0/Visual_AudioWM.git` and
+`git clone git@github.com:shadowcrow0/adaptiveSFT.git`. Over HTTPS, Git for Windows opens a GitHub sign-in window
+(or asks for your user name and a personal access token, not the account password); over SSH the key must be
+registered with your account. The inner folder names must stay as they are: the scripts look for a sibling called
+exactly `adaptiveSFT` (`adaptive_vawm_EN.py:61`). The outer folder may have any name. Later updates, from
+`VAWM_run\`:
+
+```powershell
+git -C Visual_AudioWM pull         # default branch: main
+git -C adaptiveSFT pull            # default branch: master
+```
+
+**1d. Check what you got** (from `VAWM_run\`)
+
+```powershell
+git log -1 --format=%ad --date=short                                               # 1a: date of the bundle commit
+git -C Visual_AudioWM log -1 --format=%ad --date=short                             # 1c: date of the source commit
+Select-String -Path Visual_AudioWM\SFT_WM_nochange_EN.py -Pattern '^SND_SNR_DB'    # every route (1b has no date to show)
+```
+
+Expect the last line to show line 51 of the file as `SND_SNR_DB = 3.0` (and the comment that follows it). If it
+shows `SND_SNR_DB = None`, the bundle predates 2026-11-26, the day the session SNR was set: the experiment would play
+every sound without noise, and the guides inside the bundle are the older ones. Ask for the bundle to be refreshed
+(`make_run_bundle.py:4`, run in the source repository) and get it again, or use 1c. On 2026-11-26 a fresh clone
+(1a) showed `2026-11-24` and `None`. The value shows up a second time in step 5, in group `[8]` of
+`debug_adaptivesft_EN.py`.
+
+Participant data in `Visual_AudioWM\data\` never go into the public VAWM_run repository; they go back to the
+private Visual_AudioWM repository (commit them in a 1c checkout, or copy the files off a route-1 machine).
 
 ## 2. Choose the Python: `$py`
 
@@ -164,13 +222,14 @@ device properties); they change the noise.
 ```powershell
 & $py debug_adaptivesft_EN.py
 $LASTEXITCODE                              # 0 = everything passed
-& $py -m pytest -q tests                   # 36 tests, about half a minute
+& $py -m pytest -q tests                   # 36 tests, about half a minute; route 2 (1c) only, the bundle has no tests\
 ```
 
 Nine numbered groups `[0]`–`[8]`: environment and packages, `adaptiveSFT` found, imports, which calibration methods
 are available, a simulated calibration without a window, a short real PyMC fit, a window test, the audio device and
 calibration settings, and the noise mixer. Every line should start with `✔`; a `✘` line prints the fix. Group `[8]`
-must show `SND_SNR_DB = 3.0 (every sound mixed at that SNR)`.
+must show `SND_SNR_DB = 3.0 (every sound mixed at that SNR)`. That line gets a `✔` whatever the value is
+(`debug_adaptivesft_EN.py:364`), so read it: `SND_SNR_DB = None (clean tokens)` means an old bundle (step 1d).
 
 ## 6. Run
 
@@ -190,7 +249,8 @@ must show `SND_SNR_DB = 3.0 (every sound mixed at that SNR)`.
 & $py GRTv3_ada_EN.py
 ```
 
-`--robot --quick` overwrites `data\robot_simple_*`; in a git checkout run `git checkout -- data/` afterwards.
+`--robot --quick` overwrites `data\robot_simple_*`, which are tracked in the source repository; in a route-2 (1c)
+checkout run `git checkout -- data/` afterwards (the bundle ignores `data\`; nothing to restore there).
 
 **Noise.** Since 2026-11-26 the SFT experiment mixes every speech sound into speech-shaped noise at +3 dB
 (`SND_SNR_DB = 3.0`, `SFT_WM_nochange_EN.py:51`; reasons and what has not been measured: `DECISIONS.md` 27 in the
@@ -209,7 +269,8 @@ Output lands in `Visual_AudioWM\data\`:
                                                        (each is rebuildable from the SNR and seed logged in its row)
 ```
 
-Send the `data\` files to the private repository (Visual_AudioWM `data/`), never to VAWM_run.
+Participant data go back to the private Visual_AudioWM repository, never into the public VAWM_run repository
+(step 1d).
 
 ## 7. The knobs, and where they live
 
@@ -234,3 +295,6 @@ The reasons behind every value are in `DECISIONS.md` of the source repository; t
 | `audio_pick.py` lists only `Microsoft Sound Mapper` / `Primary Sound Driver` | no PortAudio device named after the headphones | select the headphones in Windows sound settings, pin that generic device with `--set`, confirm with `--beep` |
 | window opens then closes at once | an exception before the first frame | run again from the terminal; the traceback is in the window you ran it from |
 | `PsychoPy python not found` from a `.bat` | step 2 not done | `psychopy_path.txt` with the path, or run the `.bat` and paste it when asked |
+| `SND_SNR_DB = None` in step 1d or in group `[8]` of step 5 | the bundle predates 2026-11-26 | step 1d: get a refreshed bundle, or use route 2 (1c) |
+| `ERROR: file or directory not found: tests` | a route-1 bundle, which has no `tests\` | nothing to fix; the tests are in the source repository (1c) |
+| `Repository not found` or `Authentication failed` while cloning Visual_AudioWM | the account has no access to the private repository, or the login was not accepted | use route 1, or ask for access |
