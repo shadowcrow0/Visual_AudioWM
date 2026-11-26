@@ -56,7 +56,7 @@ def convert(path, new_id=None, force=False):
     import io
     with open(path, encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
-    pairs = [r for r in rows if r.get("task") == "pair"]
+    pairs = [r for r in rows if r.get("task") == "pair"]; stored = any(r.get("trial_type") == "pavlovia" for r in rows)
     if not pairs:
         print(f"{path}: no pair trials"); return
     design = val(pairs[0].get("design")) or "snr_pilot"           # online/snr_pilot/ predates the design column
@@ -96,9 +96,9 @@ def convert(path, new_id=None, force=False):
         write_if_same_or_new(base + ".csv", buf.getvalue(), force)
         same = [r for r in out if r["is_same"] and r["key"] is not None]
         fa = sum(1 for r in same if r["key"] == "n") / max(len(same), 1)
-        summary = dict(participant=pid, axis="acoustic" if calib else "dprime", snr_db=snr, source="pavlovia", n_trials=len(out),
-                       n_no_response=sum(1 for r in out if r["key"] is None), same_trials=len(same), false_alarm=fa,
-                       headphone_check=dict(correct=hp_correct, n=len(hp)), levels={})
+        summary = dict(participant=pid, axis="acoustic" if calib else "dprime", snr_db=snr,
+                       source="pavlovia" if stored else "local download",   # no rows of the Pavlovia bridge = the page's own "Download the data file" link (run without Pavlovia)
+                       n_trials=len(out), n_no_response=sum(1 for r in out if r["key"] is None), same_trials=len(same), false_alarm=fa, headphone_check=dict(correct=hp_correct, n=len(hp)), levels={})
         if calib:
             # the questionnaire and the order seed travel with the data; the levels are the 1-dB bins of the acoustic axis
             first = pairs[0]

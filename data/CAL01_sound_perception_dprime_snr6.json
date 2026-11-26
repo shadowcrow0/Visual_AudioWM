@@ -1,0 +1,82 @@
+{
+  "participant": "CAL01",
+  "axis": "acoustic",
+  "snr_db": 6.0,
+  "source": "local download",
+  "n_trials": 324,
+  "n_no_response": 0,
+  "same_trials": 108,
+  "false_alarm": 0.09259259259259259,
+  "headphone_check": {
+    "correct": 6,
+    "n": 6
+  },
+  "levels": {
+    "bin0": {
+      "n": 27,
+      "hit": 0.6296296296296297,
+      "x_acoustic_mean": 1.3230148148148149,
+      "dprime": 1.6558302606193969,
+      "median_rt": 0.811
+    },
+    "bin1": {
+      "n": 27,
+      "hit": 0.8518518518518519,
+      "x_acoustic_mean": 2.1236962962962966,
+      "dprime": 2.3693664837655737,
+      "median_rt": 0.821
+    },
+    "bin2": {
+      "n": 27,
+      "hit": 0.9629629629629629,
+      "x_acoustic_mean": 2.9134222222222226,
+      "dprime": 3.1111132501540544,
+      "median_rt": 0.779
+    },
+    "bin3": {
+      "n": 27,
+      "hit": 0.9629629629629629,
+      "x_acoustic_mean": 3.9224592592592593,
+      "dprime": 3.1111132501540544,
+      "median_rt": 0.704
+    },
+    "bin4": {
+      "n": 27,
+      "hit": 0.9629629629629629,
+      "x_acoustic_mean": 4.996444444444444,
+      "dprime": 3.1111132501540544,
+      "median_rt": 0.736
+    },
+    "bin5": {
+      "n": 27,
+      "hit": 1.0,
+      "x_acoustic_mean": 5.968755555555555,
+      "dprime": 3.410313254924807,
+      "median_rt": 0.736
+    },
+    "bin6": {
+      "n": 27,
+      "hit": 1.0,
+      "x_acoustic_mean": 6.945633333333332,
+      "dprime": 3.410313254924807,
+      "median_rt": 0.693
+    },
+    "bin7": {
+      "n": 27,
+      "hit": 1.0,
+      "x_acoustic_mean": 7.832051851851851,
+      "dprime": 3.410313254924807,
+      "median_rt": 0.757
+    }
+  },
+  "design": "calib_pilot",
+  "plan_seed": "20261125",
+  "order_seed": "1210197846",
+  "native_language": null,
+  "english_at_home": null,
+  "english_start_age": null,
+  "user_agent": "Mozilla/5.0 (X11; Linux x86_64; rv:153.0) Gecko/20100101 Firefox/153.0",
+  "test_maxtrials": null,
+  "seeds_repaired_from_plan": 0,
+  "source_file": "CAL01_calib_pilot_2026-11-26_04h10.csv"
+}
