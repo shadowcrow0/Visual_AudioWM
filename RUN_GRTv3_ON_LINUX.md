@@ -10,7 +10,8 @@ Companion to `RUN_ON_LINUX.md` (the SFT scripts). Two entry points do the same e
 Written 2026-11-12, install and audio sections updated 2026-11-26. **Not executed on a Linux desktop by the
 author** — the development container has no display or sound card, and Arc (the HPC) has neither, so Arc can run
 the tests in §4 but never the experiment. On 2026-11-26 the SFT install (the §1 line below plus the fitting packages) and
-`python snr_runtime.py` were run in an Ubuntu 24.04 container (Python 3.12, PsychoPy 2026.2.5).
+`python snr_runtime.py` were run in an Ubuntu 24.04 container (Python 3.12, PsychoPy 2026.2.5); `python snr_runtime.py`
+was also run inside a fresh clone of the public bundle (`RUN_ON_LINUX.md` §1b, route 1).
 
 ## 0. What is different from the SFT scripts
 
@@ -26,9 +27,11 @@ the tests in §4 but never the experiment. On 2026-11-26 the SFT install (the §
 Session: 72 colour-calibration + 72 sound-calibration trials (each a full ~8–10 s WM trial), 15 practice with
 feedback, 576 main trials in 4 blocks. About 75–90 min.
 
-## 1. System packages and Python environment
+## 1. System packages, the code, and the Python environment
 
-System packages: `RUN_ON_LINUX.md` §1, unchanged. Python environment: the same as §2 there without the fitting
+System packages: `RUN_ON_LINUX.md` §1, unchanged. Getting the code: §1b there. The public bundle (route 1) carries
+`GRTv3_ada_EN.py` and what it imports; the `modular` branch (`GRTv3_ada_modular.py`, `grtv3/`) and `tests/` exist
+only in the source repository (route 2). Python environment: the same as §2 there without the fitting
 packages, which GRT does not use (if the machine also runs the SFT experiment, use §2 there as written and skip
 this block):
 
@@ -73,7 +76,7 @@ python GRTv3_ada_EN.py --audio-device "USB Audio"
 python GRTv3_ada_EN.py --pilot                  # windowed 1024×768, participant id 'pilot'
 python GRTv3_ada_EN.py --list-audio             # only list devices and exit
 
-# Modular version (branch modular)
+# Modular version (branch modular; a route-2 checkout only)
 git checkout modular
 python GRTv3_ada_modular.py                     # same dialog and flags
 python GRTv3_ada_modular.py --pilot
