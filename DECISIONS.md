@@ -194,7 +194,7 @@
 - **決定**：`SFT_WM_nochange_EN.py` 新增 `SND_SNR_DB`（預設 `None` = 乾淨，行為與之前完全相同）。設定後每一個語音呈現都由 `sft_noise.py` 即時混進語音形噪音，整場同一個 SNR；H / L 的差異仍然只有子音對。噪音種子 = `sft_noise.seed_for(<phase>, <試次識別>, <slot>)`（blake2b，跨機器穩定），學習項目 s1 / s2 與探測各一個種子；種子不含受試者編號，所以每個人在同一試同一位置聽到相同的噪音（固定刺激集，跟決定 20 把聲音對釘成表同一個精神）。每列資料寫 `snd_snr_db`、`snd_seed_s1 / s2 / probe`，`sft_noise.rebuild(wav, db, seed, path)` 逐位元重建。`sound_perception_EN.py --snr <dB>` 用同一套做 pilot。
 - **為什麼**：(1) d′ 表 240 對裡只有 14 對 < 0.8，兩位英語 OK 的受試者（yyc1110、EN01）六級幾乎全在天花板，L 校出來 0.93 / 1.57 仍是天花板，EN01 主實驗聲音 H / L 的存活函數分不開（單尾 KS，預期方向 H 較快 p = .39、違反方向 p = .55；正確率 .92 / .90。**更正 2026-11-24**：原文只寫「KS p = .55」，那是違反方向的檢定；結論不變）；斜面在尺的左邊外面，搬層級無解。(2) 噪音把所有對的 d′ 一起往 0 壓，整把尺左移；這正是 Miller & Nicely 產生那些矩陣的操弄，d′ 表要用 M&N 同一 SNR 的矩陣重算（`consonant_distance.confusion_distance(snrs=(x,))`），不是乘係數——噪音對 place 線索壓得比 voicing / nasality 重，排序會變。(3) SNR 是環境常數不是層級，不進變異來源；種子綁試次與位置、不綁條件、更不綁顏色（綁顏色會讓兩個通道不獨立）。(4) 探測必須換種子：同一段噪音重播的「一樣」是波形相同，受試者可以配噪音紋路；不同噪音的「一樣」才是同一個子音。
 - **技術**：噪音前導 150 ms、尾 100 ms（起始不確定性，同 snr_audio），最長檔 0.93 s < 播放的 1 s；SNR 以 token 有效段（起始到結尾，−40 dB re 峰值）的 RMS 定義，混後整段正規化到 `snr_audio.OUTPUT_RMS`；LTAS 由 192 個 token 合併估計——token 的取樣率是說話者別的（15000–17000 Hz，5 種），所以 LTAS 在共同頻率軸上平均、噪音按各檔取樣率生成。乾淨模式播原檔（未正規化），所以乾淨與混音兩種模式的音量不同，pilot 比較 SNR 條件時不要混用乾淨條件當基準。
-- **還沒定**：SNR 的值。pilot：`sound_perception_EN.py --axis dprime --snr -6`（和 −12、0）各一位聽者，看 (a) 哪個 SNR 讓 d′ ≤ 1.5 那幾級掉到七成、d′ ≥ 3 還在天花板附近，(b) 12 位說話者在該 SNR 的排序跟 M&N 一致；然後重算 `stimuli/consonant_dprime.csv`（決定 21 的流程、換 SNR 參數），再把 `SND_SNR_DB` 設上去。
+- **還沒定**：~~SNR 的值~~ → 第 27 條定為 +3 dB（2026-11-26）。以下是當時的 pilot 計畫：pilot：`sound_perception_EN.py --axis dprime --snr -6`（和 −12、0）各一位聽者，看 (a) 哪個 SNR 讓 d′ ≤ 1.5 那幾級掉到七成、d′ ≥ 3 還在天花板附近，(b) 12 位說話者在該 SNR 的排序跟 M&N 一致；然後重算 `stimuli/consonant_dprime.csv`（決定 21 的流程、換 SNR 參數），再把 `SND_SNR_DB` 設上去。
 - **在哪**：`sft_noise.py`（純 numpy，`python sft_noise.py` 自檢；`tests/test_sft_noise.py`）；`SFT_WM_nochange_EN.py`（`SND_SNR_DB`、`snd_path`、`run_calib_trial(..., tag)`、`run_sets`）；`sound_perception_EN.py --snr`；`debug_adaptivesft_EN.py` 第 8 項；`make_run_bundle.py` FILES。
 
 ## 25. 校準改成「L = 50% 點、H = 到頂 90%」，模型 = Houpt 的 ogival（lnrm2a）+ 判準 b₀，顏色層級上端改 45 / 70（2026-11-18）
@@ -213,6 +213,14 @@
 - **決定**：`SFT_WM_nochange_EN.py` 三個色塊（左、右、探測）的 `lineColor` 從灰色 `#808080` 改成 `black`，與背景同色，等於沒有框。
 - **為什麼**：使用者 11-24 指定。灰框是 Builder 時代留下的預設，對顏色判斷是多餘的邊界線索（框與色塊的對比會隨色塊亮度變，小色差時可能成為額外訊號）。
 - **在哪**：`SFT_WM_nochange_EN.py` 建立 `patch_l / patch_r / patch_c` 的三行。受試者看到的畫面因此改變：11-24 之前的資料是有框的。
+
+## 27. SFT 的 SNR 定為 +3 dB（2026-11-26）
+- **決定**：`SND_SNR_DB = 3.0`（`SFT_WM_nochange_EN.py:51`）。整場每一個語音（聲音校準、練習、主實驗的學習項目與探測）都混進 +3 dB 的語音形噪音；機制照第 24 條，沒有改。
+- **為什麼**：使用者 11-26 指定，並指定不再調整前測。資料上的依據：兩位英語母語者在 +6 dB 偏簡單（CAL01 依頻譜圖差別分八組，命中 .63 / .85 / .96 / .96 / .96 / 1.00 / 1.00 / 1.00，`review/pilot_2026-11-26_CAL01_calib_pilot.md`），0 dB 對 yyc1116 太難（誤報 .47，`review/pilot_2026-11-18_snr_pilot.md`）；+3 dB 落在兩者之間。
+- **沒量過的**：(1) **沒有任何聽者實際聽過 +3 dB**，量過的是 0 / +6 / +12 dB，+3 是內插。(2) 聲音軸的尺仍是 M&N 的 d′ 表（`stimuli/consonant_dprime.csv`），它在這種噪音下對三位聽者都排不出難易（第 24 條之後的 pilot 與 `review/proposal_2026-11-24_language_independent_sound_scale.md`）；這一條只定 SNR，沒有換尺、沒有重算表。(3) H / L 仍由每位受試者在同一個 SNR 下的校準決定，所以 +3 dB 太易或太難會先在校準結果看到（L 貼地板或 H 貼天花板）。
+- **資料上的後果**：之後每列 `snd_snr_db` = 3.0，`data/<id>_snr/` 會產生混好的音檔（可由種子重建，已 gitignore）。11-26 之前的 SFT 資料是乾淨語音，不能和之後的合併。
+- **驗證**：212 個音檔在 3.0 dB 的實際 SNR 全部是 3.000；`python sft_noise.py` 自檢與 `pytest tests/`（36 項）通過。PsychoPy 不在開發容器裡，實驗本身沒有在這裡跑過。
+- **在哪**：`SFT_WM_nochange_EN.py:51`。實驗機要重新打包（`make_run_bundle.py`）才會生效。
 
 ## 還沒決定的
 - ~~反解負根與 clip 規則~~ → 第 25 條定案（中位數、50% 點、L ≥ H 時推 H）。
@@ -237,5 +245,5 @@
 2. 想改任何數字：先讀對應那一條的「為什麼」，再照最後那張表先跑測試、再改、再跑測試。
 3. 改了遮蔽（第 13 條）或作業形式（第 10 條）之後，之前校過的受試者要重校。
 4. 行號對不上時，用 grep 搜「在哪」裡的名字（例如 `grep -n alpha2_rule adaptive_vawm_EN.py`），不要猜。
-5. 「還沒決定的」如果有一天要定案，接著第 26 條往下加，格式照舊。
+5. 「還沒決定的」如果有一天要定案，接著第 27 條往下加，格式照舊。
 6. 改檔案結構、搬檔案、加常數之前先讀 `ARCHITECTURE.md`。
