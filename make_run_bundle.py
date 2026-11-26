@@ -40,7 +40,7 @@ Keep `VAWM_run/` and `adaptiveSFT/` side by side (as unzipped).
 
        python debug_adaptivesft_EN.py
 
-4. Pure perception test of the consonants (no memory load, ~6 min; run this before the experiment):
+4. Pure perception test of the consonants (no memory load, ~7 min; run this before the experiment):
 
        python sound_perception_EN.py
 
@@ -52,8 +52,15 @@ Keep `VAWM_run/` and `adaptiveSFT/` side by side (as unzipped).
 Data land in `data/`: `<id>_simple_calib_trials.csv`, `<id>_simple_calib.json`, `<id>_simple_main.csv`,
 plus PsychoPy's `<id>_SFT_WM_<date>.csv / .psydat / .log`. Copy the whole `data/` folder back.
 
-Settings are the constants at the top of `SFT_WM_nochange_EN.py` (targets 8.0 / 1.3, colour levels dE 2–90,
-calibration 16 warm-up + 40 fitted + 8 filler per dimension, main task 6 blocks x 14 sets x 16 probes).
+Since 2026-11-26 every speech sound in the SFT experiment is mixed into speech-shaped noise at +3 dB
+(`SND_SNR_DB = 3.0`); the mixed wavs go to `data/<id>_snr/` and can be deleted after the csv files are copied.
+
+Settings are the constants at the top of `SFT_WM_nochange_EN.py` and `adaptive_vawm_EN.py` (colour levels dE 8–70,
+sound levels d' 0.4–4.5, L = the 50 % point and H = 90 % of the plateau, calibration 10 warm-up + 30 fitted +
+8 filler = 48 trials per dimension, main task 6 blocks x 14 sets x 16 probes).
+
+Step-by-step install from a terminal, per operating system: `RUN_ON_WINDOWS_CLI.md` (PowerShell),
+`RUN_ON_LINUX.md`, `RUN_ON_MAC.md`; the GRT experiment on Linux: `RUN_GRTv3_ON_LINUX.md`.
 """
 
 
