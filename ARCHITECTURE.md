@@ -129,6 +129,8 @@ grep 比讀全文便宜：`grep -n "^[A-Z_]* *=" SFT_WM_nochange_EN.py` 就能�
 
 `online/calib_pilot/` 是「聲音校準前測」的試作（單一 SNR +6 dB、216 題不同 + 108 題相同、題目依頻譜圖差別鋪開；`online/make_calib_pilot_stimuli.py` 產生，讀 `analyze/out/acoustic_scale_pairs.csv`）。它是提案的試作，不是實驗的一部分：實驗主程式沒有因它改動，要不要採用見 `review/evaluation_2026-11-24_current_vs_proposed_sound_scale.md` §7。`online/snr_pilot/` 保持原樣（WEB01 的資料出自它）；兩者共用 `pack_stimuli.py` 與 `pavlovia_to_perception_csv.py`。
 
+上傳到 Pavlovia 之後用 `online/check_pavlovia_deploy.py <帳號> <實驗名>` 逐檔比對（大小與 SHA-256；`online/calib_pilot/MANIFEST.sha256` 是同一份清單，`tests/test_online_manifest.py` 檢查它沒有過期）。檔案一律上傳或用 git 推，不用貼上文字建立：2026-11-26 部署上的 `js/jspsych.js` 只有前 20000 位元組，連結打不開（`online/calib_pilot/README.md`「2026-11-26 的事故」）。`online/calib_pilot_failure_test.js` 測檔案壞掉時頁面顯示什麼。
+
 ## 11. 事後分析（analyze/）
 
 `analyze/` 放的是「讀 `data/*.csv`、`*.json` 與 `stimuli/` 算出筆記裡那些數字」的程式，每支從 repo 根目錄執行（`python analyze/<name>.py`），清單與對應的筆記見 `analyze/README.md`。規則：

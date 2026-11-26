@@ -23,6 +23,27 @@ const ISI_MS = 500, RESP_WINDOW_MS = 3000, FEEDBACK_MS = 600, HP_PASS = 5, BREAK
 const BAD_IDS = ["", "test", "anon", "participant", "id", "xx"];
 const onPavlovia = typeof jsPsychPavlovia !== "undefined";
 
+// ---- self-check: say what is wrong instead of showing a black page ----
+// A library file that is missing or cut short defines nothing, and the page used to stay black with the reason only in
+// the browser console (a participant had to open it to find out that js/jspsych.js had been uploaded incomplete).
+function fatal(what) {
+  document.body.innerHTML = `<div class="fatal"><p><b>The test could not start.</b></p><p>${what}</p>
+    <p>Nothing has been recorded. Please send this message to the researcher.</p></div>`;
+  throw new Error("calib_pilot: " + what.replace(/<[^>]+>/g, ""));
+}
+const LIBS = [["js/jspsych.js", typeof initJsPsych], ["js/plugin-html-keyboard-response.js", typeof jsPsychHtmlKeyboardResponse],
+              ["js/plugin-audio-keyboard-response.js", typeof jsPsychAudioKeyboardResponse], ["js/plugin-preload.js", typeof jsPsychPreload]];
+// The plugins are built on jsPsych itself, so when js/jspsych.js is the broken one they all fail with it: name only the cause.
+const BROKEN = LIBS[0][1] === "undefined" ? [LIBS[0][0]] : LIBS.filter(([, t]) => t === "undefined").map(([f]) => f);
+if (BROKEN.length) fatal(`These program files are missing or incomplete on the server: <code>${BROKEN.join("</code>, <code>")}</code>.`);
+
+// A data file that is missing answers with an error page, and one that was cut short is not valid JSON: name the file.
+function loadJson(name) {
+  return fetch(name).then(r => { if (!r.ok) throw new Error(`<code>${name}</code> (the server answered ${r.status})`); return r.text(); })
+    .then(txt => { try { return JSON.parse(txt); } catch (e) { throw new Error(`<code>${name}</code> (incomplete: ${txt.length} characters arrived)`); } },
+          e => { throw (String(e.message).startsWith("<code>") ? e : new Error(`<code>${name}</code> (${e.message})`)); });
+}
+
 // Seeded shuffle (mulberry32 + Fisher-Yates) so the order can be rebuilt from order_seed.
 function shuffled(n, seed) {
   let a = seed >>> 0;
@@ -67,9 +88,15 @@ Promise.resolve(participantId()).then(who => {
   document.body.innerHTML = "<p style='font-size:22px;margin:40px'>Loading the sounds (about 25 MB)…</p>";
   const PARTS = ["p1", "p2", "p3", "p4", "p5", "p6"];
   const needed = (SKIP_CHECK ? [] : ["hp"]).concat(PARTS);
-  Promise.all([fetch("conditions.json").then(r => r.json())].concat(needed.map(g => fetch(`bundles/stim_${g}.json`).then(r => r.json()))))
+  Promise.all([loadJson("conditions.json")].concat(needed.map(g => loadJson(`bundles/stim_${g}.json`))))
+  .catch(e => fatal(`This file could not be loaded: ${e.message}.`))
   .then(([cond, ...bundles]) => {
     bundles.forEach(b => Object.entries(b).forEach(([name, b64]) => { SRC[name] = b64url(b64); }));
+    // every sound the plan asks for must have arrived (a bundle replaced by an older or different one would otherwise
+    // only show up as silence in the middle of the session)
+    const want = cond.trials.flatMap(t => [t.file1, t.file2]).concat(SKIP_CHECK ? [] : cond.headphone_check.flatMap(t => t.files));
+    const lost = want.filter(f => !SRC[f.replace(/^stim\//, "")]);
+    if (lost.length) fatal(`${lost.length} of the ${want.length} sounds are not in the uploaded <code>bundles/</code> files (first one: <code>${lost[0]}</code>).`);
     document.body.innerHTML = "";
     window.__hp = cond.headphone_check;   // test hook: lets an automated driver answer the headphone check
     jsPsych.data.addProperties({ participant: PID, design: cond.design, plan_seed: cond.plan_seed, snr_db: cond.snr_db, order_seed: String(ORDER_SEED),

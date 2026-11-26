@@ -13,9 +13,9 @@
 | 題目的單位 | 子音對，說話者隨機 | 子音對 × 說話者；x 用該說話者兩個音檔的值 |
 | 只差清濁的對子 | 碰巧抽到（WEB01 只有 f–v 3 題） | 7 對全放，每對 6 題（`:52`、`:96-102`） |
 | 說話者 | 12 個編號隨機 | 三組聲音之間平衡，組別記進資料（`:49`） |
-| 題目順序 | 三段各自洗牌，種子沒記 | 整場洗一次，`order_seed` 記進資料，可重建（`experiment.js:21`、`:27`） |
-| 開頭 | 只有網址帶的受試者編號 | 不問任何問題。編號來自網址；沒帶或是 `test` 這類佔位字，就用當下的日期時間產生一個（`experiment.js:39`）。母語等背景由研究者另外記錄 |
-| 噪音種子 | 數字（被瀏覽器四捨五入過） | 字串（`make_calib_pilot_stimuli.py:151`、`experiment.js:137`） |
+| 題目順序 | 三段各自洗牌，種子沒記 | 整場洗一次，`order_seed` 記進資料，可重建（`experiment.js:21`、`:48`） |
+| 開頭 | 只有網址帶的受試者編號 | 不問任何問題。編號來自網址；沒帶或是 `test` 這類佔位字，就用當下的日期時間產生一個（`experiment.js:60`）。母語等背景由研究者另外記錄 |
+| 噪音種子 | 數字（被瀏覽器四捨五入過） | 字串（`make_calib_pilot_stimuli.py:151`、`experiment.js:164`） |
 
 試次的時間結構、按鍵（Y 相同 / N 不同）、回饋、耳機檢查都沿用。
 
@@ -60,6 +60,9 @@ online/make_calib_pilot_stimuli.py  產生 stim/、conditions.json、design.*（
 online/pack_stimuli.py calib_pilot  stim/ → bundles/
 online/pavlovia_to_perception_csv.py   資料檔 → data/<id>_sound_perception_dprime_snr6.csv + .json
 online/calib_pilot_browser_test.js  用無頭瀏覽器把整場跑一遍的測試程式（不用上傳）
+online/calib_pilot_failure_test.js  檔案壞掉時頁面會怎樣：六種損壞各跑一次（不用上傳）
+online/check_pavlovia_deploy.py     上傳後的驗證：把 Pavlovia 上的 15 個檔和這個資料夾逐一比對
+online/calib_pilot/MANIFEST.sha256  15 個檔的 SHA-256 與大小（不用上傳）；改過任何一個檔後用 --write-manifest 重寫
 ```
 
 重新產生（結果應與 repo 裡的相同）：
@@ -72,20 +75,76 @@ python online/pack_stimuli.py calib_pilot
 
 ## 放上 Pavlovia
 
-1. pavlovia.org → Dashboard → **Experiments** → New：選 *jsPsych*，取名（例如 `calib_pilot`）。Pavlovia 會建一個 GitLab repo。
-2. 在 gitlab.pavlovia.org 打開那個 repo，用網頁上傳（`+` → *Upload file*）：
-   - 根目錄 3 個：`index.html`、`experiment.js`、`conditions.json`
-   - `+` → *New directory* 建 `js`，上傳 5 個：`jspsych.js`、`jspsych.css`、`plugin-html-keyboard-response.js`、`plugin-audio-keyboard-response.js`、`plugin-preload.js`
-   - 建 `bundles`，上傳 7 個：`stim_hp.json`、`stim_p1.json` … `stim_p6.json`
+**檔案一律「上傳」或用 git 推，不要用貼上文字的方式建立。** 2026-11-26 的事故就是這樣來的（見下一節）。
+
+1. pavlovia.org → Dashboard → **Experiments** → New：選 *jsPsych*，取名。Pavlovia 會建一個 GitLab repo。
+2. 把 15 個檔放上去，兩種做法擇一：
+   - **用 git（建議，一次全部、不會截斷）**。在有這個 repo 的電腦上：
+     ```bash
+     git clone https://gitlab.pavlovia.org/<帳號>/<實驗名>.git pav     # 會問 Pavlovia 的帳號密碼
+     cd pav
+     cp ../Visual_AudioWM/online/calib_pilot/{index.html,experiment.js,conditions.json} .
+     mkdir -p js bundles
+     cp ../Visual_AudioWM/online/calib_pilot/js/* js/
+     cp ../Visual_AudioWM/online/calib_pilot/bundles/stim_*.json bundles/
+     git add . && git commit -m "calibration pilot" && git push
+     ```
+   - **用 GitLab 網頁**：在 gitlab.pavlovia.org 打開那個 repo，`+` → **Upload file**，選電腦上的檔案。
+     要換掉已經存在的檔：點進那個檔 → **Replace** → 選檔案 → *Replace file*。
+     根目錄 3 個（`index.html`、`experiment.js`、`conditions.json`）；`+` → *New directory* 建 `js` 放 5 個；建 `bundles` 放 7 個（`stim_hp.json`、`stim_p1.json` … `stim_p6.json`）。
+     **不要用 `+` → New file 再把內容貼進去**，也不要在終端機的編輯器裡貼：`js/jspsych.js` 是一行九萬多字的檔，貼上會被截斷。
    - 路徑必須正好是 `js/...` 和 `bundles/...`。**不要建 `lib/`**：Pavlovia 保留這個名字，有它就會拒絕同步。
-3. 實驗狀態設成 **Piloting** 可以免費試跑；**Running** 才能正式收（要點數或授權）。
-4. 給受試者的連結：`https://run.pavlovia.org/<帳號>/<實驗名>/?participant=CAL01`
+3. **驗證（每次上傳後都做）**：
+   ```bash
+   python online/check_pavlovia_deploy.py <帳號> <實驗名>
+   ```
+   它把 Pavlovia 上的 15 個檔逐一下載，和這個資料夾比大小與 SHA-256（`online/check_pavlovia_deploy.py:124-135`）。全部 `OK`、最後一行是 `15 of 15 files identical.` 才算好。
+   不一致時會說是哪一種：被截斷（部署的是本機檔的前 N 位元組）、只有縮排不同（貼進會自動縮排的編輯器）、或內容不同（舊版）。
+   手邊沒有 Python 時，下載回來的資料夾可以用 `sha256sum -c MANIFEST.sha256` 檢查。
+4. 實驗狀態設成 **Piloting** 可以免費試跑；**Running** 才能正式收（要點數或授權）。
+5. 給受試者的連結：`https://run.pavlovia.org/<帳號>/<實驗名>/?participant=CAL01`
    - 編號只從 `participant=` 來，頁面不會問受試者任何問題。不帶、或帶的是 `test`、`anon` 這類佔位字（`experiment.js:23`），頁面會自己產生 `P年月日_時分秒` 當編號，資料的 `id_source` 欄寫 `generated`。
    - **母語等背景頁面不記錄**，請在發連結時自己記下「編號 ↔ 是誰、母語是什麼」。
    - 測試用：`&skipcheck=1` 跳過耳機檢查；`&maxtrials=12` 只跑前 12 題；`&order_seed=數字` 固定題目順序。
-5. 資料：Dashboard → 該實驗 → Download results，每位受試者一個 CSV。
+6. 資料：Dashboard → 該實驗 → Download results，每位受試者一個 CSV。
 
 Pavlovia 的橋接程式沿用 `snr_pilot` 的寫法（`index.html` 載入 `https://lib.pavlovia.org/jspsych-7-pavlovia-2022.1.1.js`）；WEB01 那一場用它存到了資料。
+
+## 2026-11-26 的事故：`js/jspsych.js` 在 Pavlovia 上只有前 20000 位元組
+
+第一位受試者用連結打不開，回報 `js/jspsych.js` 不完整；他在本機把那個檔換成完整的 jsPsych 7.3.4 才跑完。
+
+**量到的**（`python online/check_pavlovia_deploy.py`，2026-11-26，對當時的 repo 版）：
+
+| 檔 | Pavlovia 上 | repo | 差在哪 |
+|---|---|---|---|
+| `js/jspsych.js` | 20000 位元組 | 98520 | 部署的是 repo 檔的前 20000 位元組，一個位元組都不差，然後就沒了 |
+| `index.html` | 2276 | 1349 | 文字相同，每一行比上一行多縮排（共 30 行，最深 68 格） |
+| `experiment.js` | 49030 | 11618 | 文字相同（就是沒有開頭表單的那一版），每一行比上一行多縮排（共 154 行，最深 826 格） |
+| 其餘 12 個（`conditions.json`、css、三個 plugin、七個 bundle） | | | 逐位元相同 |
+
+- 瀏覽器裡的直接原因：`js/jspsych.js` 讀到一半結束（`Unexpected end of input`），`jsPsychModule` 沒有定義，三個 plugin 跟著失敗，`initJsPsych is not defined`，畫面全黑、沒有任何訊息。
+- `index.html` 和 `experiment.js` 的階梯狀縮排不影響執行：JavaScript 與 HTML 不看行首空白，去掉行首空白後和 repo 版逐行相同。受試者流程與資料欄位都跟 repo 版一樣（沒有開頭的四題、種子是字串、整場洗一次並記下 `order_seed`）。
+- repo 裡的四個函式庫檔與 npm 上公布的套件逐位元相同（`jspsych@7.3.4`、三個 plugin 都是 `1.1.3`），所以 repo 這一側沒有壞。
+
+**推論**（沒有上傳紀錄可查，Pavlovia 的 GitLab repo 要登入才讀得到）：這三個檔是用「貼上文字」建立的，其餘是上傳的檔案。
+階梯狀縮排是把多行文字貼進會自動縮排的編輯器的典型結果；`jspsych.js` 整個檔幾乎只有一行，貼上時在剛好 20000 個字元的地方被切掉（某個剪貼簿、終端機或輸入框的長度上限）。
+
+**之後做的**：
+
+- 頁面會說哪裡壞了，不再全黑：函式庫沒載入（`experiment.js:29-38`）、`conditions.json` 或 bundle 抓不到或不完整（`:41-45`）、題目要用的聲音不在 bundle 裡（`:95-99`）。
+- 函式庫有備援：四個函式庫檔照舊從 `js/` 載入；哪一個沒有成功定義出它的全域物件，就改從 npm 的 CDN（unpkg）抓**同一版**，而且瀏覽器只在雜湊值和 repo 那份相同時才接受（`index.html:10-17` 的 `integrity`）。上傳完整時不會連 CDN。備援只涵蓋函式庫；`conditions.json`、bundle、`experiment.js` 壞了沒有備援，只有訊息。
+- `check_pavlovia_deploy.py` 與 `MANIFEST.sha256`（上面第 3 步）。
+
+**備援的利弊**（要不要乾脆全部改從 CDN 載入，沒有決定，維持本機檔為主）：
+
+| | 本機檔為主 + CDN 備援（現在） | 全部改 CDN |
+|---|---|---|
+| 上傳壞掉時 | 函式庫壞了仍然跑得起來 | 沒有函式庫可以傳壞 |
+| 受試者連不到 CDN 時（公司或學校網路、很慢的連線） | 不受影響，除非本機檔也壞 | 跑不起來 |
+| 版本 | 固定在 repo 的檔；CDN 那份用雜湊值鎖死 | 靠網址裡的版本號，加 `integrity` 才鎖得死 |
+| 要上傳的檔 | 15 個 | 11 個 |
+| 沒驗證到的 | 真的 CDN（開發環境連不到 unpkg，測試是把 CDN 的網址改由 repo 的同一份檔回應）；Pavlovia 有沒有擋外部腳本（它自己的橋接程式就是外部腳本，推測不擋） | 同左 |
 
 ## 轉檔與分析
 
@@ -140,6 +199,18 @@ python analyze/acoustic_scale_criteria.py --participants <id> --fit-points   # C
 - 真人的作答速度、頁面在手機或其他瀏覽器上的樣子、實際耳機上的音量。
 - 模擬假設聽者就是那條曲線、每題獨立、沒有練習效果。斜率更平或誤報更高的聽者（例如 yyc1116：誤報 .23–.47、x90 約 5.7 dB）區間會更寬；可以用 `--x50 --s --lam --fa` 重跑。
 - 題目的 x 來自 `analyze/acoustic_scale_compute.py`（每個音檔 6 個噪音種子的平均），不是每一題實際播放那兩段噪音的值。先前的檢查顯示兩者相關 1.00（那份檢查還沒進 repo）。
+
+**檔案壞掉時**（`node online/calib_pilot_failure_test.js`；2026-11-26）：六種損壞各跑一次，行為都如預期。
+
+| 損壞 | 受試者看到的 |
+|---|---|
+| `js/jspsych.js` 截成 20000 位元組，CDN 連得到 | 測驗照常開始（函式庫改從 CDN 來） |
+| 同上，CDN 連不到 | 「The test could not start… missing or incomplete on the server: js/jspsych.js」 |
+| 一個 plugin 被截斷，CDN 連不到 | 同樣的訊息，點名那個 plugin |
+| 少一個 bundle | 「This file could not be loaded: bundles/stim_p3.json (the server answered 404)」 |
+| `conditions.json` 被截斷 | 「…conditions.json (incomplete: 20000 characters arrived)」 |
+| 一個 bundle 被換成另一個 | 「108 of the 648 sounds are not in the uploaded bundles/ files…」 |
+| 沒有損壞 | 測驗照常開始，沒有任何對 CDN 的請求 |
 
 ## 線上版控制得到與控制不到的
 

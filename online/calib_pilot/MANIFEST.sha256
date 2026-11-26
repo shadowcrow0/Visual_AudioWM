@@ -1,0 +1,32 @@
+# calib_pilot: the files to upload. `sha256sum -c MANIFEST.sha256` checks them; sizes in bytes are in the comment column.
+# Rewrite with: python online/check_pavlovia_deploy.py --write-manifest
+23220e30090e707754fc116ae38c11d5ebfa4726e6ec556fd803a52b6354a956  index.html
+# size 2674  index.html
+78d460c9bde85c3c4beab17d1d6a5a7bd72ea8b14e4e82f123ca01ef731e7e58  experiment.js
+# size 14017  experiment.js
+b9440ce2b2c136ba59e60b7b064d4012ab51444bb6fb3d5001df4a451c873649  conditions.json
+# size 162015  conditions.json
+2b5a14d24b4d34eae6fcdfa13fe5f16df4ec05751c1f69b6e88e063270fff664  js/jspsych.js
+# size 98520  js/jspsych.js
+fa82c872674d17a559d9a8930b4ad23dfaa51bbc8f51c3261c119b2eb164ec09  js/jspsych.css
+# size 475137  js/jspsych.css
+56a7bc9c0c07c7ed1f50f7d64fbb6d97b8c5140f5c9f2dfa910ca661e2d54e5d  js/plugin-html-keyboard-response.js
+# size 3250  js/plugin-html-keyboard-response.js
+e255add7ab35a033678c030bc9eccf16e0a80b8f9daf51c0564f1ed444e9e7af  js/plugin-audio-keyboard-response.js
+# size 4150  js/plugin-audio-keyboard-response.js
+22010ec41d4d9cf2f14598f8a37022e8ca101ab5fa398d1e0edae8abd7b8671d  js/plugin-preload.js
+# size 5909  js/plugin-preload.js
+06a30cecbe2d2e4be3516d163a89753cbe1cc1068b1862f0467549af2981cc47  bundles/stim_hp.json
+# size 4234951  bundles/stim_hp.json
+07f4dff85a120bb16c5bd9a12313e7405fbab03405898bb5d2c26563ff2f4d35  bundles/stim_p1.json
+# size 4021453  bundles/stim_p1.json
+a1c0f0fec5cc92ef27205e55d3305debc91339a01a5d7194e29c1822388d6125  bundles/stim_p2.json
+# size 4043089  bundles/stim_p2.json
+90afc0f46314b36c90df57a87ecb96ffa5db475f087c1855a6876b094fc24479  bundles/stim_p3.json
+# size 4062053  bundles/stim_p3.json
+c194b72fa4415c91a2a16247fc35786528f62a8e0b6ce1095d6cf0f742eff4cf  bundles/stim_p4.json
+# size 4009633  bundles/stim_p4.json
+b52d88efefb4793fd80c0f412c901f6b7b488e33dff23b45e2c8742521213891  bundles/stim_p5.json
+# size 4000425  bundles/stim_p5.json
+e5ac9981b0b6de309c2a9ccad58a832fe46464dc3c21876507eb4f83c05369ac  bundles/stim_p6.json
+# size 4058893  bundles/stim_p6.json

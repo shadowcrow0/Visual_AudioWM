@@ -3,10 +3,18 @@
 <head>
   <meta charset="utf-8">
   <title>Consonant listening test</title>
+  <!-- The four library files are loaded from js/ as before. After each one, an inline check asks whether it really
+       defined its global; if not (the uploaded copy is missing or cut short: this happened, see README), the same file
+       is taken from the npm CDN at the exact version, and the browser only accepts it if its hash matches the copy in
+       this repository (integrity=...). A complete upload never touches the CDN. -->
   <script src="js/jspsych.js"></script>
+  <script>window.jsPsychModule || document.write('<script src="https://unpkg.com/jspsych@7.3.4/dist/index.browser.min.js" integrity="sha384-XAUySaEe2MZZhTzbstOfwmVuzWlsblgOwTje2VO+r73k+MzUbgzn/AwQlxq7OdCi" crossorigin="anonymous"><\/script>');</script>
   <script src="js/plugin-html-keyboard-response.js"></script>
+  <script>window.jsPsychHtmlKeyboardResponse || document.write('<script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3/dist/index.browser.min.js" integrity="sha384-dY7LWgOfoIq6dkJslZMW+KMzvwcrQwzIbqPqWm/vQdrc+2o69tyPWHsIZQUQ1NYi" crossorigin="anonymous"><\/script>');</script>
   <script src="js/plugin-audio-keyboard-response.js"></script>
+  <script>window.jsPsychAudioKeyboardResponse || document.write('<script src="https://unpkg.com/@jspsych/plugin-audio-keyboard-response@1.1.3/dist/index.browser.min.js" integrity="sha384-QLdI063i8JZwIUu0IwFBHJJLC7tcHK+N94qPSQBUsJG2YmK9QdbBMFmL1xTJkMG4" crossorigin="anonymous"><\/script>');</script>
   <script src="js/plugin-preload.js"></script>
+  <script>window.jsPsychPreload || document.write('<script src="https://unpkg.com/@jspsych/plugin-preload@1.1.3/dist/index.browser.min.js" integrity="sha384-U3qaTBLlCQWx0YW/+ICOsG3Gw1hPo/fVjVJ1JGrLR9uaL9N5ntqUCPMejue9keLX" crossorigin="anonymous"><\/script>');</script>
   <!-- Pavlovia's jsPsych bridge. Absent (local testing) the experiment runs and offers the CSV for download. -->
   <script src="https://lib.pavlovia.org/jspsych-7-pavlovia-2022.1.1.js" onerror="console.warn('pavlovia bridge not loaded: local mode')"></script>
   <link rel="stylesheet" href="js/jspsych.css">
@@ -17,11 +25,8 @@
     .fix { font-size: 44px; text-align: center; }
     .center { text-align: center; }
     pre#jspsych-data { display: none; }
-    .intake { max-width: 640px; margin: 40px auto; font: 20px/1.5 sans-serif; }
-    .intake label { display: block; margin: 18px 0; }
-    .intake input, .intake select { font-size: 20px; padding: 6px 8px; margin-top: 6px; width: 60%; }
-    .intake button { font-size: 20px; padding: 8px 28px; }
-    .intake .err { color: #f99; min-height: 1.5em; }
+    .fatal { max-width: 760px; margin: 60px auto; font: 20px/1.5 sans-serif; }
+    .fatal code { color: #fc9; }
   </style>
 </head>
 <body>
